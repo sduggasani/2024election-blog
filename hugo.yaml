@@ -1,5 +1,6 @@
 baseURL: https://sduggasani.github.io/2024election-blog/
 title: 2024 Election Blog
+subtitle: Sammy Duggasani
 theme: hugo-book
 disablePathToLower: yes
 enableGitInfo: yes
