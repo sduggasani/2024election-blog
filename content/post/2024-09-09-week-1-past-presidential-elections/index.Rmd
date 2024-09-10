@@ -7,9 +7,9 @@ categories: []
 tags: []
 ---
 
-# Week 1: Past Presidential Elections
-## Monday, September 9, 2024
-## 56 Days Until Presidential Election
+# **Week 1: Past Presidential Elections**
+**Monday, September 9, 2024**
+**56 Days Until Presidential Election**
 
 
 ```{r}
