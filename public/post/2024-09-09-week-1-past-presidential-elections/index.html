@@ -17,40 +17,28 @@
   #
 
 Monday, September 9, 2024
-56 Days Until Presidential Election
-#&#39; @title GOV 1347: Introductory Blog Post/Laboratory Session
-#&#39; @author Sammy Duggasani
-#&#39; @date August 29, 2024
-
-####----------------------------------------------------------#
-#### Preamble
-####----------------------------------------------------------#
-
-# Load libraries.
-## install via `install.packages(&#34;name&#34;)`
-library(ggplot2)
-library(maps)
-library(tidyverse)
-">
+56 Days until Presidential Election
+Welcome to my first week tracking and forecasting the 2024 US Presidential Election. The main purpose of this first post is to get acquainted with the process of analyzing basic election data. Every Monday, I will come back here to post increasingly more sophisticated and informed additions to my forecast. For now, I am relying on past election data to predict who will become the next president of the United States. What you will find in this post is a very rudimentary method of forecasting, given it is the first week, but it should not be wholly discounted. Arguably, the best way to predict the future is by looking at the past.">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
 <meta name="color-scheme" content="light dark"><meta property="og:url" content="https://sduggasani.github.io/2024election-blog/post/2024-09-09-week-1-past-presidential-elections/">
   <meta property="og:site_name" content="2024 Election Blog">
   <meta property="og:title" content="Week 1: Past Presidential Elections">
-  <meta property="og:description" content=" Week 1: Past Presidential Elections # Monday, September 9, 2024 56 Days Until Presidential Election
-#&#39; @title GOV 1347: Introductory Blog Post/Laboratory Session #&#39; @author Sammy Duggasani #&#39; @date August 29, 2024 ####----------------------------------------------------------# #### Preamble ####----------------------------------------------------------# # Load libraries. ## install via `install.packages(&#34;name&#34;)` library(ggplot2) library(maps) library(tidyverse) ">
+  <meta property="og:description" content=" Week 1: Past Presidential Elections # Monday, September 9, 2024
+56 Days until Presidential Election
+Welcome to my first week tracking and forecasting the 2024 US Presidential Election. The main purpose of this first post is to get acquainted with the process of analyzing basic election data. Every Monday, I will come back here to post increasingly more sophisticated and informed additions to my forecast. For now, I am relying on past election data to predict who will become the next president of the United States. What you will find in this post is a very rudimentary method of forecasting, given it is the first week, but it should not be wholly discounted. Arguably, the best way to predict the future is by looking at the past.">
   <meta property="og:locale" content="en">
   <meta property="og:type" content="article">
     <meta property="article:section" content="post">
     <meta property="article:published_time" content="2024-09-09T00:00:00+00:00">
-    <meta property="article:modified_time" content="2024-09-09T23:48:55-04:00">
+    <meta property="article:modified_time" content="2024-09-09T23:51:52-04:00">
 <title>Week 1: Past Presidential Elections | 2024 Election Blog</title>
 <link rel="manifest" href="/2024election-blog/manifest.json">
 <link rel="icon" href="/2024election-blog/favicon.png" >
 <link rel="canonical" href="https://sduggasani.github.io/2024election-blog/post/2024-09-09-week-1-past-presidential-elections/">
 <link rel="stylesheet" href="/2024election-blog/book.min.309b7ed028807cdb68d8d61e26d609f48369c098dbf5e4d8c0dcf4cdf49feafc.css" integrity="sha256-MJt&#43;0CiAfNto2NYeJtYJ9INpwJjb9eTYwNz0zfSf6vw=" crossorigin="anonymous">
   <script defer src="/2024election-blog/fuse.min.js"></script>
-  <script defer src="/2024election-blog/en.search.min.dc704341117ffbc5ef984801bddf9e8a0fb04e62acd4708f10aa307dfd979237.js" integrity="sha256-3HBDQRF/&#43;8XvmEgBvd&#43;eig&#43;wTmKs1HCPEKowff2Xkjc=" crossorigin="anonymous"></script>
+  <script defer src="/2024election-blog/en.search.min.b64ef03d66f36e9571161796cd21849ed0b6bc0d4450f0fb2eb730afcccbd764.js" integrity="sha256-tk7wPWbzbpVxFheWzSGEntC2vA1EUPD7Lrcwr8zL12Q=" crossorigin="anonymous"></script>
 
   <script defer src="/2024election-blog/sw.min.f09ccc658cc70834310535c40cbee1514cd65302e6fa168c4ae787519a02cf87.js" integrity="sha256-8JzMZYzHCDQxBTXEDL7hUUzWUwLm&#43;haMSueHUZoCz4c=" crossorigin="anonymous"></script>
 <!--
@@ -162,7 +150,16 @@ https://github.com/alex-shpak/hugo-book
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#week-1-past-presidential-elections"><strong>Week 1: Past Presidential Elections</strong></a></li>
+    <li><a href="#week-1-past-presidential-elections"><strong>Week 1: Past Presidential Elections</strong></a>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#a-note-on-data-driven-prophecies-and-crystal-balls">A Note on Data-Driven Prophecies and Crystal Balls</a></li>
+            <li><a href="#guiding-questions-for-this-week">Guiding Questions for this Week</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
   </ul>
 </nav>
 
@@ -188,42 +185,29 @@ https://github.com/alex-shpak/hugo-book
   <strong>Week 1: Past Presidential Elections</strong>
   <a class="anchor" href="#week-1-past-presidential-elections">#</a>
 </h1>
-<p><strong>Monday, September 9, 2024</strong>
-<strong>56 Days Until Presidential Election</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e">#&#39; @title GOV 1347: Introductory Blog Post/Laboratory Session</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#&#39; @author Sammy Duggasani</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#&#39; @date August 29, 2024</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">####----------------------------------------------------------#</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#### Preamble</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">####----------------------------------------------------------#</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Load libraries.</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">## install via `install.packages(&#34;name&#34;)`</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">library</span>(ggplot2)
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">library</span>(maps)
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">library</span>(tidyverse)
-</span></span></code></pre></div><pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
-## ✔ tibble  3.1.8      ✔ dplyr   1.0.10
-## ✔ tidyr   1.2.1      ✔ stringr 1.5.1 
-## ✔ readr   2.1.3      ✔ forcats 0.5.2 
-## ✔ purrr   0.3.5      
-## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-## ✖ dplyr::filter() masks stats::filter()
-## ✖ dplyr::lag()    masks stats::lag()
-## ✖ purrr::map()    masks maps::map()
-</code></pre>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">library</span>(ggrepel)
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">library</span>(leaflet)
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">library</span>(dplyr)
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">library</span>(sf)
-</span></span></code></pre></div><pre><code>## Linking to GEOS 3.10.2, GDAL 3.4.2, PROJ 8.2.1; sf_use_s2() is TRUE
-</code></pre>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">library</span>(htmlwidgets)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">## set working directory here</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">setwd</span>(<span style="color:#e6db74">&#34;/Users/sammy/Documents/Harvard/Senior_Year/GOV1347/Election Blog/content/post/2024-09-08-week-1-past-presidential-elections&#34;</span>)
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e">####----------------------------------------------------------#</span>
+<p><strong>Monday, September 9, 2024</strong><br>
+<strong>56 Days until Presidential Election</strong></p>
+<p><em>Welcome to my first week tracking and forecasting the 2024 US Presidential Election. The main purpose of this first post is to get acquainted with the process of analyzing basic election data. Every Monday, I will come back here to post increasingly more sophisticated and informed additions to my forecast. For now, I am relying on past election data to predict who will become the next president of the United States. What you will find in this post is a very rudimentary method of forecasting, given it is the first week, but it should not be wholly discounted. Arguably, the best way to predict the future is by looking at the past.</em></p>
+<h3 id="a-note-on-data-driven-prophecies-and-crystal-balls">
+  A Note on Data-Driven Prophecies and Crystal Balls
+  <a class="anchor" href="#a-note-on-data-driven-prophecies-and-crystal-balls">#</a>
+</h3>
+<p>Just last week, [an article in <em>Politico</em> written by Stanford’s Justin Grimmer] (
+  <a href="https://www.politico.com/news/magazine/2024/09/03/election-forecasts-data-00176905">https://www.politico.com/news/magazine/2024/09/03/election-forecasts-data-00176905</a>), cast doubt on the ability to forecast presidential elections in the first place. He and his co-authors for the paper behind the article, Dean Knox and Sean Westwood, find that the accuracy of election forecasts is virtually untestable because it relies on probabilities to be played out. Say, for example, that a famous poll aggregator forecasted that Kamala Harris were to win the next election 45 out of 100 times. They make the point that we have not even seen 100 presidential elections as a country to test this finding and compare it to other models.</p>
+<p>Though I believe Grimmer, Knox, and Westwood to be overly pessimistic about the attention given to political forecasts, especially presidential ones, I will carry a skepticism and uncertainty with me as I build my models. There is value in mathematically evaluating how various data inputs could impact candidate success, but surely an overreliance on quantitative data will not be truly informative.</p>
+<h3 id="guiding-questions-for-this-week">
+  Guiding Questions for this Week
+  <a class="anchor" href="#guiding-questions-for-this-week">#</a>
+</h3>
+<ol>
+<li>
+<p>How competitive are presidential elections in the United States?</p>
+</li>
+<li>
+<p>Which states vote blue/red and how consistently?</p>
+</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e">####----------------------------------------------------------#</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#### Read and clean presidential popular vote.</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">####----------------------------------------------------------#</span>
 </span></span><span style="display:flex;"><span>
@@ -321,19 +305,19 @@ https://github.com/alex-shpak/hugo-book
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e"># background</span>
 </span></span><span style="display:flex;"><span>    panel.background <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_rect</span>(fill <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;snow2&#34;</span>),
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e"># text</span>
-</span></span><span style="display:flex;"><span>    plot.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">15</span>, hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">.5</span>, face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>, family <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Georgia&#34;</span>),
-</span></span><span style="display:flex;"><span>    plot.subtitle <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">13</span>, hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">.5</span>, family <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Georgia&#34;</span>),
+</span></span><span style="display:flex;"><span>    plot.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">15</span>, hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">.5</span>, face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>, family <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;sans&#34;</span>),
+</span></span><span style="display:flex;"><span>    plot.subtitle <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">13</span>, hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">.5</span>, family <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;sans&#34;</span>),
 </span></span><span style="display:flex;"><span>    plot.title.position <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;panel&#34;</span>,
-</span></span><span style="display:flex;"><span>    axis.text.x <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">8</span>, angle <span style="color:#f92672">=</span> <span style="color:#ae81ff">45</span>, hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">.5</span>, family <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Georgia&#34;</span>),
-</span></span><span style="display:flex;"><span>    axis.text.y <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">8</span>, family <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Georgia&#34;</span>),
-</span></span><span style="display:flex;"><span>    axis.title.x <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(family <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Georgia&#34;</span>),
-</span></span><span style="display:flex;"><span>    axis.title.y <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(angle <span style="color:#f92672">=</span> <span style="color:#ae81ff">90</span>, family <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Georgia&#34;</span>),
+</span></span><span style="display:flex;"><span>    axis.text.x <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">8</span>, angle <span style="color:#f92672">=</span> <span style="color:#ae81ff">45</span>, hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">.5</span>, family <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;sans&#34;</span>),
+</span></span><span style="display:flex;"><span>    axis.text.y <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">8</span>, family <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;sans&#34;</span>),
+</span></span><span style="display:flex;"><span>    axis.title.x <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(family <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;sans&#34;</span>),
+</span></span><span style="display:flex;"><span>    axis.title.y <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(angle <span style="color:#f92672">=</span> <span style="color:#ae81ff">90</span>, family <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;sans&#34;</span>),
 </span></span><span style="display:flex;"><span>    axis.ticks <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_line</span>(colour <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;black&#34;</span>),
 </span></span><span style="display:flex;"><span>    axis.line <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_line</span>(colour <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;grey&#34;</span>),
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e"># legend </span>
 </span></span><span style="display:flex;"><span>    legend.position <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;right&#34;</span>,
-</span></span><span style="display:flex;"><span>    legend.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">12</span>, family <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Georgia&#34;</span>),
-</span></span><span style="display:flex;"><span>    legend.text <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>, family <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Georgia&#34;</span>),
+</span></span><span style="display:flex;"><span>    legend.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">12</span>, family <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;sans&#34;</span>),
+</span></span><span style="display:flex;"><span>    legend.text <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>, family <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;sans&#34;</span>),
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e"># aspect ratio</span>
 </span></span><span style="display:flex;"><span>    aspect.ratio <span style="color:#f92672">=</span> <span style="color:#ae81ff">.8</span>
 </span></span><span style="display:flex;"><span>  )
@@ -503,50 +487,6 @@ https://github.com/alex-shpak/hugo-book
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e">####----------------------------------------------------------#</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#### Extension 1: Add state labels</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">####----------------------------------------------------------#</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Load US map data</span>
-</span></span><span style="display:flex;"><span>states_map <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">map_data</span>(<span style="color:#e6db74">&#34;state&#34;</span>)
-</span></span><span style="display:flex;"><span>state_centroids <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">data.frame</span>(state.center, state.abb, state.name) <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(state <span style="color:#f92672">=</span> <span style="color:#a6e22e">tolower</span>(state.name))
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>state_mapa_data <span style="color:#f92672">&lt;-</span> pv2p_2024_states <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">left_join</span>(states_map, by <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;region&#34;</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>state_mapa <span style="color:#f92672">&lt;-</span> state_mapa_data <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(long, lat, group <span style="color:#f92672">=</span> group)) <span style="color:#f92672">+</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_polygon</span>(<span style="color:#a6e22e">aes</span>(fill <span style="color:#f92672">=</span> pv2p_2024_margin), color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;black&#34;</span>) <span style="color:#f92672">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">scale_fill_gradient2</span>(high <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;tomato3&#34;</span>,
-</span></span><span style="display:flex;"><span>                       low <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;steelblue3&#34;</span>,
-</span></span><span style="display:flex;"><span>                       mid <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;white&#34;</span>,
-</span></span><span style="display:flex;"><span>                       name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Two-Party Win Margin&#34;</span>,
-</span></span><span style="display:flex;"><span>                       breaks <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">-50</span>, <span style="color:#ae81ff">-25</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">25</span>, <span style="color:#ae81ff">50</span>),
-</span></span><span style="display:flex;"><span>                       limits <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">-50</span>,<span style="color:#ae81ff">50</span>)) <span style="color:#f92672">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">labs</span>(title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;2024 Presidential Forecast&#34;</span>,
-</span></span><span style="display:flex;"><span>       subtitle <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Simplified Electoral Cycle Model&#34;</span>) <span style="color:#f92672">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">my_prettier_theme</span>() <span style="color:#f92672">+</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">theme</span>(axis.title.x <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_blank</span>(),
-</span></span><span style="display:flex;"><span>        axis.title.y <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_blank</span>(),
-</span></span><span style="display:flex;"><span>        axis.text.x <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_blank</span>(),
-</span></span><span style="display:flex;"><span>        axis.text.y <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_blank</span>(),
-</span></span><span style="display:flex;"><span>        axis.ticks <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_blank</span>(),
-</span></span><span style="display:flex;"><span>        axis.line <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_blank</span>())
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>state_centroids <span style="color:#f92672">&lt;-</span> state_mapa_data <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">left_join</span>(state_centroids, by <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;state&#34;</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>state_mapa <span style="color:#f92672">&lt;-</span> state_mapa <span style="color:#f92672">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_text_repel</span>(data <span style="color:#f92672">=</span> state_centroids, <span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> x, y <span style="color:#f92672">=</span> y, label <span style="color:#f92672">=</span> state.abb, group <span style="color:#f92672">=</span> group), size <span style="color:#f92672">=</span> <span style="color:#ae81ff">35</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># ggsave(&#34;figures/PV2024_simple_forecast_with_labels.png&#34;, state_mapa)</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Plot the final map</span>
-</span></span><span style="display:flex;"><span>state_mapa
-</span></span></code></pre></div><pre><code>## Warning: Removed 15539 rows containing missing values (`geom_text_repel()`).
-</code></pre>
-<img src="https://sduggasani.github.io/2024election-blog/post/2024-09-09-week-1-past-presidential-elections/index_files/figure-html/unnamed-chunk-8-1.png" width="672" />
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e">####----------------------------------------------------------#</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#### Extension 1: Add state labels</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">####----------------------------------------------------------#</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># Rename ggplot state data region variable to state for ease</span>
 </span></span><span style="display:flex;"><span>states_map <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">map_data</span>(<span style="color:#e6db74">&#34;state&#34;</span>) <span style="color:#f92672">|&gt;</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">rename</span>(state <span style="color:#f92672">=</span> region)
@@ -649,7 +589,7 @@ https://github.com/alex-shpak/hugo-book
   <div class="flex flex-wrap justify-between">
 
 
-  <div><a class="flex align-center" href="https://github.com/alex-shpak/hugo-book/commit/39791a195f916b611947f9a1706e70ee9e96f4c7" title='Last modified by Sammy Duggasani | September 9, 2024' target="_blank" rel="noopener">
+  <div><a class="flex align-center" href="https://github.com/alex-shpak/hugo-book/commit/155cc084fc5b94f0b75b5e6b76746e52deceac76" title='Last modified by Sammy Duggasani | September 9, 2024' target="_blank" rel="noopener">
       <img src="/2024election-blog/svg/calendar.svg" class="book-icon" alt="" />
       <span>September 9, 2024</span>
     </a>
@@ -694,7 +634,16 @@ https://github.com/alex-shpak/hugo-book
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#week-1-past-presidential-elections"><strong>Week 1: Past Presidential Elections</strong></a></li>
+    <li><a href="#week-1-past-presidential-elections"><strong>Week 1: Past Presidential Elections</strong></a>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#a-note-on-data-driven-prophecies-and-crystal-balls">A Note on Data-Driven Prophecies and Crystal Balls</a></li>
+            <li><a href="#guiding-questions-for-this-week">Guiding Questions for this Week</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
   </ul>
 </nav>
 

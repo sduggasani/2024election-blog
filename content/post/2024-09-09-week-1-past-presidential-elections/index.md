@@ -1,6 +1,6 @@
 ---
 title: 'Week 1: Past Presidential Elections'
-author: Sammy Duggasani
+author: 'Sammy Duggasani'
 date: '2024-09-09'
 slug: []
 categories: []
@@ -19,50 +19,22 @@ tags: []
 
 # **Week 1: Past Presidential Elections**
 
-**Monday, September 9, 2024**
-**56 Days Until Presidential Election**
+**Monday, September 9, 2024**  
+**56 Days until Presidential Election**  
 
-``` r
-#' @title GOV 1347: Introductory Blog Post/Laboratory Session
-#' @author Sammy Duggasani
-#' @date August 29, 2024
+*Welcome to my first week tracking and forecasting the 2024 US Presidential Election. The main purpose of this first post is to get acquainted with the process of analyzing basic election data. Every Monday, I will come back here to post increasingly more sophisticated and informed additions to my forecast. For now, I am relying on past election data to predict who will become the next president of the United States. What you will find in this post is a very rudimentary method of forecasting, given it is the first week, but it should not be wholly discounted. Arguably, the best way to predict the future is by looking at the past.*
 
-####----------------------------------------------------------#
-#### Preamble
-####----------------------------------------------------------#
+### A Note on Data-Driven Prophecies and Crystal Balls
 
-# Load libraries.
-## install via `install.packages("name")`
-library(ggplot2)
-library(maps)
-library(tidyverse)
-```
+Just last week, \[an article in *Politico* written by Stanford’s Justin Grimmer\] (<https://www.politico.com/news/magazine/2024/09/03/election-forecasts-data-00176905>), cast doubt on the ability to forecast presidential elections in the first place. He and his co-authors for the paper behind the article, Dean Knox and Sean Westwood, find that the accuracy of election forecasts is virtually untestable because it relies on probabilities to be played out. Say, for example, that a famous poll aggregator forecasted that Kamala Harris were to win the next election 45 out of 100 times. They make the point that we have not even seen 100 presidential elections as a country to test this finding and compare it to other models.
 
-    ## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
-    ## ✔ tibble  3.1.8      ✔ dplyr   1.0.10
-    ## ✔ tidyr   1.2.1      ✔ stringr 1.5.1 
-    ## ✔ readr   2.1.3      ✔ forcats 0.5.2 
-    ## ✔ purrr   0.3.5      
-    ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-    ## ✖ dplyr::filter() masks stats::filter()
-    ## ✖ dplyr::lag()    masks stats::lag()
-    ## ✖ purrr::map()    masks maps::map()
+Though I believe Grimmer, Knox, and Westwood to be overly pessimistic about the attention given to political forecasts, especially presidential ones, I will carry a skepticism and uncertainty with me as I build my models. There is value in mathematically evaluating how various data inputs could impact candidate success, but surely an overreliance on quantitative data will not be truly informative.
 
-``` r
-library(ggrepel)
-library(leaflet)
-library(dplyr)
-library(sf)
-```
+### Guiding Questions for this Week
 
-    ## Linking to GEOS 3.10.2, GDAL 3.4.2, PROJ 8.2.1; sf_use_s2() is TRUE
+1.  How competitive are presidential elections in the United States?
 
-``` r
-library(htmlwidgets)
-
-## set working directory here
-setwd("/Users/sammy/Documents/Harvard/Senior_Year/GOV1347/Election Blog/content/post/2024-09-08-week-1-past-presidential-elections")
-```
+2.  Which states vote blue/red and how consistently?
 
 ``` r
 ####----------------------------------------------------------#
@@ -178,19 +150,19 @@ my_prettier_theme <- function() {
     # background
     panel.background = element_rect(fill = "snow2"),
     # text
-    plot.title = element_text(size = 15, hjust = .5, face = "bold", family = "Georgia"),
-    plot.subtitle = element_text(size = 13, hjust = .5, family = "Georgia"),
+    plot.title = element_text(size = 15, hjust = .5, face = "bold", family = "sans"),
+    plot.subtitle = element_text(size = 13, hjust = .5, family = "sans"),
     plot.title.position = "panel",
-    axis.text.x = element_text(size = 8, angle = 45, hjust = .5, family = "Georgia"),
-    axis.text.y = element_text(size = 8, family = "Georgia"),
-    axis.title.x = element_text(family = "Georgia"),
-    axis.title.y = element_text(angle = 90, family = "Georgia"),
+    axis.text.x = element_text(size = 8, angle = 45, hjust = .5, family = "sans"),
+    axis.text.y = element_text(size = 8, family = "sans"),
+    axis.title.x = element_text(family = "sans"),
+    axis.title.y = element_text(angle = 90, family = "sans"),
     axis.ticks = element_line(colour = "black"),
     axis.line = element_line(colour = "grey"),
     # legend 
     legend.position = "right",
-    legend.title = element_text(size = 12, family = "Georgia"),
-    legend.text = element_text(size = 10, family = "Georgia"),
+    legend.title = element_text(size = 12, family = "sans"),
+    legend.text = element_text(size = 10, family = "sans"),
     # aspect ratio
     aspect.ratio = .8
   )
@@ -392,54 +364,6 @@ ggsave("figures/PV2024_simple_forecast.png")
 ```
 
     ## Saving 7 x 5 in image
-
-``` r
-####----------------------------------------------------------#
-#### Extension 1: Add state labels
-####----------------------------------------------------------#
-
-# Load US map data
-states_map <- map_data("state")
-state_centroids <- data.frame(state.center, state.abb, state.name) |>
-  mutate(state = tolower(state.name))
-
-state_mapa_data <- pv2p_2024_states |>
-  left_join(states_map, by = "region")
-
-state_mapa <- state_mapa_data |>
-  ggplot(aes(long, lat, group = group)) + 
-  geom_polygon(aes(fill = pv2p_2024_margin), color = "black") +
-  scale_fill_gradient2(high = "tomato3",
-                       low = "steelblue3",
-                       mid = "white",
-                       name = "Two-Party Win Margin",
-                       breaks = c(-50, -25, 0, 25, 50),
-                       limits = c(-50,50)) +
-  labs(title = "2024 Presidential Forecast",
-       subtitle = "Simplified Electoral Cycle Model") +
-  my_prettier_theme() + 
-  theme(axis.title.x = element_blank(),
-        axis.title.y = element_blank(),
-        axis.text.x = element_blank(),
-        axis.text.y = element_blank(),
-        axis.ticks = element_blank(),
-        axis.line = element_blank())
-
-state_centroids <- state_mapa_data |>
-  left_join(state_centroids, by = "state")
-
-state_mapa <- state_mapa +
-  geom_text_repel(data = state_centroids, aes(x = x, y = y, label = state.abb, group = group), size = 35)
-
-# ggsave("figures/PV2024_simple_forecast_with_labels.png", state_mapa)
-
-# Plot the final map
-state_mapa
-```
-
-    ## Warning: Removed 15539 rows containing missing values (`geom_text_repel()`).
-
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-8-1.png" width="672" />
 
 ``` r
 ####----------------------------------------------------------#
