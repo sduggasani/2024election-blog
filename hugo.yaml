@@ -14,7 +14,7 @@ menu:
     - name: Github
       url: https://github.com/sduggasani/2024election-blog
       weight: 10
-    - name: Week 1: Past Presidential Elections
+    - name: Week 1 Past Presidential Elections
       url: https://sduggasani.github.io/2024election-blog/post/2024-09-09-week-1-past-presidential-elections/
       weight: 20
 params:
