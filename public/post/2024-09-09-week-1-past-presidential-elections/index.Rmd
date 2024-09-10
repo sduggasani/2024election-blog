@@ -10,13 +10,13 @@ tags: []
 # **Week 1: Past Presidential Elections**
 
 **Monday, September 9, 2024**\
-**56 Days until Presidential Election**\
+**56 Days until Presidential Election**
 
 *Welcome to my first week tracking and forecasting the 2024 US Presidential Election. The main purpose of this first post is to get acquainted with the process of analyzing basic election data. Every Monday, I will come back here to post increasingly more sophisticated and informed additions to my forecast. For now, I am relying on past election data to predict who will become the next president of the United States. What you will find in this post is a very rudimentary method of forecasting, given it is the first week, but it should not be wholly discounted. Arguably, the best way to predict the future is by looking at the past.*
 
-### A Note on Data-Driven Prophecies and Crystal Balls
+### **A Note on Data-Driven Prophecies and Crystal Balls**
 
-Just last week, [an article in *Politico* written by Stanford's Justin Grimmer] (<https://www.politico.com/news/magazine/2024/09/03/election-forecasts-data-00176905>), cast doubt on the ability to forecast presidential elections in the first place. He and his co-authors for the paper behind the article, Dean Knox and Sean Westwood, find that the accuracy of election forecasts is virtually untestable because it relies on probabilities to be played out. Say, for example, that a famous poll aggregator forecasted that Kamala Harris were to win the next election 45 out of 100 times. They make the point that we have not even seen 100 presidential elections as a country to test this finding and compare it to other models.
+Just last week, [an article in *Politico* written by Stanford's Justin Grimmer](https://www.politico.com/news/magazine/2024/09/03/election-forecasts-data-00176905), cast doubt on the ability to forecast presidential elections in the first place. He and his co-authors for the paper behind the article, Dean Knox and Sean Westwood, find that the accuracy of election forecasts is virtually untestable because it relies on probabilities to be played out. Say, for example, that a famous poll aggregator forecasted that Kamala Harris were to win the next election 45 out of 100 times. They make the point that we have not even seen 100 presidential elections as a country to test this finding and compare it to other models.
 
 Though I believe Grimmer, Knox, and Westwood to be overly pessimistic about the attention given to political forecasts, especially presidential ones, I will carry a skepticism and uncertainty with me as I build my models. There is value in mathematically evaluating how various data inputs could impact candidate success, but surely an overreliance on quantitative data will not be truly informative.
 
