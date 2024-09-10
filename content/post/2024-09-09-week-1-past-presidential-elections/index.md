@@ -17,6 +17,12 @@ tags: []
 <link href="{{< blogdown/postref >}}index_files/rstudio_leaflet/rstudio_leaflet.css" rel="stylesheet" />
 <script src="{{< blogdown/postref >}}index_files/leaflet-binding/leaflet.js"></script>
 
+# Week 1: Past Presidential Elections
+
+## Monday, September 9, 2024
+
+## 56 Days Until Presidential Election
+
 ``` r
 #' @title GOV 1347: Introductory Blog Post/Laboratory Session
 #' @author Sammy Duggasani
