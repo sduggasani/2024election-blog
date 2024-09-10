@@ -1,0 +1,1 @@
+navigator.serviceWorker&&navigator.serviceWorker.register("/2024election-blog/sw.js",{scope:"/2024election-blog/"})

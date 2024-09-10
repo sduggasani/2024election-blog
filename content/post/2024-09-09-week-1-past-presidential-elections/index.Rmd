@@ -1,0 +1,394 @@
+---
+title: 'Week 1: Past Presidential Elections'
+author: Sammy Duggasani
+date: '2024-09-09'
+slug: []
+categories: []
+tags: []
+---
+
+```{r}
+#' @title GOV 1347: Introductory Blog Post/Laboratory Session
+#' @author Sammy Duggasani
+#' @date August 29, 2024
+
+####----------------------------------------------------------#
+#### Preamble
+####----------------------------------------------------------#
+
+# Load libraries.
+## install via `install.packages("name")`
+library(ggplot2)
+library(maps)
+library(tidyverse)
+library(ggrepel)
+library(leaflet)
+library(dplyr)
+library(sf)
+library(htmlwidgets)
+
+## set working directory here
+setwd("/Users/sammy/Documents/Harvard/Senior_Year/GOV1347/Election Blog/content/post/2024-09-08-week-1-past-presidential-elections")
+```
+
+```{r}
+####----------------------------------------------------------#
+#### Read and clean presidential popular vote.
+####----------------------------------------------------------#
+
+# Read presidential popular vote. 
+d_popvote <- read_csv("popvote_1948-2020.csv")
+
+# Subset data to most recent past election year. 
+d_popvote |> 
+  filter(year == 2020) |> 
+  select(party, candidate, pv2p)
+
+# Pivot data to wide format with party names as columns and two-party vote share as values.
+(d_popvote_wide <- d_popvote |>
+    select(year, party, pv2p) |>
+    pivot_wider(names_from = party, values_from = pv2p))
+
+# Modify winner column to show "D" if Democrats win and "R" if Republicans win. 
+(d_popvote_wide <- d_popvote_wide |> 
+    mutate(winner = case_when(democrat > republican ~ "D",
+                              TRUE ~ "R")))
+
+# Summarize data with respect to winners. 
+d_popvote_wide |> 
+  group_by(winner) |>
+  summarise(races = n())
+```
+
+```{r}
+# custom ggplot theme
+my_prettier_theme <- function() {
+  theme(
+    # no border
+    panel.border = element_blank(),
+    # background
+    panel.background = element_rect(fill = "snow2"),
+    # text
+    plot.title = element_text(size = 15, hjust = .5, face = "bold", family = "Georgia"),
+    plot.subtitle = element_text(size = 13, hjust = .5, family = "Georgia"),
+    plot.title.position = "panel",
+    axis.text.x = element_text(size = 8, angle = 45, hjust = .5, family = "Georgia"),
+    axis.text.y = element_text(size = 8, family = "Georgia"),
+    axis.title.x = element_text(family = "Georgia"),
+    axis.title.y = element_text(angle = 90, family = "Georgia"),
+    axis.ticks = element_line(colour = "black"),
+    axis.line = element_line(colour = "grey"),
+    # legend 
+    legend.position = "right",
+    legend.title = element_text(size = 12, family = "Georgia"),
+    legend.text = element_text(size = 10, family = "Georgia"),
+    # aspect ratio
+    aspect.ratio = .8
+  )
+}
+```
+
+
+
+```{r}
+####----------------------------------------------------------#
+#### Visualize trends in national presidential popular vote. 
+####----------------------------------------------------------#
+
+# Visualize the two-party presidential popular over time. 
+
+two_party_visualization <- d_popvote |>
+  ggplot(mapping = aes(x = year,
+                       y = pv2p,
+                       color = party)) + 
+  geom_line() + 
+  geom_point() +
+  scale_color_manual("Party", values = c("steelblue3", "tomato3")) +
+  labs(title = "Two Party Presidential Popular Over Time",
+       subtitle = "1948-2020",
+       x = "Year",
+       y = "Winning Popular Vote Share") +
+  my_prettier_theme()
+two_party_visualization
+
+ggsave ("figures/two_party_vis.png")
+```
+
+```{r}
+####----------------------------------------------------------#
+#### State-by-state map of presidential popular votes.
+####----------------------------------------------------------#
+
+# Sequester shapefile of states from `maps` library.
+states_map <- map_data("state")
+unique(states_map$region)
+
+# Read wide version of dataset that can be used to compare candidate votes with one another. 
+d_pvstate_wide <- read_csv("clean_wide_state_2pv_1948_2020.csv")
+
+# Merge d_pvstate_wide with state_map.
+d_pvstate_wide$region <- tolower(d_pvstate_wide$state)
+
+pv_map <- d_pvstate_wide |>
+  filter(year == 2020) |>
+  left_join(states_map, by = "region")
+
+# Make map grid of state winners for each election year available in the dataset. 
+
+pv_win_map <- pv_map |>
+  mutate(winner = ifelse(R_pv > D_pv, "republican", "democrat"))
+
+pv_win_map |>
+  ggplot(aes(long, lat, group = group)) + 
+  geom_polygon(aes(fill = winner), color = "black") + 
+  scale_fill_manual(values = c("steelblue", "tomato3")) +
+  theme_void() + 
+  labs(title = "Map Grid of State Winners",
+       subtitle = "2020 Election") +
+  my_prettier_theme() + 
+  theme(axis.title.x= element_blank(),
+        axis.title.y= element_blank(),
+        axis.text.x= element_blank(),
+        axis.text.y= element_blank(),
+        axis.ticks = element_blank(),
+        axis.line= element_blank())
+
+ggsave ("figures/PV_win_map.png")
+```
+
+```{r}
+d_pvstate_wide |>
+  filter(year >= 1980) |>
+  left_join(states_map, by = "region") |>
+  mutate(winner = ifelse(R_pv2p>D_pv2p, "republican", "democrat")) |>
+  ggplot(aes(long, lat, group = group)) + 
+  facet_wrap(facets = year ~.) + 
+  geom_polygon(aes(fill = winner), color = "white")+
+  scale_fill_manual(values = c("steelblue", "tomato3")) +
+  labs(title = "Presidential Vote Share by State",
+       subtitle = "1980-2020") + 
+  theme(strip.text = element_text(size = 12),
+        aspect.ratio = 1) +
+  my_prettier_theme() + 
+  theme(axis.title.x= element_blank(),
+        axis.title.y= element_blank(),
+        axis.text.x= element_blank(),
+        axis.text.y= element_blank(),
+        axis.ticks = element_blank(),
+        axis.line= element_blank())
+
+ggsave ("figures/PV_states_historical.png")
+```
+
+```{r}
+####----------------------------------------------------------#
+#### Forecast: simplified electoral cycle model. 
+####----------------------------------------------------------#
+
+# Create prediction (pv2p and margin) based on simplified electoral cycle model: 
+# vote_2024 = 3/4*vote_2020 + 1/4*vote_2016 (lag1, lag2, respectively). 
+
+pv2p_2024_states <- d_pvstate_wide |>
+  filter(year == 2020) |>
+  group_by(state)|>
+  summarize(R_pv2p_2024 = .75*R_pv2p + .25*R_pv2p_lag1,
+            D_pv2p_2024 = .75*D_pv2p + .25*D_pv2p_lag1) |>
+  mutate(pv2p_2024_margin = R_pv2p_2024 - D_pv2p_2024,
+         winner = ifelse(R_pv2p_2024 > D_pv2p_2024, "R", "D"),
+         region = tolower(state))
+
+pv2p_2024_states_2 <- pv2p_2024_states
+
+# Plot the margin of victory in a U.S. state map.
+
+states_map <- map_data("state")
+
+state_mapa <- pv2p_2024_states |>
+  left_join(states_map, by = "region")
+state_centers <- data.frame(state.center, state.abb, state.name)
+
+state_mapa <- state_mapa |>
+  ggplot(aes(long, lat, group = group)) + 
+  geom_polygon(aes(fill = pv2p_2024_margin), color = "black")+
+  scale_fill_gradient2(high = "tomato3",
+                       low = "steelblue3",
+                       mid = "white",
+                       name = "Two-Party Win Margin",
+                       breaks = c(-50, -25, 0, 25, 50),
+                       limits = c(-50,50)) +
+  labs(title = "2024 Presidential Forecast",
+       subtitle = "Simplified Electoral Cycle Model") +
+  my_prettier_theme() + 
+  theme(axis.title.x= element_blank(),
+        axis.title.y= element_blank(),
+        axis.text.x= element_blank(),
+        axis.text.y= element_blank(),
+        axis.ticks = element_blank(),
+        axis.line= element_blank())
+
+state_mapa
+
+ggsave("figures/PV2024_simple_forecast.png")
+```
+
+```{r}
+####----------------------------------------------------------#
+#### Extension 1: Add state labels
+####----------------------------------------------------------#
+
+# Load US map data
+states_map <- map_data("state")
+state_centroids <- data.frame(state.center, state.abb, state.name) |>
+  mutate(state = tolower(state.name))
+
+state_mapa_data <- pv2p_2024_states |>
+  left_join(states_map, by = "region")
+
+state_mapa <- state_mapa_data |>
+  ggplot(aes(long, lat, group = group)) + 
+  geom_polygon(aes(fill = pv2p_2024_margin), color = "black") +
+  scale_fill_gradient2(high = "tomato3",
+                       low = "steelblue3",
+                       mid = "white",
+                       name = "Two-Party Win Margin",
+                       breaks = c(-50, -25, 0, 25, 50),
+                       limits = c(-50,50)) +
+  labs(title = "2024 Presidential Forecast",
+       subtitle = "Simplified Electoral Cycle Model") +
+  my_prettier_theme() + 
+  theme(axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
+        axis.text.x = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks = element_blank(),
+        axis.line = element_blank())
+
+state_centroids <- state_mapa_data |>
+  left_join(state_centroids, by = "state")
+
+state_mapa <- state_mapa +
+  geom_text_repel(data = state_centroids, aes(x = x, y = y, label = state.abb, group = group), size = 35)
+
+# ggsave("figures/PV2024_simple_forecast_with_labels.png", state_mapa)
+
+# Plot the final map
+state_mapa
+```
+```{r interactive_map}
+####----------------------------------------------------------#
+#### Extension 1: Add state labels
+####----------------------------------------------------------#
+# Rename ggplot state data region variable to state for ease
+states_map <- map_data("state") |>
+  rename(state = region)
+
+# Transform state boundaries into an sf object
+states_sf <- st_as_sf(states_map, coords = c("long", "lat"), crs = 4326, agr = "constant")
+
+# Create a geometry for each state
+states_sf <- states_sf %>%
+  group_by(state) %>%
+  summarize(geometry = st_combine(geometry)) %>%
+  st_cast("POLYGON") |>
+  st_make_valid()
+
+# Merge with your election results data
+pv2p_2024_states <- pv2p_2024_states |>
+  mutate(state = tolower(state))
+
+# Merge state polygons with 2024 vote margin data
+states_sf <- left_join(states_sf, pv2p_2024_states, by = "state")
+
+# Create an interactive map with leaflet
+interactive_map <- leaflet(states_sf) |>
+  addTiles() |>
+  addPolygons(
+    fillColor = ~colorBin(palette = c("steelblue3", "white", "tomato3"),
+                          domain = states_sf$pv2p_2024_margin, 
+                          bins = c(-50, -25, 0, 25, 50))(pv2p_2024_margin),
+    fillOpacity = 0.7,
+    color = "black",
+    weight = 1,
+    highlight = highlightOptions(
+      weight = 3,
+      color = "#666",
+      fillOpacity = 0.7,
+      bringToFront = TRUE
+    ),
+    label = ~paste(str_to_title(state), " Win Margin: ", pv2p_2024_margin),
+    labelOptions = labelOptions(
+      style = list("font-weight" = "normal", padding = "5px 10px"),
+      textsize = "15px",
+      direction = "auto"
+    )
+  ) |>
+  addLegend(
+    pal = colorBin(palette = c("steelblue3", "white", "tomato3"),
+                   domain = states_sf$pv2p_2024_margin, 
+                   bins = c(-50, -25, 0, 25, 50)),
+    values = ~pv2p_2024_margin,
+    opacity = 0.7,
+    title = "Two-Party Win Margin (%)",
+    position = "bottomleft"
+  ) |>
+  addControl(
+    html = "<h3 style='color: black; text-align: center;'>2024 Presidential Forecast</h3><h5>Simplified Electoral Cycle Model</h5>",
+    position = "topright",
+    className = "map-title")
+interactive_map
+```
+
+```{r FIXFIXFIXFIX}
+# Generate projected state winners and merge with electoral college votes to make 
+# summary of electoral college vote distributions. 
+ec <- read_csv("ec_full.csv")
+
+pv2p_2024_states_2 <- pv2p_2024_states_2 |>
+  mutate(year = 2024)|>
+  left_join(ec, by = c("state", "year"))
+
+projected_electoral_winner <- pv2p_2024_states_2 |>
+  group_by(winner)|>
+  summarize(electoral_votes = sum(electors))
+
+projected_electoral_winner
+
+## Harris: 276
+## Trump: 262
+```
+
+```{r eval=FALSE, include=FALSE}
+####-------------------------------------------------------------------------#
+#### Extension 2: Who actually won each election? ISSUES WITH GIVEN EC DATA
+####-------------------------------------------------------------------------#
+
+# Re-read in electoral college data and add missing values for DC in 2012, 2016, 2020
+ec_DC <- read_csv("ec_full.csv")
+
+ec_DC <- ec_DC |>
+  mutate(electors = ifelse(state=="District of Columbia" | state=="District Of Columbia", 3, electors))
+
+# Create a new variable that shows who (Democrat or Republican) won each state in each election 
+
+d_ec_wide <- d_pvstate_wide |>
+  select(year, state, D_pv, R_pv) |>
+  mutate(state_winner = ifelse(D_pv > R_pv, "D", "R")) |>
+  filter (year > 1948)
+# Removing 1948 because dataset says that Democrats won 0% of popular vote in Alabama, which is wrong
+
+# Joining electoral college vote data with d_ec_wide dataset
+# 1960 not in dataset
+
+d_ec_wide <- d_ec_wide |>
+  left_join(ec_DC, by = c("state","year")) 
+
+# Finding the winner of each election 
+
+d_ec_wide <- d_ec_wide |>
+  group_by(year, state_winner)|>
+  summarize(electoral_votes = sum(electors)) 
+
+d_ec_wide |>
+  pivot_wider(names_from = state_winner, values_from = electoral_votes) |>
+  mutate(election_winner = ifelse(D >= 270, "D", "R"))
+```

@@ -1,25 +1,35 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  
-  <sitemap>
-    <loc>https://example.com/en/sitemap.xml</loc>
-    
-      <lastmod>2024-09-09T22:55:33-04:00</lastmod>
-    
-  </sitemap>
-  
-  <sitemap>
-    <loc>https://example.com/ru/sitemap.xml</loc>
-    
-      <lastmod>2024-09-09T22:55:33-04:00</lastmod>
-    
-  </sitemap>
-  
-  <sitemap>
-    <loc>https://example.com/zh/sitemap.xml</loc>
-    
-      <lastmod>2024-09-09T22:55:33-04:00</lastmod>
-    
-  </sitemap>
-  
-</sitemapindex>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://sduggasani.github.io/2024election-blog/</loc>
+    <lastmod>2024-09-09T22:55:33-04:00</lastmod>
+  </url><url>
+    <loc>https://sduggasani.github.io/2024election-blog/post/</loc>
+    <lastmod>2024-09-09T22:55:33-04:00</lastmod>
+  </url><url>
+    <loc>https://sduggasani.github.io/2024election-blog/post/2024-09-09-week-1-past-presidential-elections/</loc>
+    <lastmod>2024-09-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://sduggasani.github.io/2024election-blog/categories/</loc>
+    <lastmod>2024-09-09T22:55:33-04:00</lastmod>
+  </url><url>
+    <loc>https://sduggasani.github.io/2024election-blog/post/2020-12-01-r-rmarkdown/</loc>
+    <lastmod>2024-09-09T22:55:33-04:00</lastmod>
+  </url><url>
+    <loc>https://sduggasani.github.io/2024election-blog/tags/plot/</loc>
+    <lastmod>2024-09-09T22:55:33-04:00</lastmod>
+  </url><url>
+    <loc>https://sduggasani.github.io/2024election-blog/categories/R/</loc>
+    <lastmod>2024-09-09T22:55:33-04:00</lastmod>
+  </url><url>
+    <loc>https://sduggasani.github.io/2024election-blog/tags/R-Markdown/</loc>
+    <lastmod>2024-09-09T22:55:33-04:00</lastmod>
+  </url><url>
+    <loc>https://sduggasani.github.io/2024election-blog/tags/regression/</loc>
+    <lastmod>2024-09-09T22:55:33-04:00</lastmod>
+  </url><url>
+    <loc>https://sduggasani.github.io/2024election-blog/tags/</loc>
+    <lastmod>2024-09-09T22:55:33-04:00</lastmod>
+  </url>
+</urlset>

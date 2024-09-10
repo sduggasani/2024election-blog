@@ -1,25 +1,18 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Categories on Hugo Book</title>
-    <link>https://example.com/categories/</link>
-    <description>Recent content in Categories on Hugo Book</description>
+    <title>Categories on 2024 Election Blog</title>
+    <link>https://sduggasani.github.io/2024election-blog/categories/</link>
+    <description>Recent content in Categories on 2024 Election Blog</description>
     <generator>Hugo</generator>
     <language>en</language>
     <lastBuildDate>Mon, 09 Sep 2024 22:55:33 -0400</lastBuildDate>
-    <atom:link href="https://example.com/categories/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://sduggasani.github.io/2024election-blog/categories/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Development</title>
-      <link>https://example.com/categories/Development/</link>
-      <pubDate>Wed, 02 Apr 2014 00:00:00 +0000</pubDate>
-      <guid>https://example.com/categories/Development/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Golang</title>
-      <link>https://example.com/categories/golang/</link>
-      <pubDate>Wed, 02 Apr 2014 00:00:00 +0000</pubDate>
-      <guid>https://example.com/categories/golang/</guid>
+      <title>R</title>
+      <link>https://sduggasani.github.io/2024election-blog/categories/R/</link>
+      <pubDate>Tue, 01 Dec 2020 21:13:14 -0500</pubDate>
+      <guid>https://sduggasani.github.io/2024election-blog/categories/R/</guid>
       <description></description>
     </item>
   </channel>

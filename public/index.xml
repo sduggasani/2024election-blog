@@ -1,137 +1,26 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Introduction on Hugo Book</title>
-    <link>https://example.com/</link>
-    <description>Recent content in Introduction on Hugo Book</description>
+    <title>2024 Election Blog</title>
+    <link>https://sduggasani.github.io/2024election-blog/</link>
+    <description>Recent content on 2024 Election Blog</description>
     <generator>Hugo</generator>
     <language>en</language>
-    <atom:link href="https://example.com/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 09 Sep 2024 22:55:33 -0400</lastBuildDate>
+    <atom:link href="https://sduggasani.github.io/2024election-blog/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>With ToC</title>
-      <link>https://example.com/docs/example/table-of-contents/with-toc/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://example.com/docs/example/table-of-contents/with-toc/</guid>
-      <description>&lt;h1 id=&#34;caput-vino-delphine-in-tamen-vias&#34;&gt;&#xA;  Caput vino delphine in tamen vias&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#caput-vino-delphine-in-tamen-vias&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;h2 id=&#34;cognita-laeva-illo-fracta&#34;&gt;&#xA;  Cognita laeva illo fracta&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#cognita-laeva-illo-fracta&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h2&gt;&#xA;&lt;p&gt;Lorem markdownum pavent auras, surgit nunc cingentibus libet &lt;strong&gt;Laomedonque que&lt;/strong&gt;&#xA;est. Pastor &#xA;  &lt;a href=&#34;http://est.org/ire.aspx&#34;&gt;An&lt;/a&gt; arbor filia foedat, ne &#xA;  &lt;a href=&#34;http://www.indiciumturbam.org/moramquid.php&#34;&gt;fugit&#xA;aliter&lt;/a&gt;, per. Helicona illas et&#xA;callida neptem est &lt;em&gt;Oresitrophos&lt;/em&gt; caput, dentibus est venit. Tenet reddite&#xA;&#xA;  &lt;a href=&#34;http://www.antro-et.net/&#34;&gt;famuli&lt;/a&gt; praesentem fortibus, quaeque vis foret si&#xA;frondes &lt;em&gt;gelidos&lt;/em&gt; gravidae circumtulit &#xA;  &lt;a href=&#34;http://incurvasustulit.io/illi-virtute.html&#34;&gt;inpulit armenta&#xA;nativum&lt;/a&gt;.&lt;/p&gt;</description>
+      <title>Week 1: Past Presidential Elections</title>
+      <link>https://sduggasani.github.io/2024election-blog/post/2024-09-09-week-1-past-presidential-elections/</link>
+      <pubDate>Mon, 09 Sep 2024 00:00:00 +0000</pubDate>
+      <guid>https://sduggasani.github.io/2024election-blog/post/2024-09-09-week-1-past-presidential-elections/</guid>
+      <description>&lt;script src=&#34;https://sduggasani.github.io/2024election-blog/post/2024-09-09-week-1-past-presidential-elections/index_files/htmlwidgets/htmlwidgets.js&#34;&gt;&lt;/script&gt;&#xA;&lt;script src=&#34;https://sduggasani.github.io/2024election-blog/post/2024-09-09-week-1-past-presidential-elections/index_files/jquery/jquery-3.6.0.min.js&#34;&gt;&lt;/script&gt;&#xA;&lt;link href=&#34;https://sduggasani.github.io/2024election-blog/post/2024-09-09-week-1-past-presidential-elections/index_files/leaflet/leaflet.css&#34; rel=&#34;stylesheet&#34; /&gt;&#xA;&lt;script src=&#34;https://sduggasani.github.io/2024election-blog/post/2024-09-09-week-1-past-presidential-elections/index_files/leaflet/leaflet.js&#34;&gt;&lt;/script&gt;&#xA;&lt;link href=&#34;https://sduggasani.github.io/2024election-blog/post/2024-09-09-week-1-past-presidential-elections/index_files/leafletfix/leafletfix.css&#34; rel=&#34;stylesheet&#34; /&gt;&#xA;&lt;script src=&#34;https://sduggasani.github.io/2024election-blog/post/2024-09-09-week-1-past-presidential-elections/index_files/proj4/proj4.min.js&#34;&gt;&lt;/script&gt;&#xA;&lt;script src=&#34;https://sduggasani.github.io/2024election-blog/post/2024-09-09-week-1-past-presidential-elections/index_files/Proj4Leaflet/proj4leaflet.js&#34;&gt;&lt;/script&gt;&#xA;&lt;link href=&#34;https://sduggasani.github.io/2024election-blog/post/2024-09-09-week-1-past-presidential-elections/index_files/rstudio_leaflet/rstudio_leaflet.css&#34; rel=&#34;stylesheet&#34; /&gt;&#xA;&lt;script src=&#34;https://sduggasani.github.io/2024election-blog/post/2024-09-09-week-1-past-presidential-elections/index_files/leaflet-binding/leaflet.js&#34;&gt;&lt;/script&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#&amp;#39; @title GOV 1347: Introductory Blog Post/Laboratory Session&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#&amp;#39; @author Sammy Duggasani&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#&amp;#39; @date August 29, 2024&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;####----------------------------------------------------------#&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#### Preamble&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;####----------------------------------------------------------#&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# Load libraries.&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;## install via `install.packages(&amp;#34;name&amp;#34;)`&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;library&lt;/span&gt;(ggplot2)&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;library&lt;/span&gt;(maps)&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;library&lt;/span&gt;(tidyverse)&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pr</description>
     </item>
     <item>
-      <title>Without ToC</title>
-      <link>https://example.com/docs/example/table-of-contents/without-toc/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://example.com/docs/example/table-of-contents/without-toc/</guid>
-      <description>&lt;h1 id=&#34;at-me-ipso-nepotibus-nunc-celebratior-genus&#34;&gt;&#xA;  At me ipso nepotibus nunc celebratior genus&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#at-me-ipso-nepotibus-nunc-celebratior-genus&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;h2 id=&#34;tanto-oblite&#34;&gt;&#xA;  Tanto oblite&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#tanto-oblite&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h2&gt;&#xA;&lt;p&gt;Lorem markdownum pectora novis patenti igne sua opus aurae feras materiaque&#xA;illic demersit imago et aristas questaque posset. Vomit quoque suo inhaesuro&#xA;clara. Esse cumque, per referri triste. Ut exponit solisque communis in tendens&#xA;vincetis agisque iamque huic bene ante vetat omina Thebae rates. Aeacus servat&#xA;admonitu concidit, ad resimas vultus et rugas vultu &lt;strong&gt;dignamque&lt;/strong&gt; Siphnon.&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>Creating a New Theme</title>
-      <link>https://example.com/posts/creating-a-new-theme/</link>
-      <pubDate>Sun, 28 Sep 2014 00:00:00 +0000</pubDate>
-      <guid>https://example.com/posts/creating-a-new-theme/</guid>
-      <description>&lt;h2 id=&#34;introduction&#34;&gt;&#xA;  Introduction&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#introduction&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h2&gt;&#xA;&lt;p&gt;This tutorial will show you how to create a simple theme in Hugo. I assume that you are familiar with HTML, the bash command line, and that you are comfortable using Markdown to format content. I&amp;rsquo;ll explain how Hugo uses templates and how you can organize your templates to create a theme. I won&amp;rsquo;t cover using CSS to style your theme.&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>Migrate to Hugo from Jekyll</title>
-      <link>https://example.com/posts/migrate-from-jekyll/</link>
-      <pubDate>Mon, 10 Mar 2014 00:00:00 +0000</pubDate>
-      <guid>https://example.com/posts/migrate-from-jekyll/</guid>
-      <description>&lt;h2 id=&#34;move-static-content-to-static&#34;&gt;&#xA;  Move static content to &lt;code&gt;static&lt;/code&gt;&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#move-static-content-to-static&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h2&gt;&#xA;&lt;p&gt;Jekyll has a rule that any directory not starting with &lt;code&gt;_&lt;/code&gt; will be copied as-is to the &lt;code&gt;_site&lt;/code&gt; output. Hugo keeps all static content under &lt;code&gt;static&lt;/code&gt;. You should therefore move it all there.&#xA;With Jekyll, something that looked like&lt;/p&gt;&#xA;&lt;pre&gt;&lt;code&gt;▾ &amp;lt;root&amp;gt;/&#xA;    ▾ images/&#xA;        logo.png&#xA;&lt;/code&gt;&lt;/pr</description>
-    </item>
-    <item>
-      <title>(Hu)go Template Primer</title>
-      <link>https://example.com/posts/goisforlovers/</link>
-      <pubDate>Wed, 02 Apr 2014 00:00:00 +0000</pubDate>
-      <guid>https://example.com/posts/goisforlovers/</guid>
-      <description>&lt;p&gt;Hugo uses the excellent &#xA;  &lt;a href=&#34;https://golang.org/&#34;&gt;Go&lt;/a&gt; &#xA;  &lt;a href=&#34;https://golang.org/pkg/html/template/&#34;&gt;html/template&lt;/a&gt; library for&#xA;its template engine. It is an extremely lightweight engine that provides a very&#xA;small amount of logic. In our experience that it is just the right amount of&#xA;logic to be able to create a good static website. If you have used other&#xA;template systems from different languages or frameworks you will find a lot of&#xA;similarities in Go templates.&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>Getting Started with Hugo</title>
-      <link>https://example.com/posts/hugoisforlovers/</link>
-      <pubDate>Wed, 02 Apr 2014 00:00:00 +0000</pubDate>
-      <guid>https://example.com/posts/hugoisforlovers/</guid>
-      <description>&lt;h2 id=&#34;step-1-install-hugo&#34;&gt;&#xA;  Step 1. Install Hugo&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#step-1-install-hugo&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h2&gt;&#xA;&lt;p&gt;Go to &#xA;  &lt;a href=&#34;https://github.com/spf13/hugo/releases&#34;&gt;Hugo releases&lt;/a&gt; and download the&#xA;appropriate version for your OS and architecture.&lt;/p&gt;&#xA;&lt;p&gt;Save it somewhere specific as we will be using it in the next step.&lt;/p&gt;&#xA;&lt;p&gt;More complete instructions are available at &#xA;  &lt;a href=&#34;https://gohugo.io/getting-started/installing/&#34;&gt;Install Hugo&lt;/a&gt;&lt;/p&gt;&#xA;&lt;h2 id=&#34;step-2-build-the-docs&#34;&gt;&#xA;  Step 2. Build the Docs&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#step-2-build-the-docs&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h2&gt;&#xA;&lt;p&gt;Hugo has its own example site which happens to also be the documentation site&#xA;you are reading right now.&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title></title>
-      <link>https://example.com/docs/example/collapsed/3rd-level/4th-level/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://example.com/docs/example/collapsed/3rd-level/4th-level/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title></title>
-      <link>https://example.com/docs/example/hidden/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://example.com/docs/example/hidden/</guid>
-      <description>&lt;h1 id=&#34;this-page-is-hidden-in-menu&#34;&gt;&#xA;  This page is hidden in menu&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#this-page-is-hidden-in-menu&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;h1 id=&#34;quondam-non-pater-est-dignior-ille-eurotas&#34;&gt;&#xA;  Quondam non pater est dignior ille Eurotas&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#quondam-non-pater-est-dignior-ille-eurotas&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;h2 id=&#34;latent-te-facies&#34;&gt;&#xA;  Latent te facies&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#latent-te-facies&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h2&gt;&#xA;&lt;p&gt;Lorem markdownum arma ignoscas vocavit quoque ille texit mandata mentis ultimus,&#xA;frementes, qui in vel. Hippotades Peleus &#xA;  &lt;a href=&#34;http://gratia.net/tot-qua.php&#34;&gt;pennas&#xA;conscia&lt;/a&gt; cuiquam Caeneus quas.&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title></title>
-      <link>https://example.com/docs/shortcodes/buttons/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://example.com/docs/shortcodes/buttons/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title></title>
-      <link>https://example.com/docs/shortcodes/columns/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://example.com/docs/shortcodes/columns/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title></title>
-      <link>https://example.com/docs/shortcodes/details/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://example.com/docs/shortcodes/details/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title></title>
-      <link>https://example.com/docs/shortcodes/expand/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://example.com/docs/shortcodes/expand/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title></title>
-      <link>https://example.com/docs/shortcodes/hints/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://example.com/docs/shortcodes/hints/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title></title>
-      <link>https://example.com/docs/shortcodes/mermaid/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://example.com/docs/shortcodes/mermaid/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title></title>
-      <link>https://example.com/docs/shortcodes/section/first-page/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://example.com/docs/shortcodes/section/first-page/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title></title>
-      <link>https://example.com/docs/shortcodes/section/second-page/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://example.com/docs/shortcodes/section/second-page/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title></title>
-      <link>https://example.com/docs/shortcodes/tabs/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://example.com/docs/shortcodes/tabs/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>KaTeX</title>
-      <link>https://example.com/docs/shortcodes/katex/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://example.com/docs/shortcodes/katex/</guid>
-      <description>&lt;h1 id=&#34;katex&#34;&gt;&#xA;  KaTeX&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#katex&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;p&gt;KaTeX shortcode let you render math typesetting in markdown document. See &#xA;  &lt;a href=&#34;https://katex.org/&#34;&gt;KaTeX&lt;/a&gt;&lt;/p&gt;&#xA;&lt;h2 id=&#34;example&#34;&gt;&#xA;  Example&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#example&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h2&gt;&#xA;&lt;div class=&#34;book-columns flex flex-wrap&#34;&gt;&#xA;  &lt;div class=&#34;flex-even markdown-inner&#34;&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-latex&#34; data-lang=&#34;latex&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;{{&amp;lt; katex display=true class=&amp;#34;optional&amp;#34; &amp;gt;}}&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;f(x) = &lt;span style=&#34;color:#66d9ef&#34;&gt;\int&lt;/span&gt;_{-&lt;span style=&#34;color:#66d9ef&#34;&gt;\infty&lt;/span&gt;}^&lt;span style=&#34;color:#66d9ef&#34;&gt;\infty\hat&lt;/span&gt; f(&lt;span style=&#34;color:#66d9ef&#34;&gt;\xi&lt;/span&gt;)&lt;span style=&#34;color:#66d9ef&#34;&gt;\,&lt;/span&gt;e^{2 &lt;span style=&#34;color:#66d9ef&#34;&gt;\pi&lt;/span&gt; i &lt;span style=&#34;color:#66d9ef&#34;&gt;\xi&lt;/span&gt; x}&lt;span style=&#34;color:#66d9ef&#34;&gt;\,&lt;/span&gt;d&lt;span style=&#34;color:#66d9ef&#34;&gt;\xi&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;{{&amp;lt; /katex &amp;gt;}}&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pr</description>
+      <title>Hello R Markdown</title>
+      <link>https://sduggasani.github.io/2024election-blog/post/2020-12-01-r-rmarkdown/</link>
+      <pubDate>Tue, 01 Dec 2020 21:13:14 -0500</pubDate>
+      <guid>https://sduggasani.github.io/2024election-blog/post/2020-12-01-r-rmarkdown/</guid>
+      <description>&lt;h1 id=&#34;r-markdown&#34;&gt;&#xA;  R Markdown&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#r-markdown&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;p&gt;This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see &#xA;  &lt;a href=&#34;http://rmarkdown.rstudio.com&#34;&gt;http://rmarkdown.rstudio.com&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;p&gt;You can embed an R code chunk like this:&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-r&#34; data-lang=&#34;r&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;summary&lt;/span&gt;(cars)&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;##      speed           dist       &lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;##  Min.   : 4.0   Min.   :  2.00  &lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;##  1st Qu.:12.0   1st Qu.: 26.00  &lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;##  Median :15.0   Median : 36.00  &lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;##  Mean   :15.4   Mean   : 42.98  &lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;##  3rd Qu.:19.0   3rd Qu.: 56.00  &lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;##  Max.   :25.0   Max.   :120.00&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;fit &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;lm&lt;/span&gt;(dist &lt;span style=&#34;color:#f92672&#34;&gt;~&lt;/span&gt; speed, data &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; cars)&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;fit&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;## &lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;## Call:&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;## lm(formula = dist ~ speed, data = cars)&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;## &lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;## Coefficients:&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;## (Intercept)        speed  &lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;##     -17.579        3.932&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pr</description>
     </item>
   </channel>
 </rss>
