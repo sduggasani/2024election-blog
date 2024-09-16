@@ -86,7 +86,7 @@ Here, I run a linear regression on the relationship between between Quarterly GD
 ```
 
 ```
-## [1] "Cross-Validation Mean Absolute Value Error (Without 2020):  3.57212760301795"
+## [1] "Cross-Validation Mean Absolute Value Error (Without 2020):  3.62518323693274"
 ```
 Above are some in-sample and out-of-sample ways to evaluate the strength of GDP Growth model. Across the board, the model performs pretty poorly, as we see very low R-Squared values, high Mean Squared Errors and Cross-Validation Mean Absolute Value Errors with vote margin percentages large enough to sway a close election. The GDP model that leaves out 2020 generally fares better, but it is still not great.  
 
@@ -145,7 +145,7 @@ Above, I run a linear regression on the relationship between between Consumer Pr
 ```
 
 ```
-## [1] "Cross-Validation Mean Absolute Value Error (Without 2020):  4.05371766063793"
+## [1] "Cross-Validation Mean Absolute Value Error (Without 2020):  4.03874508571402"
 ```
 
 The CPI model fares even worse than the GDP model with abysmal R-Squared values, high Mean Squared Errors, and a large Cross-Validation Mean Absolute Value Error.
@@ -207,7 +207,7 @@ Now, I run a linear regression on the relationship between between Quarterly Gro
 ```
 
 ```
-## [1] "Cross-Validation Mean Absolute Value Error (Without 2020):  3.86556220347493"
+## [1] "Cross-Validation Mean Absolute Value Error (Without 2020):  3.98713173393622"
 ```
 Again, the RDPI model performs pretty poorly with in-sample and out-of-sample tests. It yields low R-Squared values even when I leave out 2020 data. The Mean Squared Error is high and so is the Cross-Validation Mean Absolute Value Error. 
 
@@ -267,7 +267,7 @@ Continuing with the economic phenomena Radcliffe and Skelley highlight as import
 ```
 
 ```
-## [1] "Cross-Validation Mean Absolute Value Error (Without 2020):  4.6533125390861"
+## [1] "Cross-Validation Mean Absolute Value Error (Without 2020):  4.38375749781675"
 ```
 The R-Squared values for the unemployment-predicted model are the lowest we have seen so far. THe Mean Squared Errors are also the highest and the Cross-Validation Mean Absolute Value Error is a large percentage vote margin that could push an election in any direction. 
 
@@ -329,7 +329,7 @@ Finally, we look to stock market performance as a metric of economic success tha
 ```
 
 ```
-## [1] "Cross-Validation Mean Absolute Value Error (Without 2020):  3.92316374818337"
+## [1] "Cross-Validation Mean Absolute Value Error (Without 2020):  4.00668449364318"
 ```
 
 Like the rest, the stock market model performs poorly in measures of in-sample and out-of-sample testing. The R-Squared values are low, the Mean Square Errors are high, and the Cross-Validation Mean Absolute Value is a large percentage value.
@@ -358,7 +358,7 @@ In all honesty, these models are quite bad. I would not put my money on the pred
 
 In future economic models, I hope to use more granular data (month-wise or quarter-wise) and involve polling data to track how opinions change along with measures of economic performance. This time, I only used bivariate linear regressions, but I will in the future include multiple independent variables and weigh them by polls of voters and how salient they are.
 
-##**Sources**
+## **Sources**
 
 “Presidential Debates Do Matter | 538 Politics Podcast.” *YouTube*, uploaded by FiveThirtyEight, 9 Sept. 2024, www.youtube.com/watch?v=PkjfKF0frvs.
 

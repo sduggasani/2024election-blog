@@ -991,7 +991,7 @@ In all honesty, these models are quite bad. I would not put my money on the pred
 
 In future economic models, I hope to use more granular data (month-wise or quarter-wise) and involve polling data to track how opinions change along with measures of economic performance. This time, I only used bivariate linear regressions, but I will in the future include multiple independent variables and weigh them by polls of voters and how salient they are.
 
-##**Sources**
+## **Sources**
 
 “Presidential Debates Do Matter | 538 Politics Podcast.” *YouTube*, uploaded by FiveThirtyEight, 9 Sept. 2024, www.youtube.com/watch?v=PkjfKF0frvs.
 

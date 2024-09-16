@@ -22,14 +22,14 @@ Welcome back and thanks for following along my forecast of the 2024 US President
   <meta property="og:type" content="article">
     <meta property="article:section" content="post">
     <meta property="article:published_time" content="2024-09-12T00:00:00+00:00">
-    <meta property="article:modified_time" content="2024-09-16T13:47:32-04:00">
+    <meta property="article:modified_time" content="2024-09-16T13:50:49-04:00">
 <title>Week 2: Fundamentals I, The Economy  | 2024 Election Blog</title>
 <link rel="manifest" href="/2024election-blog/manifest.json">
 <link rel="icon" href="/2024election-blog/favicon.png" >
 <link rel="canonical" href="https://sduggasani.github.io/2024election-blog/post/2024-09-12-week-2-fundamentals-i-the-economy/">
 <link rel="stylesheet" href="/2024election-blog/book.min.309b7ed028807cdb68d8d61e26d609f48369c098dbf5e4d8c0dcf4cdf49feafc.css" integrity="sha256-MJt&#43;0CiAfNto2NYeJtYJ9INpwJjb9eTYwNz0zfSf6vw=" crossorigin="anonymous">
   <script defer src="/2024election-blog/fuse.min.js"></script>
-  <script defer src="/2024election-blog/en.search.min.467a33664c885e638014ec35a4d8d8574679fa1780a239c7e696be197ed4f3ed.js" integrity="sha256-RnozZkyIXmOAFOw1pNjYV0Z5&#43;heAojnH5pa&#43;GX7U8&#43;0=" crossorigin="anonymous"></script>
+  <script defer src="/2024election-blog/en.search.min.23ee2f1a66ac0ce01ded394c7bd6f649d3e8d1a58bde86da8e822062d756aadf.js" integrity="sha256-I&#43;4vGmasDOAd7TlMe9b2SdPo0aWL3obajoIgYtdWqt8=" crossorigin="anonymous"></script>
 
   <script defer src="/2024election-blog/sw.min.f09ccc658cc70834310535c40cbee1514cd65302e6fa168c4ae787519a02cf87.js" integrity="sha256-8JzMZYzHCDQxBTXEDL7hUUzWUwLm&#43;haMSueHUZoCz4c=" crossorigin="anonymous"></script>
 <!--
@@ -156,6 +156,7 @@ https://github.com/alex-shpak/hugo-book
         <li><a href="#unemployment-and-vote-margin"><strong>Unemployment and Vote Margin</strong></a></li>
         <li><a href="#stock-market-performance-and-vote-margin"><strong>Stock Market Performance and Vote Margin</strong></a></li>
         <li><a href="#conclusion"><strong>Conclusion</strong></a></li>
+        <li><a href="#sources"><strong>Sources</strong></a></li>
       </ul>
     </li>
   </ul>
@@ -222,7 +223,7 @@ Here, I run a linear regression on the relationship between between Quarterly GD
 </code></pre><p><img src="https://sduggasani.github.io/2024election-blog/post/2024-09-12-week-2-fundamentals-i-the-economy/index_files/figure-html/unnamed-chunk-7-1.png" width="672" /><img src="https://sduggasani.github.io/2024election-blog/post/2024-09-12-week-2-fundamentals-i-the-economy/index_files/figure-html/unnamed-chunk-7-2.png" width="672" /></p>
 <pre tabindex="0"><code>## [1] &#34;With 2020 Mean Squared Error:  79.2859405902988&#34;
 </code></pre><pre tabindex="0"><code>## [1] &#34;Without 2020 Mean Squared Error:  67.7703432164646&#34;
-</code></pre><pre tabindex="0"><code>## [1] &#34;Cross-Validation Mean Absolute Value Error (Without 2020):  3.57212760301795&#34;
+</code></pre><pre tabindex="0"><code>## [1] &#34;Cross-Validation Mean Absolute Value Error (Without 2020):  3.62518323693274&#34;
 </code></pre><p>Above are some in-sample and out-of-sample ways to evaluate the strength of GDP Growth model. Across the board, the model performs pretty poorly, as we see very low R-Squared values, high Mean Squared Errors and Cross-Validation Mean Absolute Value Errors with vote margin percentages large enough to sway a close election. The GDP model that leaves out 2020 generally fares better, but it is still not great.</p>
 <pre tabindex="0"><code>## [1] &#34;2024 GDP-Predicted Incumbent Vote Margin: 4.15855909921272&#34;
 </code></pre><pre tabindex="0"><code>## [1] &#34;2024 GDP-Predicted Incumbent Vote Margin (Excluding 2020 from Model): 3.21368743265838&#34;
@@ -250,7 +251,7 @@ Above, I run a linear regression on the relationship between between Consumer Pr
 </code></pre><p><img src="https://sduggasani.github.io/2024election-blog/post/2024-09-12-week-2-fundamentals-i-the-economy/index_files/figure-html/unnamed-chunk-10-1.png" width="672" /><img src="https://sduggasani.github.io/2024election-blog/post/2024-09-12-week-2-fundamentals-i-the-economy/index_files/figure-html/unnamed-chunk-10-2.png" width="672" /></p>
 <pre tabindex="0"><code>## [1] &#34;With 2020 Mean Squared Error:  89.8022407816482&#34;
 </code></pre><pre tabindex="0"><code>## [1] &#34;Without 2020 Mean Squared Error:  94.1040653199678&#34;
-</code></pre><pre tabindex="0"><code>## [1] &#34;Cross-Validation Mean Absolute Value Error (Without 2020):  4.05371766063793&#34;
+</code></pre><pre tabindex="0"><code>## [1] &#34;Cross-Validation Mean Absolute Value Error (Without 2020):  4.03874508571402&#34;
 </code></pre><p>The CPI model fares even worse than the GDP model with abysmal R-Squared values, high Mean Squared Errors, and a large Cross-Validation Mean Absolute Value Error.</p>
 <pre tabindex="0"><code>## [1] &#34;2024 CPI-Predicted Incumbent Vote Margin: -3.30839041076806&#34;
 </code></pre><pre tabindex="0"><code>## [1] &#34;2024 CPI-Predicted Incumbent Vote Margin (Excluding 2020 from Model): -2.19490995507331&#34;
@@ -278,7 +279,7 @@ Now, I run a linear regression on the relationship between between Quarterly Gro
 </code></pre><p><img src="https://sduggasani.github.io/2024election-blog/post/2024-09-12-week-2-fundamentals-i-the-economy/index_files/figure-html/unnamed-chunk-13-1.png" width="672" /><img src="https://sduggasani.github.io/2024election-blog/post/2024-09-12-week-2-fundamentals-i-the-economy/index_files/figure-html/unnamed-chunk-13-2.png" width="672" /></p>
 <pre tabindex="0"><code>## [1] &#34;With 2020 Mean Squared Error:  97.2813924464543&#34;
 </code></pre><pre tabindex="0"><code>## [1] &#34;Without 2020 Mean Squared Error:  88.4281166011348&#34;
-</code></pre><pre tabindex="0"><code>## [1] &#34;Cross-Validation Mean Absolute Value Error (Without 2020):  3.86556220347493&#34;
+</code></pre><pre tabindex="0"><code>## [1] &#34;Cross-Validation Mean Absolute Value Error (Without 2020):  3.98713173393622&#34;
 </code></pre><p>Again, the RDPI model performs pretty poorly with in-sample and out-of-sample tests. It yields low R-Squared values even when I leave out 2020 data. The Mean Squared Error is high and so is the Cross-Validation Mean Absolute Value Error.</p>
 <pre tabindex="0"><code>## [1] &#34;2024 RDPI Growth-Predicted Incumbent Vote Margin: 3.9250814230794&#34;
 </code></pre><pre tabindex="0"><code>## [1] &#34;2024 RDPI Growth-Predicted Incumbent Vote Margin (Excluding 2020 from Model): 0.788092792500218&#34;
@@ -306,7 +307,7 @@ Continuing with the economic phenomena Radcliffe and Skelley highlight as import
 </code></pre><p><img src="https://sduggasani.github.io/2024election-blog/post/2024-09-12-week-2-fundamentals-i-the-economy/index_files/figure-html/unnamed-chunk-16-1.png" width="672" /><img src="https://sduggasani.github.io/2024election-blog/post/2024-09-12-week-2-fundamentals-i-the-economy/index_files/figure-html/unnamed-chunk-16-2.png" width="672" /></p>
 <pre tabindex="0"><code>## [1] &#34;With 2020 Mean Squared Error:  96.0098010529196&#34;
 </code></pre><pre tabindex="0"><code>## [1] &#34;Without 2020 Mean Squared Error:  99.2147171241475&#34;
-</code></pre><pre tabindex="0"><code>## [1] &#34;Cross-Validation Mean Absolute Value Error (Without 2020):  4.6533125390861&#34;
+</code></pre><pre tabindex="0"><code>## [1] &#34;Cross-Validation Mean Absolute Value Error (Without 2020):  4.38375749781675&#34;
 </code></pre><p>The R-Squared values for the unemployment-predicted model are the lowest we have seen so far. THe Mean Squared Errors are also the highest and the Cross-Validation Mean Absolute Value Error is a large percentage vote margin that could push an election in any direction.</p>
 <pre tabindex="0"><code>## [1] &#34;2024 Unemployment-Predicted Incumbent Vote Margin: 4.67350537665337&#34;
 </code></pre><pre tabindex="0"><code>## [1] &#34;2024 Unemployment-Predicted Incumbent Vote Margin (Excluding 2020 from Model): 3.79434427081865&#34;
@@ -334,7 +335,7 @@ Continuing with the economic phenomena Radcliffe and Skelley highlight as import
 </code></pre><p><img src="https://sduggasani.github.io/2024election-blog/post/2024-09-12-week-2-fundamentals-i-the-economy/index_files/figure-html/unnamed-chunk-19-1.png" width="672" /><img src="https://sduggasani.github.io/2024election-blog/post/2024-09-12-week-2-fundamentals-i-the-economy/index_files/figure-html/unnamed-chunk-19-2.png" width="672" /></p>
 <pre tabindex="0"><code>## [1] &#34;With 2020 Mean Squared Error:  86.4146581543887&#34;
 </code></pre><pre tabindex="0"><code>## [1] &#34;Without 2020 Mean Squared Error:  90.5146374330731&#34;
-</code></pre><pre tabindex="0"><code>## [1] &#34;Cross-Validation Mean Absolute Value Error (Without 2020):  3.92316374818337&#34;
+</code></pre><pre tabindex="0"><code>## [1] &#34;Cross-Validation Mean Absolute Value Error (Without 2020):  4.00668449364318&#34;
 </code></pre><p>Like the rest, the stock market model performs poorly in measures of in-sample and out-of-sample testing. The R-Squared values are low, the Mean Square Errors are high, and the Cross-Validation Mean Absolute Value is a large percentage value.</p>
 <pre tabindex="0"><code>## [1] &#34;2024 Stock Market-Predicted Incumbent Vote Margin: 3.99855641825043&#34;
 </code></pre><pre tabindex="0"><code>## [1] &#34;2024 Stock Market--Predicted Incumbent Vote Margin (Excluding 2020 from Model): 3.8267002013802&#34;
@@ -350,7 +351,10 @@ Continuing with the economic phenomena Radcliffe and Skelley highlight as import
 <p>If we treat each metric of the economy (that I used to run these regressions) as keys, we see that Harris has won four economic keys and Trump has won just one. This deviates from Skelley&rsquo;s suggestion that retrospective voters will disfavor Harris in light of their economic grievances.</p>
 <p>In all honesty, these models are quite bad. I would not put my money on the prediction resultant from them. The best model by in-sample and out-of-sample metrics was the Quarterly-GDP-Growth-Predicted Model, which itself was pretty poor. The absolute worst model overall was the Quarterly-RDPI-Growth Predicted Model. I suspect that these models are not robust because there are only 18 or 19 (when including 2020) observations of election years off of which I am working. It is a pretty small sample size and difficult to draw statistically significant insights from. This reflects a challenge with using economic data to forecast elections—there are only so many elections to draw data from and to use to train models, resulting in a lot of variance as we see with my linear regression models. Across all models, I had errors that could have totally changed the outcome of who wins the popular vote. <em>How can we base a forecast on models that themselves cannot make a real prediction?</em></p>
 <p>In future economic models, I hope to use more granular data (month-wise or quarter-wise) and involve polling data to track how opinions change along with measures of economic performance. This time, I only used bivariate linear regressions, but I will in the future include multiple independent variables and weigh them by polls of voters and how salient they are.</p>
-<p>##<strong>Sources</strong></p>
+<h2 id="sources">
+  <strong>Sources</strong>
+  <a class="anchor" href="#sources">#</a>
+</h2>
 <p>“Presidential Debates Do Matter | 538 Politics Podcast.” <em>YouTube</em>, uploaded by FiveThirtyEight, 9 Sept. 2024, 
   <a href="https://www.youtube.com/watch?v=PkjfKF0frvs">www.youtube.com/watch?v=PkjfKF0frvs</a>.</p>
 <p>Data Provided by GOV 1347: Election Analytics teaching staff (which itself drew from the Burueau of Economic Analysia and Federal Reserve Economic Data)</p>
@@ -363,7 +367,7 @@ Continuing with the economic phenomena Radcliffe and Skelley highlight as import
   <div class="flex flex-wrap justify-between">
 
 
-  <div><a class="flex align-center" href="https://github.com/alex-shpak/hugo-book/commit/063c344010e5a6bf3fa5701aee491ce33451c209" title='Last modified by Sammy Duggasani | September 16, 2024' target="_blank" rel="noopener">
+  <div><a class="flex align-center" href="https://github.com/alex-shpak/hugo-book/commit/3c2842e414943874ed89237aadb274a8ab8648a7" title='Last modified by Sammy Duggasani | September 16, 2024' target="_blank" rel="noopener">
       <img src="/2024election-blog/svg/calendar.svg" class="book-icon" alt="" />
       <span>September 16, 2024</span>
     </a>
@@ -417,6 +421,7 @@ Continuing with the economic phenomena Radcliffe and Skelley highlight as import
         <li><a href="#unemployment-and-vote-margin"><strong>Unemployment and Vote Margin</strong></a></li>
         <li><a href="#stock-market-performance-and-vote-margin"><strong>Stock Market Performance and Vote Margin</strong></a></li>
         <li><a href="#conclusion"><strong>Conclusion</strong></a></li>
+        <li><a href="#sources"><strong>Sources</strong></a></li>
       </ul>
     </li>
   </ul>
