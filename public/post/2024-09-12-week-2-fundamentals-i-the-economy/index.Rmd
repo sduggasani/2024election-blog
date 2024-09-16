@@ -11,7 +11,7 @@ tags: []
 **Monday, September 16, 2024**\
 **49 Days until Presidential Election**
 
-*Welcome back and thanks for following along my forecast of the 2024 US Presidential Election. Since my last post, Vice President Harris and President Trump faced off in a debate moderated by ABC's Linsey Davis and David Muir. Both candidates were asked about abortion, immigration, foreign policy, and the economy. Only one question was directly asked about the economy, aimed at VP Harris: When it comes to the economy, do you believe Americans are better off than they were four years ago? The focus of this week's post is to build and evaluate models that attempt to illustrate the relationship between incumbent success and measures of the economy.*
+*Welcome back and thanks for following along my forecast of the 2024 US Presidential Election. Since my last post, Vice President Harris and President Trump faced off in a debate moderated by ABC's Linsey Davis and David Muir. Both candidates were asked about abortion, immigration, foreign policy, and the economy. Only one question was directly asked about the economy, aimed at VP Harris. "When it comes to the economy, do you believe Americans are better off than they were four years ago?" The focus of this week's post is to build and evaluate models that attempt to illustrate the relationship between incumbent success and measures of the economy.*
 
 ## **A Quick Note on Methodology**
 
