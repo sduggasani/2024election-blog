@@ -329,18 +329,18 @@ scatterplot_gdp_margin_2 <- elec_econ_comb_2 |>
   my_prettier_theme()
 
 # Compute correlations between Q2 GDP growth and incumbent vote 2-party vote share.
-cor(elec_econ_comb$GDP_growth_quarterly, 
-    elec_econ_comb$incumb_vote_margin)
-cor(elec_econ_comb_2$GDP_growth_quarterly, 
-    elec_econ_comb_2$incumb_vote_margin)
+# cor(elec_econ_comb$GDP_growth_quarterly, 
+#     elec_econ_comb$incumb_vote_margin)
+# cor(elec_econ_comb_2$GDP_growth_quarterly, 
+#     elec_econ_comb_2$incumb_vote_margin)
 
 # Fit bivariate OLS. 
 reg_gdp_margin <- lm(incumb_vote_margin ~ GDP_growth_quarterly, 
                data = elec_econ_comb)
-reg_gdp_margin |> summary() 
+# reg_gdp_margin |> summary() 
 reg_gdp_margin_2 <- lm(incumb_vote_margin ~ GDP_growth_quarterly, 
                  data = elec_econ_comb_2)
-reg_gdp_margin_2 |> summary()
+# reg_gdp_margin_2 |> summary()
 
 # Can add bivariate regression lines to our scatterplots. 
 regplot_gdp_margin <- elec_econ_comb |> 
@@ -460,18 +460,18 @@ scatterplot_cpi_margin_2 <- elec_econ_comb_2 |>
   my_prettier_theme()
 
 # Compute correlations between Q2 GDP growth and incumbent vote 2-party vote share.
-cor(elec_econ_comb$CPI, 
-    elec_econ_comb$incumb_vote_margin)
-cor(elec_econ_comb_2$CPI, 
-    elec_econ_comb_2$incumb_vote_margin)
+# cor(elec_econ_comb$CPI, 
+#     elec_econ_comb$incumb_vote_margin)
+# cor(elec_econ_comb_2$CPI, 
+#     elec_econ_comb_2$incumb_vote_margin)
 
 # Fit bivariate OLS. 
 reg_cpi_margin <- lm(incumb_vote_margin ~ CPI, 
                data = elec_econ_comb)
-reg_cpi_margin |> summary() 
+# reg_cpi_margin |> summary() 
 reg_cpi_margin_2 <- lm(incumb_vote_margin ~ CPI, 
                  data = elec_econ_comb_2)
-reg_cpi_margin_2 |> summary()
+# reg_cpi_margin_2 |> summary()
 
 # Can add bivariate regression lines to our scatterplots. 
 regplot_cpi_margin <- elec_econ_comb |> 
@@ -595,18 +595,18 @@ scatterplot_rdpi_margin_2 <- elec_econ_comb_2 |>
   my_prettier_theme()
 
 # Compute correlations between Q2 GDP growth and incumbent vote 2-party vote share.
-cor(elec_econ_comb$RDPI_growth_quarterly, 
-    elec_econ_comb$incumb_vote_margin)
-cor(elec_econ_comb_2$RDPI_growth_quarterly, 
-    elec_econ_comb_2$incumb_vote_margin)
+# cor(elec_econ_comb$RDPI_growth_quarterly, 
+#     elec_econ_comb$incumb_vote_margin)
+# cor(elec_econ_comb_2$RDPI_growth_quarterly, 
+#     elec_econ_comb_2$incumb_vote_margin)
 
 # Fit bivariate OLS. 
 reg_rdpi_margin <- lm(incumb_vote_margin ~ RDPI_growth_quarterly, 
                data = elec_econ_comb)
-reg_rdpi_margin |> summary() 
+# reg_rdpi_margin |> summary() 
 reg_rdpi_margin_2 <- lm(incumb_vote_margin ~ RDPI_growth_quarterly, 
                  data = elec_econ_comb_2)
-reg_rdpi_margin_2 |> summary()
+# reg_rdpi_margin_2 |> summary()
 
 # Can add bivariate regression lines to our scatterplots. 
 regplot_rdpi_margin <- elec_econ_comb |> 
@@ -728,18 +728,18 @@ scatterplot_unemp_margin_2 <- elec_econ_comb_2 |>
   my_prettier_theme()
 
 # Compute correlations between Q2 Unemployment and incumbent vote 2-party vote share.
-cor(elec_econ_comb$unemployment, 
-    elec_econ_comb$incumb_vote_margin)
-cor(elec_econ_comb_2$unemployment, 
-    elec_econ_comb_2$incumb_vote_margin)
+# cor(elec_econ_comb$unemployment, 
+#     elec_econ_comb$incumb_vote_margin)
+# cor(elec_econ_comb_2$unemployment, 
+#     elec_econ_comb_2$incumb_vote_margin)
 
 # Fit bivariate OLS. 
 reg_unemp_margin <- lm(incumb_vote_margin ~ unemployment, 
                data = elec_econ_comb)
-reg_unemp_margin |> summary() 
+# reg_unemp_margin |> summary() 
 reg_unemp_margin_2 <- lm(incumb_vote_margin ~ unemployment, 
                  data = elec_econ_comb_2)
-reg_unemp_margin_2 |> summary()
+# reg_unemp_margin_2 |> summary()
 
 # Can add bivariate regression lines to our scatterplots. 
 regplot_unemp_margin <- elec_econ_comb |> 
@@ -867,18 +867,18 @@ scatterplot_stock_margin_2 <- elec_econ_comb_2 |>
   my_prettier_theme()
 
 # Compute correlations between Q2 Unemployment and incumbent vote 2-party vote share.
-cor(elec_econ_comb$sp500_perf, 
-    elec_econ_comb$incumb_vote_margin)
-cor(elec_econ_comb_2$sp500_perf, 
-    elec_econ_comb_2$incumb_vote_margin)
+# cor(elec_econ_comb$sp500_perf, 
+#     elec_econ_comb$incumb_vote_margin)
+# cor(elec_econ_comb_2$sp500_perf, 
+#     elec_econ_comb_2$incumb_vote_margin)
 
 # Fit bivariate OLS. 
 reg_stock_margin <- lm(incumb_vote_margin ~ sp500_perf, 
                data = elec_econ_comb)
-reg_stock_margin |> summary() 
+# reg_stock_margin |> summary() 
 reg_stock_margin_2 <- lm(incumb_vote_margin ~ sp500_perf, 
                  data = elec_econ_comb_2)
-reg_stock_margin_2 |> summary()
+# reg_stock_margin_2 |> summary()
 
 # Can add bivariate regression lines to our scatterplots. 
 regplot_stock_margin <- elec_econ_comb |> 
@@ -982,8 +982,8 @@ When we predict incumbent vote margin using this model, we get that Harris will 
 
 ## **Conclusion**
 
-**Harris: 4**/
-**Trump: 1**/
+**Harris: 4**\
+**Trump: 1**\
 **Prediction: Harris will win the popular vote in November.** 
 
 If we treat each metric of the economy (that I used to run these regressions) as keys, we see that Harris has won four economic keys and Trump has won just one. This deviates from Skelley's suggestion that retrospective voters will disfavor Harris in light of their economic grievances. 

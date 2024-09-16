@@ -48,56 +48,6 @@ Part of my contribution this week is interpreting these phenomena into specific 
 
 
 ```
-## [1] 0.4334559
-```
-
-```
-## [1] 0.5632865
-```
-
-```
-## 
-## Call:
-## lm(formula = incumb_vote_margin ~ GDP_growth_quarterly, data = elec_econ_comb)
-## 
-## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -13.486  -6.655  -1.613   5.163  17.675 
-## 
-## Coefficients:
-##                      Estimate Std. Error t value Pr(>|t|)  
-## (Intercept)            2.5596     2.2198   1.153   0.2648  
-## GDP_growth_quarterly   0.5330     0.2688   1.983   0.0637 .
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## 
-## Residual standard error: 9.413 on 17 degrees of freedom
-## Multiple R-squared:  0.1879,	Adjusted R-squared:  0.1401 
-## F-statistic: 3.933 on 1 and 17 DF,  p-value: 0.06374
-```
-
-```
-## 
-## Call:
-## lm(formula = incumb_vote_margin ~ GDP_growth_quarterly, data = elec_econ_comb_2)
-## 
-## Residuals:
-##      Min       1Q   Median       3Q      Max 
-## -10.9883  -8.1760   0.4772   3.6120  17.3829 
-## 
-## Coefficients:
-##                      Estimate Std. Error t value Pr(>|t|)  
-## (Intercept)           -1.0360     2.7711  -0.374   0.7134  
-## GDP_growth_quarterly   1.4165     0.5195   2.727   0.0149 *
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## 
-## Residual standard error: 8.732 on 16 degrees of freedom
-## Multiple R-squared:  0.3173,	Adjusted R-squared:  0.2746 
-## F-statistic: 7.436 on 1 and 16 DF,  p-value: 0.01493
-```
-
-```
 ## Warning: The following aesthetics were dropped during statistical transformation: label
 ## ℹ This can happen when ggplot fails to infer the correct grouping structure in
 ##   the data.
@@ -137,7 +87,7 @@ Here, I run a linear regression on the relationship between between Quarterly GD
 ```
 
 ```
-## [1] "Cross-Validation Mean Absolute Value Error (Without 2020):  3.5062785951501"
+## [1] "Cross-Validation Mean Absolute Value Error (Without 2020):  3.51060217515256"
 ```
 Above are some in-sample and out-of-sample ways to evaluate the strength of GDP Growth model. Across the board, the model performs pretty poorly, as we see very low R-Squared values, high Mean Squared Errors and Cross-Validation Mean Absolute Value Errors with vote margin percentages large enough to sway a close election. The GDP model that leaves out 2020 generally fares better, but it is still not great.  
 
@@ -154,54 +104,6 @@ Even still, we can predict how the incumbent party will perform given GDP growth
 
 ## **CPI and Vote Margin**
 
-
-```
-## [1] -0.2831376
-```
-
-```
-## [1] -0.2280565
-```
-
-```
-## 
-## Call:
-## lm(formula = incumb_vote_margin ~ CPI, data = elec_econ_comb)
-## 
-## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -17.113  -7.251  -1.099   5.314  17.070 
-## 
-## Coefficients:
-##             Estimate Std. Error t value Pr(>|t|)  
-## (Intercept)  7.52926    3.97750   1.893   0.0755 .
-## CPI         -0.03461    0.02843  -1.217   0.2402  
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## 
-## Residual standard error: 10.02 on 17 degrees of freedom
-## Multiple R-squared:  0.08017,	Adjusted R-squared:  0.02606 
-## F-statistic: 1.482 on 1 and 17 DF,  p-value: 0.2402
-```
-
-```
-## 
-## Call:
-## lm(formula = incumb_vote_margin ~ CPI, data = elec_econ_comb_2)
-## 
-## Residuals:
-##      Min       1Q   Median       3Q      Max 
-## -16.9232  -7.5255  -0.3135   5.5328  17.1912 
-## 
-## Coefficients:
-##             Estimate Std. Error t value Pr(>|t|)
-## (Intercept)  7.21922    4.18451   1.725    0.104
-## CPI         -0.03006    0.03209  -0.937    0.363
-## 
-## Residual standard error: 10.29 on 16 degrees of freedom
-## Multiple R-squared:  0.05201,	Adjusted R-squared:  -0.00724 
-## F-statistic: 0.8778 on 1 and 16 DF,  p-value: 0.3627
-```
 
 ```
 ## Warning: The following aesthetics were dropped during statistical transformation: label
@@ -244,7 +146,7 @@ Above, I run a linear regression on the relationship between between Consumer Pr
 ```
 
 ```
-## [1] "Cross-Validation Mean Absolute Value Error (Without 2020):  4.13357187282892"
+## [1] "Cross-Validation Mean Absolute Value Error (Without 2020):  4.03606911264254"
 ```
 
 The CPI model fares even worse than the GDP model with abysmal R-Squared values, high Mean Squared Errors, and a large Cross-Validation Mean Absolute Value Error.
@@ -264,52 +166,6 @@ Building our linear regression model on solely the CPI, we see that Harris trail
 
 ## **RDPI Growth and Vote Margin**
 
-
-```
-## [1] -0.0596564
-```
-
-```
-## [1] 0.3304367
-```
-
-```
-## 
-## Call:
-## lm(formula = incumb_vote_margin ~ RDPI_growth_quarterly, data = elec_econ_comb)
-## 
-## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -14.175  -5.886  -1.894   4.348  19.426 
-## 
-## Coefficients:
-##                       Estimate Std. Error t value Pr(>|t|)
-## (Intercept)             3.9848     2.9067   1.371    0.188
-## RDPI_growth_quarterly  -0.0597     0.2423  -0.246    0.808
-## 
-## Residual standard error: 10.43 on 17 degrees of freedom
-## Multiple R-squared:  0.003559,	Adjusted R-squared:  -0.05506 
-## F-statistic: 0.06072 on 1 and 17 DF,  p-value: 0.8083
-```
-
-```
-## 
-## Call:
-## lm(formula = incumb_vote_margin ~ RDPI_growth_quarterly, data = elec_econ_comb_2)
-## 
-## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -15.012  -6.463  -1.750   4.939  19.535 
-## 
-## Coefficients:
-##                       Estimate Std. Error t value Pr(>|t|)
-## (Intercept)           -0.09853    3.76747  -0.026    0.979
-## RDPI_growth_quarterly  0.88662    0.63312   1.400    0.180
-## 
-## Residual standard error: 9.974 on 16 degrees of freedom
-## Multiple R-squared:  0.1092,	Adjusted R-squared:  0.05351 
-## F-statistic: 1.961 on 1 and 16 DF,  p-value: 0.1805
-```
 
 ```
 ## Warning: The following aesthetics were dropped during statistical transformation: label
@@ -352,7 +208,7 @@ Now, I run a linear regression on the relationship between between Quarterly Gro
 ```
 
 ```
-## [1] "Cross-Validation Mean Absolute Value Error (Without 2020):  4.05908657343451"
+## [1] "Cross-Validation Mean Absolute Value Error (Without 2020):  4.1724526607291"
 ```
 Again, the RDPI model performs pretty poorly with in-sample and out-of-sample tests. It yields low R-Squared values even when I leave out 2020 data. The Mean Squared Error is high and so is the Cross-Validation Mean Absolute Value Error. 
 
@@ -370,52 +226,6 @@ However, if we use this model to forecast the upcoming election, it appears that
 
 ## **Unemployment and Vote Margin**
 
-
-```
-## [1] -0.1287775
-```
-
-```
-## [1] 0.02293066
-```
-
-```
-## 
-## Call:
-## lm(formula = incumb_vote_margin ~ unemployment, data = elec_econ_comb)
-## 
-## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -15.764  -5.236  -2.002   4.256  19.458 
-## 
-## Coefficients:
-##              Estimate Std. Error t value Pr(>|t|)
-## (Intercept)    6.9590     6.7471   1.031    0.317
-## unemployment  -0.5714     1.0671  -0.535    0.599
-## 
-## Residual standard error: 10.36 on 17 degrees of freedom
-## Multiple R-squared:  0.01658,	Adjusted R-squared:  -0.04126 
-## F-statistic: 0.2867 on 1 and 17 DF,  p-value: 0.5993
-```
-
-```
-## 
-## Call:
-## lm(formula = incumb_vote_margin ~ unemployment, data = elec_econ_comb_2)
-## 
-## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -14.139  -6.019  -1.664   4.323  19.109 
-## 
-## Coefficients:
-##              Estimate Std. Error t value Pr(>|t|)
-## (Intercept)    3.1909     9.4185   0.339    0.739
-## unemployment   0.1509     1.6443   0.092    0.928
-## 
-## Residual standard error: 10.56 on 16 degrees of freedom
-## Multiple R-squared:  0.0005258,	Adjusted R-squared:  -0.06194 
-## F-statistic: 0.008417 on 1 and 16 DF,  p-value: 0.928
-```
 
 ```
 ## Warning: The following aesthetics were dropped during statistical transformation: label
@@ -458,7 +268,7 @@ Continuing with the economic phenomena Radcliffe and Skelley highlight as import
 ```
 
 ```
-## [1] "Cross-Validation Mean Absolute Value Error (Without 2020):  4.49506968259989"
+## [1] "Cross-Validation Mean Absolute Value Error (Without 2020):  4.31328540992267"
 ```
 The R-Squared values for the unemployment-predicted model are the lowest we have seen so far. THe Mean Squared Errors are also the highest and the Cross-Validation Mean Absolute Value Error is a large percentage vote margin that could push an election in any direction. 
 
@@ -476,56 +286,6 @@ The model suggests that the incumbent party, Harris and the Democrats, will win 
 
 ## **Stock Market Performance and Vote Margin**
 
-
-```
-## [1] -0.3389181
-```
-
-```
-## [1] -0.2969328
-```
-
-```
-## 
-## Call:
-## lm(formula = incumb_vote_margin ~ sp500_perf, data = elec_econ_comb)
-## 
-## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -14.388  -6.502  -2.020   5.282  19.102 
-## 
-## Coefficients:
-##             Estimate Std. Error t value Pr(>|t|)  
-## (Intercept)    5.245      2.518   2.083   0.0527 .
-## sp500_perf    -1.557      1.048  -1.485   0.1558  
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## 
-## Residual standard error: 9.828 on 17 degrees of freedom
-## Multiple R-squared:  0.1149,	Adjusted R-squared:  0.0628 
-## F-statistic: 2.206 on 1 and 17 DF,  p-value: 0.1558
-```
-
-```
-## 
-## Call:
-## lm(formula = incumb_vote_margin ~ sp500_perf, data = elec_econ_comb_2)
-## 
-## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -14.996  -6.818  -1.964   5.794  19.409 
-## 
-## Coefficients:
-##             Estimate Std. Error t value Pr(>|t|)  
-## (Intercept)    5.398      2.622   2.058   0.0562 .
-## sp500_perf    -1.963      1.578  -1.244   0.2315  
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## 
-## Residual standard error: 10.09 on 16 degrees of freedom
-## Multiple R-squared:  0.08817,	Adjusted R-squared:  0.03118 
-## F-statistic: 1.547 on 1 and 16 DF,  p-value: 0.2315
-```
 
 ```
 ## Warning: The following aesthetics were dropped during statistical transformation: label
@@ -570,7 +330,7 @@ Finally, we look to stock market performance as a metric of economic success tha
 ```
 
 ```
-## [1] "Cross-Validation Mean Absolute Value Error (Without 2020):  4.07336064496925"
+## [1] "Cross-Validation Mean Absolute Value Error (Without 2020):  3.91841569750509"
 ```
 
 Like the rest, the stock market model performs poorly in measures of in-sample and out-of-sample testing. The R-Squared values are low, the Mean Square Errors are high, and the Cross-Validation Mean Absolute Value is a large percentage value.
@@ -589,8 +349,8 @@ When we predict incumbent vote margin using this model, we get that Harris will 
 
 ## **Conclusion**
 
-**Harris: 4**/
-**Trump: 1**/
+**Harris: 4**\
+**Trump: 1**\
 **Prediction: Harris will win the popular vote in November.** 
 
 If we treat each metric of the economy (that I used to run these regressions) as keys, we see that Harris has won four economic keys and Trump has won just one. This deviates from Skelley's suggestion that retrospective voters will disfavor Harris in light of their economic grievances. 
