@@ -30,7 +30,7 @@ I source relevant metrics of the economy from a lively discussion between Geoffr
 
 Part of my contribution this week is interpreting these phenomena into specific metrics. I rely on the Consumer Price Index as a measure of inflation, the unemployment rate as a measure of unemployment, quarterly growth in Real Disposable Personal Income as a measure of personal finances, and percent change between SP500 Open and Close reports as a measure of stock market performance. Radcliffe argues that before COVID the price of goods and services and unemployment/jobs were the most salient economic issues to voters. Since shutdowns, though, unemployment has become a much bigger concern for voters.
 
-```{r}
+```{r include=FALSE}
 #' @title GOV 1347: Week 2 (Economics) Laboratory Session
 #' @author Sammy Duggasani
 #' @date September 10, 2024
@@ -76,7 +76,7 @@ my_prettier_theme <- function() {
 }
 ```
 
-```{r}
+```{r include=FALSE}
 ####----------------------------------------------------------#
 #### Read, merge, and process data.
 ####----------------------------------------------------------#
@@ -263,7 +263,7 @@ GDP_new <- d_fred |>
 predict(reg_econ_2, GDP_new)
 ```
 
-```{r vote_margin}
+```{r vote_margin, include=FALSE}
 # Try using two-party vote margin instead of two-party popular vote share; why: accounts for and more resistant to third-party presence
 d_popvote_2 <- read_csv("popvote_1948-2020.csv")
 
@@ -295,7 +295,7 @@ elec_econ_comb <- d_popvote_wide_2 |>
   left_join(d_bea |> filter(quarter == "Q2") |> select(year, dpi))
 ```
 
-## GDP Growth and Vote Margin
+## **GDP Growth and Vote Margin**
 
 *Let's first look at a broad measure of economic performance and evaluate it against incumbent vote margin:*
 
@@ -366,7 +366,7 @@ regplot_gdp_margin_2 <- elec_econ_comb_2 |>
 regplot_gdp_margin_2
 ```
 Here, I run a linear regression on the relationship between between Quarterly GDP Growth and Incumbent Vote Margin, mapping actual election results from 1948 to 2020 onto the plot as well. We observe a pretty strong positive relationship between GDP growth and incumbent vote margin, suggesting that the better the output of the national economy, the better an incumbent party's performance in the upcoming presidential election. You might notice that I have two plots: one with 2020 as a data point and one without. This is because across a number of metrics 2020 is a distant outlier, which often skews models in a ways that confuses any actual evaluation of a relationship between economy and election performance. I keep both plots to illustrate this discrepancy and to note which metrics 2020 data falls into a predicted pattern for and which it does not. 
-```{r}
+```{r echo=FALSE}
 # EVALUATING VOTE MARGIN AND GDP GROWTH MODEL
 
 # Evaluate the in-sample fit of your preferred model.
@@ -419,7 +419,7 @@ out_samp_errors <- sapply(1:1000, function(i) {
 print(paste("Cross-Validation Mean Absolute Value Error (Without 2020): ", mean(abs(out_samp_errors))))
 ```
 Above are some in-sample and out-of-sample ways to evaluate the strength of GDP Growth model. Across the board, the model performs pretty poorly, as we see very low R-Squared values, high Mean Squared Errors and Cross-Validation Mean Absolute Value Errors with vote margin percentages large enough to sway a close election. The GDP model that leaves out 2020 generally fares better, but it is still not great.  
-```{r}
+```{r echo=FALSE}
 ####----------------------------------------------------------#
 #### Predicting 2024 results using simple GDP and vote margin model.
 ####----------------------------------------------------------#
@@ -436,9 +436,9 @@ Even still, we can predict how the incumbent party will perform given GDP growth
 
 **Harris +1**
 
-## CPI and Vote Margin
+## **CPI and Vote Margin**
 
-```{r}
+```{r echo=FALSE}
 ####----------------------------------------------------------#
 #### Understanding the relationship between economy and vote margin. 
 ####----------------------------------------------------------#
@@ -498,7 +498,7 @@ regplot_cpi_margin_2
 ```
 Above, I run a linear regression on the relationship between between Consumer Price Index and Incumbent Vote Margin. This is a critical measure because voters are exposed to sticker shock effects as a result of inflation and can vote accordingly. It might be a national measure, but individual voters are directly exposed to it. According to the model, there is a pretty strong negative relationship between CPI and incumbent vote margin, suggesting that the higher that consumer prices are, the worse an incumbent party's performance in the upcoming presidential election. Here, it seems that 2020 actually does not distort the model's relationship of the two variables. 
 
-```{r}
+```{r echo=FALSE}
 # EVALUATING VOTE MARGIN AND CPI MODEL
 
 # Evaluate the in-sample fit of your preferred model.
@@ -553,7 +553,7 @@ print(paste("Cross-Validation Mean Absolute Value Error (Without 2020): ", mean(
 
 The CPI model fares even worse than the GDP model with abysmal R-Squared values, high Mean Squared Errors, and a large Cross-Validation Mean Absolute Value Error.
 
-```{r}
+```{r echo=FALSE}
 ####----------------------------------------------------------#
 #### Predicting 2024 results using simple CPI and vote margin model.
 ####----------------------------------------------------------#
@@ -571,9 +571,9 @@ Building our linear regression model on solely the CPI, we see that Harris trail
 
 **Trump +1**
 
-## RDPI Growth and Vote Margin
+## **RDPI Growth and Vote Margin**
 
-```{r}
+```{r echo=FALSE}
 ####----------------------------------------------------------#
 #### Understanding the relationship between economy and vote margin. 
 ####----------------------------------------------------------#
@@ -633,7 +633,7 @@ regplot_rdpi_margin_2
 ```
 Now, I run a linear regression on the relationship between between Quarterly Growth in Real Disposable Personal Income and Incumbent Vote Margin. RDPI is my proxy for personal finances and can provide insight into how much voters are actually working with after taxes. According to the model, there is a pretty strong positive relationship between RDPI and incumbent vote margin, suggesting that the greater growth in RDPI, the better an incumbent party's performance in the upcoming presidential election. Here, it seems that 2020 completely distorts the model's relationship of the two variables, so it is probably best to leave it out. 
 
-```{r}
+```{r echo=FALSE}
 # EVALUATING VOTE MARGIN AND RDPI MODEL
 
 # Evaluate the in-sample fit of your preferred model.
@@ -687,7 +687,7 @@ print(paste("Cross-Validation Mean Absolute Value Error (Without 2020): ", mean(
 ```
 Again, the RDPI model performs pretty poorly with in-sample and out-of-sample tests. It yields low R-Squared values even when I leave out 2020 data. The Mean Squared Error is high and so is the Cross-Validation Mean Absolute Value Error. 
 
-```{r}
+```{r echo=FALSE}
 ####----------------------------------------------------------#
 #### Predicting 2024 results using simple RDPI Growth and vote margin model.
 ####----------------------------------------------------------#
@@ -704,9 +704,9 @@ However, if we use this model to forecast the upcoming election, it appears that
 
 **Harris +1**
 
-## Unemployment and Vote Margin
+## **Unemployment and Vote Margin**
 
-```{r}
+```{r echo=FALSE}
 ####----------------------------------------------------------#
 #### Understanding the relationship between economy and vote margin. 
 ####----------------------------------------------------------#
@@ -766,7 +766,7 @@ regplot_unemp_margin_2
 ```
 Continuing with the economic phenomena Radcliffe and Skelley highlight as important to voters, I run a linear regression on the relationship between between Unemployment and Incumbent Vote Margin. Interestingly, the model suggests that there is no correlation  between unemployment and incumbent vote margin, especially if we look at the one that excludes 2020 data. It makes sense to exclude 2020 here because it forces a relationship that looks like does not exist.
 
-```{r}
+```{r echo=FALSE}
 # EVALUATING VOTE MARGIN AND Unemployment MODEL
 
 # Evaluate the in-sample fit of your preferred model.
@@ -820,7 +820,7 @@ print(paste("Cross-Validation Mean Absolute Value Error (Without 2020): ", mean(
 ```
 The R-Squared values for the unemployment-predicted model are the lowest we have seen so far. THe Mean Squared Errors are also the highest and the Cross-Validation Mean Absolute Value Error is a large percentage vote margin that could push an election in any direction. 
 
-```{r}
+```{r echo=FALSE}
 ####----------------------------------------------------------#
 #### Predicting 2024 results using simple GDP and vote margin model.
 ####----------------------------------------------------------#
@@ -837,9 +837,9 @@ The model suggests that the incumbent party, Harris and the Democrats, will win 
 
 **Harris +1**
 
-## Stock Market Performance and Vote Margin
+## **Stock Market Performance and Vote Margin**
 
-```{r}
+```{r echo=FALSE}
 ####----------------------------------------------------------#
 #### Understanding the relationship between economy and vote margin. 
 ####----------------------------------------------------------#
@@ -904,10 +904,10 @@ regplot_stock_margin_2 <- elec_econ_comb_2 |>
 regplot_stock_margin_2
 ```
 
-Finally, we look to stock market performance as a metric of economic success that voters find salient. Both 2020-inclusive and 2020-exclusive models suggest a negative relationship between Stock Market Change and Incumbent Vote Margin. This is counter-intuitive because it suggests that greater growth of the SP500 coincides with poorer performance of the incumbent party in an upcoming election. It might be that higher percentage stock market changes actually signal a volatile economy that voters fear; this is speculative though and not an actual attempt to establish causality. 
+Finally, we look to stock market performance as a metric of economic success that voters find salient. Both 2020-inclusive and 2020-exclusive models suggest a negative relationship between Stock Market Change and Incumbent Vote Margin. This is counter-intuitive because it suggests that greater growth of the SP500 coincides with poorer performance of the incumbent party in an upcoming election. It might be that higher percentage stock market changes actually signal a volatile economy that voters fear; this is speculative though and not an actual attempt to establish causality. If this were the case, it would not be wise to use a linear model and to use a more complex one instead. 
 
 
-```{r}
+```{r echo=FALSE}
 # EVALUATING VOTE MARGIN AND Stock MODEL
 
 # Evaluate the in-sample fit of your preferred model.
@@ -962,7 +962,7 @@ print(paste("Cross-Validation Mean Absolute Value Error (Without 2020): ", mean(
 
 Like the rest, the stock market model performs poorly in measures of in-sample and out-of-sample testing. The R-Squared values are low, the Mean Square Errors are high, and the Cross-Validation Mean Absolute Value is a large percentage value.
 
-```{r}
+```{r echo=FALSE}
 ####----------------------------------------------------------#
 #### Predicting 2024 results using simple GDP and vote margin model.
 ####----------------------------------------------------------#
@@ -980,7 +980,7 @@ When we predict incumbent vote margin using this model, we get that Harris will 
 
 **Harris +1**
 
-## Conclusion
+## **Conclusion**
 
 **Harris: 4**/
 **Trump: 1**/
@@ -992,7 +992,7 @@ In all honesty, these models are quite bad. I would not put my money on the pred
 
 In future economic models, I hope to use more granular data (month-wise or quarter-wise) and involve polling data to track how opinions change along with measures of economic performance. This time, I only used bivariate linear regressions, but I will in the future include multiple independent variables and weigh them by polls of voters and how salient they are.
 
-##Sources##
+##**Sources**
 
 “Presidential Debates Do Matter | 538 Politics Podcast.” *YouTube*, uploaded by FiveThirtyEight, 9 Sept. 2024, www.youtube.com/watch?v=PkjfKF0frvs.
 

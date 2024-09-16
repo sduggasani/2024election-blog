@@ -22,14 +22,14 @@ Welcome back and thanks for following along my forecast of the 2024 US President
   <meta property="og:type" content="article">
     <meta property="article:section" content="post">
     <meta property="article:published_time" content="2024-09-12T00:00:00+00:00">
-    <meta property="article:modified_time" content="2024-09-12T00:00:00+00:00">
+    <meta property="article:modified_time" content="2024-09-16T13:34:54-04:00">
 <title>Week 2: Fundamentals I, The Economy  | 2024 Election Blog</title>
 <link rel="manifest" href="/2024election-blog/manifest.json">
 <link rel="icon" href="/2024election-blog/favicon.png" >
 <link rel="canonical" href="https://sduggasani.github.io/2024election-blog/post/2024-09-12-week-2-fundamentals-i-the-economy/">
 <link rel="stylesheet" href="/2024election-blog/book.min.309b7ed028807cdb68d8d61e26d609f48369c098dbf5e4d8c0dcf4cdf49feafc.css" integrity="sha256-MJt&#43;0CiAfNto2NYeJtYJ9INpwJjb9eTYwNz0zfSf6vw=" crossorigin="anonymous">
   <script defer src="/2024election-blog/fuse.min.js"></script>
-  <script defer src="/2024election-blog/en.search.min.b3572e6d5f6f2a64359477fe7026aa993d10a502782b58cdbd8fcb7c0a5d8d01.js" integrity="sha256-s1cubV9vKmQ1lHf&#43;cCaqmT0QpQJ4K1jNvY/LfApdjQE=" crossorigin="anonymous"></script>
+  <script defer src="/2024election-blog/en.search.min.53ddfe1a666a42929255c4ff34971b9699744c6926118cc37ed6f17c53daa5b9.js" integrity="sha256-U93&#43;GmZqQpKSVcT/NJcblpl0TGkmEYzDftbxfFPapbk=" crossorigin="anonymous"></script>
 
   <script defer src="/2024election-blog/sw.min.f09ccc658cc70834310535c40cbee1514cd65302e6fa168c4ae787519a02cf87.js" integrity="sha256-8JzMZYzHCDQxBTXEDL7hUUzWUwLm&#43;haMSueHUZoCz4c=" crossorigin="anonymous"></script>
 <!--
@@ -150,12 +150,12 @@ https://github.com/alex-shpak/hugo-book
     <li><a href="#week-2-forecasting-fundamentals-the-economy"><strong>Week 2: Forecasting Fundamentals, the Economy</strong></a>
       <ul>
         <li><a href="#a-quick-note-on-methodology"><strong>A Quick Note on Methodology</strong></a></li>
-        <li><a href="#gdp-growth-and-vote-margin">GDP Growth and Vote Margin</a></li>
-        <li><a href="#cpi-and-vote-margin">CPI and Vote Margin</a></li>
-        <li><a href="#rdpi-growth-and-vote-margin">RDPI Growth and Vote Margin</a></li>
-        <li><a href="#unemployment-and-vote-margin">Unemployment and Vote Margin</a></li>
-        <li><a href="#stock-market-performance-and-vote-margin">Stock Market Performance and Vote Margin</a></li>
-        <li><a href="#conclusion">Conclusion</a></li>
+        <li><a href="#gdp-growth-and-vote-margin"><strong>GDP Growth and Vote Margin</strong></a></li>
+        <li><a href="#cpi-and-vote-margin"><strong>CPI and Vote Margin</strong></a></li>
+        <li><a href="#rdpi-growth-and-vote-margin"><strong>RDPI Growth and Vote Margin</strong></a></li>
+        <li><a href="#unemployment-and-vote-margin"><strong>Unemployment and Vote Margin</strong></a></li>
+        <li><a href="#stock-market-performance-and-vote-margin"><strong>Stock Market Performance and Vote Margin</strong></a></li>
+        <li><a href="#conclusion"><strong>Conclusion</strong></a></li>
       </ul>
     </li>
   </ul>
@@ -199,175 +199,8 @@ https://github.com/alex-shpak/hugo-book
 </li>
 </ul>
 <p>Part of my contribution this week is interpreting these phenomena into specific metrics. I rely on the Consumer Price Index as a measure of inflation, the unemployment rate as a measure of unemployment, quarterly growth in Real Disposable Personal Income as a measure of personal finances, and percent change between SP500 Open and Close reports as a measure of stock market performance. Radcliffe argues that before COVID the price of goods and services and unemployment/jobs were the most salient economic issues to voters. Since shutdowns, though, unemployment has become a much bigger concern for voters.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e">#&#39; @title GOV 1347: Week 2 (Economics) Laboratory Session</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#&#39; @author Sammy Duggasani</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#&#39; @date September 10, 2024</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">####----------------------------------------------------------#</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#### Preamble</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">####----------------------------------------------------------#</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Load libraries.</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">## install via `install.packages(&#34;name&#34;)`</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">library</span>(car)
-</span></span></code></pre></div><pre tabindex="0"><code>## Loading required package: carData
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">library</span>(tidyverse)
-</span></span></code></pre></div><pre tabindex="0"><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2
-## ──
-</code></pre><pre tabindex="0"><code>## ✔ ggplot2 3.4.0      ✔ purrr   0.3.5 
-## ✔ tibble  3.1.8      ✔ dplyr   1.0.10
-## ✔ tidyr   1.2.1      ✔ stringr 1.5.1 
-## ✔ readr   2.1.3      ✔ forcats 0.5.2 
-## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-## ✖ dplyr::filter() masks stats::filter()
-## ✖ dplyr::lag()    masks stats::lag()
-## ✖ dplyr::recode() masks car::recode()
-## ✖ purrr::some()   masks car::some()
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">library</span>(ggplot2)
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">library</span>(ggrepel)
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">library</span>(dplyr)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">## set working directory here</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">setwd</span>(<span style="color:#e6db74">&#34;/Users/sammy/Documents/Harvard/Senior Year/2024election-blog/content/post/2024-09-12-week-2-fundamentals-i-the-economy&#34;</span>)
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># custom ggplot theme</span>
-</span></span><span style="display:flex;"><span>my_prettier_theme <span style="color:#f92672">&lt;-</span> <span style="color:#66d9ef">function</span>() {
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">theme</span>(
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># no border</span>
-</span></span><span style="display:flex;"><span>    panel.border <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_blank</span>(),
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># background</span>
-</span></span><span style="display:flex;"><span>    panel.background <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_rect</span>(fill <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;snow2&#34;</span>),
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># text</span>
-</span></span><span style="display:flex;"><span>    plot.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">15</span>, hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">.5</span>, face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>, family <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;sans&#34;</span>),
-</span></span><span style="display:flex;"><span>    plot.subtitle <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">13</span>, hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">.5</span>, family <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;sans&#34;</span>),
-</span></span><span style="display:flex;"><span>    plot.title.position <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;panel&#34;</span>,
-</span></span><span style="display:flex;"><span>    axis.text.x <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">8</span>, angle <span style="color:#f92672">=</span> <span style="color:#ae81ff">45</span>, hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">.5</span>, family <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;sans&#34;</span>),
-</span></span><span style="display:flex;"><span>    axis.text.y <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">8</span>, family <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;sans&#34;</span>),
-</span></span><span style="display:flex;"><span>    axis.title.x <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(family <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;sans&#34;</span>),
-</span></span><span style="display:flex;"><span>    axis.title.y <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(angle <span style="color:#f92672">=</span> <span style="color:#ae81ff">90</span>, family <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;sans&#34;</span>),
-</span></span><span style="display:flex;"><span>    axis.ticks <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_line</span>(colour <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;black&#34;</span>),
-</span></span><span style="display:flex;"><span>    axis.line <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_line</span>(colour <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;grey&#34;</span>),
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># legend </span>
-</span></span><span style="display:flex;"><span>    legend.position <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;right&#34;</span>,
-</span></span><span style="display:flex;"><span>    legend.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">12</span>, family <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;sans&#34;</span>),
-</span></span><span style="display:flex;"><span>    legend.text <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>, family <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;sans&#34;</span>),
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># # aspect ratio</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># aspect.ratio = .8</span>
-</span></span><span style="display:flex;"><span>  )
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e">####----------------------------------------------------------#</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#### Read, merge, and process data.</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">####----------------------------------------------------------#</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Load popular vote data. </span>
-</span></span><span style="display:flex;"><span>d_popvote <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">read_csv</span>(<span style="color:#e6db74">&#34;popvote_1948-2020.csv&#34;</span>)
-</span></span></code></pre></div><pre tabindex="0"><code>## Rows: 38 Columns: 9
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &#34;,&#34;
-## chr (2): party, candidate
-## dbl (3): year, pv, pv2p
-## lgl (4): winner, incumbent, incumbent_party, prev_admin
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># Load economic data from FRED: https://fred.stlouisfed.org. </span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Variables, units, &amp; ranges: </span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># GDP, billions $, 1947-2024</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># GDP_growth_quarterly, %</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># RDPI, $, 1959-2024</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># RDPI_growth_quarterly, %</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># CPI, $ index, 1947-2024</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># unemployment, %, 1948-2024</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># sp500_, $, 1927-2024 </span>
-</span></span><span style="display:flex;"><span>d_fred <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">read_csv</span>(<span style="color:#e6db74">&#34;fred_econ.csv&#34;</span>)
-</span></span></code></pre></div><pre tabindex="0"><code>## Rows: 387 Columns: 14
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &#34;,&#34;
-## dbl (14): year, quarter, GDP, GDP_growth_quarterly, RDPI, RDPI_growth_quarte...
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># Load economic data from the BEA: https://apps.bea.gov/iTable/?reqid=19&amp;step=2&amp;isuri=1&amp;categories=survey#eyJhcHBpZCI6MTksInN0ZXBzIjpbMSwyLDMsM10sImRhdGEiOltbImNhdGVnb3JpZXMiLCJTdXJ2ZXkiXSxbIk5JUEFfVGFibGVfTGlzdCIsIjI2NCJdLFsiRmlyc3RfWWVhciIsIjE5NDciXSxbIkxhc3RfWWVhciIsIjIwMjQiXSxbIlNjYWxlIiwiMCJdLFsiU2VyaWVzIiwiUSJdXX0=.</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># GDP, 1947-2024 (all)</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># GNP</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># RDPI</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Personal consumption expenditures</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Goods</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Durable goods</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Nondurable goods</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Services </span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Population (midperiod, thousands)</span>
-</span></span><span style="display:flex;"><span>d_bea <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">read_csv</span>(<span style="color:#e6db74">&#34;bea_econ.csv&#34;</span>) <span style="color:#f92672">|&gt;</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">rename</span>(year <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Year&#34;</span>,
-</span></span><span style="display:flex;"><span>         quarter <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Quarter&#34;</span>, 
-</span></span><span style="display:flex;"><span>         gdp <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Gross domestic product&#34;</span>, 
-</span></span><span style="display:flex;"><span>         gnp <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Gross national product&#34;</span>, 
-</span></span><span style="display:flex;"><span>         dpi <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Disposable personal income&#34;</span>, 
-</span></span><span style="display:flex;"><span>         consumption <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Personal consumption expenditures&#34;</span>, 
-</span></span><span style="display:flex;"><span>         goods <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Goods&#34;</span>, 
-</span></span><span style="display:flex;"><span>         durables <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Durable goods&#34;</span>, 
-</span></span><span style="display:flex;"><span>         nondurables <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Nondurable goods&#34;</span>, 
-</span></span><span style="display:flex;"><span>         services <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Services&#34;</span>, 
-</span></span><span style="display:flex;"><span>         pop <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Population (midperiod, thousands)&#34;</span>)
-</span></span></code></pre></div><pre tabindex="0"><code>## Rows: 310 Columns: 11
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &#34;,&#34;
-## chr  (1): Quarter
-## dbl (10): Year, Gross domestic product, Gross national product, Disposable p...
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># Filter and merge data. </span>
-</span></span><span style="display:flex;"><span>d_inc_econ <span style="color:#f92672">&lt;-</span> d_popvote <span style="color:#f92672">|&gt;</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">filter</span>(incumbent_party <span style="color:#f92672">==</span> <span style="color:#66d9ef">TRUE</span>) <span style="color:#f92672">|&gt;</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">select</span>(year, pv, pv2p, winner) <span style="color:#f92672">|&gt;</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">left_join</span>(d_fred <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">filter</span>(quarter <span style="color:#f92672">==</span> <span style="color:#ae81ff">2</span>)) <span style="color:#f92672">|&gt;</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">left_join</span>(d_bea <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">filter</span>(quarter <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;Q2&#34;</span>) <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">select</span>(year, dpi))
-</span></span></code></pre></div><pre tabindex="0"><code>## Joining, by = &#34;year&#34;
-## Joining, by = &#34;year&#34;
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># N.B. two different sources of data to use, FRED &amp; BEA. </span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># We are using second-quarter data since that is the latest 2024 release. </span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Feel free to experiment with different data/combinations!</span>
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># Try using two-party vote margin instead of two-party popular vote share; why: accounts for and more resistant to third-party presence</span>
-</span></span><span style="display:flex;"><span>d_popvote_2 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">read_csv</span>(<span style="color:#e6db74">&#34;popvote_1948-2020.csv&#34;</span>)
-</span></span></code></pre></div><pre tabindex="0"><code>## Rows: 38 Columns: 9
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &#34;,&#34;
-## chr (2): party, candidate
-## dbl (3): year, pv, pv2p
-## lgl (4): winner, incumbent, incumbent_party, prev_admin
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>d_popvote_2<span style="color:#f92672">$</span>incumbent_party_name <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">ifelse</span>(d_popvote_2<span style="color:#f92672">$</span>incumbent_party <span style="color:#f92672">==</span> <span style="color:#66d9ef">TRUE</span>, d_popvote_2<span style="color:#f92672">$</span>party, <span style="color:#66d9ef">NA</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>d_popvote_wide_2 <span style="color:#f92672">&lt;-</span> d_popvote_2 <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">select</span>(year, party, winner, pv, pv2p, incumbent_party_name) <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">pivot_wider</span>(names_from <span style="color:#f92672">=</span> party, values_from <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(winner, pv, pv2p, incumbent_party_name))
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>d_popvote_wide_2 <span style="color:#f92672">&lt;-</span> d_popvote_wide_2 <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(winner <span style="color:#f92672">=</span> <span style="color:#a6e22e">ifelse</span>(winner_democrat <span style="color:#f92672">==</span> <span style="color:#66d9ef">TRUE</span>, <span style="color:#e6db74">&#34;D&#34;</span>, <span style="color:#e6db74">&#34;R&#34;</span>),
-</span></span><span style="display:flex;"><span>         incumbent_party_name <span style="color:#f92672">=</span> <span style="color:#a6e22e">ifelse</span>(incumbent_party_name_democrat <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;democrat&#34;</span>, <span style="color:#e6db74">&#34;D&#34;</span>, <span style="color:#e6db74">&#34;R&#34;</span>),
-</span></span><span style="display:flex;"><span>         incumbent_party <span style="color:#f92672">=</span> <span style="color:#a6e22e">replace_na</span>(incumbent_party_name, <span style="color:#e6db74">&#34;R&#34;</span>),
-</span></span><span style="display:flex;"><span>         pv_winner <span style="color:#f92672">=</span> <span style="color:#a6e22e">ifelse</span>(pv_democrat <span style="color:#f92672">&gt;</span> pv_republican, <span style="color:#e6db74">&#34;D&#34;</span>, <span style="color:#e6db74">&#34;R&#34;</span>),
-</span></span><span style="display:flex;"><span>         pv2p <span style="color:#f92672">=</span> <span style="color:#a6e22e">ifelse</span>(incumbent_party <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;D&#34;</span>, pv2p_democrat, pv2p_republican)) <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">select</span>(year, winner, incumbent_party, pv_winner, pv_democrat, pv_republican, pv2p_democrat, pv2p_republican, pv2p)
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Adding a variable to give more information about the elections where the popular vote winner was not the electoral college winner, coded as double_win </span>
-</span></span><span style="display:flex;"><span>d_popvote_wide_2 <span style="color:#f92672">&lt;-</span> d_popvote_wide_2 <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(double_win <span style="color:#f92672">=</span> <span style="color:#a6e22e">ifelse</span>(winner <span style="color:#f92672">==</span> pv_winner, <span style="color:#66d9ef">TRUE</span>, <span style="color:#66d9ef">FALSE</span>))
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Add incumbent vote margin variable</span>
-</span></span><span style="display:flex;"><span>d_popvote_wide_2 <span style="color:#f92672">&lt;-</span> d_popvote_wide_2 <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(incumb_vote_margin <span style="color:#f92672">=</span> <span style="color:#a6e22e">ifelse</span>(incumbent_party <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;D&#34;</span>, pv_democrat <span style="color:#f92672">-</span> pv_republican, pv_republican<span style="color:#f92672">-</span>pv_democrat))
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Join with econ info</span>
-</span></span><span style="display:flex;"><span>elec_econ_comb <span style="color:#f92672">&lt;-</span> d_popvote_wide_2 <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">left_join</span>(d_fred <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">filter</span>(quarter <span style="color:#f92672">==</span> <span style="color:#ae81ff">2</span>)) <span style="color:#f92672">|&gt;</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">left_join</span>(d_bea <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">filter</span>(quarter <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;Q2&#34;</span>) <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">select</span>(year, dpi))
-</span></span></code></pre></div><pre tabindex="0"><code>## Joining, by = &#34;year&#34;
-## Joining, by = &#34;year&#34;
-</code></pre><h2 id="gdp-growth-and-vote-margin">
-  GDP Growth and Vote Margin
+<h2 id="gdp-growth-and-vote-margin">
+  <strong>GDP Growth and Vote Margin</strong>
   <a class="anchor" href="#gdp-growth-and-vote-margin">#</a>
 </h2>
 <p><em>Let&rsquo;s first look at a broad measure of economic performance and evaluate it against incumbent vote margin:</em></p>
@@ -422,112 +255,24 @@ https://github.com/alex-shpak/hugo-book
 ##   variable into a factor?
 </code></pre><img src="https://sduggasani.github.io/2024election-blog/post/2024-09-12-week-2-fundamentals-i-the-economy/index_files/figure-html/unnamed-chunk-6-2.png" width="672" />
 Here, I run a linear regression on the relationship between between Quarterly GDP Growth and Incumbent Vote Margin, mapping actual election results from 1948 to 2020 onto the plot as well. We observe a pretty strong positive relationship between GDP growth and incumbent vote margin, suggesting that the better the output of the national economy, the better an incumbent party's performance in the upcoming presidential election. You might notice that I have two plots: one with 2020 as a data point and one without. This is because across a number of metrics 2020 is a distant outlier, which often skews models in a ways that confuses any actual evaluation of a relationship between economy and election performance. I keep both plots to illustrate this discrepancy and to note which metrics 2020 data falls into a predicted pattern for and which it does not. 
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># EVALUATING VOTE MARGIN AND GDP GROWTH MODEL</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Evaluate the in-sample fit of your preferred model.</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># R-squared method</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># With 2020</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">print</span>(<span style="color:#a6e22e">paste</span>(<span style="color:#e6db74">&#34;With 2020 R-Squared: &#34;</span>, <span style="color:#a6e22e">summary</span>(reg_gdp_margin)<span style="color:#f92672">$</span>r.squared))
-</span></span></code></pre></div><pre tabindex="0"><code>## [1] &#34;With 2020 R-Squared:  0.187884044842374&#34;
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># Without 2020</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">print</span>(<span style="color:#a6e22e">paste</span>(<span style="color:#e6db74">&#34;Without 2020 R-Squared: &#34;</span>, <span style="color:#a6e22e">summary</span>(reg_gdp_margin_2)<span style="color:#f92672">$</span>r.squared))
-</span></span></code></pre></div><pre tabindex="0"><code>## [1] &#34;Without 2020 R-Squared:  0.317291723250674&#34;
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># In-sample error, plotting residuals</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># With 2020</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">plot</span>(elec_econ_comb<span style="color:#f92672">$</span>year, elec_econ_comb<span style="color:#f92672">$</span>incumb_vote_margin, type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;l&#34;</span>,
-</span></span><span style="display:flex;"><span>     main <span style="color:#f92672">=</span><span style="color:#e6db74">&#34;True Y (Line), Predicted Y (Dot) for Each Year&#34;</span>)
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">points</span>(elec_econ_comb<span style="color:#f92672">$</span>year, <span style="color:#a6e22e">predict</span>(reg_gdp_margin, elec_econ_comb))
-</span></span></code></pre></div><img src="https://sduggasani.github.io/2024election-blog/post/2024-09-12-week-2-fundamentals-i-the-economy/index_files/figure-html/unnamed-chunk-7-1.png" width="672" />
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># Without 2020</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">plot</span>(elec_econ_comb_2<span style="color:#f92672">$</span>year, elec_econ_comb_2<span style="color:#f92672">$</span>incumb_vote_margin, type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;l&#34;</span>,
-</span></span><span style="display:flex;"><span>     main <span style="color:#f92672">=</span><span style="color:#e6db74">&#34;True Y (Line), Predicted Y (Dot) for Each Year&#34;</span>)
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">points</span>(elec_econ_comb_2<span style="color:#f92672">$</span>year, <span style="color:#a6e22e">predict</span>(reg_gdp_margin_2, elec_econ_comb_2))
-</span></span></code></pre></div><img src="https://sduggasani.github.io/2024election-blog/post/2024-09-12-week-2-fundamentals-i-the-economy/index_files/figure-html/unnamed-chunk-7-2.png" width="672" />
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># Mean Squared Error</span>
-</span></span><span style="display:flex;"><span>mse_2020 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">mean</span>((reg_gdp_margin<span style="color:#f92672">$</span>model<span style="color:#f92672">$</span>incumb_vote_margin <span style="color:#f92672">-</span> reg_gdp_margin<span style="color:#f92672">$</span>fitted.values)^2)
-</span></span><span style="display:flex;"><span>mse_no2020 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">mean</span>((reg_gdp_margin_2<span style="color:#f92672">$</span>model<span style="color:#f92672">$</span>incumb_vote_margin <span style="color:#f92672">-</span> reg_gdp_margin_2<span style="color:#f92672">$</span>fitted.values)^2)
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">print</span>(<span style="color:#a6e22e">paste</span>(<span style="color:#e6db74">&#34;With 2020 Mean Squared Error: &#34;</span>, mse_2020))
-</span></span></code></pre></div><pre tabindex="0"><code>## [1] &#34;With 2020 Mean Squared Error:  79.2859405902988&#34;
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">print</span>(<span style="color:#a6e22e">paste</span>(<span style="color:#e6db74">&#34;Without 2020 Mean Squared Error: &#34;</span>, mse_no2020))
-</span></span></code></pre></div><pre tabindex="0"><code>## [1] &#34;Without 2020 Mean Squared Error:  67.7703432164646&#34;
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># # Model Testing: Leave-One-Out</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># (out_samp_pred &lt;- predict(reg_gdp_margin_2, elec_econ_comb_2[elec_econ_comb_2$year == 2020,]))</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># (out_samp_truth &lt;- elec_econ_comb |&gt; filter(year == 2020) |&gt; select(incumb_vote_margin))</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># print(paste(&#34;Leave-One-Out: &#34;, (out_samp_pred - out_samp_truth))) # Dangers of fundamentals-only model!</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># # https://www.nytimes.com/2020/07/30/business/economy/q2-gdp-coronavirus-economy.html</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># # Model Testing: Cross-Validation (One Run)</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># years_out_samp &lt;- sample(elec_econ_comb_2$year, 9) </span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># mod &lt;- lm(incumb_vote_margin ~ GDP_growth_quarterly, </span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#           elec_econ_comb_2[!(elec_econ_comb_2$year %in% years_out_samp),])</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># out_samp_pred &lt;- predict(mod, elec_econ_comb_2[elec_econ_comb_2$year %in% years_out_samp,])</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># out_samp_truth &lt;- elec_econ_comb_2$incumb_vote_margin[elec_econ_comb_2$year %in% years_out_samp]</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># mean(out_samp_pred - out_samp_truth)</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Model Testing: Cross-Validation (1000 Runs)</span>
-</span></span><span style="display:flex;"><span>out_samp_errors <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">sapply</span>(<span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">1000</span>, <span style="color:#66d9ef">function</span>(i) {
-</span></span><span style="display:flex;"><span>  years_out_samp <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">sample</span>(elec_econ_comb_2<span style="color:#f92672">$</span>year, <span style="color:#ae81ff">9</span>) 
-</span></span><span style="display:flex;"><span>  mod <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">lm</span>(incumb_vote_margin <span style="color:#f92672">~</span> GDP_growth_quarterly, 
-</span></span><span style="display:flex;"><span>          elec_econ_comb_2[<span style="color:#f92672">!</span>(elec_econ_comb_2<span style="color:#f92672">$</span>year <span style="color:#f92672">%in%</span> years_out_samp),])
-</span></span><span style="display:flex;"><span>  out_samp_pred <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">predict</span>(mod, elec_econ_comb_2[elec_econ_comb_2<span style="color:#f92672">$</span>year <span style="color:#f92672">%in%</span> years_out_samp,])
-</span></span><span style="display:flex;"><span>  out_samp_truth <span style="color:#f92672">&lt;-</span> elec_econ_comb_2<span style="color:#f92672">$</span>incumb_vote_margin[elec_econ_comb_2<span style="color:#f92672">$</span>year <span style="color:#f92672">%in%</span> years_out_samp]
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mean</span>(out_samp_pred <span style="color:#f92672">-</span> out_samp_truth)
-</span></span><span style="display:flex;"><span>})
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># mean(out_samp_errors)</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">print</span>(<span style="color:#a6e22e">paste</span>(<span style="color:#e6db74">&#34;Cross-Validation Mean Absolute Value Error (Without 2020): &#34;</span>, <span style="color:#a6e22e">mean</span>(<span style="color:#a6e22e">abs</span>(out_samp_errors))))
-</span></span></code></pre></div><pre tabindex="0"><code>## [1] &#34;Cross-Validation Mean Absolute Value Error (Without 2020):  3.42560959973424&#34;
+<pre tabindex="0"><code>## [1] &#34;With 2020 R-Squared:  0.187884044842374&#34;
+</code></pre><pre tabindex="0"><code>## [1] &#34;Without 2020 R-Squared:  0.317291723250674&#34;
+</code></pre><p><img src="https://sduggasani.github.io/2024election-blog/post/2024-09-12-week-2-fundamentals-i-the-economy/index_files/figure-html/unnamed-chunk-7-1.png" width="672" /><img src="https://sduggasani.github.io/2024election-blog/post/2024-09-12-week-2-fundamentals-i-the-economy/index_files/figure-html/unnamed-chunk-7-2.png" width="672" /></p>
+<pre tabindex="0"><code>## [1] &#34;With 2020 Mean Squared Error:  79.2859405902988&#34;
+</code></pre><pre tabindex="0"><code>## [1] &#34;Without 2020 Mean Squared Error:  67.7703432164646&#34;
+</code></pre><pre tabindex="0"><code>## [1] &#34;Cross-Validation Mean Absolute Value Error (Without 2020):  3.5062785951501&#34;
 </code></pre><p>Above are some in-sample and out-of-sample ways to evaluate the strength of GDP Growth model. Across the board, the model performs pretty poorly, as we see very low R-Squared values, high Mean Squared Errors and Cross-Validation Mean Absolute Value Errors with vote margin percentages large enough to sway a close election. The GDP model that leaves out 2020 generally fares better, but it is still not great.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e">####----------------------------------------------------------#</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#### Predicting 2024 results using simple GDP and vote margin model.</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">####----------------------------------------------------------#</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Sequester 2024 data.</span>
-</span></span><span style="display:flex;"><span>GDP_new <span style="color:#f92672">&lt;-</span> d_fred <span style="color:#f92672">|&gt;</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">filter</span>(year <span style="color:#f92672">==</span> <span style="color:#ae81ff">2024</span> <span style="color:#f92672">&amp;</span> quarter <span style="color:#f92672">==</span> <span style="color:#ae81ff">2</span>) <span style="color:#f92672">|&gt;</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">select</span>(GDP_growth_quarterly)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Predict.</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">print</span>(<span style="color:#a6e22e">paste</span>(<span style="color:#e6db74">&#34;2024 GDP-Predicted Incumbent Vote Margin:&#34;</span>, <span style="color:#a6e22e">predict</span>(reg_gdp_margin, GDP_new)))
-</span></span></code></pre></div><pre tabindex="0"><code>## [1] &#34;2024 GDP-Predicted Incumbent Vote Margin: 4.15855909921272&#34;
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">print</span>(<span style="color:#a6e22e">paste</span>(<span style="color:#e6db74">&#34;2024 GDP-Predicted Incumbent Vote Margin (Excluding 2020 from Model):&#34;</span>, <span style="color:#a6e22e">predict</span>(reg_gdp_margin_2, GDP_new)))
-</span></span></code></pre></div><pre tabindex="0"><code>## [1] &#34;2024 GDP-Predicted Incumbent Vote Margin (Excluding 2020 from Model): 3.21368743265838&#34;
+<pre tabindex="0"><code>## [1] &#34;2024 GDP-Predicted Incumbent Vote Margin: 4.15855909921272&#34;
+</code></pre><pre tabindex="0"><code>## [1] &#34;2024 GDP-Predicted Incumbent Vote Margin (Excluding 2020 from Model): 3.21368743265838&#34;
 </code></pre><p>Even still, we can predict how the incumbent party will perform given GDP growth as the input. Across models that involve 2020 and exclude it, it seems that Harris will have a fairly large lead in national popular vote share against Trump. We will tally these outcomes, although flawed in terms of strength of model, as we go along.</p>
 <p><strong>Harris +1</strong></p>
 <h2 id="cpi-and-vote-margin">
-  CPI and Vote Margin
+  <strong>CPI and Vote Margin</strong>
   <a class="anchor" href="#cpi-and-vote-margin">#</a>
 </h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e">####----------------------------------------------------------#</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#### Understanding the relationship between economy and vote margin. </span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">####----------------------------------------------------------#</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Create scatterplot to visualize relationship between CPI and </span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># incumbent vote margin </span>
-</span></span><span style="display:flex;"><span>scatterplot_cpi_margin <span style="color:#f92672">&lt;-</span> elec_econ_comb <span style="color:#f92672">|&gt;</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> CPI, y <span style="color:#f92672">=</span> incumb_vote_margin, label <span style="color:#f92672">=</span> year)) <span style="color:#f92672">+</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_text</span>() <span style="color:#f92672">+</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;CPI&#34;</span>, 
-</span></span><span style="display:flex;"><span>       y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Incumbent Party&#39;s National Popular Vote Margin&#34;</span>) <span style="color:#f92672">+</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">theme_bw</span>()
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>scatterplot_cpi_margin_2 <span style="color:#f92672">&lt;-</span> elec_econ_comb_2 <span style="color:#f92672">|&gt;</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> CPI, y <span style="color:#f92672">=</span> incumb_vote_margin, label <span style="color:#f92672">=</span> year)) <span style="color:#f92672">+</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_text</span>() <span style="color:#f92672">+</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;CPI&#34;</span>, 
-</span></span><span style="display:flex;"><span>       y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Incumbent Party&#39;s National Popular Vote Margin&#34;</span>) <span style="color:#f92672">+</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">my_prettier_theme</span>()
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Compute correlations between Q2 GDP growth and incumbent vote 2-party vote share.</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">cor</span>(elec_econ_comb<span style="color:#f92672">$</span>CPI, 
-</span></span><span style="display:flex;"><span>    elec_econ_comb<span style="color:#f92672">$</span>incumb_vote_margin)
-</span></span></code></pre></div><pre tabindex="0"><code>## [1] -0.2831376
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">cor</span>(elec_econ_comb_2<span style="color:#f92672">$</span>CPI, 
-</span></span><span style="display:flex;"><span>    elec_econ_comb_2<span style="color:#f92672">$</span>incumb_vote_margin)
-</span></span></code></pre></div><pre tabindex="0"><code>## [1] -0.2280565
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># Fit bivariate OLS. </span>
-</span></span><span style="display:flex;"><span>reg_cpi_margin <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">lm</span>(incumb_vote_margin <span style="color:#f92672">~</span> CPI, 
-</span></span><span style="display:flex;"><span>               data <span style="color:#f92672">=</span> elec_econ_comb)
-</span></span><span style="display:flex;"><span>reg_cpi_margin <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">summary</span>() 
-</span></span></code></pre></div><pre tabindex="0"><code>## 
+<pre tabindex="0"><code>## [1] -0.2831376
+</code></pre><pre tabindex="0"><code>## [1] -0.2280565
+</code></pre><pre tabindex="0"><code>## 
 ## Call:
 ## lm(formula = incumb_vote_margin ~ CPI, data = elec_econ_comb)
 ## 
@@ -545,10 +290,7 @@ Here, I run a linear regression on the relationship between between Quarterly GD
 ## Residual standard error: 10.02 on 17 degrees of freedom
 ## Multiple R-squared:  0.08017,	Adjusted R-squared:  0.02606 
 ## F-statistic: 1.482 on 1 and 17 DF,  p-value: 0.2402
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>reg_cpi_margin_2 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">lm</span>(incumb_vote_margin <span style="color:#f92672">~</span> CPI, 
-</span></span><span style="display:flex;"><span>                 data <span style="color:#f92672">=</span> elec_econ_comb_2)
-</span></span><span style="display:flex;"><span>reg_cpi_margin_2 <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">summary</span>()
-</span></span></code></pre></div><pre tabindex="0"><code>## 
+</code></pre><pre tabindex="0"><code>## 
 ## Call:
 ## lm(formula = incumb_vote_margin ~ CPI, data = elec_econ_comb_2)
 ## 
@@ -564,147 +306,37 @@ Here, I run a linear regression on the relationship between between Quarterly GD
 ## Residual standard error: 10.29 on 16 degrees of freedom
 ## Multiple R-squared:  0.05201,	Adjusted R-squared:  -0.00724 
 ## F-statistic: 0.8778 on 1 and 16 DF,  p-value: 0.3627
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># Can add bivariate regression lines to our scatterplots. </span>
-</span></span><span style="display:flex;"><span>regplot_cpi_margin <span style="color:#f92672">&lt;-</span> elec_econ_comb <span style="color:#f92672">|&gt;</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> CPI, y <span style="color:#f92672">=</span> incumb_vote_margin, label <span style="color:#f92672">=</span> year)) <span style="color:#f92672">+</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_smooth</span>(method <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;lm&#34;</span>, formula <span style="color:#f92672">=</span> y <span style="color:#f92672">~</span> x) <span style="color:#f92672">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;CPI&#34;</span>, 
-</span></span><span style="display:flex;"><span>       y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Incumbent Party&#39;s National Popular Vote Margin&#34;</span>, 
-</span></span><span style="display:flex;"><span>       title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Relating CPI and Incumbent Vote Margin&#34;</span>,
-</span></span><span style="display:flex;"><span>       subtitle <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Y = 7.52926 + (-0.03461) * X&#34;</span>) <span style="color:#f92672">+</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_text_repel</span>() <span style="color:#f92672">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">my_prettier_theme</span>()
-</span></span><span style="display:flex;"><span>regplot_cpi_margin
-</span></span></code></pre></div><pre tabindex="0"><code>## Warning: The following aesthetics were dropped during statistical transformation: label
+</code></pre><pre tabindex="0"><code>## Warning: The following aesthetics were dropped during statistical transformation: label
 ## ℹ This can happen when ggplot fails to infer the correct grouping structure in
 ##   the data.
 ## ℹ Did you forget to specify a `group` aesthetic or to convert a numerical
 ##   variable into a factor?
 </code></pre><img src="https://sduggasani.github.io/2024election-blog/post/2024-09-12-week-2-fundamentals-i-the-economy/index_files/figure-html/unnamed-chunk-9-1.png" width="672" />
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>regplot_cpi_margin_2 <span style="color:#f92672">&lt;-</span> elec_econ_comb_2 <span style="color:#f92672">|&gt;</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> CPI, y <span style="color:#f92672">=</span> incumb_vote_margin, label <span style="color:#f92672">=</span> year)) <span style="color:#f92672">+</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_smooth</span>(method <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;lm&#34;</span>, formula <span style="color:#f92672">=</span> y <span style="color:#f92672">~</span> x) <span style="color:#f92672">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;CPI&#34;</span>, 
-</span></span><span style="display:flex;"><span>       y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Incumbent Party&#39;s National Popular Vote Margin&#34;</span>, 
-</span></span><span style="display:flex;"><span>       title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Relating CPI and Incumbent Vote Margin&#34;</span>,
-</span></span><span style="display:flex;"><span>       subtitle <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Y = 7.21922 + (-0.03006) * X&#34;</span>,
-</span></span><span style="display:flex;"><span>       caption <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Excluding 2020 data&#34;</span>) <span style="color:#f92672">+</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_text_repel</span>() <span style="color:#f92672">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">my_prettier_theme</span>()
-</span></span><span style="display:flex;"><span>regplot_cpi_margin_2
-</span></span></code></pre></div><pre tabindex="0"><code>## Warning: The following aesthetics were dropped during statistical transformation: label
+<pre tabindex="0"><code>## Warning: The following aesthetics were dropped during statistical transformation: label
 ## ℹ This can happen when ggplot fails to infer the correct grouping structure in
 ##   the data.
 ## ℹ Did you forget to specify a `group` aesthetic or to convert a numerical
 ##   variable into a factor?
 </code></pre><img src="https://sduggasani.github.io/2024election-blog/post/2024-09-12-week-2-fundamentals-i-the-economy/index_files/figure-html/unnamed-chunk-9-2.png" width="672" />
 Above, I run a linear regression on the relationship between between Consumer Price Index and Incumbent Vote Margin. This is a critical measure because voters are exposed to sticker shock effects as a result of inflation and can vote accordingly. It might be a national measure, but individual voters are directly exposed to it. According to the model, there is a pretty strong negative relationship between CPI and incumbent vote margin, suggesting that the higher that consumer prices are, the worse an incumbent party's performance in the upcoming presidential election. Here, it seems that 2020 actually does not distort the model's relationship of the two variables. 
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># EVALUATING VOTE MARGIN AND CPI MODEL</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Evaluate the in-sample fit of your preferred model.</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># R-squared method</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># With 2020</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">print</span>(<span style="color:#a6e22e">paste</span>(<span style="color:#e6db74">&#34;With 2020 R-Squared: &#34;</span>, <span style="color:#a6e22e">summary</span>(reg_cpi_margin)<span style="color:#f92672">$</span>r.squared))
-</span></span></code></pre></div><pre tabindex="0"><code>## [1] &#34;With 2020 R-Squared:  0.0801668996456767&#34;
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># Without 2020</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">print</span>(<span style="color:#a6e22e">paste</span>(<span style="color:#e6db74">&#34;Without 2020 R-Squared: &#34;</span>, <span style="color:#a6e22e">summary</span>(reg_cpi_margin_2)<span style="color:#f92672">$</span>r.squared))
-</span></span></code></pre></div><pre tabindex="0"><code>## [1] &#34;Without 2020 R-Squared:  0.0520097549971837&#34;
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># In-sample error, plotting residuals</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># With 2020</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">plot</span>(elec_econ_comb<span style="color:#f92672">$</span>year, elec_econ_comb<span style="color:#f92672">$</span>incumb_vote_margin, type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;l&#34;</span>,
-</span></span><span style="display:flex;"><span>     main <span style="color:#f92672">=</span><span style="color:#e6db74">&#34;True Y (Line), Predicted Y (Dot) for Each Year&#34;</span>)
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">points</span>(elec_econ_comb<span style="color:#f92672">$</span>year, <span style="color:#a6e22e">predict</span>(reg_cpi_margin, elec_econ_comb))
-</span></span></code></pre></div><img src="https://sduggasani.github.io/2024election-blog/post/2024-09-12-week-2-fundamentals-i-the-economy/index_files/figure-html/unnamed-chunk-10-1.png" width="672" />
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># Without 2020</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">plot</span>(elec_econ_comb_2<span style="color:#f92672">$</span>year, elec_econ_comb_2<span style="color:#f92672">$</span>incumb_vote_margin, type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;l&#34;</span>,
-</span></span><span style="display:flex;"><span>     main <span style="color:#f92672">=</span><span style="color:#e6db74">&#34;True Y (Line), Predicted Y (Dot) for Each Year&#34;</span>)
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">points</span>(elec_econ_comb_2<span style="color:#f92672">$</span>year, <span style="color:#a6e22e">predict</span>(reg_cpi_margin_2, elec_econ_comb_2))
-</span></span></code></pre></div><img src="https://sduggasani.github.io/2024election-blog/post/2024-09-12-week-2-fundamentals-i-the-economy/index_files/figure-html/unnamed-chunk-10-2.png" width="672" />
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># Mean Squared Error</span>
-</span></span><span style="display:flex;"><span>mse_2020 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">mean</span>((reg_cpi_margin<span style="color:#f92672">$</span>model<span style="color:#f92672">$</span>incumb_vote_margin <span style="color:#f92672">-</span> reg_cpi_margin<span style="color:#f92672">$</span>fitted.values)^2)
-</span></span><span style="display:flex;"><span>mse_no2020 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">mean</span>((reg_cpi_margin_2<span style="color:#f92672">$</span>model<span style="color:#f92672">$</span>incumb_vote_margin <span style="color:#f92672">-</span> reg_cpi_margin_2<span style="color:#f92672">$</span>fitted.values)^2)
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">print</span>(<span style="color:#a6e22e">paste</span>(<span style="color:#e6db74">&#34;With 2020 Mean Squared Error: &#34;</span>, mse_2020))
-</span></span></code></pre></div><pre tabindex="0"><code>## [1] &#34;With 2020 Mean Squared Error:  89.8022407816482&#34;
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">print</span>(<span style="color:#a6e22e">paste</span>(<span style="color:#e6db74">&#34;Without 2020 Mean Squared Error: &#34;</span>, mse_no2020))
-</span></span></code></pre></div><pre tabindex="0"><code>## [1] &#34;Without 2020 Mean Squared Error:  94.1040653199678&#34;
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># # Model Testing: Leave-One-Out</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># (out_samp_pred &lt;- predict(reg_cpi_margin_2, elec_econ_comb_2[elec_econ_comb_2$year == 2020,]))</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># (out_samp_truth &lt;- elec_econ_comb_2 |&gt; filter(year == 2020) |&gt; select(incumb_vote_margin))</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># print(paste(&#34;Leave-One-Out: &#34;, (out_samp_pred - out_samp_truth))) # Dangers of fundamentals-only model!</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># # https://www.nytimes.com/2020/07/30/business/economy/q2-gdp-coronavirus-economy.html</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># # Model Testing: Cross-Validation (One Run)</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># years_out_samp &lt;- sample(elec_econ_comb_2$year, 9) </span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># mod &lt;- lm(incumb_vote_margin ~ GDP_growth_quarterly, </span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#           elec_econ_comb_2[!(elec_econ_comb_2$year %in% years_out_samp),])</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># out_samp_pred &lt;- predict(mod, elec_econ_comb_2[elec_econ_comb_2$year %in% years_out_samp,])</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># out_samp_truth &lt;- elec_econ_comb_2$incumb_vote_margin[elec_econ_comb_2$year %in% years_out_samp]</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># mean(out_samp_pred - out_samp_truth)</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Model Testing: Cross-Validation (1000 Runs)</span>
-</span></span><span style="display:flex;"><span>out_samp_errors <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">sapply</span>(<span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">1000</span>, <span style="color:#66d9ef">function</span>(i) {
-</span></span><span style="display:flex;"><span>  years_out_samp <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">sample</span>(elec_econ_comb_2<span style="color:#f92672">$</span>year, <span style="color:#ae81ff">9</span>) 
-</span></span><span style="display:flex;"><span>  mod <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">lm</span>(incumb_vote_margin <span style="color:#f92672">~</span> CPI, 
-</span></span><span style="display:flex;"><span>          elec_econ_comb_2[<span style="color:#f92672">!</span>(elec_econ_comb_2<span style="color:#f92672">$</span>year <span style="color:#f92672">%in%</span> years_out_samp),])
-</span></span><span style="display:flex;"><span>  out_samp_pred <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">predict</span>(mod, elec_econ_comb_2[elec_econ_comb_2<span style="color:#f92672">$</span>year <span style="color:#f92672">%in%</span> years_out_samp,])
-</span></span><span style="display:flex;"><span>  out_samp_truth <span style="color:#f92672">&lt;-</span> elec_econ_comb_2<span style="color:#f92672">$</span>incumb_vote_margin[elec_econ_comb_2<span style="color:#f92672">$</span>year <span style="color:#f92672">%in%</span> years_out_samp]
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mean</span>(out_samp_pred <span style="color:#f92672">-</span> out_samp_truth)
-</span></span><span style="display:flex;"><span>})
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># mean(out_samp_errors)</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">print</span>(<span style="color:#a6e22e">paste</span>(<span style="color:#e6db74">&#34;Cross-Validation Mean Absolute Value Error (Without 2020): &#34;</span>, <span style="color:#a6e22e">mean</span>(<span style="color:#a6e22e">abs</span>(out_samp_errors))))
-</span></span></code></pre></div><pre tabindex="0"><code>## [1] &#34;Cross-Validation Mean Absolute Value Error (Without 2020):  4.30330631116584&#34;
+<pre tabindex="0"><code>## [1] &#34;With 2020 R-Squared:  0.0801668996456767&#34;
+</code></pre><pre tabindex="0"><code>## [1] &#34;Without 2020 R-Squared:  0.0520097549971837&#34;
+</code></pre><p><img src="https://sduggasani.github.io/2024election-blog/post/2024-09-12-week-2-fundamentals-i-the-economy/index_files/figure-html/unnamed-chunk-10-1.png" width="672" /><img src="https://sduggasani.github.io/2024election-blog/post/2024-09-12-week-2-fundamentals-i-the-economy/index_files/figure-html/unnamed-chunk-10-2.png" width="672" /></p>
+<pre tabindex="0"><code>## [1] &#34;With 2020 Mean Squared Error:  89.8022407816482&#34;
+</code></pre><pre tabindex="0"><code>## [1] &#34;Without 2020 Mean Squared Error:  94.1040653199678&#34;
+</code></pre><pre tabindex="0"><code>## [1] &#34;Cross-Validation Mean Absolute Value Error (Without 2020):  4.13357187282892&#34;
 </code></pre><p>The CPI model fares even worse than the GDP model with abysmal R-Squared values, high Mean Squared Errors, and a large Cross-Validation Mean Absolute Value Error.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e">####----------------------------------------------------------#</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#### Predicting 2024 results using simple CPI and vote margin model.</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">####----------------------------------------------------------#</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Sequester 2024 data.</span>
-</span></span><span style="display:flex;"><span>CPI_new <span style="color:#f92672">&lt;-</span> d_fred <span style="color:#f92672">|&gt;</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">filter</span>(year <span style="color:#f92672">==</span> <span style="color:#ae81ff">2024</span> <span style="color:#f92672">&amp;</span> quarter <span style="color:#f92672">==</span> <span style="color:#ae81ff">2</span>) <span style="color:#f92672">|&gt;</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">select</span>(CPI)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Predict.</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">print</span>(<span style="color:#a6e22e">paste</span>(<span style="color:#e6db74">&#34;2024 CPI-Predicted Incumbent Vote Margin:&#34;</span>, <span style="color:#a6e22e">predict</span>(reg_cpi_margin, CPI_new)))
-</span></span></code></pre></div><pre tabindex="0"><code>## [1] &#34;2024 CPI-Predicted Incumbent Vote Margin: -3.30839041076806&#34;
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">print</span>(<span style="color:#a6e22e">paste</span>(<span style="color:#e6db74">&#34;2024 CPI-Predicted Incumbent Vote Margin (Excluding 2020 from Model):&#34;</span>, <span style="color:#a6e22e">predict</span>(reg_cpi_margin_2, CPI_new)))
-</span></span></code></pre></div><pre tabindex="0"><code>## [1] &#34;2024 CPI-Predicted Incumbent Vote Margin (Excluding 2020 from Model): -2.19490995507331&#34;
+<pre tabindex="0"><code>## [1] &#34;2024 CPI-Predicted Incumbent Vote Margin: -3.30839041076806&#34;
+</code></pre><pre tabindex="0"><code>## [1] &#34;2024 CPI-Predicted Incumbent Vote Margin (Excluding 2020 from Model): -2.19490995507331&#34;
 </code></pre><p>Building our linear regression model on solely the CPI, we see that Harris trails Trump by 3.3% share of national popular vote with 2020 data and 2.2% excluding it. This makes sense as voters have consistently aired their grievances about inflation through this campaign season.</p>
 <p><strong>Trump +1</strong></p>
 <h2 id="rdpi-growth-and-vote-margin">
-  RDPI Growth and Vote Margin
+  <strong>RDPI Growth and Vote Margin</strong>
   <a class="anchor" href="#rdpi-growth-and-vote-margin">#</a>
 </h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e">####----------------------------------------------------------#</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#### Understanding the relationship between economy and vote margin. </span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">####----------------------------------------------------------#</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Create scatterplot to visualize relationship between RDPI Growth and </span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># incumbent vote margin </span>
-</span></span><span style="display:flex;"><span>scatterplot_rdpi_margin <span style="color:#f92672">&lt;-</span> elec_econ_comb <span style="color:#f92672">|&gt;</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> RDPI_growth_quarterly, y <span style="color:#f92672">=</span> incumb_vote_margin, label <span style="color:#f92672">=</span> year)) <span style="color:#f92672">+</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_text</span>() <span style="color:#f92672">+</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;RDPI Quarterly Growth (%)&#34;</span>, 
-</span></span><span style="display:flex;"><span>       y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Incumbent Party&#39;s National Popular Vote Margin&#34;</span>) <span style="color:#f92672">+</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">theme_bw</span>()
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>scatterplot_rdpi_margin_2 <span style="color:#f92672">&lt;-</span> elec_econ_comb_2 <span style="color:#f92672">|&gt;</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> RDPI_growth_quarterly, y <span style="color:#f92672">=</span> incumb_vote_margin, label <span style="color:#f92672">=</span> year)) <span style="color:#f92672">+</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_text</span>() <span style="color:#f92672">+</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;RDPI Quarterly Growth (%)&#34;</span>, 
-</span></span><span style="display:flex;"><span>       y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Incumbent Party&#39;s National Popular Vote Margin&#34;</span>) <span style="color:#f92672">+</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">my_prettier_theme</span>()
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Compute correlations between Q2 GDP growth and incumbent vote 2-party vote share.</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">cor</span>(elec_econ_comb<span style="color:#f92672">$</span>RDPI_growth_quarterly, 
-</span></span><span style="display:flex;"><span>    elec_econ_comb<span style="color:#f92672">$</span>incumb_vote_margin)
-</span></span></code></pre></div><pre tabindex="0"><code>## [1] -0.0596564
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">cor</span>(elec_econ_comb_2<span style="color:#f92672">$</span>RDPI_growth_quarterly, 
-</span></span><span style="display:flex;"><span>    elec_econ_comb_2<span style="color:#f92672">$</span>incumb_vote_margin)
-</span></span></code></pre></div><pre tabindex="0"><code>## [1] 0.3304367
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># Fit bivariate OLS. </span>
-</span></span><span style="display:flex;"><span>reg_rdpi_margin <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">lm</span>(incumb_vote_margin <span style="color:#f92672">~</span> RDPI_growth_quarterly, 
-</span></span><span style="display:flex;"><span>               data <span style="color:#f92672">=</span> elec_econ_comb)
-</span></span><span style="display:flex;"><span>reg_rdpi_margin <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">summary</span>() 
-</span></span></code></pre></div><pre tabindex="0"><code>## 
+<pre tabindex="0"><code>## [1] -0.0596564
+</code></pre><pre tabindex="0"><code>## [1] 0.3304367
+</code></pre><pre tabindex="0"><code>## 
 ## Call:
 ## lm(formula = incumb_vote_margin ~ RDPI_growth_quarterly, data = elec_econ_comb)
 ## 
@@ -720,10 +352,7 @@ Above, I run a linear regression on the relationship between between Consumer Pr
 ## Residual standard error: 10.43 on 17 degrees of freedom
 ## Multiple R-squared:  0.003559,	Adjusted R-squared:  -0.05506 
 ## F-statistic: 0.06072 on 1 and 17 DF,  p-value: 0.8083
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>reg_rdpi_margin_2 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">lm</span>(incumb_vote_margin <span style="color:#f92672">~</span> RDPI_growth_quarterly, 
-</span></span><span style="display:flex;"><span>                 data <span style="color:#f92672">=</span> elec_econ_comb_2)
-</span></span><span style="display:flex;"><span>reg_rdpi_margin_2 <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">summary</span>()
-</span></span></code></pre></div><pre tabindex="0"><code>## 
+</code></pre><pre tabindex="0"><code>## 
 ## Call:
 ## lm(formula = incumb_vote_margin ~ RDPI_growth_quarterly, data = elec_econ_comb_2)
 ## 
@@ -739,147 +368,37 @@ Above, I run a linear regression on the relationship between between Consumer Pr
 ## Residual standard error: 9.974 on 16 degrees of freedom
 ## Multiple R-squared:  0.1092,	Adjusted R-squared:  0.05351 
 ## F-statistic: 1.961 on 1 and 16 DF,  p-value: 0.1805
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># Can add bivariate regression lines to our scatterplots. </span>
-</span></span><span style="display:flex;"><span>regplot_rdpi_margin <span style="color:#f92672">&lt;-</span> elec_econ_comb <span style="color:#f92672">|&gt;</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> RDPI_growth_quarterly, y <span style="color:#f92672">=</span> incumb_vote_margin, label <span style="color:#f92672">=</span> year)) <span style="color:#f92672">+</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_smooth</span>(method <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;lm&#34;</span>, formula <span style="color:#f92672">=</span> y <span style="color:#f92672">~</span> x) <span style="color:#f92672">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;RDPI Quarterly Growth (%)&#34;</span>, 
-</span></span><span style="display:flex;"><span>       y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Incumbent Party&#39;s National Popular Vote Margin&#34;</span>, 
-</span></span><span style="display:flex;"><span>       title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Relating RDPI Growth and Incumbent Vote Margin&#34;</span>,
-</span></span><span style="display:flex;"><span>       subtitle <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Y = 3.9848 + (-0.0597) * X&#34;</span>) <span style="color:#f92672">+</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_text_repel</span>() <span style="color:#f92672">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">my_prettier_theme</span>()
-</span></span><span style="display:flex;"><span>regplot_rdpi_margin
-</span></span></code></pre></div><pre tabindex="0"><code>## Warning: The following aesthetics were dropped during statistical transformation: label
+</code></pre><pre tabindex="0"><code>## Warning: The following aesthetics were dropped during statistical transformation: label
 ## ℹ This can happen when ggplot fails to infer the correct grouping structure in
 ##   the data.
 ## ℹ Did you forget to specify a `group` aesthetic or to convert a numerical
 ##   variable into a factor?
 </code></pre><img src="https://sduggasani.github.io/2024election-blog/post/2024-09-12-week-2-fundamentals-i-the-economy/index_files/figure-html/unnamed-chunk-12-1.png" width="672" />
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>regplot_rdpi_margin_2 <span style="color:#f92672">&lt;-</span> elec_econ_comb_2 <span style="color:#f92672">|&gt;</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> RDPI_growth_quarterly, y <span style="color:#f92672">=</span> incumb_vote_margin, label <span style="color:#f92672">=</span> year)) <span style="color:#f92672">+</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_smooth</span>(method <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;lm&#34;</span>, formula <span style="color:#f92672">=</span> y <span style="color:#f92672">~</span> x) <span style="color:#f92672">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;RDPI Quarterly Growth (%)&#34;</span>, 
-</span></span><span style="display:flex;"><span>       y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Incumbent Party&#39;s National Popular Vote Margin&#34;</span>, 
-</span></span><span style="display:flex;"><span>       title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Relating RDPI Growth and Incumbent Vote Margin&#34;</span>,
-</span></span><span style="display:flex;"><span>       subtitle <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Y = -0.09853 + 0.88662 * X&#34;</span>,
-</span></span><span style="display:flex;"><span>       caption <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Excluding 2020 data&#34;</span>) <span style="color:#f92672">+</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_text_repel</span>() <span style="color:#f92672">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">my_prettier_theme</span>()
-</span></span><span style="display:flex;"><span>regplot_rdpi_margin_2
-</span></span></code></pre></div><pre tabindex="0"><code>## Warning: The following aesthetics were dropped during statistical transformation: label
+<pre tabindex="0"><code>## Warning: The following aesthetics were dropped during statistical transformation: label
 ## ℹ This can happen when ggplot fails to infer the correct grouping structure in
 ##   the data.
 ## ℹ Did you forget to specify a `group` aesthetic or to convert a numerical
 ##   variable into a factor?
 </code></pre><img src="https://sduggasani.github.io/2024election-blog/post/2024-09-12-week-2-fundamentals-i-the-economy/index_files/figure-html/unnamed-chunk-12-2.png" width="672" />
 Now, I run a linear regression on the relationship between between Quarterly Growth in Real Disposable Personal Income and Incumbent Vote Margin. RDPI is my proxy for personal finances and can provide insight into how much voters are actually working with after taxes. According to the model, there is a pretty strong positive relationship between RDPI and incumbent vote margin, suggesting that the greater growth in RDPI, the better an incumbent party's performance in the upcoming presidential election. Here, it seems that 2020 completely distorts the model's relationship of the two variables, so it is probably best to leave it out. 
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># EVALUATING VOTE MARGIN AND RDPI MODEL</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Evaluate the in-sample fit of your preferred model.</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># R-squared method</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># With 2020</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">print</span>(<span style="color:#a6e22e">paste</span>(<span style="color:#e6db74">&#34;With 2020 R-Squared: &#34;</span>, <span style="color:#a6e22e">summary</span>(reg_rdpi_margin)<span style="color:#f92672">$</span>r.squared))
-</span></span></code></pre></div><pre tabindex="0"><code>## [1] &#34;With 2020 R-Squared:  0.00355888626006062&#34;
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># Without 2020</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">print</span>(<span style="color:#a6e22e">paste</span>(<span style="color:#e6db74">&#34;Without 2020 R-Squared: &#34;</span>, <span style="color:#a6e22e">summary</span>(reg_rdpi_margin_2)<span style="color:#f92672">$</span>r.squared))
-</span></span></code></pre></div><pre tabindex="0"><code>## [1] &#34;Without 2020 R-Squared:  0.109188411395232&#34;
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># In-sample error, plotting residuals</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># With 2020</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">plot</span>(elec_econ_comb<span style="color:#f92672">$</span>year, elec_econ_comb<span style="color:#f92672">$</span>incumb_vote_margin, type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;l&#34;</span>,
-</span></span><span style="display:flex;"><span>     main <span style="color:#f92672">=</span><span style="color:#e6db74">&#34;True Y (Line), Predicted Y (Dot) for Each Year&#34;</span>)
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">points</span>(elec_econ_comb<span style="color:#f92672">$</span>year, <span style="color:#a6e22e">predict</span>(reg_rdpi_margin, elec_econ_comb))
-</span></span></code></pre></div><img src="https://sduggasani.github.io/2024election-blog/post/2024-09-12-week-2-fundamentals-i-the-economy/index_files/figure-html/unnamed-chunk-13-1.png" width="672" />
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># Without 2020</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">plot</span>(elec_econ_comb_2<span style="color:#f92672">$</span>year, elec_econ_comb_2<span style="color:#f92672">$</span>incumb_vote_margin, type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;l&#34;</span>,
-</span></span><span style="display:flex;"><span>     main <span style="color:#f92672">=</span><span style="color:#e6db74">&#34;True Y (Line), Predicted Y (Dot) for Each Year&#34;</span>)
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">points</span>(elec_econ_comb_2<span style="color:#f92672">$</span>year, <span style="color:#a6e22e">predict</span>(reg_rdpi_margin_2, elec_econ_comb_2))
-</span></span></code></pre></div><img src="https://sduggasani.github.io/2024election-blog/post/2024-09-12-week-2-fundamentals-i-the-economy/index_files/figure-html/unnamed-chunk-13-2.png" width="672" />
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># Mean Squared Error</span>
-</span></span><span style="display:flex;"><span>mse_2020 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">mean</span>((reg_rdpi_margin<span style="color:#f92672">$</span>model<span style="color:#f92672">$</span>incumb_vote_margin <span style="color:#f92672">-</span> reg_rdpi_margin<span style="color:#f92672">$</span>fitted.values)^2)
-</span></span><span style="display:flex;"><span>mse_no2020 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">mean</span>((reg_rdpi_margin_2<span style="color:#f92672">$</span>model<span style="color:#f92672">$</span>incumb_vote_margin <span style="color:#f92672">-</span> reg_rdpi_margin_2<span style="color:#f92672">$</span>fitted.values)^2)
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">print</span>(<span style="color:#a6e22e">paste</span>(<span style="color:#e6db74">&#34;With 2020 Mean Squared Error: &#34;</span>, mse_2020))
-</span></span></code></pre></div><pre tabindex="0"><code>## [1] &#34;With 2020 Mean Squared Error:  97.2813924464543&#34;
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">print</span>(<span style="color:#a6e22e">paste</span>(<span style="color:#e6db74">&#34;Without 2020 Mean Squared Error: &#34;</span>, mse_no2020))
-</span></span></code></pre></div><pre tabindex="0"><code>## [1] &#34;Without 2020 Mean Squared Error:  88.4281166011348&#34;
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># # Model Testing: Leave-One-Out</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># (out_samp_pred &lt;- predict(reg_rdpi_margin_2, elec_econ_comb_2[elec_econ_comb_2$year == 2020,]))</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># (out_samp_truth &lt;- elec_econ_comb_2 |&gt; filter(year == 2020) |&gt; select(incumb_vote_margin))</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># print(paste(&#34;Leave-One-Out: &#34;, (out_samp_pred - out_samp_truth))) # Dangers of fundamentals-only model!</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># # https://www.nytimes.com/2020/07/30/business/economy/q2-gdp-coronavirus-economy.html</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># # Model Testing: Cross-Validation (One Run)</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># years_out_samp &lt;- sample(elec_econ_comb_2$year, 9) </span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># mod &lt;- lm(incumb_vote_margin ~ GDP_growth_quarterly, </span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#           elec_econ_comb_2[!(elec_econ_comb_2$year %in% years_out_samp),])</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># out_samp_pred &lt;- predict(mod, elec_econ_comb_2[elec_econ_comb_2$year %in% years_out_samp,])</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># out_samp_truth &lt;- elec_econ_comb_2$incumb_vote_margin[elec_econ_comb_2$year %in% years_out_samp]</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># mean(out_samp_pred - out_samp_truth)</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Model Testing: Cross-Validation (1000 Runs)</span>
-</span></span><span style="display:flex;"><span>out_samp_errors <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">sapply</span>(<span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">1000</span>, <span style="color:#66d9ef">function</span>(i) {
-</span></span><span style="display:flex;"><span>  years_out_samp <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">sample</span>(elec_econ_comb_2<span style="color:#f92672">$</span>year, <span style="color:#ae81ff">9</span>) 
-</span></span><span style="display:flex;"><span>  mod <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">lm</span>(incumb_vote_margin <span style="color:#f92672">~</span> RDPI_growth_quarterly, 
-</span></span><span style="display:flex;"><span>          elec_econ_comb_2[<span style="color:#f92672">!</span>(elec_econ_comb_2<span style="color:#f92672">$</span>year <span style="color:#f92672">%in%</span> years_out_samp),])
-</span></span><span style="display:flex;"><span>  out_samp_pred <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">predict</span>(mod, elec_econ_comb_2[elec_econ_comb_2<span style="color:#f92672">$</span>year <span style="color:#f92672">%in%</span> years_out_samp,])
-</span></span><span style="display:flex;"><span>  out_samp_truth <span style="color:#f92672">&lt;-</span> elec_econ_comb_2<span style="color:#f92672">$</span>incumb_vote_margin[elec_econ_comb_2<span style="color:#f92672">$</span>year <span style="color:#f92672">%in%</span> years_out_samp]
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mean</span>(out_samp_pred <span style="color:#f92672">-</span> out_samp_truth)
-</span></span><span style="display:flex;"><span>})
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># mean(out_samp_errors)</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">print</span>(<span style="color:#a6e22e">paste</span>(<span style="color:#e6db74">&#34;Cross-Validation Mean Absolute Value Error (Without 2020): &#34;</span>, <span style="color:#a6e22e">mean</span>(<span style="color:#a6e22e">abs</span>(out_samp_errors))))
-</span></span></code></pre></div><pre tabindex="0"><code>## [1] &#34;Cross-Validation Mean Absolute Value Error (Without 2020):  4.1182564160077&#34;
+<pre tabindex="0"><code>## [1] &#34;With 2020 R-Squared:  0.00355888626006062&#34;
+</code></pre><pre tabindex="0"><code>## [1] &#34;Without 2020 R-Squared:  0.109188411395232&#34;
+</code></pre><p><img src="https://sduggasani.github.io/2024election-blog/post/2024-09-12-week-2-fundamentals-i-the-economy/index_files/figure-html/unnamed-chunk-13-1.png" width="672" /><img src="https://sduggasani.github.io/2024election-blog/post/2024-09-12-week-2-fundamentals-i-the-economy/index_files/figure-html/unnamed-chunk-13-2.png" width="672" /></p>
+<pre tabindex="0"><code>## [1] &#34;With 2020 Mean Squared Error:  97.2813924464543&#34;
+</code></pre><pre tabindex="0"><code>## [1] &#34;Without 2020 Mean Squared Error:  88.4281166011348&#34;
+</code></pre><pre tabindex="0"><code>## [1] &#34;Cross-Validation Mean Absolute Value Error (Without 2020):  4.05908657343451&#34;
 </code></pre><p>Again, the RDPI model performs pretty poorly with in-sample and out-of-sample tests. It yields low R-Squared values even when I leave out 2020 data. The Mean Squared Error is high and so is the Cross-Validation Mean Absolute Value Error.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e">####----------------------------------------------------------#</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#### Predicting 2024 results using simple RDPI Growth and vote margin model.</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">####----------------------------------------------------------#</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Sequester 2024 data.</span>
-</span></span><span style="display:flex;"><span>RDPI_new <span style="color:#f92672">&lt;-</span> d_fred <span style="color:#f92672">|&gt;</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">filter</span>(year <span style="color:#f92672">==</span> <span style="color:#ae81ff">2024</span> <span style="color:#f92672">&amp;</span> quarter <span style="color:#f92672">==</span> <span style="color:#ae81ff">2</span>) <span style="color:#f92672">|&gt;</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">select</span>(RDPI_growth_quarterly)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Predict.</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">print</span>(<span style="color:#a6e22e">paste</span>(<span style="color:#e6db74">&#34;2024 RDPI Growth-Predicted Incumbent Vote Margin:&#34;</span>, <span style="color:#a6e22e">predict</span>(reg_rdpi_margin, RDPI_new)))
-</span></span></code></pre></div><pre tabindex="0"><code>## [1] &#34;2024 RDPI Growth-Predicted Incumbent Vote Margin: 3.9250814230794&#34;
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">print</span>(<span style="color:#a6e22e">paste</span>(<span style="color:#e6db74">&#34;2024 RDPI Growth-Predicted Incumbent Vote Margin (Excluding 2020 from Model):&#34;</span>, <span style="color:#a6e22e">predict</span>(reg_rdpi_margin_2, RDPI_new)))
-</span></span></code></pre></div><pre tabindex="0"><code>## [1] &#34;2024 RDPI Growth-Predicted Incumbent Vote Margin (Excluding 2020 from Model): 0.788092792500218&#34;
+<pre tabindex="0"><code>## [1] &#34;2024 RDPI Growth-Predicted Incumbent Vote Margin: 3.9250814230794&#34;
+</code></pre><pre tabindex="0"><code>## [1] &#34;2024 RDPI Growth-Predicted Incumbent Vote Margin (Excluding 2020 from Model): 0.788092792500218&#34;
 </code></pre><p>However, if we use this model to forecast the upcoming election, it appears that Harris will win. The model that involves 2020 data I determined was extremely flawed for distorting the input-outcome relationship. When we exclude 2020 data, it appears that Harris only wins the national popular vote share by less than a percentage, signaling a close race (if Quarterly RDPI Growth is all that mattered to voters).</p>
 <p><strong>Harris +1</strong></p>
 <h2 id="unemployment-and-vote-margin">
-  Unemployment and Vote Margin
+  <strong>Unemployment and Vote Margin</strong>
   <a class="anchor" href="#unemployment-and-vote-margin">#</a>
 </h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e">####----------------------------------------------------------#</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#### Understanding the relationship between economy and vote margin. </span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">####----------------------------------------------------------#</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Create scatterplot to visualize relationship between Unemployment and </span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># incumbent vote margin </span>
-</span></span><span style="display:flex;"><span>scatterplot_unemp_margin <span style="color:#f92672">&lt;-</span> elec_econ_comb <span style="color:#f92672">|&gt;</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> unemployment, y <span style="color:#f92672">=</span> incumb_vote_margin, label <span style="color:#f92672">=</span> year)) <span style="color:#f92672">+</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_text</span>() <span style="color:#f92672">+</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Unemployment Rate (%)&#34;</span>, 
-</span></span><span style="display:flex;"><span>       y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Incumbent Party&#39;s National Popular Vote Margin&#34;</span>) <span style="color:#f92672">+</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">theme_bw</span>()
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>scatterplot_unemp_margin_2 <span style="color:#f92672">&lt;-</span> elec_econ_comb_2 <span style="color:#f92672">|&gt;</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> unemployment, y <span style="color:#f92672">=</span> incumb_vote_margin, label <span style="color:#f92672">=</span> year)) <span style="color:#f92672">+</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_text</span>() <span style="color:#f92672">+</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Unemployment Rate (%)&#34;</span>, 
-</span></span><span style="display:flex;"><span>       y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Incumbent Party&#39;s National Popular Vote Margin&#34;</span>) <span style="color:#f92672">+</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">my_prettier_theme</span>()
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Compute correlations between Q2 Unemployment and incumbent vote 2-party vote share.</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">cor</span>(elec_econ_comb<span style="color:#f92672">$</span>unemployment, 
-</span></span><span style="display:flex;"><span>    elec_econ_comb<span style="color:#f92672">$</span>incumb_vote_margin)
-</span></span></code></pre></div><pre tabindex="0"><code>## [1] -0.1287775
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">cor</span>(elec_econ_comb_2<span style="color:#f92672">$</span>unemployment, 
-</span></span><span style="display:flex;"><span>    elec_econ_comb_2<span style="color:#f92672">$</span>incumb_vote_margin)
-</span></span></code></pre></div><pre tabindex="0"><code>## [1] 0.02293066
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># Fit bivariate OLS. </span>
-</span></span><span style="display:flex;"><span>reg_unemp_margin <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">lm</span>(incumb_vote_margin <span style="color:#f92672">~</span> unemployment, 
-</span></span><span style="display:flex;"><span>               data <span style="color:#f92672">=</span> elec_econ_comb)
-</span></span><span style="display:flex;"><span>reg_unemp_margin <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">summary</span>() 
-</span></span></code></pre></div><pre tabindex="0"><code>## 
+<pre tabindex="0"><code>## [1] -0.1287775
+</code></pre><pre tabindex="0"><code>## [1] 0.02293066
+</code></pre><pre tabindex="0"><code>## 
 ## Call:
 ## lm(formula = incumb_vote_margin ~ unemployment, data = elec_econ_comb)
 ## 
@@ -895,10 +414,7 @@ Now, I run a linear regression on the relationship between between Quarterly Gro
 ## Residual standard error: 10.36 on 17 degrees of freedom
 ## Multiple R-squared:  0.01658,	Adjusted R-squared:  -0.04126 
 ## F-statistic: 0.2867 on 1 and 17 DF,  p-value: 0.5993
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>reg_unemp_margin_2 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">lm</span>(incumb_vote_margin <span style="color:#f92672">~</span> unemployment, 
-</span></span><span style="display:flex;"><span>                 data <span style="color:#f92672">=</span> elec_econ_comb_2)
-</span></span><span style="display:flex;"><span>reg_unemp_margin_2 <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">summary</span>()
-</span></span></code></pre></div><pre tabindex="0"><code>## 
+</code></pre><pre tabindex="0"><code>## 
 ## Call:
 ## lm(formula = incumb_vote_margin ~ unemployment, data = elec_econ_comb_2)
 ## 
@@ -914,153 +430,37 @@ Now, I run a linear regression on the relationship between between Quarterly Gro
 ## Residual standard error: 10.56 on 16 degrees of freedom
 ## Multiple R-squared:  0.0005258,	Adjusted R-squared:  -0.06194 
 ## F-statistic: 0.008417 on 1 and 16 DF,  p-value: 0.928
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># Can add bivariate regression lines to our scatterplots. </span>
-</span></span><span style="display:flex;"><span>regplot_unemp_margin <span style="color:#f92672">&lt;-</span> elec_econ_comb <span style="color:#f92672">|&gt;</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> unemployment, y <span style="color:#f92672">=</span> incumb_vote_margin, label <span style="color:#f92672">=</span> year)) <span style="color:#f92672">+</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_smooth</span>(method <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;lm&#34;</span>, formula <span style="color:#f92672">=</span> y <span style="color:#f92672">~</span> x) <span style="color:#f92672">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Unemployment Rate (%)&#34;</span>, 
-</span></span><span style="display:flex;"><span>       y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Incumbent Party&#39;s National Popular Vote Margin&#34;</span>, 
-</span></span><span style="display:flex;"><span>       title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Relating Unemployment Rate and Incumbent Vote Margin&#34;</span>,
-</span></span><span style="display:flex;"><span>       subtitle <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Y = 6.9590 + (-0.5714) * X&#34;</span>) <span style="color:#f92672">+</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_text_repel</span>() <span style="color:#f92672">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">my_prettier_theme</span>()
-</span></span><span style="display:flex;"><span>regplot_unemp_margin
-</span></span></code></pre></div><pre tabindex="0"><code>## Warning: The following aesthetics were dropped during statistical transformation: label
+</code></pre><pre tabindex="0"><code>## Warning: The following aesthetics were dropped during statistical transformation: label
 ## ℹ This can happen when ggplot fails to infer the correct grouping structure in
 ##   the data.
 ## ℹ Did you forget to specify a `group` aesthetic or to convert a numerical
 ##   variable into a factor?
 </code></pre><img src="https://sduggasani.github.io/2024election-blog/post/2024-09-12-week-2-fundamentals-i-the-economy/index_files/figure-html/unnamed-chunk-15-1.png" width="672" />
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>regplot_unemp_margin_2 <span style="color:#f92672">&lt;-</span> elec_econ_comb_2 <span style="color:#f92672">|&gt;</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> unemployment, y <span style="color:#f92672">=</span> incumb_vote_margin, label <span style="color:#f92672">=</span> year)) <span style="color:#f92672">+</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_smooth</span>(method <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;lm&#34;</span>, formula <span style="color:#f92672">=</span> y <span style="color:#f92672">~</span> x) <span style="color:#f92672">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Unemployment Rate (%)&#34;</span>, 
-</span></span><span style="display:flex;"><span>       y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Incumbent Party&#39;s National Popular Vote Margin&#34;</span>, 
-</span></span><span style="display:flex;"><span>       title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Relating Unemployment Rate and Incumbent Vote Margin&#34;</span>,
-</span></span><span style="display:flex;"><span>       subtitle <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Y = 3.1909 + 0.1509 * X&#34;</span>,
-</span></span><span style="display:flex;"><span>       caption <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Excluding 2020 data&#34;</span>) <span style="color:#f92672">+</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_text_repel</span>() <span style="color:#f92672">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">my_prettier_theme</span>()
-</span></span><span style="display:flex;"><span>regplot_unemp_margin_2
-</span></span></code></pre></div><pre tabindex="0"><code>## Warning: The following aesthetics were dropped during statistical transformation: label
+<pre tabindex="0"><code>## Warning: The following aesthetics were dropped during statistical transformation: label
 ## ℹ This can happen when ggplot fails to infer the correct grouping structure in
 ##   the data.
 ## ℹ Did you forget to specify a `group` aesthetic or to convert a numerical
 ##   variable into a factor?
 </code></pre><img src="https://sduggasani.github.io/2024election-blog/post/2024-09-12-week-2-fundamentals-i-the-economy/index_files/figure-html/unnamed-chunk-15-2.png" width="672" />
 Continuing with the economic phenomena Radcliffe and Skelley highlight as important to voters, I run a linear regression on the relationship between between Unemployment and Incumbent Vote Margin. Interestingly, the model suggests that there is no correlation  between unemployment and incumbent vote margin, especially if we look at the one that excludes 2020 data. It makes sense to exclude 2020 here because it forces a relationship that looks like does not exist.
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># EVALUATING VOTE MARGIN AND Unemployment MODEL</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Evaluate the in-sample fit of your preferred model.</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># R-squared method</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># With 2020</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">print</span>(<span style="color:#a6e22e">paste</span>(<span style="color:#e6db74">&#34;With 2020 R-Squared: &#34;</span>, <span style="color:#a6e22e">summary</span>(reg_unemp_margin)<span style="color:#f92672">$</span>r.squared))
-</span></span></code></pre></div><pre tabindex="0"><code>## [1] &#34;With 2020 R-Squared:  0.0165836375771564&#34;
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># Without 2020</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">print</span>(<span style="color:#a6e22e">paste</span>(<span style="color:#e6db74">&#34;Without 2020 R-Squared: &#34;</span>, <span style="color:#a6e22e">summary</span>(reg_unemp_margin_2)<span style="color:#f92672">$</span>r.squared))
-</span></span></code></pre></div><pre tabindex="0"><code>## [1] &#34;Without 2020 R-Squared:  0.00052581496233859&#34;
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># In-sample error, plotting residuals</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># With 2020</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">plot</span>(elec_econ_comb<span style="color:#f92672">$</span>year, elec_econ_comb<span style="color:#f92672">$</span>incumb_vote_margin, type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;l&#34;</span>,
-</span></span><span style="display:flex;"><span>     main <span style="color:#f92672">=</span><span style="color:#e6db74">&#34;True Y (Line), Predicted Y (Dot) for Each Year&#34;</span>)
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">points</span>(elec_econ_comb<span style="color:#f92672">$</span>year, <span style="color:#a6e22e">predict</span>(reg_unemp_margin, elec_econ_comb))
-</span></span></code></pre></div><img src="https://sduggasani.github.io/2024election-blog/post/2024-09-12-week-2-fundamentals-i-the-economy/index_files/figure-html/unnamed-chunk-16-1.png" width="672" />
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># Without 2020</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">plot</span>(elec_econ_comb_2<span style="color:#f92672">$</span>year, elec_econ_comb_2<span style="color:#f92672">$</span>incumb_vote_margin, type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;l&#34;</span>,
-</span></span><span style="display:flex;"><span>     main <span style="color:#f92672">=</span><span style="color:#e6db74">&#34;True Y (Line), Predicted Y (Dot) for Each Year&#34;</span>)
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">points</span>(elec_econ_comb_2<span style="color:#f92672">$</span>year, <span style="color:#a6e22e">predict</span>(reg_unemp_margin_2, elec_econ_comb_2))
-</span></span></code></pre></div><img src="https://sduggasani.github.io/2024election-blog/post/2024-09-12-week-2-fundamentals-i-the-economy/index_files/figure-html/unnamed-chunk-16-2.png" width="672" />
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># Mean Squared Error</span>
-</span></span><span style="display:flex;"><span>mse_2020 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">mean</span>((reg_unemp_margin<span style="color:#f92672">$</span>model<span style="color:#f92672">$</span>incumb_vote_margin <span style="color:#f92672">-</span> reg_unemp_margin<span style="color:#f92672">$</span>fitted.values)^2)
-</span></span><span style="display:flex;"><span>mse_no2020 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">mean</span>((reg_unemp_margin_2<span style="color:#f92672">$</span>model<span style="color:#f92672">$</span>incumb_vote_margin <span style="color:#f92672">-</span> reg_unemp_margin_2<span style="color:#f92672">$</span>fitted.values)^2)
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">print</span>(<span style="color:#a6e22e">paste</span>(<span style="color:#e6db74">&#34;With 2020 Mean Squared Error: &#34;</span>, mse_2020))
-</span></span></code></pre></div><pre tabindex="0"><code>## [1] &#34;With 2020 Mean Squared Error:  96.0098010529196&#34;
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">print</span>(<span style="color:#a6e22e">paste</span>(<span style="color:#e6db74">&#34;Without 2020 Mean Squared Error: &#34;</span>, mse_no2020))
-</span></span></code></pre></div><pre tabindex="0"><code>## [1] &#34;Without 2020 Mean Squared Error:  99.2147171241475&#34;
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># # Model Testing: Leave-One-Out</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># (out_samp_pred &lt;- predict(reg_unemp_margin_2, elec_econ_comb_2[elec_econ_comb_2$year == 2020,]))</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># (out_samp_truth &lt;- elec_econ_comb_2 |&gt; filter(year == 2020) |&gt; select(incumb_vote_margin))</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># print(paste(&#34;Leave-One-Out: &#34;, (out_samp_pred - out_samp_truth))) # Dangers of fundamentals-only model!</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># https://www.nytimes.com/2020/07/30/business/economy/q2-gdp-coronavirus-economy.html</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># # Model Testing: Cross-Validation (One Run)</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># years_out_samp &lt;- sample(elec_econ_comb_2$year, 9) </span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># mod &lt;- lm(incumb_vote_margin ~ GDP_growth_quarterly, </span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#           elec_econ_comb_2[!(elec_econ_comb_2$year %in% years_out_samp),])</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># out_samp_pred &lt;- predict(mod, elec_econ_comb_2[elec_econ_comb_2$year %in% years_out_samp,])</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># out_samp_truth &lt;- elec_econ_comb_2$incumb_vote_margin[elec_econ_comb_2$year %in% years_out_samp]</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># mean(out_samp_pred - out_samp_truth)</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Model Testing: Cross-Validation (1000 Runs)</span>
-</span></span><span style="display:flex;"><span>out_samp_errors <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">sapply</span>(<span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">1000</span>, <span style="color:#66d9ef">function</span>(i) {
-</span></span><span style="display:flex;"><span>  years_out_samp <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">sample</span>(elec_econ_comb_2<span style="color:#f92672">$</span>year, <span style="color:#ae81ff">9</span>) 
-</span></span><span style="display:flex;"><span>  mod <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">lm</span>(incumb_vote_margin <span style="color:#f92672">~</span> unemployment, 
-</span></span><span style="display:flex;"><span>          elec_econ_comb_2[<span style="color:#f92672">!</span>(elec_econ_comb_2<span style="color:#f92672">$</span>year <span style="color:#f92672">%in%</span> years_out_samp),])
-</span></span><span style="display:flex;"><span>  out_samp_pred <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">predict</span>(mod, elec_econ_comb_2[elec_econ_comb_2<span style="color:#f92672">$</span>year <span style="color:#f92672">%in%</span> years_out_samp,])
-</span></span><span style="display:flex;"><span>  out_samp_truth <span style="color:#f92672">&lt;-</span> elec_econ_comb_2<span style="color:#f92672">$</span>incumb_vote_margin[elec_econ_comb_2<span style="color:#f92672">$</span>year <span style="color:#f92672">%in%</span> years_out_samp]
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mean</span>(out_samp_pred <span style="color:#f92672">-</span> out_samp_truth)
-</span></span><span style="display:flex;"><span>})
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># mean(out_samp_errors)</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">print</span>(<span style="color:#a6e22e">paste</span>(<span style="color:#e6db74">&#34;Cross-Validation Mean Absolute Value Error (Without 2020): &#34;</span>, <span style="color:#a6e22e">mean</span>(<span style="color:#a6e22e">abs</span>(out_samp_errors))))
-</span></span></code></pre></div><pre tabindex="0"><code>## [1] &#34;Cross-Validation Mean Absolute Value Error (Without 2020):  4.27701705434377&#34;
+<pre tabindex="0"><code>## [1] &#34;With 2020 R-Squared:  0.0165836375771564&#34;
+</code></pre><pre tabindex="0"><code>## [1] &#34;Without 2020 R-Squared:  0.00052581496233859&#34;
+</code></pre><p><img src="https://sduggasani.github.io/2024election-blog/post/2024-09-12-week-2-fundamentals-i-the-economy/index_files/figure-html/unnamed-chunk-16-1.png" width="672" /><img src="https://sduggasani.github.io/2024election-blog/post/2024-09-12-week-2-fundamentals-i-the-economy/index_files/figure-html/unnamed-chunk-16-2.png" width="672" /></p>
+<pre tabindex="0"><code>## [1] &#34;With 2020 Mean Squared Error:  96.0098010529196&#34;
+</code></pre><pre tabindex="0"><code>## [1] &#34;Without 2020 Mean Squared Error:  99.2147171241475&#34;
+</code></pre><pre tabindex="0"><code>## [1] &#34;Cross-Validation Mean Absolute Value Error (Without 2020):  4.49506968259989&#34;
 </code></pre><p>The R-Squared values for the unemployment-predicted model are the lowest we have seen so far. THe Mean Squared Errors are also the highest and the Cross-Validation Mean Absolute Value Error is a large percentage vote margin that could push an election in any direction.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e">####----------------------------------------------------------#</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#### Predicting 2024 results using simple GDP and vote margin model.</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">####----------------------------------------------------------#</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Sequester 2024 data.</span>
-</span></span><span style="display:flex;"><span>unemp_new <span style="color:#f92672">&lt;-</span> d_fred <span style="color:#f92672">|&gt;</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">filter</span>(year <span style="color:#f92672">==</span> <span style="color:#ae81ff">2024</span> <span style="color:#f92672">&amp;</span> quarter <span style="color:#f92672">==</span> <span style="color:#ae81ff">2</span>) <span style="color:#f92672">|&gt;</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">select</span>(unemployment)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Predict.</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">print</span>(<span style="color:#a6e22e">paste</span>(<span style="color:#e6db74">&#34;2024 Unemployment-Predicted Incumbent Vote Margin:&#34;</span>, <span style="color:#a6e22e">predict</span>(reg_unemp_margin, unemp_new)))
-</span></span></code></pre></div><pre tabindex="0"><code>## [1] &#34;2024 Unemployment-Predicted Incumbent Vote Margin: 4.67350537665337&#34;
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">print</span>(<span style="color:#a6e22e">paste</span>(<span style="color:#e6db74">&#34;2024 Unemployment-Predicted Incumbent Vote Margin (Excluding 2020 from Model):&#34;</span>, <span style="color:#a6e22e">predict</span>(reg_unemp_margin_2, unemp_new)))
-</span></span></code></pre></div><pre tabindex="0"><code>## [1] &#34;2024 Unemployment-Predicted Incumbent Vote Margin (Excluding 2020 from Model): 3.79434427081865&#34;
+<pre tabindex="0"><code>## [1] &#34;2024 Unemployment-Predicted Incumbent Vote Margin: 4.67350537665337&#34;
+</code></pre><pre tabindex="0"><code>## [1] &#34;2024 Unemployment-Predicted Incumbent Vote Margin (Excluding 2020 from Model): 3.79434427081865&#34;
 </code></pre><p>The model suggests that the incumbent party, Harris and the Democrats, will win the national popular vote share in November—whether we include 2020 data or not.</p>
 <p><strong>Harris +1</strong></p>
 <h2 id="stock-market-performance-and-vote-margin">
-  Stock Market Performance and Vote Margin
+  <strong>Stock Market Performance and Vote Margin</strong>
   <a class="anchor" href="#stock-market-performance-and-vote-margin">#</a>
 </h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e">####----------------------------------------------------------#</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#### Understanding the relationship between economy and vote margin. </span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">####----------------------------------------------------------#</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Create Stock Margin Performance Variable (as percentage change)</span>
-</span></span><span style="display:flex;"><span>elec_econ_comb <span style="color:#f92672">&lt;-</span> elec_econ_comb <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(sp500_perf <span style="color:#f92672">=</span> (sp500_close<span style="color:#f92672">-</span>sp500_open)<span style="color:#f92672">/</span>(sp500_open)<span style="color:#f92672">*</span><span style="color:#ae81ff">100</span>)
-</span></span><span style="display:flex;"><span>elec_econ_comb_2 <span style="color:#f92672">&lt;-</span> elec_econ_comb_2 <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(sp500_perf <span style="color:#f92672">=</span> (sp500_close<span style="color:#f92672">-</span>sp500_open)<span style="color:#f92672">/</span>(sp500_open)<span style="color:#f92672">*</span><span style="color:#ae81ff">100</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Create scatterplot to visualize relationship between Stock Market and </span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># incumbent vote margin </span>
-</span></span><span style="display:flex;"><span>scatterplot_stock_margin <span style="color:#f92672">&lt;-</span> elec_econ_comb <span style="color:#f92672">|&gt;</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> sp500_perf, y <span style="color:#f92672">=</span> incumb_vote_margin, label <span style="color:#f92672">=</span> year)) <span style="color:#f92672">+</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_text</span>() <span style="color:#f92672">+</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Stock Market Open-Close Change (%)&#34;</span>, 
-</span></span><span style="display:flex;"><span>       y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Incumbent Party&#39;s National Popular Vote Margin&#34;</span>) <span style="color:#f92672">+</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">theme_bw</span>()
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>scatterplot_stock_margin_2 <span style="color:#f92672">&lt;-</span> elec_econ_comb_2 <span style="color:#f92672">|&gt;</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> sp500_perf, y <span style="color:#f92672">=</span> incumb_vote_margin, label <span style="color:#f92672">=</span> year)) <span style="color:#f92672">+</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_text</span>() <span style="color:#f92672">+</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Stock Market Open-Close Change (%)&#34;</span>, 
-</span></span><span style="display:flex;"><span>       y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Incumbent Party&#39;s National Popular Vote Margin&#34;</span>) <span style="color:#f92672">+</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">my_prettier_theme</span>()
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Compute correlations between Q2 Unemployment and incumbent vote 2-party vote share.</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">cor</span>(elec_econ_comb<span style="color:#f92672">$</span>sp500_perf, 
-</span></span><span style="display:flex;"><span>    elec_econ_comb<span style="color:#f92672">$</span>incumb_vote_margin)
-</span></span></code></pre></div><pre tabindex="0"><code>## [1] -0.3389181
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">cor</span>(elec_econ_comb_2<span style="color:#f92672">$</span>sp500_perf, 
-</span></span><span style="display:flex;"><span>    elec_econ_comb_2<span style="color:#f92672">$</span>incumb_vote_margin)
-</span></span></code></pre></div><pre tabindex="0"><code>## [1] -0.2969328
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># Fit bivariate OLS. </span>
-</span></span><span style="display:flex;"><span>reg_stock_margin <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">lm</span>(incumb_vote_margin <span style="color:#f92672">~</span> sp500_perf, 
-</span></span><span style="display:flex;"><span>               data <span style="color:#f92672">=</span> elec_econ_comb)
-</span></span><span style="display:flex;"><span>reg_stock_margin <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">summary</span>() 
-</span></span></code></pre></div><pre tabindex="0"><code>## 
+<pre tabindex="0"><code>## [1] -0.3389181
+</code></pre><pre tabindex="0"><code>## [1] -0.2969328
+</code></pre><pre tabindex="0"><code>## 
 ## Call:
 ## lm(formula = incumb_vote_margin ~ sp500_perf, data = elec_econ_comb)
 ## 
@@ -1078,10 +478,7 @@ Continuing with the economic phenomena Radcliffe and Skelley highlight as import
 ## Residual standard error: 9.828 on 17 degrees of freedom
 ## Multiple R-squared:  0.1149,	Adjusted R-squared:  0.0628 
 ## F-statistic: 2.206 on 1 and 17 DF,  p-value: 0.1558
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>reg_stock_margin_2 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">lm</span>(incumb_vote_margin <span style="color:#f92672">~</span> sp500_perf, 
-</span></span><span style="display:flex;"><span>                 data <span style="color:#f92672">=</span> elec_econ_comb_2)
-</span></span><span style="display:flex;"><span>reg_stock_margin_2 <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">summary</span>()
-</span></span></code></pre></div><pre tabindex="0"><code>## 
+</code></pre><pre tabindex="0"><code>## 
 ## Call:
 ## lm(formula = incumb_vote_margin ~ sp500_perf, data = elec_econ_comb_2)
 ## 
@@ -1099,114 +496,32 @@ Continuing with the economic phenomena Radcliffe and Skelley highlight as import
 ## Residual standard error: 10.09 on 16 degrees of freedom
 ## Multiple R-squared:  0.08817,	Adjusted R-squared:  0.03118 
 ## F-statistic: 1.547 on 1 and 16 DF,  p-value: 0.2315
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># Can add bivariate regression lines to our scatterplots. </span>
-</span></span><span style="display:flex;"><span>regplot_stock_margin <span style="color:#f92672">&lt;-</span> elec_econ_comb <span style="color:#f92672">|&gt;</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> sp500_perf, y <span style="color:#f92672">=</span> incumb_vote_margin, label <span style="color:#f92672">=</span> year)) <span style="color:#f92672">+</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_smooth</span>(method <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;lm&#34;</span>, formula <span style="color:#f92672">=</span> y <span style="color:#f92672">~</span> x) <span style="color:#f92672">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Stock Market Open-Close Change (%)&#34;</span>, 
-</span></span><span style="display:flex;"><span>       y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Incumbent Party&#39;s National Popular Vote Margin&#34;</span>, 
-</span></span><span style="display:flex;"><span>       title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Relating Stock Market Performance and Incumbent Vote Margin&#34;</span>,
-</span></span><span style="display:flex;"><span>       subtitle <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Y = 5.245 + (-1.557) * X&#34;</span>) <span style="color:#f92672">+</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_text_repel</span>() <span style="color:#f92672">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">my_prettier_theme</span>()
-</span></span><span style="display:flex;"><span>regplot_stock_margin
-</span></span></code></pre></div><pre tabindex="0"><code>## Warning: The following aesthetics were dropped during statistical transformation: label
+</code></pre><pre tabindex="0"><code>## Warning: The following aesthetics were dropped during statistical transformation: label
 ## ℹ This can happen when ggplot fails to infer the correct grouping structure in
 ##   the data.
 ## ℹ Did you forget to specify a `group` aesthetic or to convert a numerical
 ##   variable into a factor?
 </code></pre><img src="https://sduggasani.github.io/2024election-blog/post/2024-09-12-week-2-fundamentals-i-the-economy/index_files/figure-html/unnamed-chunk-18-1.png" width="672" />
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>regplot_stock_margin_2 <span style="color:#f92672">&lt;-</span> elec_econ_comb_2 <span style="color:#f92672">|&gt;</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> sp500_perf, y <span style="color:#f92672">=</span> incumb_vote_margin, label <span style="color:#f92672">=</span> year)) <span style="color:#f92672">+</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_smooth</span>(method <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;lm&#34;</span>, formula <span style="color:#f92672">=</span> y <span style="color:#f92672">~</span> x) <span style="color:#f92672">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Stock Market Open-Close Change (%)&#34;</span>, 
-</span></span><span style="display:flex;"><span>       y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Incumbent Party&#39;s National Popular Vote Margin&#34;</span>, 
-</span></span><span style="display:flex;"><span>       title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Relating Stock Market Performance and Incumbent Vote Margin&#34;</span>,
-</span></span><span style="display:flex;"><span>       subtitle <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Y = 5.398 + (-1.963) * X&#34;</span>,
-</span></span><span style="display:flex;"><span>       caption <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Excluding 2020 data&#34;</span>) <span style="color:#f92672">+</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_text_repel</span>() <span style="color:#f92672">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">my_prettier_theme</span>()
-</span></span><span style="display:flex;"><span>regplot_stock_margin_2
-</span></span></code></pre></div><pre tabindex="0"><code>## Warning: The following aesthetics were dropped during statistical transformation: label
+<pre tabindex="0"><code>## Warning: The following aesthetics were dropped during statistical transformation: label
 ## ℹ This can happen when ggplot fails to infer the correct grouping structure in
 ##   the data.
 ## ℹ Did you forget to specify a `group` aesthetic or to convert a numerical
 ##   variable into a factor?
 </code></pre><img src="https://sduggasani.github.io/2024election-blog/post/2024-09-12-week-2-fundamentals-i-the-economy/index_files/figure-html/unnamed-chunk-18-2.png" width="672" />
-<p>Finally, we look to stock market performance as a metric of economic success that voters find salient. Both 2020-inclusive and 2020-exclusive models suggest a negative relationship between Stock Market Change and Incumbent Vote Margin. This is counter-intuitive because it suggests that greater growth of the SP500 coincides with poorer performance of the incumbent party in an upcoming election. It might be that higher percentage stock market changes actually signal a volatile economy that voters fear; this is speculative though and not an actual attempt to establish causality.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># EVALUATING VOTE MARGIN AND Stock MODEL</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Evaluate the in-sample fit of your preferred model.</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># R-squared method</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># With 2020</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">print</span>(<span style="color:#a6e22e">paste</span>(<span style="color:#e6db74">&#34;With 2020 R-Squared: &#34;</span>, <span style="color:#a6e22e">summary</span>(reg_stock_margin)<span style="color:#f92672">$</span>r.squared))
-</span></span></code></pre></div><pre tabindex="0"><code>## [1] &#34;With 2020 R-Squared:  0.114865484041972&#34;
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># Without 2020</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">print</span>(<span style="color:#a6e22e">paste</span>(<span style="color:#e6db74">&#34;Without 2020 R-Squared: &#34;</span>, <span style="color:#a6e22e">summary</span>(reg_stock_margin_2)<span style="color:#f92672">$</span>r.squared))
-</span></span></code></pre></div><pre tabindex="0"><code>## [1] &#34;Without 2020 R-Squared:  0.0881691133665322&#34;
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># In-sample error, plotting residuals</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># With 2020</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">plot</span>(elec_econ_comb<span style="color:#f92672">$</span>year, elec_econ_comb<span style="color:#f92672">$</span>incumb_vote_margin, type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;l&#34;</span>,
-</span></span><span style="display:flex;"><span>     main <span style="color:#f92672">=</span><span style="color:#e6db74">&#34;True Y (Line), Predicted Y (Dot) for Each Year&#34;</span>)
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">points</span>(elec_econ_comb<span style="color:#f92672">$</span>year, <span style="color:#a6e22e">predict</span>(reg_stock_margin, elec_econ_comb))
-</span></span></code></pre></div><img src="https://sduggasani.github.io/2024election-blog/post/2024-09-12-week-2-fundamentals-i-the-economy/index_files/figure-html/unnamed-chunk-19-1.png" width="672" />
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># Without 2020</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">plot</span>(elec_econ_comb_2<span style="color:#f92672">$</span>year, elec_econ_comb_2<span style="color:#f92672">$</span>incumb_vote_margin, type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;l&#34;</span>,
-</span></span><span style="display:flex;"><span>     main <span style="color:#f92672">=</span><span style="color:#e6db74">&#34;True Y (Line), Predicted Y (Dot) for Each Year&#34;</span>)
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">points</span>(elec_econ_comb_2<span style="color:#f92672">$</span>year, <span style="color:#a6e22e">predict</span>(reg_stock_margin_2, elec_econ_comb_2))
-</span></span></code></pre></div><img src="https://sduggasani.github.io/2024election-blog/post/2024-09-12-week-2-fundamentals-i-the-economy/index_files/figure-html/unnamed-chunk-19-2.png" width="672" />
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># Mean Squared Error</span>
-</span></span><span style="display:flex;"><span>mse_2020 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">mean</span>((reg_stock_margin<span style="color:#f92672">$</span>model<span style="color:#f92672">$</span>incumb_vote_margin <span style="color:#f92672">-</span> reg_stock_margin<span style="color:#f92672">$</span>fitted.values)^2)
-</span></span><span style="display:flex;"><span>mse_no2020 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">mean</span>((reg_stock_margin_2<span style="color:#f92672">$</span>model<span style="color:#f92672">$</span>incumb_vote_margin <span style="color:#f92672">-</span> reg_stock_margin_2<span style="color:#f92672">$</span>fitted.values)^2)
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">print</span>(<span style="color:#a6e22e">paste</span>(<span style="color:#e6db74">&#34;With 2020 Mean Squared Error: &#34;</span>, mse_2020))
-</span></span></code></pre></div><pre tabindex="0"><code>## [1] &#34;With 2020 Mean Squared Error:  86.4146581543887&#34;
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">print</span>(<span style="color:#a6e22e">paste</span>(<span style="color:#e6db74">&#34;Without 2020 Mean Squared Error: &#34;</span>, mse_no2020))
-</span></span></code></pre></div><pre tabindex="0"><code>## [1] &#34;Without 2020 Mean Squared Error:  90.5146374330731&#34;
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># # Model Testing: Leave-One-Out</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># (out_samp_pred &lt;- predict(reg_stock_margin_2, elec_econ_comb_2[elec_econ_comb_2$year == 2020,]))</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># (out_samp_truth &lt;- elec_econ_comb_2 |&gt; filter(year == 2020) |&gt; select(incumb_vote_margin))</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># print(paste(&#34;Leave-One-Out: &#34;, (out_samp_pred - out_samp_truth))) # Dangers of fundamentals-only model!</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># https://www.nytimes.com/2020/07/30/business/economy/q2-gdp-coronavirus-economy.html</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># # Model Testing: Cross-Validation (One Run)</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># years_out_samp &lt;- sample(elec_econ_comb_2$year, 9) </span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># mod &lt;- lm(incumb_vote_margin ~ GDP_growth_quarterly, </span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#           elec_econ_comb_2[!(elec_econ_comb_2$year %in% years_out_samp),])</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># out_samp_pred &lt;- predict(mod, elec_econ_comb_2[elec_econ_comb_2$year %in% years_out_samp,])</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># out_samp_truth &lt;- elec_econ_comb_2$incumb_vote_margin[elec_econ_comb_2$year %in% years_out_samp]</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># mean(out_samp_pred - out_samp_truth)</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Model Testing: Cross-Validation (1000 Runs)</span>
-</span></span><span style="display:flex;"><span>out_samp_errors <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">sapply</span>(<span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">1000</span>, <span style="color:#66d9ef">function</span>(i) {
-</span></span><span style="display:flex;"><span>  years_out_samp <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">sample</span>(elec_econ_comb_2<span style="color:#f92672">$</span>year, <span style="color:#ae81ff">9</span>) 
-</span></span><span style="display:flex;"><span>  mod <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">lm</span>(incumb_vote_margin <span style="color:#f92672">~</span> sp500_perf, 
-</span></span><span style="display:flex;"><span>          elec_econ_comb_2[<span style="color:#f92672">!</span>(elec_econ_comb_2<span style="color:#f92672">$</span>year <span style="color:#f92672">%in%</span> years_out_samp),])
-</span></span><span style="display:flex;"><span>  out_samp_pred <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">predict</span>(mod, elec_econ_comb_2[elec_econ_comb_2<span style="color:#f92672">$</span>year <span style="color:#f92672">%in%</span> years_out_samp,])
-</span></span><span style="display:flex;"><span>  out_samp_truth <span style="color:#f92672">&lt;-</span> elec_econ_comb_2<span style="color:#f92672">$</span>incumb_vote_margin[elec_econ_comb_2<span style="color:#f92672">$</span>year <span style="color:#f92672">%in%</span> years_out_samp]
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mean</span>(out_samp_pred <span style="color:#f92672">-</span> out_samp_truth)
-</span></span><span style="display:flex;"><span>})
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># mean(out_samp_errors)</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">print</span>(<span style="color:#a6e22e">paste</span>(<span style="color:#e6db74">&#34;Cross-Validation Mean Absolute Value Error (Without 2020): &#34;</span>, <span style="color:#a6e22e">mean</span>(<span style="color:#a6e22e">abs</span>(out_samp_errors))))
-</span></span></code></pre></div><pre tabindex="0"><code>## [1] &#34;Cross-Validation Mean Absolute Value Error (Without 2020):  4.08597249172685&#34;
+<p>Finally, we look to stock market performance as a metric of economic success that voters find salient. Both 2020-inclusive and 2020-exclusive models suggest a negative relationship between Stock Market Change and Incumbent Vote Margin. This is counter-intuitive because it suggests that greater growth of the SP500 coincides with poorer performance of the incumbent party in an upcoming election. It might be that higher percentage stock market changes actually signal a volatile economy that voters fear; this is speculative though and not an actual attempt to establish causality. If this were the case, it would not be wise to use a linear model and to use a more complex one instead.</p>
+<pre tabindex="0"><code>## [1] &#34;With 2020 R-Squared:  0.114865484041972&#34;
+</code></pre><pre tabindex="0"><code>## [1] &#34;Without 2020 R-Squared:  0.0881691133665322&#34;
+</code></pre><p><img src="https://sduggasani.github.io/2024election-blog/post/2024-09-12-week-2-fundamentals-i-the-economy/index_files/figure-html/unnamed-chunk-19-1.png" width="672" /><img src="https://sduggasani.github.io/2024election-blog/post/2024-09-12-week-2-fundamentals-i-the-economy/index_files/figure-html/unnamed-chunk-19-2.png" width="672" /></p>
+<pre tabindex="0"><code>## [1] &#34;With 2020 Mean Squared Error:  86.4146581543887&#34;
+</code></pre><pre tabindex="0"><code>## [1] &#34;Without 2020 Mean Squared Error:  90.5146374330731&#34;
+</code></pre><pre tabindex="0"><code>## [1] &#34;Cross-Validation Mean Absolute Value Error (Without 2020):  4.07336064496925&#34;
 </code></pre><p>Like the rest, the stock market model performs poorly in measures of in-sample and out-of-sample testing. The R-Squared values are low, the Mean Square Errors are high, and the Cross-Validation Mean Absolute Value is a large percentage value.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e">####----------------------------------------------------------#</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#### Predicting 2024 results using simple GDP and vote margin model.</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">####----------------------------------------------------------#</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Sequester 2024 data.</span>
-</span></span><span style="display:flex;"><span>stock_new <span style="color:#f92672">&lt;-</span> d_fred <span style="color:#f92672">|&gt;</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">filter</span>(year <span style="color:#f92672">==</span> <span style="color:#ae81ff">2024</span> <span style="color:#f92672">&amp;</span> quarter <span style="color:#f92672">==</span> <span style="color:#ae81ff">2</span>) <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(sp500_perf <span style="color:#f92672">=</span> (sp500_close<span style="color:#f92672">-</span>sp500_open)<span style="color:#f92672">/</span>(sp500_open)<span style="color:#f92672">*</span><span style="color:#ae81ff">100</span>)<span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">select</span>(sp500_perf)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Predict.</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">print</span>(<span style="color:#a6e22e">paste</span>(<span style="color:#e6db74">&#34;2024 Stock Market-Predicted Incumbent Vote Margin:&#34;</span>, <span style="color:#a6e22e">predict</span>(reg_stock_margin, stock_new)))
-</span></span></code></pre></div><pre tabindex="0"><code>## [1] &#34;2024 Stock Market-Predicted Incumbent Vote Margin: 3.99855641825043&#34;
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">print</span>(<span style="color:#a6e22e">paste</span>(<span style="color:#e6db74">&#34;2024 Stock Market--Predicted Incumbent Vote Margin (Excluding 2020 from Model):&#34;</span>, <span style="color:#a6e22e">predict</span>(reg_stock_margin_2, stock_new)))
-</span></span></code></pre></div><pre tabindex="0"><code>## [1] &#34;2024 Stock Market--Predicted Incumbent Vote Margin (Excluding 2020 from Model): 3.8267002013802&#34;
+<pre tabindex="0"><code>## [1] &#34;2024 Stock Market-Predicted Incumbent Vote Margin: 3.99855641825043&#34;
+</code></pre><pre tabindex="0"><code>## [1] &#34;2024 Stock Market--Predicted Incumbent Vote Margin (Excluding 2020 from Model): 3.8267002013802&#34;
 </code></pre><p>When we predict incumbent vote margin using this model, we get that Harris will be ahead of Trump by about 4 points with regards to the national popular vote share.</p>
 <p><strong>Harris +1</strong></p>
 <h2 id="conclusion">
-  Conclusion
+  <strong>Conclusion</strong>
   <a class="anchor" href="#conclusion">#</a>
 </h2>
 <p><strong>Harris: 4</strong>/
@@ -1215,7 +530,7 @@ Continuing with the economic phenomena Radcliffe and Skelley highlight as import
 <p>If we treat each metric of the economy (that I used to run these regressions) as keys, we see that Harris has won four economic keys and Trump has won just one. This deviates from Skelley&rsquo;s suggestion that retrospective voters will disfavor Harris in light of their economic grievances.</p>
 <p>In all honesty, these models are quite bad. I would not put my money on the prediction resultant from them. The best model by in-sample and out-of-sample metrics was the Quarterly-GDP-Growth-Predicted Model, which itself was pretty poor. The absolute worst model overall was the Quarterly-RDPI-Growth Predicted Model. I suspect that these models are not robust because there are only 18 or 19 (when including 2020) observations of election years off of which I am working. It is a pretty small sample size and difficult to draw statistically significant insights from. This reflects a challenge with using economic data to forecast elections—there are only so many elections to draw data from and to use to train models, resulting in a lot of variance as we see with my linear regression models. Across all models, I had errors that could have totally changed the outcome of who wins the popular vote. <em>How can we base a forecast on models that themselves cannot make a real prediction?</em></p>
 <p>In future economic models, I hope to use more granular data (month-wise or quarter-wise) and involve polling data to track how opinions change along with measures of economic performance. This time, I only used bivariate linear regressions, but I will in the future include multiple independent variables and weigh them by polls of voters and how salient they are.</p>
-<p>##Sources##</p>
+<p>##<strong>Sources</strong></p>
 <p>“Presidential Debates Do Matter | 538 Politics Podcast.” <em>YouTube</em>, uploaded by FiveThirtyEight, 9 Sept. 2024, 
   <a href="https://www.youtube.com/watch?v=PkjfKF0frvs">www.youtube.com/watch?v=PkjfKF0frvs</a>.</p>
 <p>Data Provided by GOV 1347: Election Analytics teaching staff (which itself drew from the Burueau of Economic Analysia and Federal Reserve Economic Data)</p>
@@ -1227,6 +542,12 @@ Continuing with the economic phenomena Radcliffe and Skelley highlight as import
         
   <div class="flex flex-wrap justify-between">
 
+
+  <div><a class="flex align-center" href="https://github.com/alex-shpak/hugo-book/commit/7f14c88b7bc8927dca3ba48bf97b96709125fa4d" title='Last modified by Sammy Duggasani | September 16, 2024' target="_blank" rel="noopener">
+      <img src="/2024election-blog/svg/calendar.svg" class="book-icon" alt="" />
+      <span>September 16, 2024</span>
+    </a>
+  </div>
 
 
 
@@ -1270,12 +591,12 @@ Continuing with the economic phenomena Radcliffe and Skelley highlight as import
     <li><a href="#week-2-forecasting-fundamentals-the-economy"><strong>Week 2: Forecasting Fundamentals, the Economy</strong></a>
       <ul>
         <li><a href="#a-quick-note-on-methodology"><strong>A Quick Note on Methodology</strong></a></li>
-        <li><a href="#gdp-growth-and-vote-margin">GDP Growth and Vote Margin</a></li>
-        <li><a href="#cpi-and-vote-margin">CPI and Vote Margin</a></li>
-        <li><a href="#rdpi-growth-and-vote-margin">RDPI Growth and Vote Margin</a></li>
-        <li><a href="#unemployment-and-vote-margin">Unemployment and Vote Margin</a></li>
-        <li><a href="#stock-market-performance-and-vote-margin">Stock Market Performance and Vote Margin</a></li>
-        <li><a href="#conclusion">Conclusion</a></li>
+        <li><a href="#gdp-growth-and-vote-margin"><strong>GDP Growth and Vote Margin</strong></a></li>
+        <li><a href="#cpi-and-vote-margin"><strong>CPI and Vote Margin</strong></a></li>
+        <li><a href="#rdpi-growth-and-vote-margin"><strong>RDPI Growth and Vote Margin</strong></a></li>
+        <li><a href="#unemployment-and-vote-margin"><strong>Unemployment and Vote Margin</strong></a></li>
+        <li><a href="#stock-market-performance-and-vote-margin"><strong>Stock Market Performance and Vote Margin</strong></a></li>
+        <li><a href="#conclusion"><strong>Conclusion</strong></a></li>
       </ul>
     </li>
   </ul>
