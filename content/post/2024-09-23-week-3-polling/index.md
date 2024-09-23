@@ -35,6 +35,7 @@ limited in available polling data than previous election years.*
 
 
 
+## Individaul Poll Ratings
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-1-1.png" width="672" />
 
 In the charts above, I visualize the distribution of ratings of
@@ -56,6 +57,7 @@ values). In its forecasting, *FiveThirtyEight* weights poll data by its
 rating, so as not to give the same importance to the numbers of a
 fail-grade poll as an exceptional one.
 
+## 2016 Polling Averages
 <img src="{{< blogdown/postref >}}index_files/figure-html/2016-1.png" width="672" />
 
 To set up this plot, I averaged individual polls across the same day for
@@ -77,6 +79,7 @@ in November. The dashed line represents each candidate's actual vote
 share in the election; as a whole, these polls underestimated the
 popular vote share of both candidates.
 
+## 2020 Polling Averages
 <img src="{{< blogdown/postref >}}index_files/figure-html/2020-1.png" width="672" />
 
 I set up this plot the same way I did for 2016, by taking day averages.
@@ -90,6 +93,7 @@ remarkably close to predicting the actual vote share of each candidate.
 For Biden, it is virtually the same, and for Trump, just a point or two
 short.
 
+## 2024 Polling Averages
 <img src="{{< blogdown/postref >}}index_files/figure-html/2024-1.png" width="672" />
 
 For this plot, I calculated and plotted day averages just like I did for
@@ -102,6 +106,7 @@ alternates would fare against Trump. After Biden dropped out and that
 became a reality, more polling data on Harris as president was
 collected.
 
+## Regularized Regression Using Individual Polls
 
 ```
 ## 
@@ -264,6 +269,7 @@ Dardet predicted with national poll averages from 1968-2024, which had
 Harris at 51.8% and Trump at 50.7%. We will address later how it is
 possible that both candidates' vote shares add up to more than 100%.
 
+## Ensemble Models Using Individual Polls
 
 Table: Table 2: 2024 National Popular Vote Prediction -- Elastic-Net, Fundamentals
 
@@ -344,7 +350,7 @@ closer to the election at .1.
 
 ## **Conclusion**
 
-\
+
 **Prediction: Based on my individual polls-generated models, Harris will
 win the popular vote in November by a razor-thin margin.**
 
@@ -377,3 +383,5 @@ Polling Data Provided by GOV 1347: Election Analytics teaching staff
 Economic Data Provided by GOV 1347: Election Analytics teaching staff
 (which itself drew from the Burueau of Economic Analysia and Federal
 Reserve Economic Data)
+
+Collaborated with Shivali Korgaonkar and Nick Dominguez to construct this model, as part of our week's presentation on polling.

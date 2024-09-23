@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="
+  Week 3: Polling
+  #
+
+Monday, September 23, 2024
+42 Days until Presidential Election
+Hi again! Since last week, the Harris and Trump campaigns have been
+campaigning aggressively in battleground states. Realistically, who the
+next president will be hinges on voters in these key states: some have
+called this 
+  the closest presidential race of the past six
+decades.
+I touched briefly on the Harris-Trump debate last week, and although the
+Harris campaign agreed to another, Trump refuses to debate 
+  while voters
+in some states are beginning to cast their
+ballots.
+The VP candidates, however, are scheduled to debate each other next week
+on 
+  October
+1st.
+This week, early voting begins in 
+  Minnesota, South Dakota, and
+Virginia.
+Considering how thin the margins between Harris and Trump are, it is
+important to consistently track their performance through polling data.
+Involving polling data into my model is the focus of this week. Because
+this race is unique in the fact that Harris entered with less than 16
+weeks until election day, the scope of our forecasting is much more
+limited in available polling data than previous election years.">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="https://sduggasani.github.io/2024election-blog/post/2024-09-23-week-3-polling/">
+  <meta property="og:site_name" content="2024 Election Blog">
+  <meta property="og:title" content="Week 3: Polling">
+  <meta property="og:description" content=" Week 3: Polling # Monday, September 23, 2024
+42 Days until Presidential Election
+Hi again! Since last week, the Harris and Trump campaigns have been campaigning aggressively in battleground states. Realistically, who the next president will be hinges on voters in these key states: some have called this the closest presidential race of the past six decades. I touched briefly on the Harris-Trump debate last week, and although the Harris campaign agreed to another, Trump refuses to debate while voters in some states are beginning to cast their ballots. The VP candidates, however, are scheduled to debate each other next week on October 1st. This week, early voting begins in Minnesota, South Dakota, and Virginia. Considering how thin the margins between Harris and Trump are, it is important to consistently track their performance through polling data. Involving polling data into my model is the focus of this week. Because this race is unique in the fact that Harris entered with less than 16 weeks until election day, the scope of our forecasting is much more limited in available polling data than previous election years.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="post">
+    <meta property="article:published_time" content="2024-09-23T00:00:00+00:00">
+    <meta property="article:modified_time" content="2024-09-23T13:53:46-04:00">
+<title>Week 3: Polling | 2024 Election Blog</title>
+<link rel="manifest" href="/2024election-blog/manifest.json">
+<link rel="icon" href="/2024election-blog/favicon.png" >
+<link rel="canonical" href="https://sduggasani.github.io/2024election-blog/post/2024-09-23-week-3-polling/">
+<link rel="stylesheet" href="/2024election-blog/book.min.309b7ed028807cdb68d8d61e26d609f48369c098dbf5e4d8c0dcf4cdf49feafc.css" integrity="sha256-MJt&#43;0CiAfNto2NYeJtYJ9INpwJjb9eTYwNz0zfSf6vw=" crossorigin="anonymous">
+  <script defer src="/2024election-blog/fuse.min.js"></script>
+  <script defer src="/2024election-blog/en.search.min.e775ed18c35fb5776925b9020fee073fa9d93539068ac45ac92cf3345d09546e.js" integrity="sha256-53XtGMNftXdpJbkCD&#43;4HP6nZNTkGisRaySzzNF0JVG4=" crossorigin="anonymous"></script>
+
+  <script defer src="/2024election-blog/sw.min.f09ccc658cc70834310535c40cbee1514cd65302e6fa168c4ae787519a02cf87.js" integrity="sha256-8JzMZYzHCDQxBTXEDL7hUUzWUwLm&#43;haMSueHUZoCz4c=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/2024election-blog/"><span>2024 Election Blog</span>
+  </a>
+</h2>
+
+
+<div class="book-search hidden">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+<script>document.querySelector(".book-search").classList.remove("hidden")</script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="https://github.com/sduggasani/2024election-blog"  target="_blank" rel="noopener">
+        Github
+      </a>
+  </li>
+  
+  <li>
+    <a href="https://sduggasani.github.io/2024election-blog/post/2024-09-09-week-1-past-presidential-elections/"  target="_blank" rel="noopener">
+        Week 1 Past Presidential Elections
+      </a>
+  </li>
+  
+  <li>
+    <a href="https://sduggasani.github.io/2024election-blog/post/2024-09-12-week-2-fundamentals-i-the-economy/"  target="_blank" rel="noopener">
+        Week 2 Fundamentals I, the Economy
+      </a>
+  </li>
+  
+  <li>
+    <a href="https://sduggasani.github.io/2024election-blog/post/2024-09-23-week-3-polling/"  target="_blank" rel="noopener">
+        Week 3 Polling
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/2024election-blog/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Week 3: Polling</strong>
+
+  <label for="toc-control">
+    
+    <img src="/2024election-blog/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#week-3-polling"><strong>Week 3: Polling</strong></a>
+      <ul>
+        <li><a href="#individaul-poll-ratings">Individaul Poll Ratings</a></li>
+        <li><a href="#2016-polling-averages">2016 Polling Averages</a></li>
+        <li><a href="#2020-polling-averages">2020 Polling Averages</a></li>
+        <li><a href="#2024-polling-averages">2024 Polling Averages</a></li>
+        <li><a href="#regularized-regression-using-individual-polls">Regularized Regression Using Individual Polls</a></li>
+        <li><a href="#ensemble-models-using-individual-polls">Ensemble Models Using Individual Polls</a></li>
+        <li><a href="#conclusion"><strong>Conclusion</strong></a></li>
+        <li><a href="#sources"><strong>Sources</strong></a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown book-article"><h1 id="week-3-polling">
+  <strong>Week 3: Polling</strong>
+  <a class="anchor" href="#week-3-polling">#</a>
+</h1>
+<p><strong>Monday, September 23, 2024</strong><br>
+<strong>42 Days until Presidential Election</strong></p>
+<p><em>Hi again! Since last week, the Harris and Trump campaigns have been
+campaigning aggressively in battleground states. Realistically, who the
+next president will be hinges on voters in these key states: some have
+called this 
+  <a href="https://www.cnn.com/2024/09/22/politics/closest-presidential-race-harris-trump/index.html">the closest presidential race of the past six
+decades</a>.
+I touched briefly on the Harris-Trump debate last week, and although the
+Harris campaign agreed to another, Trump refuses to debate 
+  <a href="https://www.cnn.com/2024/09/21/politics/presidential-debate-harris-trump-cnn/index.html">while voters
+in some states are beginning to cast their
+ballots</a>.
+The VP candidates, however, are scheduled to debate each other next week
+on 
+  <a href="https://www.reuters.com/world/us/when-where-is-vance-walz-us-vice-presidential-debate-2024-09-19/">October
+1st</a>.
+This week, early voting begins in 
+  <a href="https://www.pbs.org/newshour/politics/early-in-person-voting-begins-in-three-states-kicking-off-the-sprint-to-election-day">Minnesota, South Dakota, and
+Virginia</a>.
+Considering how thin the margins between Harris and Trump are, it is
+important to consistently track their performance through polling data.
+Involving polling data into my model is the focus of this week. Because
+this race is unique in the fact that Harris entered with less than 16
+weeks until election day, the scope of our forecasting is much more
+limited in available polling data than previous election years.</em></p>
+<h2 id="individaul-poll-ratings">
+  Individaul Poll Ratings
+  <a class="anchor" href="#individaul-poll-ratings">#</a>
+</h2>
+<img src="https://sduggasani.github.io/2024election-blog/post/2024-09-23-week-3-polling/index_files/figure-html/unnamed-chunk-1-1.png" width="672" />
+<p>In the charts above, I visualize the distribution of ratings of
+individual polls I use for the 2016, 2020, and 2024 election years. This
+data was provided by Matthew Dardet, who initially sourced it from
+
+  <a href="https://github.com/fivethirtyeight"><em>FiveThirtyEight</em>&rsquo;s public GitHub</a>.
+<em>FiveThirtyEight</em>, a poll aggregator, assigns grade values to individual
+polls, which we can use a proxy to interpret how much trust to put into
+their numbers. You might notice that the scale evolves from an A-D
+grading scaling, to A-F with &ldquo;on-the-fence&rdquo; assignments as well (e.g.
+&ldquo;A/B&rdquo;), to a continuous numeric scale from 0-3.0. For the sake of
+comparison, I&rsquo;ve stacked these plots to understand how the distribution
+of polling quality varies from election year to election year. It seems
+that there exists—as a whole—a pretty even spread of poll ratings, with
+convergence on A, B, C grades (or 3, 2, 1 grades). In 2020, however,
+there seem to be significantly more polls with a C rating. There are
+also a good amount of polls that have not been assigned grades (NA
+values). In its forecasting, <em>FiveThirtyEight</em> weights poll data by its
+rating, so as not to give the same importance to the numbers of a
+fail-grade poll as an exceptional one.</p>
+<h2 id="2016-polling-averages">
+  2016 Polling Averages
+  <a class="anchor" href="#2016-polling-averages">#</a>
+</h2>
+<img src="https://sduggasani.github.io/2024election-blog/post/2024-09-23-week-3-polling/index_files/figure-html/2016-1.png" width="672" />
+<p>To set up this plot, I averaged individual polls across the same day for
+the year leading up to the 2016 election. The polling numbers are
+interesting here because for the first few months it appears that, as
+Clinton went up in approval, so did Trump—same with when her numbers
+fell. This is not intuitive because, one would assume, that when a
+Democratic candidate does well a Republican candidate&rsquo;s approval drops
+(and vice versa). It is important to note, however, this is before both
+parties&rsquo; primaries even began. After February 1, 2016 when primaries
+began, Clinton&rsquo;s gains coincide with Trump&rsquo;s losses and Trump&rsquo;s gains
+with Clinton&rsquo;s losses. I hypothesize that this is because a frontrunner
+emerges within each party and voters begin to seriously compare top
+candidates across parties, resulting in inverse effects between them.
+The Clinton-Trump polling margin ranged from over 10 points to less than
+one 1 point. Clinton seemed to maintain the lead throughout the race
+however, which is in line with her eventually winning the popular vote
+in November. The dashed line represents each candidate&rsquo;s actual vote
+share in the election; as a whole, these polls underestimated the
+popular vote share of both candidates.</p>
+<h2 id="2020-polling-averages">
+  2020 Polling Averages
+  <a class="anchor" href="#2020-polling-averages">#</a>
+</h2>
+<img src="https://sduggasani.github.io/2024election-blog/post/2024-09-23-week-3-polling/index_files/figure-html/2020-1.png" width="672" />
+<p>I set up this plot the same way I did for 2016, by taking day averages.
+The party primaries in 2020 began on February 3rd. We see the same
+phenomenon we did in 2016, where before that point the approval of both
+candidates seems to line up with the same ups and downs. After February
+3rd, however, the main candidates emerge and begin to diverge: when
+Trump did well, Biden did poorly and when Biden did well, Trump did
+poorly. Especially in comparison to 2016, the final polls were
+remarkably close to predicting the actual vote share of each candidate.
+For Biden, it is virtually the same, and for Trump, just a point or two
+short.</p>
+<h2 id="2024-polling-averages">
+  2024 Polling Averages
+  <a class="anchor" href="#2024-polling-averages">#</a>
+</h2>
+<img src="https://sduggasani.github.io/2024election-blog/post/2024-09-23-week-3-polling/index_files/figure-html/2024-1.png" width="672" />
+<p>For this plot, I calculated and plotted day averages just like I did for
+2016 and 2024. You might notice that you see much less polling data for
+Harris (blue dots) until about July. This is because Biden was the
+assumed Democratic candidate who would face off against Trump for the
+majority of the election cycle. The polls that collected data on Harris
+were likely operating under a hypothetical and testing how various
+alternates would fare against Trump. After Biden dropped out and that
+became a reality, more polling data on Harris as president was
+collected.</p>
+<h2 id="regularized-regression-using-individual-polls">
+  Regularized Regression Using Individual Polls
+  <a class="anchor" href="#regularized-regression-using-individual-polls">#</a>
+</h2>
+<pre tabindex="0"><code>## 
+## November Polling Average OLS Regressions
+## =============================================================
+##                                Dependent variable:           
+##                     -----------------------------------------
+##                                        pv                    
+##                                        OLS                   
+##                     Democratic Candidates    Party-Stacked   
+##                              (1)                  (2)        
+## -------------------------------------------------------------
+## nov_poll                    0.745               0.681*       
+##                                                 (0.209)      
+##                                                              
+## Constant                   13.340               15.733       
+##                                                 (9.775)      
+##                                                              
+## -------------------------------------------------------------
+## Observations                  2                    4         
+## R2                          1.000                0.842       
+## Adjusted R2                                      0.763       
+## Residual Std. Error                         1.314 (df = 2)   
+## F Statistic                               10.635* (df = 1; 2)
+## =============================================================
+## Note:                             *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01
+</code></pre><pre tabindex="0"><code>## 
+## Comparison of OLS and Regularized Regression Methods
+## ==============================================
+##                        Dependent variable:    
+##                    ---------------------------
+##                               pv ~            
+##                                OLS            
+## ----------------------------------------------
+## poll_weeks_left_7            -3.488           
+##                                               
+##                                               
+## poll_weeks_left_8             5.957           
+##                                               
+##                                               
+## poll_weeks_left_9            -1.465           
+##                                               
+##                                               
+## poll_weeks_left_10                            
+##                                               
+##                                               
+## poll_weeks_left_11                            
+##                                               
+##                                               
+## poll_weeks_left_12                            
+##                                               
+##                                               
+## poll_weeks_left_13                            
+##                                               
+##                                               
+## poll_weeks_left_14                            
+##                                               
+##                                               
+## poll_weeks_left_15                            
+##                                               
+##                                               
+## poll_weeks_left_16                            
+##                                               
+##                                               
+## Constant                      1.984           
+##                                               
+##                                               
+## ----------------------------------------------
+## Observations                    4             
+## R2                            1.000           
+## ==============================================
+## Note:              *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01
+</code></pre><img src="https://sduggasani.github.io/2024election-blog/post/2024-09-23-week-3-polling/index_files/figure-html/unnamed-chunk-2-1.png" width="672" />
+<pre tabindex="0"><code>## 11 x 1 sparse Matrix of class &#34;dgCMatrix&#34;
+##                             s1
+## (Intercept)        32.11771129
+## poll_weeks_left_7   0.03034872
+## poll_weeks_left_8   0.03382783
+## poll_weeks_left_9   0.03150732
+## poll_weeks_left_10  0.03251707
+## poll_weeks_left_11  0.03591400
+## poll_weeks_left_12  0.03424576
+## poll_weeks_left_13  0.03573401
+## poll_weeks_left_14  0.03675323
+## poll_weeks_left_15  0.03401006
+## poll_weeks_left_16  0.03482219
+</code></pre><img src="https://sduggasani.github.io/2024election-blog/post/2024-09-23-week-3-polling/index_files/figure-html/unnamed-chunk-2-2.png" width="672" />
+<pre tabindex="0"><code>## 11 x 1 sparse Matrix of class &#34;dgCMatrix&#34;
+##                            s1
+## (Intercept)        16.5080023
+## poll_weeks_left_7   .        
+## poll_weeks_left_8   .        
+## poll_weeks_left_9   .        
+## poll_weeks_left_10  .        
+## poll_weeks_left_11  .        
+## poll_weeks_left_12  .        
+## poll_weeks_left_13  0.5079695
+## poll_weeks_left_14  .        
+## poll_weeks_left_15  0.1674345
+## poll_weeks_left_16  .
+</code></pre><img src="https://sduggasani.github.io/2024election-blog/post/2024-09-23-week-3-polling/index_files/figure-html/unnamed-chunk-2-3.png" width="672" />
+<pre tabindex="0"><code>## [1] 1.676314
+</code></pre><pre tabindex="0"><code>## [1] 0.3259247
+</code></pre><pre tabindex="0"><code>## [1] 0.5028851
+</code></pre><img src="https://sduggasani.github.io/2024election-blog/post/2024-09-23-week-3-polling/index_files/figure-html/unnamed-chunk-2-4.png" width="672" />
+<p>Table: Table 1: 2024 National Popular Vote Prediction &ndash; Individual Polls</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left"></th>
+          <th style="text-align: right">s1</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">Harris</td>
+          <td style="text-align: right">47.96284</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">Trump</td>
+          <td style="text-align: right">47.31766</td>
+      </tr>
+  </tbody>
+</table>
+<p>The above charts are bit technical, but their purpose is to visualize
+the regularization of my regression that uses individual polls from 2016
+and 2020 to predict the outcome of the 2024 election. I essentially
+train a model on polling data from 2016 and 2020, subsetting to the
+period of 16 weeks to 7 weeks out from election day because accurate
+polls for Harris&rsquo;s campaign are only available for this time. I, then,
+test on the Harris-Trump polling data in this period and predict the
+outcome. I rely on an elastic net model that would minimize
+multi-collinearity and increase robustness. Though LASSO and Ridge
+regression are also useful models, the elastic net is versatile and
+flexibile because it incorporates both of those methods as well. It is
+also much preferable to Ordinary Least Squares (OLS) because OLS is
+susceptible to overfitting and collinearity.</p>
+<p>Based on the visualization, we see that 14 weeks from election day (the
+week after Harris announced her campaign), 11 weeks from election day
+(during the DNC), and 8 weeks from election day (during the presidential
+debate where Harris performed well) the model demonstrates relatively
+higher coefficients—though a marginal difference as compared to other
+weeks. My model based on individual polls predicts Harris&rsquo;s popular vote
+share at about 47.96% and Trump&rsquo;s at 47.32%, corroborating predicitions
+of an incredibly close election. This is a much closer margin than what
+Dardet predicted with national poll averages from 1968-2024, which had
+Harris at 51.8% and Trump at 50.7%. We will address later how it is
+possible that both candidates&rsquo; vote shares add up to more than 100%.</p>
+<h2 id="ensemble-models-using-individual-polls">
+  Ensemble Models Using Individual Polls
+  <a class="anchor" href="#ensemble-models-using-individual-polls">#</a>
+</h2>
+<p>Table: Table 2: 2024 National Popular Vote Prediction &ndash; Elastic-Net, Fundamentals</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left"></th>
+          <th style="text-align: right">s1</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">Harris</td>
+          <td style="text-align: right">50</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">Trump</td>
+          <td style="text-align: right">50</td>
+      </tr>
+  </tbody>
+</table>
+<p>Table: Table 2: 2024 National Popular Vote Prediction &ndash; Elastic-Net Polls and Fundamentals</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left"></th>
+          <th style="text-align: right">s1</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">Harris</td>
+          <td style="text-align: right">50</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">Trump</td>
+          <td style="text-align: right">50</td>
+      </tr>
+  </tbody>
+</table>
+<p>Table: Table 2: 2024 National Popular Vote Prediction &ndash; Unweighted Polls and Fundamentals</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left"></th>
+          <th style="text-align: right">s1</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">Harris</td>
+          <td style="text-align: right">50.16519</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">Trump</td>
+          <td style="text-align: right">49.83481</td>
+      </tr>
+  </tbody>
+</table>
+<p>Table: Table 2: 2024 National Popular Vote Prediction &ndash; Weighted Polls Closer to November (Silver)</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left"></th>
+          <th style="text-align: right">s1</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">Harris</td>
+          <td style="text-align: right">50.28765</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">Trump</td>
+          <td style="text-align: right">49.71235</td>
+      </tr>
+  </tbody>
+</table>
+<p>Table: Table 2: 2024 National Popular Vote Prediction &ndash; Weighted Fundamentals Closer to November (Gelman &amp; King, 1993)</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left"></th>
+          <th style="text-align: right">s1</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">Harris</td>
+          <td style="text-align: right">50.04688</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">Trump</td>
+          <td style="text-align: right">49.95312</td>
+      </tr>
+  </tbody>
+</table>
+<p>After using 2016 and 2020 individual polls to predict the 2024 popular
+vote outcome, I decided I also wanted involve a fundamentals model (See:
+Week 2 Post for more details) and consider models that weight data
+heavier for weeks closer to election day. There are five new models,
+which I construct.</p>
+<ol>
+<li>
+<p>A Fundamentals Only Model using Elastic Net</p>
+</li>
+<li>
+<p>A Combined Fundamentals and Polling Data Model using Elastic Net</p>
+</li>
+<li>
+<p>An Unweighted Polling Data and Fundamentals Model</p>
+</li>
+<li>
+<p>An Closer-To-November-Increasing Weight Polling Data Model
+(attributable to Nate Silver)</p>
+</li>
+<li>
+<p>An Closer-To-November-Increasing Weight Fundamentals Model
+(attributable to Gelman &amp; King, 1993)</p>
+</li>
+</ol>
+<p>Because elastic net predicts linearly and without constraints, I
+initially had predictions saying that Harris and Trump would get popular
+vote shares above 60% each. This does not make sense, so I regularized
+the scales and recalculated such that Harris and Trump were compared
+against each other and their sums would be 100% to be more informative
+of how they would actually fare in the election. This would be similar
+to a two-party vote share. The first two models show that Harris and
+Trump will tie at 50% vote shares. Once we move to the third Unweighted
+Polling Data and Fundamentals Model, we find that Harris is predicted to
+win the two-party popular vote by about .3 points. Mimicing Silver&rsquo;s
+model, which assigns higher weights to polls as we move closer to
+election day, I find that Harris is predicted to win the two-party
+popular vote by about .6 points. The margins for a Harris win are much
+slimmer using Gelman &amp; King&rsquo;s model, which weights fundamentals higher
+closer to the election at .1.</p>
+<h2 id="conclusion">
+  <strong>Conclusion</strong>
+  <a class="anchor" href="#conclusion">#</a>
+</h2>
+<p><strong>Prediction: Based on my individual polls-generated models, Harris will
+win the popular vote in November by a razor-thin margin.</strong></p>
+<p>Across all models I constructed using individual polls from 2016, 2020,
+and 2024, Harris is predicted to win the popular vote. The models all
+vary by how much she is predicted to win, but they all find that she
+will win by an incredibly thin margin. This corroborates the
+characterization of this race as the closest in decades.</p>
+<h2 id="sources">
+  <strong>Sources</strong>
+  <a class="anchor" href="#sources">#</a>
+</h2>
+<p>Bradner, Eric. “Analysis: The Closest Presidential Race in a
+Generation.” <em>CNN</em>, 22 Sept. 2024,
+
+  <a href="http://www.cnn.com/2024/09/22/politics/closest-presidential-race-harris-trump/index.html">www.cnn.com/2024/09/22/politics/closest-presidential-race-harris-trump/index.html</a>.Chiacu,
+Doina. “When and Where Is the Vance-Walz US Vice Presidential Debate?”
+<em>Reuters</em>, 19 Sept. 2024,
+
+  <a href="http://www.reuters.com/world/us/when-where-is-vance-walz-us-vice-presidential-debate-2024-09-19/">www.reuters.com/world/us/when-where-is-vance-walz-us-vice-presidential-debate-2024-09-19/</a>.</p>
+<p>Cole, Devan. “Harris and Trump Set for First Debate of Closest
+Presidential Race in Years.” <em>CNN</em>, 21 Sept. 2024,
+
+  <a href="http://www.cnn.com/2024/09/21/politics/presidential-debate-harris-trump-cnn/index.html">www.cnn.com/2024/09/21/politics/presidential-debate-harris-trump-cnn/index.html</a>.</p>
+<p>“Early In-Person Voting Begins in Three States, Kicking off the Sprint
+to Election Day.” <em>PBS NewsHour</em>, 22 Sept. 2024,
+
+  <a href="http://www.pbs.org/newshour/politics/early-in-person-voting-begins-in-three-states-kicking-off-the-sprint-to-election-day">www.pbs.org/newshour/politics/early-in-person-voting-begins-in-three-states-kicking-off-the-sprint-to-election-day</a>.</p>
+<p>Polling Data Provided by GOV 1347: Election Analytics teaching staff
+(which itself drew from the FiveThirtyEight GitHub)</p>
+<p>Economic Data Provided by GOV 1347: Election Analytics teaching staff
+(which itself drew from the Burueau of Economic Analysia and Federal
+Reserve Economic Data)</p>
+<p>Collaborated with Shivali Korgaonkar and Nick Dominguez to construct this model, as part of our week&rsquo;s presentation on polling.</p>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+  <div><a class="flex align-center" href="https://github.com/alex-shpak/hugo-book/commit/ba397ee565b1021d5041544ba63b38927f956cdb" title='Last modified by Sammy Duggasani | September 23, 2024' target="_blank" rel="noopener">
+      <img src="/2024election-blog/svg/calendar.svg" class="book-icon" alt="" />
+      <span>September 23, 2024</span>
+    </a>
+  </div>
+
+
+
+  <div>
+    <a class="flex align-center" href="https://github.com/alex-shpak/hugo-book/edit/main/exampleSite/content/post/2024-09-23-week-3-polling/index.md" target="_blank" rel="noopener">
+      <img src="/2024election-blog/svg/edit.svg" class="book-icon" alt="" />
+      <span>Edit this page</span>
+    </a>
+  </div>
+
+
+</div>
+
+
+
+  <script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#week-3-polling"><strong>Week 3: Polling</strong></a>
+      <ul>
+        <li><a href="#individaul-poll-ratings">Individaul Poll Ratings</a></li>
+        <li><a href="#2016-polling-averages">2016 Polling Averages</a></li>
+        <li><a href="#2020-polling-averages">2020 Polling Averages</a></li>
+        <li><a href="#2024-polling-averages">2024 Polling Averages</a></li>
+        <li><a href="#regularized-regression-using-individual-polls">Regularized Regression Using Individual Polls</a></li>
+        <li><a href="#ensemble-models-using-individual-polls">Ensemble Models Using Individual Polls</a></li>
+        <li><a href="#conclusion"><strong>Conclusion</strong></a></li>
+        <li><a href="#sources"><strong>Sources</strong></a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

@@ -47,7 +47,7 @@ Part of my contribution this week is interpreting these phenomena into specific 
 
 
 ```
-## Warning: The following aesthetics were dropped during statistical transformation: label
+## Warning: The following aesthetics were dropped during statistical transformation: label.
 ## ℹ This can happen when ggplot fails to infer the correct grouping structure in
 ##   the data.
 ## ℹ Did you forget to specify a `group` aesthetic or to convert a numerical
@@ -57,7 +57,7 @@ Part of my contribution this week is interpreting these phenomena into specific 
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-6-1.png" width="672" />
 
 ```
-## Warning: The following aesthetics were dropped during statistical transformation: label
+## Warning: The following aesthetics were dropped during statistical transformation: label.
 ## ℹ This can happen when ggplot fails to infer the correct grouping structure in
 ##   the data.
 ## ℹ Did you forget to specify a `group` aesthetic or to convert a numerical
@@ -86,7 +86,7 @@ Here, I run a linear regression on the relationship between between Quarterly GD
 ```
 
 ```
-## [1] "Cross-Validation Mean Absolute Value Error (Without 2020):  3.62518323693274"
+## [1] "Cross-Validation Mean Absolute Value Error (Without 2020):  3.49143663435716"
 ```
 Above are some in-sample and out-of-sample ways to evaluate the strength of GDP Growth model. Across the board, the model performs pretty poorly, as we see very low R-Squared values, high Mean Squared Errors and Cross-Validation Mean Absolute Value Errors with vote margin percentages large enough to sway a close election. The GDP model that leaves out 2020 generally fares better, but it is still not great.  
 
@@ -105,7 +105,7 @@ Even still, we can predict how the incumbent party will perform given GDP growth
 
 
 ```
-## Warning: The following aesthetics were dropped during statistical transformation: label
+## Warning: The following aesthetics were dropped during statistical transformation: label.
 ## ℹ This can happen when ggplot fails to infer the correct grouping structure in
 ##   the data.
 ## ℹ Did you forget to specify a `group` aesthetic or to convert a numerical
@@ -115,7 +115,7 @@ Even still, we can predict how the incumbent party will perform given GDP growth
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-9-1.png" width="672" />
 
 ```
-## Warning: The following aesthetics were dropped during statistical transformation: label
+## Warning: The following aesthetics were dropped during statistical transformation: label.
 ## ℹ This can happen when ggplot fails to infer the correct grouping structure in
 ##   the data.
 ## ℹ Did you forget to specify a `group` aesthetic or to convert a numerical
@@ -145,7 +145,7 @@ Above, I run a linear regression on the relationship between between Consumer Pr
 ```
 
 ```
-## [1] "Cross-Validation Mean Absolute Value Error (Without 2020):  4.03874508571402"
+## [1] "Cross-Validation Mean Absolute Value Error (Without 2020):  4.04029370519755"
 ```
 
 The CPI model fares even worse than the GDP model with abysmal R-Squared values, high Mean Squared Errors, and a large Cross-Validation Mean Absolute Value Error.
@@ -167,7 +167,7 @@ Building our linear regression model on solely the CPI, we see that Harris trail
 
 
 ```
-## Warning: The following aesthetics were dropped during statistical transformation: label
+## Warning: The following aesthetics were dropped during statistical transformation: label.
 ## ℹ This can happen when ggplot fails to infer the correct grouping structure in
 ##   the data.
 ## ℹ Did you forget to specify a `group` aesthetic or to convert a numerical
@@ -177,7 +177,7 @@ Building our linear regression model on solely the CPI, we see that Harris trail
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-12-1.png" width="672" />
 
 ```
-## Warning: The following aesthetics were dropped during statistical transformation: label
+## Warning: The following aesthetics were dropped during statistical transformation: label.
 ## ℹ This can happen when ggplot fails to infer the correct grouping structure in
 ##   the data.
 ## ℹ Did you forget to specify a `group` aesthetic or to convert a numerical
@@ -207,7 +207,7 @@ Now, I run a linear regression on the relationship between between Quarterly Gro
 ```
 
 ```
-## [1] "Cross-Validation Mean Absolute Value Error (Without 2020):  3.98713173393622"
+## [1] "Cross-Validation Mean Absolute Value Error (Without 2020):  3.84740610396238"
 ```
 Again, the RDPI model performs pretty poorly with in-sample and out-of-sample tests. It yields low R-Squared values even when I leave out 2020 data. The Mean Squared Error is high and so is the Cross-Validation Mean Absolute Value Error. 
 
@@ -227,7 +227,7 @@ However, if we use this model to forecast the upcoming election, it appears that
 
 
 ```
-## Warning: The following aesthetics were dropped during statistical transformation: label
+## Warning: The following aesthetics were dropped during statistical transformation: label.
 ## ℹ This can happen when ggplot fails to infer the correct grouping structure in
 ##   the data.
 ## ℹ Did you forget to specify a `group` aesthetic or to convert a numerical
@@ -237,7 +237,7 @@ However, if we use this model to forecast the upcoming election, it appears that
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-15-1.png" width="672" />
 
 ```
-## Warning: The following aesthetics were dropped during statistical transformation: label
+## Warning: The following aesthetics were dropped during statistical transformation: label.
 ## ℹ This can happen when ggplot fails to infer the correct grouping structure in
 ##   the data.
 ## ℹ Did you forget to specify a `group` aesthetic or to convert a numerical
@@ -267,7 +267,7 @@ Continuing with the economic phenomena Radcliffe and Skelley highlight as import
 ```
 
 ```
-## [1] "Cross-Validation Mean Absolute Value Error (Without 2020):  4.38375749781675"
+## [1] "Cross-Validation Mean Absolute Value Error (Without 2020):  4.13117746264267"
 ```
 The R-Squared values for the unemployment-predicted model are the lowest we have seen so far. THe Mean Squared Errors are also the highest and the Cross-Validation Mean Absolute Value Error is a large percentage vote margin that could push an election in any direction. 
 
@@ -287,7 +287,7 @@ The model suggests that the incumbent party, Harris and the Democrats, will win 
 
 
 ```
-## Warning: The following aesthetics were dropped during statistical transformation: label
+## Warning: The following aesthetics were dropped during statistical transformation: label.
 ## ℹ This can happen when ggplot fails to infer the correct grouping structure in
 ##   the data.
 ## ℹ Did you forget to specify a `group` aesthetic or to convert a numerical
@@ -297,7 +297,7 @@ The model suggests that the incumbent party, Harris and the Democrats, will win 
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-18-1.png" width="672" />
 
 ```
-## Warning: The following aesthetics were dropped during statistical transformation: label
+## Warning: The following aesthetics were dropped during statistical transformation: label.
 ## ℹ This can happen when ggplot fails to infer the correct grouping structure in
 ##   the data.
 ## ℹ Did you forget to specify a `group` aesthetic or to convert a numerical
@@ -329,7 +329,7 @@ Finally, we look to stock market performance as a metric of economic success tha
 ```
 
 ```
-## [1] "Cross-Validation Mean Absolute Value Error (Without 2020):  4.00668449364318"
+## [1] "Cross-Validation Mean Absolute Value Error (Without 2020):  4.17184616122881"
 ```
 
 Like the rest, the stock market model performs poorly in measures of in-sample and out-of-sample testing. The R-Squared values are low, the Mean Square Errors are high, and the Cross-Validation Mean Absolute Value is a large percentage value.

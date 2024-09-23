@@ -398,3 +398,5 @@ d_ec_wide |>
   pivot_wider(names_from = state_winner, values_from = electoral_votes) |>
   mutate(election_winner = ifelse(D >= 270, "D", "R"))
 ```
+
+
