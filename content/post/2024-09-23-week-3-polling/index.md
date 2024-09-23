@@ -35,7 +35,7 @@ limited in available polling data than previous election years.*
 
 
 
-## Individaul Poll Ratings
+## Individual Poll Ratings
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-1-1.png" width="672" />
 
 In the charts above, I visualize the distribution of ratings of

@@ -115,7 +115,7 @@ colors <- c("steelblue3", "tomato3", "mediumpurple3",
             "darkolivegreen3", "goldenrod3", "slateblue3", "lightcoral")
 ```
 
-## Individaul Poll Ratings
+## Individual Poll Ratings
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 # Load in class-provided presidential poll ratings
 ratings_2016 <- read_csv('president_polls_2016.csv', show_col_types = FALSE)
