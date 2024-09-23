@@ -1,0 +1,759 @@
+---
+title: 'Week 3: Polling'
+author: Sammy Duggasani
+date: '2024-09-23'
+slug: []
+categories: []
+tags: []
+---
+
+# **Week 3: Polling**
+
+**Monday, September 23, 2024**\
+**42 Days until Presidential Election**
+
+*Hi again! Since last week, the Harris and Trump campaigns have been
+campaigning aggressively in battleground states. Realistically, who the
+next president will be hinges on voters in these key states: some have
+called this [the closest presidential race of the past six
+decades](https://www.cnn.com/2024/09/22/politics/closest-presidential-race-harris-trump/index.html).
+I touched briefly on the Harris-Trump debate last week, and although the
+Harris campaign agreed to another, Trump refuses to debate [while voters
+in some states are beginning to cast their
+ballots](https://www.cnn.com/2024/09/21/politics/presidential-debate-harris-trump-cnn/index.html).
+The VP candidates, however, are scheduled to debate each other next week
+on [October
+1st](https://www.reuters.com/world/us/when-where-is-vance-walz-us-vice-presidential-debate-2024-09-19/).
+This week, early voting begins in [Minnesota, South Dakota, and
+Virginia](https://www.pbs.org/newshour/politics/early-in-person-voting-begins-in-three-states-kicking-off-the-sprint-to-election-day).
+Considering how thin the margins between Harris and Trump are, it is
+important to consistently track their performance through polling data.
+Involving polling data into my model is the focus of this week. Because
+this race is unique in the fact that Harris entered with less than 16
+weeks until election day, the scope of our forecasting is much more
+limited in available polling data than previous election years.*
+
+```{r necessary_libraries, message=FALSE, warning=FALSE, include=FALSE}
+library(car)
+library(caret)
+# library(CVXR)
+library(glmnet)
+library(tidyverse)
+library(dplyr)
+library(lubridate)
+library(stargazer)
+library(patchwork)
+map_theme <- function() {
+  theme(
+    # no border
+    panel.border = element_blank(),
+    # background
+    panel.background = element_rect(fill = "snow2"),
+    # text
+    plot.title = element_text(size = 15, hjust = .5, face = "bold", family = "sans"),
+    plot.subtitle = element_text(size = 13, hjust = .5, family = "sans"),
+    plot.title.position = "panel",
+    axis.text.x = element_text(size = 8, angle = 45, hjust = .5, family = "sans"),
+    axis.text.y = element_text(size = 8, family = "sans"),
+    axis.title.x = element_text(family = "sans"),
+    axis.title.y = element_text(angle = 90, family = "sans"),
+    axis.ticks = element_line(colour = "black"),
+    axis.line = element_line(colour = "grey"),
+    # legend 
+    legend.position = "right",
+    legend.title = element_text(size = 12, family = "sans"),
+    legend.text = element_text(size = 10, family = "sans"),
+    # aspect ratio
+    aspect.ratio = .8
+  )
+}
+plot_date_theme <- function() {
+  theme(
+    # no border
+    panel.border = element_blank(),
+    # background
+    panel.background = element_rect(fill = "snow2"),
+    # text
+    plot.title = element_text(size = 15, hjust = .5, face = "bold", family = "sans"),
+    plot.subtitle = element_text(size = 13, hjust = .5, family = "sans"),
+    plot.title.position = "panel",
+    axis.text.x = element_text(size = 8, family = "sans"),
+    axis.text.y = element_text(size = 8, family = "sans"),
+    axis.title.x = element_text(family = "sans"),
+    axis.title.y = element_text(angle = 90, family = "sans"),
+    axis.ticks = element_line(colour = "black"),
+    axis.line = element_line(colour = "grey"),
+    # legend 
+    legend.position = "right",
+    legend.title = element_text(size = 12, family = "sans"),
+    legend.text = element_text(size = 10, family = "sans"),
+  )
+}
+plot_theme <- function() {
+  theme(
+    # no border
+    panel.border = element_blank(),
+    # background
+    panel.background = element_rect(fill = "snow2"),
+    # text
+    plot.title = element_text(size = 15, hjust = .5, face = "bold", family = "sans"),
+    plot.subtitle = element_text(size = 13, hjust = .5, family = "sans"),
+    plot.title.position = "panel",
+    axis.text.x = element_text(size = 8, family = "sans"),
+    axis.text.y = element_text(size = 8, family = "sans"),
+    axis.title.x = element_text(family = "sans"),
+    axis.title.y = element_text(angle = 90, family = "sans"),
+    axis.ticks = element_line(colour = "black"),
+    axis.line = element_line(colour = "grey"),
+    # legend 
+    legend.position = "right",
+    legend.title = element_text(size = 12, family = "sans"),
+    legend.text = element_text(size = 10, family = "sans"),
+  )
+}
+colors <- c("steelblue3", "tomato3", "mediumpurple3", 
+            "darkolivegreen3", "goldenrod3", "slateblue3", "lightcoral")
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+# Load in class-provided presidential poll ratings
+ratings_2016 <- read_csv('president_polls_2016.csv', show_col_types = FALSE)
+ratings_2020 <- read_csv('president_polls_2020.csv', show_col_types = FALSE)
+ratings_2024 <- read_csv('president_polls_2024.csv', show_col_types = FALSE)
+# Load in class-provided presidential polling averages
+national_polls_1968_2024 <- read_csv("national_polls_1968-2024.csv",show_col_types = FALSE)
+# Load in FiveThirtyEight-provided presidential poll ratings
+ratings538_2016 <- read_csv('pollster-ratings-2016.csv', show_col_types = FALSE)
+ratings538_2020 <- read_csv('pollster-ratings-2020.csv', show_col_types = FALSE)
+ratings538_2024 <- read_csv('pollster-ratings-2024.csv', show_col_types = FALSE)
+# Exploratory Analysis: How much variation in pollster quality
+# 2016 Histogram of Poll Ratings
+ratings_2016$grade <- factor(ratings_2016$grade, levels = rev(c("A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D", "NA")))
+bar_2016_pollratings <- ratings_2016|>
+  ggplot(mapping = aes(x = grade)) + 
+  geom_bar(fill = "mediumpurple3") +
+  labs(title = "2016 Poll Ratings Grade Distribution",
+       x = "Grade",
+       y = "Count") +
+  plot_theme() 
+# 2020 Histogram of Poll Ratings
+ratings_2020 <- ratings_2020 |>
+  rename(grade = fte_grade)
+ratings_2020$grade <- factor(ratings_2020$grade, levels = rev(c("A+", "A", "A-", "A/B", "B+", "B", "B-", "B/C", "C+", "C", "C-", "C/D", "F", "NA")))
+bar_2020_pollratings <- ratings_2020|>
+  ggplot(mapping = aes(x = grade)) + 
+  geom_bar(fill = "goldenrod3") +
+  labs(title = "2020 Poll Ratings Grade Distribution",
+       x = "Grade",
+       y = "Count") +
+  plot_theme()
+# 2024 Histogram of Poll Ratings
+hist_2024_pollratings <- ratings_2024|>
+  ggplot(mapping = aes(x = numeric_grade)) + 
+  geom_histogram(bins = 15, fill = "lightcoral", color = "snow3") +
+  labs(title = "2024 Poll Ratings Grade Distribution",
+       x = "Grade",
+       y = "Count") +
+  plot_theme()
+wrap_plots(bar_2016_pollratings, bar_2020_pollratings, hist_2024_pollratings, ncol = 1)
+```
+
+In the charts above, I visualize the distribution of ratings of
+individual polls I use for the 2016, 2020, and 2024 election years. This
+data was provided by Matthew Dardet, who initially sourced it from
+[*FiveThirtyEight*'s public GitHub](https://github.com/fivethirtyeight).
+*FiveThirtyEight*, a poll aggregator, assigns grade values to individual
+polls, which we can use a proxy to interpret how much trust to put into
+their numbers. You might notice that the scale evolves from an A-D
+grading scaling, to A-F with "on-the-fence" assignments as well (e.g.
+"A/B"), to a continuous numeric scale from 0-3.0. For the sake of
+comparison, I've stacked these plots to understand how the distribution
+of polling quality varies from election year to election year. It seems
+that there exists—as a whole—a pretty even spread of poll ratings, with
+convergence on A, B, C grades (or 3, 2, 1 grades). In 2020, however,
+there seem to be significantly more polls with a C rating. There are
+also a good amount of polls that have not been assigned grades (NA
+values). In its forecasting, *FiveThirtyEight* weights poll data by its
+rating, so as not to give the same importance to the numbers of a
+fail-grade poll as an exceptional one.
+
+```{r 2016, echo=FALSE,  warning=FALSE, message=FALSE}
+# (2.) Using tools and knowledge you have gained so far, build a model (or ensemble model) that uses individual polls from 2016 (president_polls_2016.csv), 2020 (...2020.csv), and 2024 (...2024.csv). How does your model compare to the models this week in lab?
+
+# Each enddate average
+election_day_2016 <- as.Date("2016-11-08")
+
+nat_ratings_2016 <- ratings_2016 |>
+  mutate(enddate = as.Date(enddate, format = "%m/%d/%Y")) |>
+  filter(state == "U.S.") |>
+  group_by(enddate) |>
+  summarize(mean(adjpoll_clinton),
+            mean(adjpoll_trump)) |>
+  rename(avg_clinton = "mean(adjpoll_clinton)",
+         avg_trump = "mean(adjpoll_trump)")
+
+nat_ratings_2016 <- nat_ratings_2016 |>
+  pivot_longer(cols = c(avg_clinton, avg_trump),
+               names_to = "candidate", values_to = "average") |>
+  mutate(candidate = if_else(candidate == "avg_clinton", "Hillary Clinton", "Donald Trump")) |>
+  rename(pct = average) |>
+  mutate(days_until_election = as.numeric(difftime(election_day_2016, enddate, units = "days")),
+         weeks_until_election = floor(days_until_election / 7))
+
+# Each enddate
+# nat_pollagg_2016_plot <- nat_ratings_2016 |>
+#   ggplot(aes(x=enddate)) +
+#   geom_smooth(aes(y = avg_clinton), color = "steelblue3", se = FALSE, span = 0.08) +
+#   scale_x_date(date_labels = "%b %Y", date_breaks = "2 months") + 
+#   geom_smooth(aes(y = avg_trump), color = "tomato3", se = FALSE, span = 0.08) +
+#   geom_point(aes(y = avg_clinton), color = "steelblue3", alpha = 0.25, size = 1.5) +
+#   geom_point(aes(y = avg_trump), color = "tomato3", alpha = 0.25, size = 1.5) +
+#   scale_x_date(date_labels = "%b %Y", date_breaks = "2 months") + 
+#   labs(x = "Date",
+#        y = "Average Poll Approval", 
+#        title = "Polling Averages by Date, 2016") + 
+#   plot_date_theme()
+# nat_pollagg_2016_plot
+
+nat_pollagg_2016_plot <- nat_ratings_2016 |>
+  ggplot(aes(x=enddate, y = pct, color = candidate)) +
+  geom_point(alpha = 0.25, size = 1.5) +
+  geom_smooth(se = FALSE, span = .08) +
+  scale_x_date(date_labels = "%b %d") +
+  scale_color_manual(values = c("tomato3", "steelblue3")) +
+  geom_hline(yintercept=48.2, linetype="dashed", # Clinton actual vote share
+                color = "steelblue3", size=1) + 
+  geom_hline(yintercept=46.1, linetype="dashed", # Trump actual vote share
+                color = "tomato3", size=1) + 
+  labs(x = "Date",
+       y = "Average Poll Approval",
+       title = "Polling Averages by Date, 2016") +
+  plot_date_theme()
+nat_pollagg_2016_plot
+
+  
+# Each month average 
+# month_nat_ratings_2016 <- ratings_2016 |>
+#   mutate(enddate = as.Date(enddate, format = "%m/%d/%Y"),
+#          month = floor_date(enddate, "month")) |>
+#   filter(state == "U.S.") |>
+#   group_by(month) |>
+#   summarize(mean(adjpoll_clinton),
+#             mean(adjpoll_trump)) |>
+#   rename(avg_clinton = "mean(adjpoll_clinton)",
+#          avg_trump = "mean(adjpoll_trump)")
+
+# month_nat_pollagg_2016_plot <- month_nat_ratings_2016 |>
+#   ggplot(aes(x=month)) +
+#   geom_point(size = 3, aes(y = avg_clinton), color = "steelblue3") +
+#   geom_line(linewidth = 2, aes(y = avg_clinton), color = "steelblue3") +
+#   scale_x_date(date_labels = "%b %Y", date_breaks = "2 months") + 
+#   geom_point(size = 3, aes(y = avg_trump), color = "tomato3") +
+#   geom_line(linewidth = 2, aes(y = avg_trump), color = "tomato3") +
+#   scale_x_date(date_labels = "%b %Y", date_breaks = "2 months") + 
+#   labs(x = "Date",
+#        y = "Average Poll Approval", 
+#        title = "Polling Averages by Date, 2016") + 
+#   plot_date_theme()
+# month_nat_pollagg_2016_plot
+```
+
+To set up this plot, I averaged individual polls across the same day for
+the year leading up to the 2016 election. The polling numbers are
+interesting here because for the first few months it appears that, as
+Clinton went up in approval, so did Trump—same with when her numbers
+fell. This is not intuitive because, one would assume, that when a
+Democratic candidate does well a Republican candidate's approval drops
+(and vice versa). It is important to note, however, this is before both
+parties' primaries even began. After February 1, 2016 when primaries
+began, Clinton's gains coincide with Trump's losses and Trump's gains
+with Clinton's losses. I hypothesize that this is because a frontrunner
+emerges within each party and voters begin to seriously compare top
+candidates across parties, resulting in inverse effects between them.
+The Clinton-Trump polling margin ranged from over 10 points to less than
+one 1 point. Clinton seemed to maintain the lead throughout the race
+however, which is in line with her eventually winning the popular vote
+in November. The dashed line represents each candidate's actual vote
+share in the election; as a whole, these polls underestimated the
+popular vote share of both candidates.
+
+```{r 2020, echo=FALSE, message=FALSE, warning=FALSE}
+# (2.) Using tools and knowledge you have gained so far, build a model (or ensemble model) that uses individual polls from 2016 (president_polls_2016.csv), 2020 (...2020.csv), and 2024 (...2024.csv). How does your model compare to the models this week in lab?
+
+# Each enddate average
+election_day_2020 <- as.Date("2020-11-03")
+nat_ratings_2020 <- ratings_2020 |>
+  mutate(enddate = as.Date(end_date, format = "%m/%d/%y")) |>
+  filter((is.na(state))) |>
+  filter(answer %in% c("Trump", "Biden")) |>
+  filter(enddate >= as.Date("2019-11-01")) |>
+  group_by(enddate, candidate_name) |>
+  summarize(mean(pct)) |>
+  rename(pct = "mean(pct)")|>
+  mutate(days_until_election = as.numeric(difftime(election_day_2020, enddate, units = "days")),
+         weeks_until_election = floor(days_until_election / 7)) |>
+  rename(candidate = candidate_name)
+
+  
+# Each enddate average
+nat_pollagg_2020_plot <- nat_ratings_2020 |>
+  ggplot(aes(x=enddate, y = pct, color = candidate)) +
+  geom_point(alpha = 0.25, size = 1.5) + 
+  geom_smooth(se = FALSE, span = .08) + 
+  scale_x_date(date_labels = "%b %d") + 
+  scale_color_manual(values = c("tomato3", "steelblue3")) +
+  geom_hline(yintercept=51.3, linetype="dashed", # Biden actual vote share
+                color = "steelblue3", size=1) + 
+  geom_hline(yintercept=46.8, linetype="dashed", # Trump actual vote share
+                color = "tomato3", size=1) + 
+  labs(x = "Date",
+       y = "Average Poll Approval", 
+       title = "Polling Averages by Date, 2020") + 
+  plot_date_theme()
+nat_pollagg_2020_plot
+```
+
+I set up this plot the same way I did for 2016, by taking day averages.
+The party primaries in 2020 began on February 3rd. We see the same
+phenomenon we did in 2016, where before that point the approval of both
+candidates seems to line up with the same ups and downs. After February
+3rd, however, the main candidates emerge and begin to diverge: when
+Trump did well, Biden did poorly and when Biden did well, Trump did
+poorly. Especially in comparison to 2016, the final polls were
+remarkably close to predicting the actual vote share of each candidate.
+For Biden, it is virtually the same, and for Trump, just a point or two
+short.
+
+```{r 2024, echo=FALSE, message=FALSE, warning=FALSE}
+# (2.) Using tools and knowledge you have gained so far, build a model (or ensemble model) that uses individual polls from 2016 (president_polls_2016.csv), 2020 (...2020.csv), and 2024 (...2024.csv). How does your model compare to the models this week in lab?
+
+# Each enddate average
+election_day_2024 <- as.Date("2024-11-05")
+nat_ratings_2024 <- ratings_2024 |>
+  mutate(enddate = as.Date(end_date, format = "%m/%d/%y")) |>
+  filter((is.na(state))) |>
+  filter(answer %in% c("Trump", "Harris")) |>
+  filter(enddate >= as.Date("2023-11-01")) |>
+  group_by(enddate, candidate_name) |>
+  summarize(mean(pct)) |>
+  rename(pct = "mean(pct)") |>
+  mutate(days_until_election = as.numeric(difftime(election_day_2024, enddate, units = "days")),
+         weeks_until_election = floor(days_until_election / 7)) |>
+  rename(candidate = candidate_name)
+
+  
+# Each enddate
+nat_pollagg_2024_plot <- nat_ratings_2024 |>
+  ggplot(aes(x=enddate, y = pct, color = candidate)) +
+  geom_point(alpha = 0.25, size = 1.5) + 
+  geom_smooth(se = FALSE, span = .08) + 
+  scale_x_date(date_labels = "%b %d") + 
+  scale_color_manual(values = c("tomato3", "steelblue3")) +
+  labs(x = "Date",
+       y = "Average Poll Approval", 
+       title = "Polling Averages by Date, 2024") + 
+  ylim(35,50)+
+  plot_date_theme()
+nat_pollagg_2024_plot
+```
+
+For this plot, I calculated and plotted day averages just like I did for
+2016 and 2024. You might notice that you see much less polling data for
+Harris (blue dots) until about July. This is because Biden was the
+assumed Democratic candidate who would face off against Trump for the
+majority of the election cycle. The polls that collected data on Harris
+were likely operating under a hypothetical and testing how various
+alternates would fare against Trump. After Biden dropped out and that
+became a reality, more polling data on Harris as president was
+collected.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+####----------------------------------------------------------#
+#### Regularized regression with polling data.
+####----------------------------------------------------------#
+# Read election results data. 
+d_vote <- read_csv("popvote_1948-2020.csv")
+d_vote$party[d_vote$party == "democrat"] <- "DEM"
+d_vote$party[d_vote$party == "republican"] <- "REP"
+
+# Combine all national poll data (2016-2024)
+combined_polls <- nat_ratings_2016 |>
+  full_join(nat_ratings_2020) |>
+  full_join(nat_ratings_2024) |>
+  mutate(party = if_else(candidate == "Donald Trump", "REP", "DEM"),
+         year = year(enddate))
+
+# national_polls_1968_2024
+
+# Shape and merge polling and election data using November polls. 
+d_poll_nov <- d_vote |> 
+  left_join(combined_polls |> 
+              group_by(year, party) |> 
+              top_n(1, enddate) |> 
+              select(-candidate), 
+            by = c("year", "party")) |> 
+  rename(nov_poll = pct) |> 
+  filter(year <= 2020) |> 
+  drop_na()
+         
+# OLS: Democratic candidates pv on November polling average. 
+ols.nov.1 <- lm(pv ~ nov_poll, 
+                data = subset(d_poll_nov, party == "DEM"))
+# summary(ols.nov.1)
+
+# OLS: Party-stacked pv on November polling average.
+ols.nov.2 <- lm(pv ~ nov_poll, 
+                data = d_poll_nov)
+# summary(ols.nov.2)
+
+stargazer(ols.nov.1, ols.nov.2, type = "text", column.labels = c("Democratic Candidates", "Party-Stacked"), model.names = TRUE, title = "November Polling Average OLS Regressions")
+
+# Create dataset of polling average by week until the election. 
+
+combined_polls_wider <- combined_polls |> 
+  group_by(year, party, weeks_until_election) |>
+  summarize(mean_poll_week = mean(pct)) |> 
+  filter(weeks_until_election <= 30) |> 
+  pivot_wider(names_from = weeks_until_election, 
+              values_from = mean_poll_week) |> 
+  left_join(d_vote, by = c("year", "party"))
+
+# Split into training and testing data based on inclusion or exclusion of 2024. 
+d_poll_weeks_train <- combined_polls_wider |> 
+  filter(year <= 2020)
+d_poll_weeks_test <- combined_polls_wider |> 
+  filter(year == 2024)
+
+colnames(combined_polls_wider)[3:33] <- paste0("poll_weeks_left_", 0:30)
+colnames(d_poll_weeks_train)[3:33] <- paste0("poll_weeks_left_", 0:30)
+colnames(d_poll_weeks_test)[3:33] <- paste0("poll_weeks_left_", 0:30)
+
+# Comparison of OLS and regularized regression methods. 
+ols.pollweeks <- lm(paste0("pv ~ ", paste0("poll_weeks_left_", 7:16, collapse = " + ")), 
+                    data = d_poll_weeks_train)
+# summary(ols.pollweeks) # N.B. Inestimable: p (31) > n (30)! 
+
+stargazer(ols.pollweeks, type = "text", model.names = TRUE, title = "Comparison of OLS and Regularized Regression Methods")
+# Separate data into X and Y for training. 
+x.train <- d_poll_weeks_train |>
+  ungroup() |> 
+  select(all_of(paste0("poll_weeks_left_", 7:16))) |> 
+  as.matrix()
+y.train <- d_poll_weeks_train$pv
+
+# Ridge. 
+ridge.pollsweeks <- glmnet(x = x.train, y = y.train, alpha = 0) # Set ridge using alpha = 0. 
+
+# Visualize shrinkage. 
+plot(ridge.pollsweeks, xvar = "lambda")
+
+# Get particular coefficients. 
+coef(ridge.pollsweeks, s = 0.1)
+
+# Lasso.
+lasso.pollsweeks <- glmnet(x = x.train, y = y.train, alpha = 1) # Set lasso using alpha = 1.
+
+# Visualize shrinkage.
+plot(lasso.pollsweeks, xvar = "lambda")
+
+# Get particular coefficients.
+coef(lasso.pollsweeks, s = 0.1)
+
+# Elastic net.
+enet.pollsweeks <- glmnet(x = x.train, y = y.train, alpha = 0.5) # Set elastic net using alpha = 0.5.
+
+# Visualize shrinkage.
+plot(enet.pollsweeks, xvar = "lambda")
+
+# Can use cross-validated versions to find the optimal values of lambda that minimize the MSE of your predictions. 
+# N.B. Use set.seed() and your favorite number e.g., 12345, 02138, before each CV/any stochastic call if you want your results to be stable. 
+cv.ridge.pollweeks <- cv.glmnet(x = x.train, y = y.train, alpha = 0)
+cv.lasso.pollweeks <- cv.glmnet(x = x.train, y = y.train, alpha = 1)
+cv.enet.pollweeks <- cv.glmnet(x = x.train, y = y.train, alpha = 0.5)
+
+# Get minimum lambda values 
+lambda.min.ridge <- cv.ridge.pollweeks$lambda.min
+lambda.min.lasso <- cv.lasso.pollweeks$lambda.min
+lambda.min.enet <- cv.enet.pollweeks$lambda.min
+
+# Predict on training data using lambda values that minimize MSE.
+(mse.ridge <- mean((predict(ridge.pollsweeks, s = lambda.min.ridge, newx = x.train) - y.train)^2))
+(mse.lasso <- mean((predict(lasso.pollsweeks, s = lambda.min.lasso, newx = x.train) - y.train)^2))
+(mse.enet <- mean((predict(enet.pollsweeks, s = lambda.min.enet, newx = x.train) - y.train)^2))
+
+# Generate plot comparing coefficients for each of the weeks. 
+d.coefplot <- data.frame("OLS" = coef(ols.pollweeks)[-1], 
+                         "Ridge" = coef(ridge.pollsweeks, s = lambda.min.ridge)[-1], 
+                         "Lasso" = coef(lasso.pollsweeks, s = lambda.min.lasso)[-1], 
+                         "Elastic Net" = coef(enet.pollsweeks, s = lambda.min.enet)[-1]) |> 
+  rownames_to_column("coef_name") |> 
+  pivot_longer(cols = -coef_name, names_to = "method", values_to = "coef_est") |> 
+  mutate(week = rep(7:16, each = 4))
+
+d.coefplot[which(is.na(d.coefplot$coef_est)),]$coef_est <- 0 
+
+d.coefplot |>
+  ggplot(aes(x = coef_est, y = reorder(coef_name, -week), color = method)) +
+  geom_segment(aes(xend = 0, yend = reorder(coef_name, -week)), alpha = 0.5, lty = "dashed") +
+  geom_vline(aes(xintercept = 0), lty = "dashed") +   
+  geom_point() + 
+  labs(x = "Coefficient Estimate", 
+       y = "Coefficient Name", 
+       title = "Comparison of Coefficients Across Regularization Methods") + 
+  plot_theme()
+
+
+# Let's take weeks 16 - 7 as predictors since those are the weeks we have polling data for Harris from when she announced her candidacy July 21 (15.3 weeks from election day).
+
+x.train <- d_poll_weeks_train |>
+  ungroup() |> 
+  select(all_of(paste0("poll_weeks_left_", 7:16))) |> 
+  as.matrix()
+y.train <- d_poll_weeks_train$pv
+x.test <- d_poll_weeks_test |>
+  ungroup() |> 
+  select(all_of(paste0("poll_weeks_left_", 7:16))) |> 
+  as.matrix()
+
+# Using elastic-net for simplicity. 
+set.seed(02138)
+enet.poll <- cv.glmnet(x = x.train, y = y.train, alpha = 0.5)
+lambda.min.enet.poll <- enet.poll$lambda.min
+
+# Predict 2024 national pv share using elastic-net. 
+polls.pred <- predict(enet.poll, s = lambda.min.enet.poll, newx = x.test)
+rownames(polls.pred) <- c("Harris", "Trump")
+knitr::kable(polls.pred, caption = "2024 National Popular Vote Prediction -- Individual Polls", row.names = TRUE)
+```
+
+The above charts are bit technical, but their purpose is to visualize
+the regularization of my regression that uses individual polls from 2016
+and 2020 to predict the outcome of the 2024 election. I essentially
+train a model on polling data from 2016 and 2020, subsetting to the
+period of 16 weeks to 7 weeks out from election day because accurate
+polls for Harris's campaign are only available for this time. I, then,
+test on the Harris-Trump polling data in this period and predict the
+outcome. I rely on an elastic net model that would minimize
+multi-collinearity and increase robustness. Though LASSO and Ridge
+regression are also useful models, the elastic net is versatile and
+flexibile because it incorporates both of those methods as well. It is
+also much preferable to Ordinary Least Squares (OLS) because OLS is
+susceptible to overfitting and collinearity.
+
+Based on the visualization, we see that 14 weeks from election day (the
+week after Harris announced her campaign), 11 weeks from election day
+(during the DNC), and 8 weeks from election day (during the presidential
+debate where Harris performed well) the model demonstrates relatively
+higher coefficients—though a marginal difference as compared to other
+weeks. My model based on individual polls predicts Harris's popular vote
+share at about 47.96% and Trump's at 47.32%, corroborating predicitions
+of an incredibly close election. This is a much closer margin than what
+Dardet predicted with national poll averages from 1968-2024, which had
+Harris at 51.8% and Trump at 50.7%. We will address later how it is
+possible that both candidates' vote shares add up to more than 100%.
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+####----------------------------------------------------------#
+#### Model ensembling
+####----------------------------------------------------------#
+
+# Estimate models using polls alone, fundamentals alone, and combined fundamentals an d polls.
+# Read economic data.
+d_econ_2016_2024 <- read_csv("fred_econ.csv") |>
+  filter(quarter == 2) |>
+  filter(year >= 2016)
+
+# Combine datasets and create vote lags.
+d_combined_ens <- d_econ_2016_2024 |>
+  left_join(combined_polls_wider, by = "year") |>
+  filter(year %in% c(unique(d_vote$year), 2024)) |>
+  group_by(party) |>
+  ungroup() |>
+  mutate(gdp_growth_x_incumbent = GDP_growth_quarterly * incumbent_party,
+         rdpi_growth_quarterly = RDPI_growth_quarterly * incumbent_party,
+         cpi_x_incumbent = CPI * incumbent_party,
+         unemployment_x_incumbent = unemployment * incumbent_party,
+         sp500_x_incumbent = sp500_close * incumbent_party) # Generate interaction effects with incumbent party instead of incumbent
+
+# Create fundamentals-only dataset and split into training and test sets.
+d_fund <- d_combined_ens |>
+  select("year", "pv", "GDP", "GDP_growth_quarterly", "RDPI", "RDPI_growth_quarterly", "CPI", "unemployment", "sp500_close",
+         "incumbent", "gdp_growth_x_incumbent", "rdpi_growth_quarterly", "cpi_x_incumbent", "unemployment_x_incumbent", "sp500_x_incumbent", all_of(paste0("poll_weeks_left_", 7:16)))
+
+x.train.fund <- d_fund |>
+  filter(year <= 2020) |>
+  select(-c(year, pv)) |>
+  as.matrix()
+y.train.fund <- d_fund |>
+  filter(year <= 2020) |>
+  select(pv) |>
+  drop_na()|>
+  as.matrix()
+x.test.fund <- d_fund |>
+  filter(year == 2024) |>
+  select(-c(year, pv)) |>
+  drop_na() |>
+  as.matrix()
+
+# Estimate elastic-net using fundamental variables only.
+set.seed(02138)
+enet.fund <- cv.glmnet(x = x.train.fund, y = y.train.fund, intercept = FALSE, alpha = 0.5)
+lambda.min.enet.fund <- enet.fund$lambda.min
+
+# Predict 2024 national pv2p share using elastic-net.
+fund.pred <- predict(enet.fund, s = lambda.min.enet.fund, newx = x.test.fund)
+rownames(fund.pred) <- c("Harris", "Trump")
+
+
+# Linear nature of elastic net pushes both vote shares above 50%, so re-scale each candidate
+sum_pred <- fund.pred[1, ] + fund.pred[2, ]  
+fund.pred[1, ] <- (fund.pred[1, ] / sum_pred) * 100  
+fund.pred[2, ] <- (fund.pred[2, ] / sum_pred) * 100 
+
+# Sequester data for combined model.
+d_combo <- d_combined_ens |> 
+  select("year", "pv", "GDP_growth_quarterly", "RDPI_growth_quarterly", "CPI", "unemployment", "sp500_close",
+         "incumbent", "gdp_growth_x_incumbent", "rdpi_growth_quarterly", "cpi_x_incumbent", "unemployment_x_incumbent", "sp500_x_incumbent", all_of(paste0("poll_weeks_left_", 7:16))) 
+
+
+x.train.combined <- d_combo |> 
+  filter(year <= 2020) |>
+  select(-c(year, pv)) |> 
+  as.matrix()
+y.train.combined <- d_combo |>
+  filter(year <= 2020) |>
+  select(pv) |> 
+  as.matrix()
+x.test.combined <- d_combo |>
+  filter(year == 2024) |>
+  select(-c(year, pv)) |> 
+  drop_na() |> 
+  as.matrix()
+
+# Estimate combined model.
+set.seed(02138)
+enet.combined <- cv.glmnet(x = x.train.combined, y = y.train.combined, intercept = FALSE, alpha = 0.5)
+lambda.min.enet.combined <- enet.combined$lambda.min
+
+# Predict 2024 national pv share using elastic-net.
+combo.pred <- predict(enet.combined, s = lambda.min.enet.combined, newx = x.test.combined)
+rownames(combo.pred) <- c("Harris", "Trump")
+
+# Linear nature of elastic net pushes both vote shares above 50%, so re-scale each candidate
+sum_pred <- combo.pred[1, ] + combo.pred[2, ]  
+combo.pred[1, ] <- (combo.pred[1, ] / sum_pred) * 100  
+combo.pred[2, ] <- (combo.pred[2, ] / sum_pred) * 100 
+
+# Ensemble 1: Predict based on unweighted (or equally weighted) ensemble model between polls and fundamentals models. 
+unweighted.ensemble.pred <- (polls.pred + fund.pred)/2
+rownames(unweighted.ensemble.pred) <- c("Harris", "Trump")
+
+# Linear nature of elastic net pushes both vote shares above 50%, so re-scale each candidate
+sum_pred <- unweighted.ensemble.pred[1, ] + unweighted.ensemble.pred[2, ]  
+unweighted.ensemble.pred[1, ] <- (unweighted.ensemble.pred[1, ] / sum_pred) * 100  
+unweighted.ensemble.pred[2, ] <- (unweighted.ensemble.pred[2, ] / sum_pred) * 100 
+
+
+# Ensemble 2: Weight based on polls mattering closer to November. (Nate Silver)
+election_day_2024 <- "2024-11-05"
+today <- "2024-09-18"
+days_left <- as.numeric(as.Date(election_day_2024) - as.Date(today))
+
+poll_model_weight <- 1- (1/sqrt(days_left))
+fund_model_weight <- 1/sqrt(days_left)
+
+ensemble.2.pred <- polls.pred * poll_model_weight + fund.pred * fund_model_weight
+rownames(ensemble.2.pred) <- c("Harris", "Trump")
+
+# Linear nature of elastic net pushes both vote shares above 50%, so re-scale each candidate
+sum_pred <- ensemble.2.pred[1, ] + ensemble.2.pred[2, ]  
+ensemble.2.pred[1, ] <- (ensemble.2.pred[1, ] / sum_pred) * 100  
+ensemble.2.pred[2, ] <- (ensemble.2.pred[2, ] / sum_pred) * 100 
+
+# Ensemble 3. Weight based on fundamentals mattering closer to November. (Gelman & King, 1993)
+poll_model_weight <- 1/sqrt(days_left)
+fund_model_weight <- 1-(1/sqrt(days_left))
+
+ensemble.3.pred <- polls.pred * poll_model_weight + fund.pred * fund_model_weight
+rownames(ensemble.3.pred) <- c("Harris", "Trump")
+
+sum_pred <- ensemble.3.pred[1, ] + ensemble.3.pred[2, ]  
+ensemble.3.pred[1, ] <- (ensemble.3.pred[1, ] / sum_pred) * 100  
+ensemble.3.pred[2, ] <- (ensemble.3.pred[2, ] / sum_pred) * 100 
+
+knitr::kable(fund.pred, caption = "2024 National Popular Vote Prediction -- Elastic-Net, Fundamentals", row.names = TRUE)
+knitr::kable(combo.pred, caption = "2024 National Popular Vote Prediction -- Elastic-Net Polls and Fundamentals", row.names = TRUE)
+knitr::kable(unweighted.ensemble.pred, caption = "2024 National Popular Vote Prediction -- Unweighted Polls and Fundamentals", row.names = TRUE)
+knitr::kable(ensemble.2.pred, caption = "2024 National Popular Vote Prediction -- Weighted Polls Closer to November (Silver)", row.names = TRUE)
+knitr::kable(ensemble.3.pred, caption = "2024 National Popular Vote Prediction -- Weighted Fundamentals Closer to November (Gelman & King, 1993)", row.names = TRUE)
+```
+
+After using 2016 and 2020 individual polls to predict the 2024 popular
+vote outcome, I decided I also wanted involve a fundamentals model (See:
+Week 2 Post for more details) and consider models that weight data
+heavier for weeks closer to election day. There are five new models,
+which I construct.
+
+1.  A Fundamentals Only Model using Elastic Net
+
+2.  A Combined Fundamentals and Polling Data Model using Elastic Net
+
+3.  An Unweighted Polling Data and Fundamentals Model
+
+4.  An Closer-To-November-Increasing Weight Polling Data Model
+    (attributable to Nate Silver)
+
+5.  An Closer-To-November-Increasing Weight Fundamentals Model
+    (attributable to Gelman & King, 1993)
+
+Because elastic net predicts linearly and without constraints, I
+initially had predictions saying that Harris and Trump would get popular
+vote shares above 60% each. This does not make sense, so I regularized
+the scales and recalculated such that Harris and Trump were compared
+against each other and their sums would be 100% to be more informative
+of how they would actually fare in the election. This would be similar
+to a two-party vote share. The first two models show that Harris and
+Trump will tie at 50% vote shares. Once we move to the third Unweighted
+Polling Data and Fundamentals Model, we find that Harris is predicted to
+win the two-party popular vote by about .3 points. Mimicing Silver's
+model, which assigns higher weights to polls as we move closer to
+election day, I find that Harris is predicted to win the two-party
+popular vote by about .6 points. The margins for a Harris win are much
+slimmer using Gelman & King's model, which weights fundamentals higher
+closer to the election at .1.
+
+## **Conclusion**
+
+\
+**Prediction: Based on my individual polls-generated models, Harris will
+win the popular vote in November by a razor-thin margin.**
+
+Across all models I constructed using individual polls from 2016, 2020,
+and 2024, Harris is predicted to win the popular vote. The models all
+vary by how much she is predicted to win, but they all find that she
+will win by an incredibly thin margin. This corroborates the
+characterization of this race as the closest in decades.
+
+## **Sources**
+
+Bradner, Eric. “Analysis: The Closest Presidential Race in a
+Generation.” *CNN*, 22 Sept. 2024,
+[www.cnn.com/2024/09/22/politics/closest-presidential-race-harris-trump/index.html](http://www.cnn.com/2024/09/22/politics/closest-presidential-race-harris-trump/index.html).Chiacu,
+Doina. “When and Where Is the Vance-Walz US Vice Presidential Debate?”
+*Reuters*, 19 Sept. 2024,
+[www.reuters.com/world/us/when-where-is-vance-walz-us-vice-presidential-debate-2024-09-19/](http://www.reuters.com/world/us/when-where-is-vance-walz-us-vice-presidential-debate-2024-09-19/).
+
+Cole, Devan. “Harris and Trump Set for First Debate of Closest
+Presidential Race in Years.” *CNN*, 21 Sept. 2024,
+[www.cnn.com/2024/09/21/politics/presidential-debate-harris-trump-cnn/index.html](http://www.cnn.com/2024/09/21/politics/presidential-debate-harris-trump-cnn/index.html).
+
+“Early In-Person Voting Begins in Three States, Kicking off the Sprint
+to Election Day.” *PBS NewsHour*, 22 Sept. 2024,
+[www.pbs.org/newshour/politics/early-in-person-voting-begins-in-three-states-kicking-off-the-sprint-to-election-day](http://www.pbs.org/newshour/politics/early-in-person-voting-begins-in-three-states-kicking-off-the-sprint-to-election-day).
+
+Polling Data Provided by GOV 1347: Election Analytics teaching staff
+(which itself drew from the FiveThirtyEight GitHub)
+
+Economic Data Provided by GOV 1347: Election Analytics teaching staff
+(which itself drew from the Burueau of Economic Analysia and Federal
+Reserve Economic Data)
