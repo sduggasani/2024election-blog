@@ -149,7 +149,7 @@ d_poll_weeks <- d_pollav_natl |>
 
 ## Descriptive Statistics on Incumbent Advantage
 
-```{r}
+```{r echo=FALSE}
 ####---------------------------------------------------------------------------------#
 #### Descriptive statistics on the incumbency advantage. -- Code by Matthew Dardet
 ####---------------------------------------------------------------------------------#
@@ -240,7 +240,7 @@ Above we calculate some descriptive statistics on the incumbency advantage. If w
 
 The advantage of incumbents is partly attributed to the powers they hold while in office and the ability to leverage them to garner votes. One such power is the power to apportion federal spending monies to key certain constituencies; this is known as pork barrel spending. The function of pork barrel spending lies in the idea that voters who receive more funding from an incumbent administration are more likely to view that administration favorably and cast their votes for them in the next election. 
 
-```{r warning = FALSE}
+```{r echo=FALSE, warning=FALSE}
 ####----------------------------------------------------------#
 #### Pork analysis. -- Code by Matthew Dardet
 ####----------------------------------------------------------#
@@ -314,7 +314,7 @@ Here, we visualize a replication of the findings from Kriner and Reeves' "Presid
 
 One model of the incumbency advantage is Alan Abramowitz's **Time for Change** model, which he developed in 1988. It is a simple Ordinary Least Squares Regression Model that relies on three independent variables:  GDP Growth for Quarter 2, June Gallup Poll Approval, and a binary variable on incumbency status of a candidate. 
 
-```{r EXTENSION}
+```{r EXTENSION, echo=FALSE}
 ####----------------------------------------------------------#
 #### Time for a change model applied to 2024
 ####----------------------------------------------------------#
