@@ -1,0 +1,505 @@
+---
+title: 'Week 4: Fundamentals II, Incumbency'
+author: Sammy Duggasani
+date: '2024-09-25'
+slug: []
+categories: []
+tags: []
+---
+
+# **Week 4: Fundamentals II, Incumbency**
+
+**Monday, September 30, 2024**\
+**35 Days until Presidential Election**
+
+*Today marks about a month since I've started this blog to follow and forecast the 2024 Presidential Election. Thanks for following along!*
+
+*After two assassination attempts, the presence of Security Service at Trump's rallies has become a point of attack for his campaign. Most recently, he has [blamed the Biden administration](https://newrepublic.com/post/186504/donald-trump-joe-biden-theory-crowd-sizes) for withholding personnel to guard his events, thereby hindering them from reaching the size they once did. The powers that incumbent political candidates have an don't have is a large focus of American political science. While I am skeptical that we can group Trump's rally attendance in with incumbent advantage, we should scrutinize how the theory applies to this year's election—especially in relation to who we actually consider to be the incumbent between Harris and Trump.*
+
+```{r include=FALSE}
+####----------------------------------------------------------#
+#### Preamble
+####----------------------------------------------------------#
+
+# Load libraries.
+## install via `install.packages("name")`
+library(car)
+library(caret)
+library(CVXR)
+library(glmnet)
+library(kableExtra)
+library(maps)
+library(RColorBrewer)
+library(sf)
+library(tidyverse)
+library(viridis)
+library(modelsummary)
+## set working directory here
+setwd("/Users/sammy/Documents/Harvard/Senior Year/2024election-blog/content/post/2024-09-25-week-4-fundamentals-ii-incumbency")
+
+## Import custom themes
+map_theme <- function() {
+  theme(
+    # no border
+    panel.border = element_blank(),
+    # background
+    panel.background = element_rect(fill = "snow2"),
+    # text
+    plot.title = element_text(size = 15, hjust = .5, face = "bold", family = "sans"),
+    plot.subtitle = element_text(size = 13, hjust = .5, family = "sans"),
+    plot.title.position = "panel",
+    axis.text.x = element_text(size = 8, angle = 45, hjust = .5, family = "sans"),
+    axis.text.y = element_text(size = 8, family = "sans"),
+    axis.title.x = element_text(family = "sans"),
+    axis.title.y = element_text(angle = 90, family = "sans"),
+    axis.ticks = element_line(colour = "black"),
+    axis.line = element_line(colour = "grey"),
+    # legend 
+    legend.position = "right",
+    legend.title = element_text(size = 12, family = "sans"),
+    legend.text = element_text(size = 10, family = "sans"),
+    # aspect ratio
+    aspect.ratio = .8
+  )
+}
+plot_date_theme <- function() {
+  theme(
+    # no border
+    panel.border = element_blank(),
+    # background
+    panel.background = element_rect(fill = "snow2"),
+    # text
+    plot.title = element_text(size = 15, hjust = .5, face = "bold", family = "sans"),
+    plot.subtitle = element_text(size = 13, hjust = .5, family = "sans"),
+    plot.title.position = "panel",
+    axis.text.x = element_text(size = 8, family = "sans"),
+    axis.text.y = element_text(size = 8, family = "sans"),
+    axis.title.x = element_text(family = "sans"),
+    axis.title.y = element_text(angle = 90, family = "sans"),
+    axis.ticks = element_line(colour = "black"),
+    axis.line = element_line(colour = "grey"),
+    # legend 
+    legend.position = "right",
+    legend.title = element_text(size = 12, family = "sans"),
+    legend.text = element_text(size = 10, family = "sans"),
+  )
+}
+plot_theme <- function() {
+  theme(
+    # no border
+    panel.border = element_blank(),
+    # background
+    panel.background = element_rect(fill = "snow2"),
+    # text
+    plot.title = element_text(size = 15, hjust = .5, face = "bold", family = "sans"),
+    plot.subtitle = element_text(size = 13, hjust = .5, family = "sans"),
+    plot.title.position = "panel",
+    axis.text.x = element_text(size = 8, family = "sans"),
+    axis.text.y = element_text(size = 8, family = "sans"),
+    axis.title.x = element_text(family = "sans"),
+    axis.title.y = element_text(angle = 90, family = "sans"),
+    axis.ticks = element_line(colour = "black"),
+    axis.line = element_line(colour = "grey"),
+    # legend 
+    legend.position = "right",
+    legend.title = element_text(size = 12, family = "sans"),
+    legend.text = element_text(size = 10, family = "sans"),
+  )
+}
+```
+
+```{r include=FALSE}
+####----------------------------------------------------------#
+#### Read, merge, and process data. -- Code by Matthew Dardet
+####----------------------------------------------------------#
+
+# Read incumbency/vote data.
+d_vote <- read_csv("popvote_1948-2020.csv")
+d_state_vote <- read_csv("state_popvote_1948_2020.csv")
+d_vote$party[d_vote$party == "democrat"] <- "DEM"
+d_vote$party[d_vote$party == "republican"] <- "REP"
+
+# Read economic data.
+d_econ <- read_csv("fred_econ.csv") |> 
+  filter(quarter == 2)
+
+# Read polling and election results data. 
+d_pollav_natl <- read_csv("national_polls_1968-2024.csv")
+d_pollav_state <- read_csv("state_polls_1968-2024.csv")
+
+# Shape and merge polling and election data using November polls. 
+d_poll_nov <- d_vote |> 
+  left_join(d_pollav_natl |> 
+              group_by(year, party) |> 
+              top_n(1, poll_date) |> 
+              select(-candidate), 
+            by = c("year", "party")) |> 
+  rename(nov_poll = poll_support) |> 
+  filter(year <= 2020) |> 
+  drop_na()
+
+# Create dataset of polling average by week until the election. 
+d_poll_weeks <- d_pollav_natl |> 
+  group_by(year, party, weeks_left) |>
+  summarize(mean_poll_week = mean(poll_support)) |> 
+  filter(weeks_left <= 30) |> 
+  pivot_wider(names_from = weeks_left, values_from = mean_poll_week) |> 
+  left_join(d_vote, by = c("year", "party"))
+```
+
+## Descriptive Statistics on Incumbent Advantage
+
+```{r}
+####---------------------------------------------------------------------------------#
+#### Descriptive statistics on the incumbency advantage. -- Code by Matthew Dardet
+####---------------------------------------------------------------------------------#
+
+# How many post-war elections (18 and 2024) have there been 
+# where an incumbent president won? 
+d_vote |> 
+  filter(winner) |> 
+  select(year, win_party = party, win_cand = candidate) |> 
+  mutate(win_party_last = lag(win_party, order_by = year),
+         win_cand_last = lag(win_cand, order_by = year)) |> 
+  mutate(reelect_president = win_cand_last == win_cand) |> 
+  filter(year > 1948 & year < 2024) |> 
+  group_by(reelect_president) |> 
+  summarize(N = n()) |> 
+  mutate(Percent = round(N/sum(N) * 100, 2)) |>
+  as.data.frame() |>
+  kable(col.names = c("Incumbent President Re-elected",
+                      "Count",
+                      "Percentage")) |>
+  kable_styling(bootstrap_options = "hover",
+                position = "center")
+
+# A different way of assessing the incumbency advantage 
+# (out of 11 elections where there was at least one incumbent running). 
+inc_tab <- d_vote |> 
+  filter(year > 1948 & year < 2024) |>
+  select(year, party, candidate, incumbent, winner) |> 
+  pivot_wider(names_from = party, 
+              values_from = c(candidate, incumbent, winner)) |> 
+  filter(incumbent_DEM == TRUE | incumbent_REP == TRUE)
+
+
+cat(paste0("Elections with At Least One Incumbent Running: ", nrow(inc_tab), "\n",
+   "Incumbent Victories: ", (sum(inc_tab$incumbent_REP & inc_tab$winner_REP) + 
+                             sum(inc_tab$incumbent_DEM & inc_tab$winner_DEM)), "\n",
+    "Percentage: ", round((sum(inc_tab$incumbent_REP & inc_tab$winner_REP) + 
+                           sum(inc_tab$incumbent_DEM & inc_tab$winner_DEM))/
+                           nrow(inc_tab)*100, 2)))
+
+# In the six elections since 2000?
+inc_tab |> 
+  filter(year >= 2000) |>
+  kable(col.names = c("Election Year",
+                      "Democratic Candidate",
+                      "Republican Candidate",
+                      "Democratic Incumbency",
+                      "Republican Incumbency",
+                      "Democratic Win",
+                      "Republican Win")) |>
+  kable_styling(bootstrap_options = "hover",
+                position = "center")
+       
+# How many post-war elections have there been where the incumbent *party* won? 
+d_vote |> 
+  filter(winner) |> 
+  select(year, win_party = party, win_cand = candidate) |> 
+  mutate(win_party_last = lag(win_party, order_by = year),
+         win_cand_last = lag(win_cand, order_by = year)) |> 
+  mutate(reelect_party = win_party_last == win_party) |> 
+  filter(year > 1948 & year < 2024) |> 
+  group_by(reelect_party) |> 
+  summarize(N = n()) |> 
+  mutate(Percent = round(N/sum(N) * 100, 2)) |>
+  as.data.frame() |>
+  kable(col.names = c("Incumbent Party Re-elected",
+                      "Count",
+                      "Percentage")) |>
+  kable_styling(bootstrap_options = "hover",
+                position = "center")
+
+
+# How many post-war elections have there been where winner served in 
+# previous administration?
+(100*round(prop.table(table(`prev_admin` = d_vote$prev_admin[d_vote$year > 1948 & 
+                                     d_vote$year < 2024 & 
+                                     d_vote$winner == TRUE])), 4)) |>
+  kable(col.names = c("Previous Administration Member Elected",
+                      "Percentage")) |>
+  kable_styling(bootstrap_options = "hover",
+                position = "center")
+
+```
+
+Above we calculate some descriptive statistics on the incumbency advantage. If we simply look at the number of times an incumbent president is reelected or the number of times an incumbent party is reelected, it looks like incumbents actually have worse chances at being elected into office for a second time. Let us actually consider those elections which have incumbent running, however, and we see that incumbents have a higher rate of winning elections than non-incumbents.
+
+## Pork Barrel Spending and Incumbency
+
+The advantage of incumbents is partly attributed to the powers they hold while in office and the ability to leverage them to garner votes. One such power is the power to apportion federal spending monies to key certain constituencies; this is known as pork barrel spending. The function of pork barrel spending lies in the idea that voters who receive more funding from an incumbent administration are more likely to view that administration favorably and cast their votes for them in the next election. 
+
+```{r warning = FALSE}
+####----------------------------------------------------------#
+#### Pork analysis. -- Code by Matthew Dardet
+####----------------------------------------------------------#
+ 
+# Read federal grants dataset from Kriner & Reeves (2008). 
+d_pork_state <- read_csv("fedgrants_bystate_1988-2008.csv", show_col_types = FALSE)
+
+# What strategy do presidents pursue? 
+d_pork_state |> 
+  filter(!is.na(state_year_type)) |> 
+  group_by(state_year_type) |>
+  summarize(mean_grant = mean(grant_mil, na.rm = T), se_grant = sd(grant_mil, na.rm = T)/sqrt(n())) |> 
+  ggplot(aes(x = state_year_type, y = mean_grant, ymin = mean_grant-1.96*se_grant, ymax = mean_grant+1.96*se_grant)) + 
+  coord_flip() + 
+  geom_bar(stat = "identity", fill = "#85bb65") + 
+  geom_errorbar(width = 0.2) + 
+  labs(x = "Type of State & Year", 
+       y = "Federal Grant Spending (Millions of $)", 
+       title = "Federal Grant Spending by State Election Type") + 
+  plot_theme()
+
+# Do presidents strategize for their successor as well? 
+d_pork_state |> 
+  filter(!is.na(state_year_type2)) |> 
+  group_by(state_year_type2) |>
+  summarize(mean_grant = mean(grant_mil, na.rm = T), se_grant = sd(grant_mil, na.rm = T)/sqrt(n())) |> 
+  ggplot(aes(x = state_year_type2, y = mean_grant, ymin = mean_grant-1.96*se_grant, ymax = mean_grant+1.96*se_grant)) + 
+  coord_flip() + 
+  geom_bar(stat = "identity", fill = "#85bb65") + 
+  geom_errorbar(width = 0.2) + 
+  labs(x = "Type of State & Year", 
+       y = "Federal Grant Spending (Millions of $)", 
+       title = "Federal Grant Spending by State Election Type") + 
+  plot_theme()
+# Pork county model. 
+d_pork_county <- read_csv("fedgrants_bycounty_1988-2008.csv", show_col_types = FALSE)
+
+pork_mod_county_1 <- lm(dvoteswing_inc  ~ dpct_grants*comp_state + as.factor(year), 
+                      d_pork_county)
+modelsummary(pork_mod_county_1, title = "Pork County-Level Model")
+
+pork_mod_county_2 <- lm(dvoteswing_inc ~ dpct_grants*comp_state + as.factor(year) +
+                          dpc_income + inc_ad_diff + inc_campaign_diff + 
+                          dhousevote_inc + iraq_cas2004 + iraq_cas2008 + 
+                          dpct_popl,
+                        data = d_pork_county)
+modelsummary(pork_mod_county_2, title = "Extended Pork County-Level Model")
+
+# Pork state model. 
+d_pork_state_model <- d_state_vote |>
+  mutate(state_abb = state.abb[match(d_state_vote$state, state.name)]) |>
+  inner_join(d_pork_state, by = c("year", "state_abb")) |>
+  left_join(d_vote, by = "year") |>
+  filter(incumbent_party == TRUE) |>
+  mutate(inc_pv2p = ifelse(party == "REP", R_pv2p, D_pv2p)) |>
+  mutate(is_comp = case_when(state_year_type == "swing + election year" ~ 1,
+                             .default = 0)) |>
+  group_by(state) |>
+  mutate(change_grant_mil = (1-grant_mil/(lag(grant_mil, n = 1)))*100,
+         change_inc_pv2p = (1-inc_pv2p/(lag(inc_pv2p, n = 1)))*100) |>
+  ungroup() |>
+  select(state, year, is_comp, change_grant_mil, change_inc_pv2p)
+
+pork_state_mod <- lm(change_inc_pv2p ~ is_comp*change_grant_mil + as.factor(year),
+                     data = d_pork_state_model)
+modelsummary(pork_state_mod, title = "Pork State-Level Model")
+```
+Here, we visualize a replication of the findings from Kriner and Reeves' "Presidential Particularism and Divide-the-Dollar Politics" (2015). They find that spending of federal grants in swing states is higher than core states. Just looking at swing states, there is a sizable difference in spending when an incumbent is running in an election versus when they are not. It is intuitive that incumbents use federal spending to advantage them in upcoming elections when they have them. My hope is that visualizing pork barrel spending can help give shape to the idea of the incumbency advantage. 
+
+## Time for a Change Model
+
+One model of the incumbency advantage is Alan Abramowitz's **Time for Change** model, which he developed in 1988. It is a simple Ordinary Least Squares Regression Model that relies on three independent variables:  GDP Growth for Quarter 2, June Gallup Poll Approval, and a binary variable on incumbency status of a candidate. 
+
+```{r EXTENSION}
+####----------------------------------------------------------#
+#### Time for a change model applied to 2024
+####----------------------------------------------------------#
+# Evaluate models and compare them to your own models/predictions. 
+# juneapp for Biden might be affected by the fact he was still running
+
+
+# Create comprehensive dataset to involve econ and vote data
+econ_vote <- d_vote |>
+  left_join(d_econ, by="year")
+
+# Now narrow down econ and vote data to just incumbents 
+incumb_econ_vote <- econ_vote |>
+  filter(incumbent_party) |>
+  mutate(incumbent = as.numeric(incumbent))
+
+# Train data on previous election (excluding 2020)
+train_for_2024_exc <- incumb_econ_vote |>
+  filter(year < 2020)
+test_for_2024_exc <- incumb_econ_vote |>
+  filter(year == 2024)
+
+# Train data on previous election (including 2020)
+train_for_2024_inc <- incumb_econ_vote |>
+  filter(year < 2024)
+test_for_2024_inc <- incumb_econ_vote |>
+  filter(year == 2024)
+
+# Construct linear regression based on TFC -- Exc
+tfc_mod_2024_exc <- lm(pv2p ~ GDP_growth_quarterly + incumbent + juneapp, 
+                   data = train_for_2024_exc)
+# modelsummary(tfc_mod_2024_exc, title = "Time for Change Model for 2024",
+#              notes = "Excluding 2020 Training Data",
+#              coef_rename = c("GDP_growth_quarterly" = "GDP Growth (Quarterly)",
+#                              "incumbent" = "Incumbency Status",
+#                              "juneapp" = "Approval Rating in June"))
+
+# Construct linear regression based on TFC -- Inc
+tfc_mod_2024_inc <- lm(pv2p ~ GDP_growth_quarterly + incumbent + juneapp, 
+                   data = train_for_2024_inc)
+# modelsummary(tfc_mod_2024_inc, title = "Time for Change Model for 2024",
+#              notes = "Including 2020 Training Data",
+#              coef_rename = c("GDP_growth_quarterly" = "GDP Growth (Quarterly)",
+#                              "incumbent" = "Incumbency Status",
+#                              "juneapp" = "Approval Rating in June"))
+# Predict for Harris as incumbent
+harris_pv2p_exc <- predict(tfc_mod_2024_exc,
+                       newdata = test_for_2024_exc)
+harris_pv2p_inc <- predict(tfc_mod_2024_inc,
+                       newdata = test_for_2024_inc)
+
+
+# HYPOTHETICAL: HARRIS IS NOT REALLY AN INCUMBENT AND NEITHER IS TRUMP. TREAT AS NON-INCUMBENT ELECTION
+incumb_econ_vote_hyp <- econ_vote |>
+  filter(incumbent_party) |>
+  mutate(incumbent = as.numeric(incumbent)) |>
+  mutate(incumbent = if_else(year == 2024, 0, incumbent))
+
+# HYP: Train data on previous election (excluding 2020)
+train_for_2024_hyp_exc <- incumb_econ_vote_hyp |>
+  filter(year < 2020)
+test_for_2024_hyp_exc <- incumb_econ_vote_hyp |>
+  filter(year == 2024)
+
+# HYP: Train data on previous election (including 2020)
+train_for_2024_hyp_inc <- incumb_econ_vote_hyp |>
+  filter(year < 2024)
+test_for_2024_hyp_inc <- incumb_econ_vote_hyp |>
+  filter(year == 2024)
+
+# HYP: Construct linear regression based on TFC - Excluding 2020
+tfc_mod_2024_hyp_exc <- lm(pv2p ~ GDP_growth_quarterly + incumbent + juneapp, 
+                   data = train_for_2024_hyp_exc)
+# modelsummary(tfc_mod_2024_hyp_exc, title = "Time for Change Model for 2024",
+#              notes = "Excluding 2020 Training Data",
+#              coef_rename = c("GDP_growth_quarterly" = "GDP Growth (Quarterly)",
+#                              "incumbent" = "Incumbency Status",
+#                              "juneapp" = "Approval Rating in June"))
+# HYP: Construct linear regression based on TFC - Including 2020
+tfc_mod_2024_hyp_inc <- lm(pv2p ~ GDP_growth_quarterly + incumbent + juneapp, 
+                   data = train_for_2024_hyp_inc)
+# modelsummary(tfc_mod_2024_hyp_inc, title = "Time for Change Model for 2024",
+#              notes = "Including 2020 Training Data",
+#              coef_rename = c("GDP_growth_quarterly" = "GDP Growth (Quarterly)",
+#                              "incumbent" = "Incumbency Status",
+#                              "juneapp" = "Approval Rating in June"))
+# HYP: Now Predict
+harris_pv2p_hyp_exc <- predict(tfc_mod_2024_hyp_exc,
+                       newdata = test_for_2024_hyp_exc)
+harris_pv2p_hyp_inc <- predict(tfc_mod_2024_hyp_inc,
+                       newdata = test_for_2024_hyp_inc)
+
+####----------------------------------------------------------#
+#### VIEWING ALL MODELS TOGETHER
+####----------------------------------------------------------#
+
+tfc_models_2024 <- list(
+  "Excluding 2020 Data" = tfc_mod_2024_exc,
+  "Including 2020 Data" = tfc_mod_2024_inc,
+  "Harris Non-Incumbent Hypothetical, Excluding 2020" = tfc_mod_2024_hyp_exc,
+  "Harris Non-Incumbent Hypothetical, Including 2020" = tfc_mod_2024_hyp_inc)
+modelsummary(tfc_models_2024,
+             title = "Time for Change Models for 2024",
+             coef_rename = c("GDP_growth_quarterly" = "GDP Growth (Quarterly)",
+                             "incumbent" = "Incumbency Status",
+                             "juneapp" = "Approval Rating in June"))
+# harris_pv2p_exc
+# harris_pv2p_inc
+# harris_pv2p_hyp_exc
+# harris_pv2p_hyp_inc
+
+tfc_predicted_vs <- data.frame(
+  candidate = c("Kamala Harris", "Donald Trump"),
+  pv2p_exc = c(harris_pv2p_exc, (100-harris_pv2p_exc)),
+  pv2p_inc = c(harris_pv2p_inc, (100-harris_pv2p_inc)),
+  pv2p_hyp_exc = c(harris_pv2p_hyp_exc, (100-harris_pv2p_hyp_exc)),
+  pv2p_hyp_inc = c(harris_pv2p_hyp_inc, (100-harris_pv2p_hyp_inc)),
+  pv2p_silver_model = c(51.31497, 48.06832) # Drawn from calculations of two-party vote share, using prediction on Nate Silver's ensemble model that weighs polls closer to election day but also involves economic data; see week 3 code for more details and for verification on accuracy
+)
+
+# kable(tfc_predicted_vs,
+#       digits = 2,
+#       format = "html",
+#       col.names = c("Candidate",
+#                     "Excluding 2020 Data",
+#                     "Including 2020 Data",
+#                     "Harris Non-Incumbent Hypothetical, Excluding 2020",
+#                     "Harris Non-Incumbent Hypothetical, Including 2020",
+#                     "Silver's Ensemble Model, Weighing Polls Closer to Election Day"),
+#       caption = "Two-Party Vote Shares (%) Across Various Time for Change Models"
+# ) |>
+#   kable_styling(bootstrap_options = "hover",
+#                 position = "center")
+
+# Just for fun: Create a function that colors the 2-party vote share winners to make visualization more readable
+color_cells <- function(candidate, value) {
+  value <- round(value, 2)
+  if(
+    candidate == "Kamala Harris" & value > 50) {
+    return(cell_spec(value, "html", color = "white", background = "steelblue3"))
+  } else if (candidate == "Donald Trump" & value > 50) {
+    return(cell_spec(value, "html", color = "white", background = "tomato3"))
+  } else {
+    return(value)
+  }
+}
+
+# Now apply the color function 
+tfc_predicted_vs_kable <- tfc_predicted_vs |>
+  mutate(across(-candidate, 
+                ~ mapply(color_cells, candidate, .)))
+
+# Construct the table using kable
+kable(tfc_predicted_vs_kable, escape = FALSE, format = "html", 
+      caption = "Two-Party Vote Shares (%) Across Various Time for Change Models",
+      col.names = c("Candidate",
+                    "Excluding 2020 Data",
+                    "Including 2020 Data",
+                    "Harris Non-Incumbent Hypothetical, Excluding 2020",
+                    "Harris Non-Incumbent Hypothetical, Including 2020",
+                    "Silver's Ensemble Model, Weighing Polls Closer to Election Day")) |>
+  kable_styling(bootstrap_options = "hover", position = "center")
+```
+I have constructed four models based off of Abramowitz's Time for Change theory and predicted the upcoming 2024 election. In two models, I treat Harris as an incumbent candidate (and Trump a non-incumbent) and the other two models, I treat both candidates as non-incumbents. Like in previous weeks, I have compare models that include 2020 as a data point on which I train the model. 
+
+All models show promise with relatively high R-squared and adjusted-R-squared values. For the very first time since I have started this blog, a model I constructed predicted a Trump win in popular vote. In fact, across all Time for Change models, Trump is predicted to win the popular vote—whether or not I include 2020 training data and whether I not I treat Harris as an incumbent candidate. We can see how this differs from my preferred model thus far constructed: Nate Silver's, which is an ensemble model that involves economic and polling data and weighs polls higher the closer they get to election day (See more on this in Week 3's blog post).
+
+All this to say, the predicted two-party vote shares predicted from Abramowitz's model shows a difference when we treat Harris as an incumbent and when we do not. This makes sense as we would expect an incumbent to be advantaged by some number of percentage points than they would otherwise. 
+
+## Conclusion
+
+**Trump is predicted to win the popular vote in November.**
+
+Across all four models I constructed off of Abramowitz's Time for Change Model, Donald Trump is predicted to have a greater-than-one-point lead over Harris in two-party popular vote share. This is the first time that Trump has been predicted to win in my models. When Harris's incumbent advantage is removed, his lead over her widens.
+
+## **Sources**
+
+Abramowitz, Alan I. “An Improved Model for Predicting Presidential Election Outcomes.” *PS: Political Science and Politics*, vol. 21, no. 4, 1988, pp. 843–47. JSTOR, https://doi.org/10.2307/420023. 
+
+Kriner, Douglas L., and Andrew Reeves. “Presidential Particularism and Divide-the-Dollar Politics.” *American Political Science Review* 109.1 (2015): 155–171. Web.
+
+Olmsted, Edith. “Trump Has a Wild New Theory for His Flagging Crowd Sizes.” *The New Republic*, 30 Sept. 2024, <https://newrepublic.com/post/186504/donald-trump-joe-biden-theory-crowd-sizes.>
+
+“When and Where Is the Vance-Walz US Vice Presidential Debate?” *Reuters*, 19 Sept. 2024, [www.reuters.com/world/us/when-where-is-vance-walz-us-vice-presidential-debate-2024-09-19/](http://www.reuters.com/world/us/when-where-is-vance-walz-us-vice-presidential-debate-2024-09-19/).
+
+Polling Data Provided by GOV 1347: Election Analytics teaching staff (which itself drew from the FiveThirtyEight GitHub)
+
+Economic Data Provided by GOV 1347: Election Analytics teaching staff (which itself drew from the Burueau of Economic Analysia and Federal Reserve Economic Data)

@@ -24,6 +24,9 @@ menu:
     - name: Week 3 Polling
       url: https://sduggasani.github.io/2024election-blog/post/2024-09-23-week-3-polling/
       weight: 10
+    - name: Week 3 Polling
+      url: https://sduggasani.github.io/2024election-blog/post/2024-09-25-week-4-fundamentals-ii-incumbency/
+      weight: 10   
 params:
   BookComments: yes
   BookDateFormat: January 2, 2006
