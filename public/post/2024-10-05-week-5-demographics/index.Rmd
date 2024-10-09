@@ -274,7 +274,7 @@ logit_pred <- factor(ifelse(predict(logit_fit, anes_test, type = "response") > 0
 
 The above figures are a result of using a logistic regression that involves demographics to predict presidential vote choice. Much of this code can be attributed to Matthew Dardet, but instead of just looking at how well demographics predicted vote choice in 1964, I included all years including and thereafter. The demographics we involve are age, gender, race, education level, income, religion, whether the voter attends church, whether the voter is from a southern state, work status, home-owning status, and marriage status. The model summary above shows that gender and race have by far the most sway on a voter's choice among these demographics. What I find interesting is that age does not really have that much of an impact on vote choice as compared to other demographics. This work is a replication of the original work of Kim and Zilinsky (2024). Similar to their paper's most notable finding, this replication finds that these key demographics can only predict the vote choice accurately about 64% of the time. Given the reliance of popular media and conventional wisdom on identity politics, it would seem that demographics would play a huge role in vote choice, and they are certainly not negligible. But key demographics are not as determinative as we might have thought.
 
-```{r}
+```{r include=FALSE}
 ####----------------------------------------------------------#
 #### Random Forest Application (Extension 2)
 ####----------------------------------------------------------#
@@ -312,7 +312,7 @@ confusionMatrix(rf_pred$predictions, anes_test_ext$pres_vote)
 
 Here, instead of relying on a logistic regression, we employ a Random Forests model. Random Forest modeling is a type of machine learning model where multiple decision trees are built for training and their predictions are aggregated in such a way that is advantageous for accuracy and the reduction of overfitting. Because we are involving so many demographic indicators, it would be useful to use Random Forest modeling and be aware of the risk of overfitting. When we use Random Forests to replicate Kim and Zilinsky's (2024) work, we find that the key demographics can only predict vote choice about 68% of the time. This is a few percentage points higher than when we relied on the logistic regression, but it is not fully determinative, underscoring Kim and Zilinsky's findings as well.
 
-```{r}
+```{r include=FALSE}
 ####----------------------------------------------------------#
 #### Random Forest Application (Extension 2 contd.)
 ####----------------------------------------------------------#
@@ -346,7 +346,7 @@ I use the Random Forest modeling, which at its crux relies on bootstrap sampling
 
 Now, let's delve into a sample of Georgia's voter file. I chose Georgia because it is my home state, I have done political mobilizing on the ground there, and I have been closely following it this election. The voter file data we are relying on is a sample of 1% of the total voter file data for the Georgia electoral and has been generously provided by Statara Solutions. Please check them out [here](https://statara.com/).
 
-```{r warning = FALSE}
+```{r warning=FALSE, include=FALSE}
 ####----------------------------------------------------------#
 #### State Voter File (Extension 1) -- Georgia
 ####----------------------------------------------------------#
@@ -525,7 +525,7 @@ Lastly, Georgia has one very large metropolitan city with urban sprawl, Atlanta,
 
 ## Model Simulations for Battleground States
 
-```{r include=FALSE, cache = TRUE}
+```{r cache=FALSE, include=FALSE}
 
 # Create a composite dataset including state polls, state popular votes, national popular vote, demographics, turnout, and economic indicators from 2000 on 
 composite_dataset <- d_pollav_state |>
@@ -670,7 +670,7 @@ for (i in 1:m) {
 }
 ```
 
-```{r}
+```{r include=FALSE}
 # Color functions (constructed with help from ChatGPT and referencing work last week)
 color_state_by_win_rate <- function(state, dem_win_rate, rep_win_rate) {
   if (dem_win_rate > rep_win_rate) {
@@ -728,9 +728,11 @@ CI_colored |>
 
 Here, I simulate the 2024 election for key battleground states: Georgia, Michigan, Nevada, Wisconsin, North Carolina, Arizona, and Pennsylvania. I involve Democratic and Republican vote shares for the past two elections, Democratic and Republican polling averages for this election, voter turnout, and economic indicators in the form of the Consumer Price Index and the quarterly GDP growth. This is an expansion of my model from past weeks because I now involve voter turnout data.
 
+Popular poll aggregators and forecasters, like FiveThirtyEight and the Silver Bulletin, use simulations to quantify the uncertainty of their models. Most recently, simulation of [FiveThirtyEight's](https://projects.fivethirtyeight.com/2024-election-forecast/) model has demonstrated a virtual coin flip outcome, or a 53 in 100 chance of Harris winning the electoral college and 47 in 100 change of Trump winning the electoral college.
+
 It appears that all cases the sum of the mean two party vote share for Democrats and Republicans in the same state is more than 100%. We can attribute this to the fact that these models independently and linearly (without an imposed bound) predict for vote shares between Republicans and Democrats. In 6 out of the 7 battleground states, Democrats are projected to win. The one state where Republicans win is Arizona, which would be a flip back to a Trump victory after Biden won the state in 2020. It is critical to note that for all these predictions, the winning vote shares are well within the margins of error and each party realistically has a chance to win. This is not reflected looking just at how the simulation attributes wins to each party, for example, saying that Democrats win Nevada in 100% of all simulations. When more variables are involved in the simulation, particularly racial demographic changes and respective voter turnouts among racial groups, I predict that this would be much closer across all simulations.
 
-```{r}
+```{r include=FALSE}
 ec <- read_csv("ec_full.csv", show_col_types = FALSE) |>
   filter(year == 2024)
 
@@ -835,6 +837,8 @@ Here is the map I predict to see on Election Night this November, according to m
 I myself am skeptical of this finding because it does not fall in line with the conventional wisdom about the closeness of this race. It also does not comport well with the incredibly close national popular vote share that I calculated using the Random Forests model based on demographics. I find it hard to believe a possibility where Harris would barely win over Trump in the popular vote by less than a percentage point but also take 6 of the 7 critical battleground states. In future models, I hope to reflect the competitiveness of this race better.
 
 ## Sources
+
+"2024 Election Forecast." *FiveThirtyEight*, 2024, <https://projects.fivethirtyeight.com/2024-election-forecast/>.
 
 Seo-young Silvia Kim and Jan Zilinsky. Division does not imply predictability: Demographics continue to reveal little about voting and partisanship. *Political Behavior,* 46(1):67–87, March 2024. ISSN 1573-6687. doi: 10.1007/s11109-022-09816-z.
 
