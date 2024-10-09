@@ -525,7 +525,7 @@ Lastly, Georgia has one very large metropolitan city with urban sprawl, Atlanta,
 
 ## Model Simulations for Battleground States
 
-```{r echo=FALSE, cache=FALSE}
+```{r cache=FALSE, include=FALSE}
 
 # Create a composite dataset including state polls, state popular votes, national popular vote, demographics, turnout, and economic indicators from 2000 on 
 composite_dataset <- d_pollav_state |>
