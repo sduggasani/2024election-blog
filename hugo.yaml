@@ -27,6 +27,9 @@ menu:
     - name: Week 4 Fundamentals II, Incumbency
       url: https://sduggasani.github.io/2024election-blog/post/2024-09-25-week-4-fundamentals-ii-incumbency/
       weight: 10 
+    - name: Week 5 Demographics
+      url: https://sduggasani.github.io/2024election-blog/post/2024-10-05-week-5-demographics/
+      weight: 10 
 params:
   BookComments: yes
   BookDateFormat: January 2, 2006

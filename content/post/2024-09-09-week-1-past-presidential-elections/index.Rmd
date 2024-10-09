@@ -341,7 +341,6 @@ projected_electoral_winner <- pv2p_2024_states_2 |>
   summarize(electoral_votes = sum(electors))
 
 projected_electoral_winner
-
 ```
 
 ### Harris: 276

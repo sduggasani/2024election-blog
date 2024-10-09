@@ -1,0 +1,847 @@
+---
+title: 'Week 5: Demographics'
+author: "Sammy Duggasani"
+date: "2024-10-05"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+categories: []
+tags: []
+slug: []
+---
+
+# **Week 5: Demographics**
+
+**Monday, October 7, 2024**\
+**28 Days until Presidential Election**
+
+*Welcome back! This week I will focus on demographic data and the role it plays in forecasting. Since last week, the vice presidential candidates faced off in a relatively calm and respectful debate. Again, a principal topic was that of immigration, which, in addition to being incredibly polarizing, often falls to identity-based arguments and concerns over the makeup of the United States demographically. Demographic shifts in race, educational attainment, and income distribution are an undercurrent to many political debates at the community level up to the national level. How identity can affect electoral politics is an incredibly large academic theme within the field of political science. In this post, I will touch on a seminal paper by Kim and Zilinsky (2024), which contributes to the question of if demographics motivate vote choice. I will then move into analyzing the demographics of my own state and a significant battleground state: Georgia. I will end by running simulations of my own model to quantify uncertainty in my own prediction and to visualize what that final prediction looks like as of now.*
+
+```{r include=FALSE}
+####----------------------------------------------------------#
+#### Preamble
+####----------------------------------------------------------#
+
+setwd("/Users/sammy/Documents/Harvard/Senior Year/2024election-blog/content/post/2024-10-05-week-5-demographics")
+# Load libraries.
+## install via `install.packages("name")`
+library(car)
+library(caret)
+library(CVXR)
+library(foreign)
+library(glmnet)
+library(haven)
+library(janitor)
+library(kableExtra)
+library(maps)
+library(mlr3)
+library(randomForest)
+library(ranger)
+library(RColorBrewer)
+library(sf)
+library(tidyverse)
+library(viridis)
+library(modelsummary)
+
+## Import custom themes
+map_theme <- function() {
+  theme(
+    # no border
+    panel.border = element_blank(),
+    # background
+    panel.background = element_rect(fill = "snow2"),
+    # text
+    plot.title = element_text(size = 15, hjust = .5, face = "bold", family = "sans"),
+    plot.subtitle = element_text(size = 13, hjust = .5, family = "sans"),
+    plot.title.position = "panel",
+    axis.text.x = element_text(size = 8, angle = 45, hjust = .5, family = "sans"),
+    axis.text.y = element_text(size = 8, family = "sans"),
+    axis.title.x = element_text(family = "sans"),
+    axis.title.y = element_text(angle = 90, family = "sans"),
+    axis.ticks = element_line(colour = "black"),
+    axis.line = element_line(colour = "grey"),
+    # legend 
+    legend.position = "right",
+    legend.title = element_text(size = 12, family = "sans"),
+    legend.text = element_text(size = 10, family = "sans"),
+    # aspect ratio
+    aspect.ratio = .8
+  )
+}
+plot_date_theme <- function() {
+  theme(
+    # no border
+    panel.border = element_blank(),
+    # background
+    panel.background = element_rect(fill = "snow2"),
+    # text
+    plot.title = element_text(size = 15, hjust = .5, face = "bold", family = "sans"),
+    plot.subtitle = element_text(size = 13, hjust = .5, family = "sans"),
+    plot.title.position = "panel",
+    axis.text.x = element_text(size = 8, family = "sans"),
+    axis.text.y = element_text(size = 8, family = "sans"),
+    axis.title.x = element_text(family = "sans"),
+    axis.title.y = element_text(angle = 90, family = "sans"),
+    axis.ticks = element_line(colour = "black"),
+    axis.line = element_line(colour = "grey"),
+    # legend 
+    legend.position = "right",
+    legend.title = element_text(size = 12, family = "sans"),
+    legend.text = element_text(size = 10, family = "sans"),
+  )
+}
+plot_theme <- function() {
+  theme(
+    # no border
+    panel.border = element_blank(),
+    # background
+    panel.background = element_rect(fill = "snow2"),
+    # text
+    plot.title = element_text(size = 15, hjust = .5, face = "bold", family = "sans"),
+    plot.subtitle = element_text(size = 13, hjust = .5, family = "sans"),
+    plot.title.position = "panel",
+    axis.text.x = element_text(size = 8, family = "sans"),
+    axis.text.y = element_text(size = 8, family = "sans"),
+    axis.title.x = element_text(family = "sans"),
+    axis.title.y = element_text(angle = 90, family = "sans"),
+    axis.ticks = element_line(colour = "black"),
+    axis.line = element_line(colour = "grey"),
+    # legend 
+    legend.position = "right",
+    legend.title = element_text(size = 12, family = "sans"),
+    legend.text = element_text(size = 10, family = "sans"),
+  )
+}
+my_prettier_theme <- function() {
+  theme(
+    # no border
+    panel.border = element_blank(),
+    # background
+    panel.background = element_rect(fill = "snow2"),
+    # text
+    plot.title = element_text(size = 15, hjust = .5, face = "bold", family = "sans"),
+    plot.subtitle = element_text(size = 13, hjust = .5, family = "sans"),
+    plot.title.position = "panel",
+    axis.text.x = element_text(size = 8, angle = 90, hjust = .5, family = "sans"),
+    axis.text.y = element_text(size = 8, family = "sans"),
+    axis.title.x = element_text(family = "sans"),
+    axis.title.y = element_text(angle = 90, family = "sans"),
+    axis.ticks = element_line(colour = "black"),
+    axis.line = element_line(colour = "grey"),
+    # legend 
+    legend.position = "right",
+    legend.title = element_text(size = 12, family = "sans"),
+    legend.text = element_text(size = 10, family = "sans"),
+    # aspect ratio
+    # aspect.ratio = .8
+  )
+}
+```
+
+```{r include=FALSE}
+####----------------------------------------------------------#
+#### Read, merge, and process data.
+####----------------------------------------------------------#
+
+# Read popular vote datasets. 
+d_popvote <- read_csv("popvote_1948_2020.csv", show_col_types = FALSE)
+d_state_popvote <- read_csv("state_popvote_1948_2020.csv", show_col_types = FALSE)
+
+# Read elector distribution dataset. 
+d_ec <- read_csv("corrected_ec_1948_2024.csv", show_col_types = FALSE)
+
+# Read and merge demographics data. 
+d_demos <- read_csv("demographics.csv", show_col_types = FALSE)[,-1]
+
+# Read primary turnout data. 
+d_turnout <- read_csv("turnout_1789_2020.csv", show_col_types = FALSE)
+d_state_turnout <- read_csv("state_turnout_1980_2022.csv", show_col_types = FALSE)
+d_state_turnout <- d_state_turnout |> 
+  mutate(vep_turnout = as.numeric(str_remove(vep_turnout, "%"))/100) |> 
+  select(year, state, vep_turnout)
+
+# Read polling data. 
+d_polls <- read_csv("national_polls_1968-2024.csv", show_col_types = FALSE)
+d_state_polls <- read_csv("state_polls_1968-2024.csv", show_col_types = FALSE)
+
+# Process state-level polling data. 
+d_pollav_state <- d_state_polls |> 
+  group_by(year, state, party) |>
+  mutate(mean_pollav = mean(poll_support, na.rm = TRUE)) |>
+  top_n(1, poll_date) |> 
+  rename(latest_pollav = poll_support) |>
+  select(-c(weeks_left, days_left, poll_date, candidate, before_convention)) |>
+  pivot_wider(names_from = party, values_from = c(latest_pollav, mean_pollav))
+
+# Read economic data.
+d_econ <- read_csv("fred_econ.csv", show_col_types = FALSE) |> 
+  filter(quarter == 2)
+```
+
+## Demographic Indicators and Vote Choice
+
+```{r}
+####----------------------------------------------------------#
+#### Replication of Kim & Zilinsky (2023). Courtesy of Matthew Dardet
+####----------------------------------------------------------#
+                             
+# Read processed ANES data. 
+anes <- read_dta("anes_timeseries_cdf_stata_20220916.dta") # Total ANES Cumulative Data File. 
+
+anes <- anes |> 
+  mutate(year = VCF0004,
+         pres_vote = case_when(VCF0704a == 1 ~ 1, 
+                               VCF0704a == 2 ~ 2, 
+                               .default = NA), 
+         # Demographics
+         age = VCF0101, 
+         gender = VCF0104, # 1 = Male; 2 = Female; 3 = Other
+         race = VCF0105b, # 1 = White non-Hispanic; 2 = Black non-Hispanic, 3 == Hispanic; 4 = Other or multiple races, non-Hispanic; 9 = missing/DK
+         educ = VCF0110, # 0 = DK; 1 = Less than high school; 2. High school; 3 = Some college; 4 = College+ 
+         income = VCF0114, # 1 = 0-16 percentile; 2 = 17-33 percentile; 3 = 34-67; 4 = 68 to 95; 5 = 96 to 100. 
+         religion = VCF0128, # 0 = DK; 1 = Protestant; 2 = Catholic; 3 = Jewish; 4 = Other
+         attend_church = case_when(
+           VCF0004 < 1972 ~ as.double(as.character(VCF0131)),
+           TRUE ~ as.double(as.character(VCF0130))
+         ), # 1 = every week - regularly; 2 = almost every week - often; 3 = once or twice a month; 4 = a few times a year - seldom; 5 = never ; 6 = no religious preference
+         southern = VCF0113,
+         region = VCF0113, 
+         work_status = VCF0118,
+         homeowner = VCF0146, 
+         married = VCF0147,
+        
+         # 7-point PID
+         pid7 = VCF0301, # 0 = DK; 1 = Strong Democrat; 2 = Weak Democrat; 3 = Independent - Democrat; 4 = Independent - Independent; 5 = Independent - Republican; 6 = Weak Republican; 7 = Strong Republican
+         
+         # 3-point PID
+         pid3 = VCF0303, # 0 = DK; 1 = Democrats; 2 = Independents; 3 = Republicans. 
+         
+         # 3-point ideology. 
+         ideo = VCF0804 # 0, 9 = DK; 1 = Liberal; 2 = Moderate; 3 = Conservative
+         ) |> 
+  select(year, pres_vote, age, gender, race, educ, income, religion, attend_church, southern, 
+         region, work_status, homeowner, married, pid7, pid3, ideo)
+
+# How well do demographics predict vote choice? 
+anes_year <- anes[anes$year >= 1964,] |> 
+  select(-c(year, pid7, pid3, ideo)) |>
+  mutate(pres_vote = factor(pres_vote, levels = c(1, 2), labels = c("Democrat", "Republican"))) |> 
+  filter(!is.na(pres_vote)) |>
+  clean_names()
+
+n_features <- length(setdiff(names(anes_year), "pres_vote"))
+
+set.seed(02138)
+train.ind <- createDataPartition(anes_year$pres_vote, p = 0.8, list = FALSE)
+
+anes_train <- anes_year[train.ind,]
+anes_test <- anes_year[-train.ind,]
+
+# Logistic regression. 
+logit_fit <- glm(pres_vote ~ ., 
+                 family = "binomial", 
+                 data = anes_train)
+
+# In-sample goodness-of-fit. 
+modelsummary(logit_fit)
+
+# In-sample accuracy.
+logit.is <- factor(ifelse(predict(logit_fit, type = "response") > 0.5, 2, 1), 
+                   levels = c(1, 2), labels = c("Democrat", "Republican"))
+(cm.rf.logit.is <- confusionMatrix(logit.is, anes_train$pres_vote))
+
+# Out-of-sample accuracy. 
+logit_pred <- factor(ifelse(predict(logit_fit, anes_test, type = "response") > 0.5, 2, 1), 
+                     levels = c(1, 2), labels = c("Democrat", "Republican"))
+(cm.rf.logit.oos <- confusionMatrix(logit_pred, anes_test$pres_vote))
+
+# # Random forest: 
+# rf_fit <- ranger(pres_vote ~ ., 
+#                  mtry = floor(n_features/3), 
+#                  respect.unordered.factors = "order", 
+#                  seed <- 02138,
+#                  classification = TRUE,
+#                  data = anes_train)
+# 
+# # In-sample accuracy.
+# (cm.rf.is <- confusionMatrix(rf_fit$predictions, anes_train$pres_vote))
+# 
+# # Out-of-sample accuracy. 
+# rf_pred <- predict(rf_fit, data = anes_test)
+# (cm.rf.oos <- confusionMatrix(rf_pred$predictions, anes_test$pres_vote))
+```
+
+The above figures are a result of using a logistic regression that involves demographics to predict presidential vote choice. Much of this code can be attributed to Matthew Dardet, but instead of just looking at how well demographics predicted vote choice in 1964, I included all years including and thereafter. The demographics we involve are age, gender, race, education level, income, religion, whether the voter attends church, whether the voter is from a southern state, work status, home-owning status, and marriage status. The model summary above shows that gender and race have by far the most sway on a voter's choice among these demographics. What I find interesting is that age does not really have that much of an impact on vote choice as compared to other demographics. This work is a replication of the original work of Kim and Zilinsky (2024). Similar to their paper's most notable finding, this replication finds that these key demographics can only predict the vote choice accurately about 64% of the time. Given the reliance of popular media and conventional wisdom on identity politics, it would seem that demographics would play a huge role in vote choice, and they are certainly not negligible. But key demographics are not as determinative as we might have thought.
+
+```{r}
+####----------------------------------------------------------#
+#### Random Forest Application (Extension 2)
+####----------------------------------------------------------#
+
+# Train the random forest model
+anes_years <- anes[anes$year >= 1964,] |> 
+  select(-c(year, pid7, pid3, ideo)) |>
+  mutate(pres_vote = factor(pres_vote, levels = c(1, 2), labels = c("Democrat", "Republican"))) |> 
+  filter(!is.na(pres_vote)) |>
+  clean_names()
+n_features_ext <- length(setdiff(names(anes_years), "pres_vote"))
+set.seed(02138)
+
+# Split data into training and test sets
+train.ind_ext <- createDataPartition(anes_years$pres_vote, p = 0.8, list = FALSE)
+
+anes_train_ext <- anes_years[train.ind_ext,]
+anes_test_ext <- anes_years[-train.ind_ext,]
+
+# Train the random forest model
+rf_model_ext <- ranger(pres_vote ~ .,
+                       mtry = floor(n_features_ext/3),
+                       respect.unordered.factors = "order",
+                       seed = 02138,
+                       classification = TRUE,
+                       data = anes_train_ext)
+
+# Check model performance on the test set
+# In-sample accuracy
+confusionMatrix(rf_model_ext$predictions, anes_train_ext$pres_vote)
+# Out of sample accuracy
+rf_pred <- predict(rf_model_ext, data = anes_test_ext)
+confusionMatrix(rf_pred$predictions, anes_test_ext$pres_vote)
+```
+
+Here, instead of relying on a logistic regression, we employ a Random Forests model. Random Forest modeling is a type of machine learning model where multiple decision trees are built for training and their predictions are aggregated in such a way that is advantageous for accuracy and the reduction of overfitting. Because we are involving so many demographic indicators, it would be useful to use Random Forest modeling and be aware of the risk of overfitting. When we use Random Forests to replicate Kim and Zilinsky's (2024) work, we find that the key demographics can only predict vote choice about 68% of the time. This is a few percentage points higher than when we relied on the logistic regression, but it is not fully determinative, underscoring Kim and Zilinsky's findings as well.
+
+```{r}
+####----------------------------------------------------------#
+#### Random Forest Application (Extension 2 contd.)
+####----------------------------------------------------------#
+# Predicting National Popular Vote Share
+# Include ideology in prediction
+anes_w_ideo <- anes[anes$year >= 1964,] |> 
+  select(-c(year)) |>
+  mutate(pres_vote = factor(pres_vote, levels = c(1, 2), labels = c("Democrat", "Republican"))) |> 
+  filter(!is.na(pres_vote)) |>
+  clean_names()
+
+set.seed(02138)
+sample_data <- anes_w_ideo |>
+  slice_sample(n=10000, replace = TRUE) |>
+  select(pres_vote, age, gender, race, educ, income, religion, attend_church, southern, 
+         region, work_status, homeowner, married, pid7, pid3, ideo)
+# head(sample_data)
+# Now predict vote for every individual using trained random forest model from last chunk
+predicted_votes <- predict(rf_model_ext, data = sample_data)
+# Predicted national popular vote share
+predicted_nat_vs <- table(predicted_votes$predictions) / length(predicted_votes$predictions)*100
+kable(predicted_nat_vs,
+      col.names = c("Party", "Predicted Vote Share (%)"),
+      format.args = list(big.mark = ",", decimal.mark = ".", digits = 4),
+      format = "html")
+```
+
+I use the Random Forest modeling, which at its crux relies on bootstrap sampling, to predict national vote share based on demographics, including ideology identification metrics. It finds that the Democrats will just narrowly win the popular vote in November. This falls in line with previous models and current polls about the election being one of the closest in decades.
+
+## Delving into a State Voter File
+
+Now, let's delve into a sample of Georgia's voter file. I chose Georgia because it is my home state, I have done political mobilizing on the ground there, and I have been closely following it this election. The voter file data we are relying on is a sample of 1% of the total voter file data for the Georgia electoral and has been generously provided by Statara Solutions. Please check them out [here](https://statara.com/).
+
+```{r warning = FALSE}
+####----------------------------------------------------------#
+#### State Voter File (Extension 1) -- Georgia
+####----------------------------------------------------------#
+# Read Georgia data (1 percent sample of total voter file)
+ga_file <- read_csv("state_1pc_samples_aug24/GA_sample.csv", show_col_types = FALSE) 
+# Create more informational data
+ga_file <- ga_file |>
+  # Age range, taken from Statara Insights Excel Codebook
+  mutate(sii_age_range = case_when(
+      sii_age <= 24 ~ "18-24",
+      sii_age >= 25 & sii_age <= 34 ~ "25-34",
+      sii_age >= 35 & sii_age <= 44 ~ "35-44",
+      sii_age >= 45 & sii_age <= 54 ~ "45-54",
+      sii_age >= 55 & sii_age <= 64 ~ "55-64",
+      sii_age >= 65 ~ "65+",
+      TRUE ~ NA_character_
+    )) |>
+  # Race, taken from Statara Insights Excel Codebook
+  mutate(sii_race = case_when(
+    sii_race == "A" ~ "Asian",
+    sii_race == "B" ~ "African-American",
+    sii_race == "H" ~ "Hispanic or Latino",
+    sii_race == "W" ~ "White",
+    sii_race == "U" ~ "Unknown",
+    sii_race == "O" ~ "Other",
+    sii_race == "N" ~ "Native American",
+    TRUE ~ sii_race
+  )) |>
+  # Education, taken from Statara Insights Excel Codebook
+  mutate(sii_education_level = case_when(
+    sii_education_level == "A" ~ "Completed High School",
+      sii_education_level == "E" ~ "Some College or Higher",
+      sii_education_level == "B" ~ "Completed College",
+      sii_education_level == "C" ~ "Completed Graduate School",
+      sii_education_level == "D" ~ "Attended Vocational/Technical",
+      sii_education_level == "U" ~ "Unknown",
+      TRUE ~ "Unknown"
+  )) |>
+# Homeowner Status, taken from Statara Insights Excel Codebook
+  mutate(sii_homeowner = case_when(
+  sii_homeowner == 'H' ~ "Homeowner",
+  sii_homeowner == 'R' ~ "Renter",
+  sii_homeowner == 'U' ~ "Unknown",
+  TRUE ~ 'Unknown'
+  )) |> 
+  # Urbanicity, taken from Statara Insights Excel Codebook
+  mutate(sii_urbanicity = case_when(
+    sii_urbanicity == 'R1' ~ 'Rural, less densely populated',
+    sii_urbanicity == 'R2' ~ 'Rural, more densely populated',
+    sii_urbanicity == 'S3' ~ 'Suburban, less densely populated',
+    sii_urbanicity == 'S4' ~ 'Suburban, more densely populated',
+    sii_urbanicity == 'U5' ~ 'Urban, less densely populated',
+    sii_urbanicity == 'U6' ~ 'Urban, more densely populated',
+    TRUE ~ 'Unknown'
+  )) |>
+  # Gender, taken from Statara Insights Excel Codebook
+  mutate(sii_gender = case_when(
+    sii_gender == 'M' ~ 'Male',
+    sii_gender == 'F' ~ 'Female',
+    sii_gender == 'U' ~ 'Unknown',
+    sii_gender == 'X' ~ 'Expansive',
+    TRUE ~ 'Unknown'
+  )) 
+# Create distribution plots of these demographic characteristics
+
+# Age Range
+age_dist <- ga_file |>
+  count(sii_age_range) |>
+  mutate(proportion = n / sum(n) * 100) |>
+  ungroup()
+# Race
+race_dist <- ga_file |>
+  count(sii_race) |>
+  mutate(proportion = n / sum(n) * 100) |>
+  ungroup()
+# Education Level
+educ_dist <- ga_file |>
+  count(sii_education_level) |>
+  mutate(proportion = n / sum(n) * 100) |>
+  ungroup()
+# Party Registration
+home_dist <- ga_file |>
+  count(sii_homeowner) |>
+  mutate(proportion = n / sum(n) * 100) |>
+  ungroup()
+# Urbanicity
+urb_dist <- ga_file |>
+  count(sii_urbanicity) |>
+  mutate(proportion = n / sum(n) * 100) |>
+  ungroup()
+# Gender
+gen_dist <- ga_file |>
+  count(sii_gender) |>
+  mutate(proportion = n / sum(n) * 100) |>
+  ungroup()
+
+# Gender plot
+ggplot(gen_dist,
+       aes(x = sii_gender, y = proportion, fill = sii_gender)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Gender Distribution for Georgia Electorate",
+       subtitle = "1% Sample of GA Voter File",
+       x = "Gender Identity",
+       y = "Proportion",
+       fill = "Gender Identity",
+       caption = "Voter File Data Provided Statara Solutions") + 
+  my_prettier_theme()
+# Age plot
+ggplot(age_dist,
+       aes(x = sii_age_range, y = proportion, fill = sii_age_range)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Age Distribution for Georgia Electorate",
+       subtitle = "1% Sample of GA Voter File",
+       x = "Age Range",
+       y = "Proportion",
+       fill = "Age Range",
+       caption = "Voter File Data Provided Statara Solutions") + 
+  my_prettier_theme()
+# Race plot
+ggplot(race_dist,
+       aes(x = sii_race, y = proportion, fill = sii_race)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Racial Distribution for Georgia Electorate",
+       subtitle = "1% Sample of GA Voter File",
+       x = "Race",
+       y = "Proportion",
+       fill = "Racial Identity",
+       caption = "Voter File Data Provided Statara Solutions") + 
+  my_prettier_theme()
+# Education plot
+ggplot(educ_dist,
+       aes(x = sii_education_level, y = proportion, fill = sii_education_level)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Educational Attainment Distribution for Georgia Electorate",
+       subtitle = "1% Sample of GA Voter File",
+       x = "Educational Attainment",
+       y = "Proportion",
+       fill = "Educational Attainment Level",
+       caption = "Voter File Data Provided Statara Solutions") + 
+  my_prettier_theme()
+# Homeowner plot
+ggplot(home_dist,
+       aes(x = sii_homeowner, y = proportion, fill = sii_homeowner)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Homeowner-Renter Distribution for Georgia Electorate",
+       subtitle = "1% Sample of GA Voter File",
+       x = "Homeowner-Renter Status",
+       y = "Proportion",
+       fill = "Homeowner-Renter Status",
+       caption = "Voter File Data Provided Statara Solutions") + 
+  my_prettier_theme()
+# Urbanicity plot
+ggplot(urb_dist,
+       aes(x = sii_urbanicity, y = proportion, fill = sii_urbanicity)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Urbanicity Distribution for Georgia Electorate",
+       subtitle = "1% Sample of GA Voter File",
+       x = "Urbanicity",
+       y = "Proportion",
+       fill = "Urbanicity Type",
+       caption = "Voter File Data Provided Statara Solutions") + 
+  my_prettier_theme()
+```
+
+Above, we look at five key demographics indicators and how they are distributed for the Georgia electorate. First, we see that the gender distribution is relatively similar among males and females in the state with slightly more females. The population of those pertaining to expansive gender identities is very few and among this sample only 8 actually do identify as such.
+
+The age distribution for various ranges is even, except for 18-24 year olds and 65+. This makes sense because the range of ages for 18-24 is fewer than other buckets and there are a large amount of ages for which the 65+ bucket covers. Remember this was an indicator that, according to Kim and Zilinsky's (2024) finding, did not affect vote choice all that much.
+
+Despite the national trend toward the minority majority phenomenon, Georgia's electorate is still majority white. It also has a large Black population and sizable Asian and Hispanic/Latino populations. The indigenous population among Georgia's electorate is quite low, especially compared to other states like Hawaii and Alaska.
+
+As for education attainment, the plurality of Georgia's electorate completed high school and a relatively large portion completed college. I did not expect that more Georgian voters completed graduate school than just some college or higher.
+
+Because this data was available, I was curious to see the distribution of homeowners versus renters among Georgian voters. I was surprised to see that most voters are actually homeowners, according to this sample.
+
+Lastly, Georgia has one very large metropolitan city with urban sprawl, Atlanta, and a lot of other small to mid size cities. It also has a large rural populations. This even distribution is reflected in the urbanicity graph.
+
+## Model Simulations for Battleground States
+
+```{r include=FALSE, cache = TRUE}
+
+# Create a composite dataset including state polls, state popular votes, national popular vote, demographics, turnout, and economic indicators from 2000 on 
+composite_dataset <- d_pollav_state |>
+  left_join(d_econ, by = "year") |>
+  left_join(d_demos, by = c("year", "state")) |>
+  left_join(d_popvote |>
+              filter(party == "democrat"), 
+            by = "year") |>
+  left_join(d_state_popvote, by = c("year", "state")) |>
+  left_join(d_state_turnout, by = c("year", "state")) |>  
+  filter(year >= 2000) |>
+  ungroup()
+
+# Only select and train on battleground states
+
+battleground_states = list("Arizona", "Georgia", "Michigan", "Nevada", "North Carolina", "Pennsylvania", "Wisconsin")
+
+composite_dataset <- composite_dataset |>
+  filter(state %in% battleground_states)
+
+# Split into train and test data
+
+d_train <- composite_dataset |>
+  filter(year < 2024)
+d_test <- composite_dataset |>
+  filter(year == 2024)
+
+# Create a model that involves turnout and economic indicators from previous models
+simp.vars <- c("D_pv2p_lag1", "D_pv2p_lag2", "latest_pollav_DEM", "mean_pollav_DEM",
+               "R_pv2p_lag1", "R_pv2p_lag2", "latest_pollav_REP", "mean_pollav_REP",
+               "vep_turnout", "CPI", "GDP_growth_quarterly")
+mod_lm_dem_simp <- lm(D_pv2p ~ D_pv2p_lag1 + D_pv2p_lag2 + latest_pollav_DEM + mean_pollav_DEM + vep_turnout + CPI + GDP_growth_quarterly,
+                      data = d_train)
+mod_lm_rep_simp <- lm(R_pv2p ~ R_pv2p_lag1 + R_pv2p_lag2 + latest_pollav_REP + mean_pollav_REP + vep_turnout + CPI + GDP_growth_quarterly,
+                      data = d_train)
+
+# # What data do we have for 2024? 
+# d_test |> select(all_of(simp.vars))
+
+# Add back in lagged vote share for 2024. 
+t <- composite_dataset |> 
+  filter(year >= 2016) |> 
+  arrange(year) |> 
+  group_by(state) |> 
+  mutate(
+    D_pv2p_lag1 = lag
+    (D_pv2p, 1),
+    R_pv2p_lag1 = lag(R_pv2p, 1), 
+    D_pv2p_lag2 = lag(D_pv2p, 2),
+    R_pv2p_lag2 = lag(R_pv2p, 2)) |> 
+  filter(year == 2024) |> 
+  select(state, year, D_pv2p, R_pv2p, D_pv2p_lag1, R_pv2p_lag1, D_pv2p_lag2, R_pv2p_lag2) 
+
+# Subset testing data to only relevant variables for our simple model. 
+d_test_simp <- d_test |> 
+  select(-c(R_pv2p, R_pv2p_lag1, R_pv2p_lag2, 
+            D_pv2p, D_pv2p_lag1, D_pv2p_lag2)) |> 
+  left_join(t, by = c("state", "year")) |> 
+  select(state, year, all_of(simp.vars))
+
+# Get average state-level turnout accross 2020, 2016, 2012.  
+d_turnout_avg <- d_train |> 
+  filter(year %in% c(2020, 2016, 2012)) |> 
+  filter(state %in% unique(d_test_simp$state)) |> 
+  group_by(state) |> 
+  summarize(vep_turnout = mean(vep_turnout, na.rm = TRUE))
+
+# Make predictions with simple average turnout. 
+d_test_simp <- d_test_simp |> 
+  left_join(d_turnout_avg, by = "state") |> 
+  select(-vep_turnout.x) |> 
+  rename(vep_turnout = vep_turnout.y)
+
+simp_pred_dem <- predict(mod_lm_dem_simp, d_test_simp)
+simp_pred_rep <- predict(mod_lm_rep_simp, d_test_simp)
+
+# Create dataset to summarize winners and EC vote distributions. 
+win_pred <- data.frame(state = d_test_simp$state,
+                       year = rep(2024, length(d_test_simp$state)),
+                       simp_pred_dem = simp_pred_dem,
+                       simp_pred_rep = simp_pred_rep,
+                       winner = ifelse(simp_pred_dem > simp_pred_rep, "Democrat", "Republican")) |>
+  left_join(d_ec, by = c("state", "year"))
+
+win_pred |> 
+  filter(winner == "Democrat") |> 
+  select(state)
+
+win_pred |> 
+  filter(winner == "Republican") |> 
+  select(state)
+
+win_pred |> 
+  group_by(winner) |> 
+  summarize(n = n(), ec = sum(electors))
+
+# Now let's simulate this with varying levels of turnout and get both confidence intervals on our predictions
+# and approximate win percentages for each state. 
+m <- 1e4 # Number of simulations.
+pred.mat <- data.frame(state = rep(d_test_simp$state, m),
+                       year = rep(2024, m*length(d_test_simp$state)),
+                       vep_turnout = rep(d_turnout_avg$vep_turnout, m),
+                       simp_pred_dem = rep(simp_pred_dem, m),
+                       simp_pred_rep = rep(simp_pred_rep, m))
+
+# j <- 1
+# for (i in 1:m) {
+#   print(i)
+#   vep_turnout <- sapply(d_turnout_avg$vep_turnout, function(mu) {
+#     rnorm(1, mean = mu, sd = 0.05) # Simulate turnout from Gaussian centered on state average with 5% SD.
+#   })
+# 
+#   d_test_samp <- d_test_simp
+#   d_test_samp$vep_turnout <- vep_turnout
+# 
+#   simp_pred_dem <- predict(mod_lm_dem_simp, d_test_samp)
+#   simp_pred_rep <- predict(mod_lm_rep_simp, d_test_samp)
+# 
+#   pred.mat$simp_pred_dem[j:(i*19)] <- simp_pred_dem
+#   pred.mat$simp_pred_rep[j:(i*19)] <- simp_pred_rep
+#   j <- j + 19 # Hack for filling out matrix.
+# }
+
+# Number of states in the test data
+n_states <- length(d_test_simp$state)
+
+j <- 1
+
+for (i in 1:m) {
+  print(i)
+  vep_turnout <- sapply(d_turnout_avg$vep_turnout, function(mu) {
+    rnorm(1, mean = mu, sd = 0.05) 
+  })
+  d_test_samp <- d_test_simp
+  d_test_samp$vep_turnout <- vep_turnout
+  simp_pred_dem <- predict(mod_lm_dem_simp, d_test_samp)
+  simp_pred_rep <- predict(mod_lm_rep_simp, d_test_samp)
+  pred.mat$simp_pred_dem[j:(j + n_states - 1)] <- simp_pred_dem
+  pred.mat$simp_pred_rep[j:(j + n_states - 1)] <- simp_pred_rep
+
+  j <- j + n_states # Hack for filling out matrix.
+}
+```
+
+```{r}
+# Color functions (constructed with help from ChatGPT and referencing work last week)
+color_state_by_win_rate <- function(state, dem_win_rate, rep_win_rate) {
+  if (dem_win_rate > rep_win_rate) {
+    return(cell_spec(state, "html", color = "white", background = "steelblue3"))
+  } else if (rep_win_rate > dem_win_rate) {
+    return(cell_spec(state, "html", color = "white", background = "tomato3"))
+  } else {
+    return(state)  # In case of a tie or missing data, keep the state name as-is
+  }
+}
+color_state_by_means <- function(state, mean_dem, mean_rep) {
+  if (mean_dem > mean_rep) {
+    return(cell_spec(state, "html", color = "white", background = "steelblue3"))
+  } else if (mean_rep > mean_dem) {
+    return(cell_spec(state, "html", color = "white", background = "tomato3"))
+  } else {}
+    return(cell_spec(state, "html", color = "white", background = "gray"))}
+pred.mat <- pred.mat |>
+  mutate(winner = ifelse(simp_pred_dem > simp_pred_rep, "Democrat", "Republican"))
+win_rate_table <- pred.mat |>
+  group_by(state, winner) |>
+  summarize(win_rate = n()/m) 
+# Pivot data for ease of reading
+win_rate_wide <- win_rate_table |>
+  pivot_wider(names_from = winner, values_from = win_rate, values_fill = 0)
+# Apply color function
+win_rate_wide_color <- win_rate_wide |>
+  rename(State = state) |>
+  mutate(State = mapply(color_state_by_win_rate, State, Democrat, Republican))
+# Present new table
+win_rate_wide_table <- win_rate_wide_color |>
+  kable(escape = FALSE, format = "html") |>
+  kable_styling()
+win_rate_wide_table
+# Now we can calculate confidence intervals for each state.
+CI <- pred.mat |>
+  group_by(state) |>
+  summarize(mean_dem = mean(simp_pred_dem),
+            mean_rep = mean(simp_pred_rep),
+            sd_dem = sd(simp_pred_dem),
+            sd_rep = sd(simp_pred_rep),
+            lower_dem = mean_dem - 1.96*sd_dem,
+            upper_dem = mean_dem + 1.96*sd_dem,
+            lower_rep = mean_rep - 1.96*sd_rep,
+            upper_rep = mean_rep + 1.96*sd_rep)
+CI_colored <- CI |>
+  rename(State = state) |>
+  mutate(State = mapply(color_state_by_means, State, mean_dem, mean_rep))
+
+# Display CI table
+CI_colored |>
+  kable(escape = FALSE, format = "html") %>%
+  kable_styling()
+```
+
+Here, I simulate the 2024 election for key battleground states: Georgia, Michigan, Nevada, Wisconsin, North Carolina, Arizona, and Pennsylvania. I involve Democratic and Republican vote shares for the past two elections, Democratic and Republican polling averages for this election, voter turnout, and economic indicators in the form of the Consumer Price Index and the quarterly GDP growth. This is an expansion of my model from past weeks because I now involve voter turnout data.
+
+It appears that all cases the sum of the mean two party vote share for Democrats and Republicans in the same state is more than 100%. We can attribute this to the fact that these models independently and linearly (without an imposed bound) predict for vote shares between Republicans and Democrats. In 6 out of the 7 battleground states, Democrats are projected to win. The one state where Republicans win is Arizona, which would be a flip back to a Trump victory after Biden won the state in 2020. It is critical to note that for all these predictions, the winning vote shares are well within the margins of error and each party realistically has a chance to win. This is not reflected looking just at how the simulation attributes wins to each party, for example, saying that Democrats win Nevada in 100% of all simulations. When more variables are involved in the simulation, particularly racial demographic changes and respective voter turnouts among racial groups, I predict that this would be much closer across all simulations.
+
+```{r}
+ec <- read_csv("ec_full.csv", show_col_types = FALSE) |>
+  filter(year == 2024)
+
+battleground_winner <- win_rate_wide |>
+  mutate(winner = if_else(Republican > Democrat, "R", "D"))
+# Simple expectation of red-blue divide among non-battleground states from First Week
+republican_states <- c("Alabama", "Alaska", "Arkansas", "Florida", "Idaho", "Indiana", 
+                       "Iowa", "Kansas", "Kentucky", "Louisiana", "Mississippi", 
+                       "Missouri", "Montana", "Nebraska", "North Dakota", "Ohio", 
+                       "Oklahoma", "South Carolina", "South Dakota", "Tennessee", 
+                       "Texas", "Utah", "Vermont", "West Virginia", "Wyoming")
+
+democrat_states <- c("California", "Colorado", "Connecticut", "Delaware", "Virginia", 
+                     "Washington", "Oregon", "Rhode Island", "New Hampshire", 
+                     "New Jersey", "New Mexico", "New York", "Maine", "Maryland", 
+                     "Massachusetts", "Minnesota", "Hawaii", "Illinois", "District Of Columbia")
+all_nonbattle_states <- c(republican_states, democrat_states)
+winner <- c(rep("R", length(republican_states)), rep("D", length(democrat_states)))
+all_nonbattle_states <- data.frame(state = all_nonbattle_states, winner = winner)
+
+# Join battle and non-battle datasets
+all_states <- battleground_winner |>
+  select(state, winner) |>  
+  full_join(all_nonbattle_states, by = "state", suffix = c("_battleground", "_nonbattleground"))
+
+# Clean up all state dataset
+all_states <- all_states |> 
+  # Combine separate non-battle and battle winner variables into one winner
+  mutate(winner = coalesce(winner_battleground, winner_nonbattleground)) |> 
+  # Remove irrelevant non-battle and battle winner
+  select(-winner_battleground, -winner_nonbattleground)
+
+# Join predicted state winner data with electoral
+ec_2024_predicted <- ec |>
+  left_join(all_states, by = "state")
+
+# Count electoral votes by party
+d_ec_wide <- ec_2024_predicted |>
+  group_by(winner)|>
+  summarize(electoral_votes = sum(electors)) 
+
+d_ec_wide <- d_ec_wide |>
+  pivot_wider(names_from = winner, values_from = electoral_votes) 
+
+# Color functions (constructed with help from ChatGPT and referencing work last week)
+color_ec <- function(d_value, r_value) {
+  if (d_value > r_value) {
+    d_colored <- cell_spec(d_value, "html", color = "white", background = "steelblue3")
+    r_colored <- r_value
+  } else {
+    d_colored <- d_value
+    r_colored <- cell_spec(r_value, "html", color = "white", background = "tomato3")
+  }
+  return(c(d_colored, r_colored))
+}
+
+# Apply the coloring function to the d_ec_wide dataframe
+d_ec_wide_color <- d_ec_wide |>
+  rowwise() |>
+  mutate(
+    D = color_ec(D, R)[1], 
+    R = color_ec(D, R)[2]
+  ) |>
+  ungroup()
+
+# Display the table with conditional formatting
+d_ec_wide_color |>
+  kable(escape = FALSE, format = "html") %>%
+  kable_styling()
+
+# Map visualization
+states_map <- map_data("state")
+
+# Convert state names in your data to lowercase for matching with the map data
+final_dataset <- ec_2024_predicted %>% 
+  mutate(state = tolower(state))
+
+# Join the map data with your state-level data
+map_data_joined <- states_map %>%
+  left_join(final_dataset, by = c("region" = "state"))
+
+# Plot the map, coloring by winner
+ggplot(map_data_joined, aes(x = long, y = lat, group = group, fill = winner)) +
+  geom_polygon(color = "black") +
+  scale_fill_manual(values = c("R" = "tomato3", "D" = "steelblue3")) +  # Clean, no axis
+  labs(title = "2024 Election Night Prediction", fill = "Winner") +
+  map_theme() +
+  theme(
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    axis.title = element_blank(),
+  )+  # Remove axes info
+  coord_fixed(1.3) # Fix aspect ratio
+```
+
+Here is the map I predict to see on Election Night this November, according to my model this week. I predict that Harris will win the electoral college and clear the 270 threshold, as per my simulations that involve voter turnout and economic indicators as well as polling data and past vote shares. In all honesty, though, I think the race will be much closer than this, and I hope in future weeks to reflect that.
+
+## Conclusion
+
+**According to this week's models, Harris will win the 2024 Presidential Election, taking 305 electoral votes.**
+
+I myself am skeptical of this finding because it does not fall in line with the conventional wisdom about the closeness of this race. It also does not comport well with the incredibly close national popular vote share that I calculated using the Random Forests model based on demographics. I find it hard to believe a possibility where Harris would barely win over Trump in the popular vote by less than a percentage point but also take 6 of the 7 critical battleground states. In future models, I hope to reflect the competitiveness of this race better.
+
+## Sources
+
+Seo-young Silvia Kim and Jan Zilinsky. Division does not imply predictability: Demographics continue to reveal little about voting and partisanship. *Political Behavior,* 46(1):67–87, March 2024. ISSN 1573-6687. doi: 10.1007/s11109-022-09816-z.
+
+Polling Data Provided by GOV 1347: Election Analytics teaching staff (which itself drew from the FiveThirtyEight GitHub)
+
+Economic Data Provided by GOV 1347: Election Analytics teaching staff (which itself drew from the Burueau of Economic Analysia and Federal Reserve Economic Data)
+
+Demographic Data Provided by GOV 1347: Election Analytics teaching staff (which itself drew from the Burueau of Economic Analysia and Federal Reserve Economic Data)
+
+Voter File Data Provided by Statara Solutions. Check them out here: <https://statara.com/>.

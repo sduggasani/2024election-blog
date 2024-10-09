@@ -2,6 +2,8 @@
 .Rhistory
 .RData
 .Ruserdata
-
 *.Rproj
 *.Rprofile
+*.dta
+*.csv
+content/post/2024-10-05-week-5-demographics/index_files

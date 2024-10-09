@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="
+
+
+
+
+
+
+
+
+  Week 5: Demographics
+  #
+
+Monday, October 7, 2024
+28 Days until Presidential Election
+Welcome back! This week I will focus on demographic data and the role it plays in forecasting. Since last week, the vice presidential candidates faced off in a relatively calm and respectful debate. Again, a principal topic was that of immigration, which, in addition to being incredibly polarizing, often falls to identity-based arguments and concerns over the makeup of the United States demographically. Demographic shifts in race, educational attainment, and income distribution are an undercurrent to many political debates at the community level up to the national level. How identity can affect electoral politics is an incredibly large academic theme within the field of political science. In this post, I will touch on a seminal paper by Kim and Zilinsky (2024), which contributes to the question of if demographics motivate vote choice. I will then move into analyzing the demographics of my own state and a significant battleground state: Georgia. I will end by running simulations of my own model to quantify uncertainty in my own prediction and to visualize what that final prediction looks like as of now.">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="https://sduggasani.github.io/2024election-blog/post/2024-10-05-week-5-demographics/">
+  <meta property="og:site_name" content="2024 Election Blog">
+  <meta property="og:title" content="Week 5: Demographics">
+  <meta property="og:description" content=" Week 5: Demographics # Monday, October 7, 2024
+28 Days until Presidential Election
+Welcome back! This week I will focus on demographic data and the role it plays in forecasting. Since last week, the vice presidential candidates faced off in a relatively calm and respectful debate. Again, a principal topic was that of immigration, which, in addition to being incredibly polarizing, often falls to identity-based arguments and concerns over the makeup of the United States demographically. Demographic shifts in race, educational attainment, and income distribution are an undercurrent to many political debates at the community level up to the national level. How identity can affect electoral politics is an incredibly large academic theme within the field of political science. In this post, I will touch on a seminal paper by Kim and Zilinsky (2024), which contributes to the question of if demographics motivate vote choice. I will then move into analyzing the demographics of my own state and a significant battleground state: Georgia. I will end by running simulations of my own model to quantify uncertainty in my own prediction and to visualize what that final prediction looks like as of now.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="post">
+    <meta property="article:published_time" content="2024-10-05T00:00:00+00:00">
+    <meta property="article:modified_time" content="2024-10-05T00:00:00+00:00">
+<title>Week 5: Demographics | 2024 Election Blog</title>
+<link rel="manifest" href="/2024election-blog/manifest.json">
+<link rel="icon" href="/2024election-blog/favicon.png" >
+<link rel="canonical" href="https://sduggasani.github.io/2024election-blog/post/2024-10-05-week-5-demographics/">
+<link rel="stylesheet" href="/2024election-blog/book.min.309b7ed028807cdb68d8d61e26d609f48369c098dbf5e4d8c0dcf4cdf49feafc.css" integrity="sha256-MJt&#43;0CiAfNto2NYeJtYJ9INpwJjb9eTYwNz0zfSf6vw=" crossorigin="anonymous">
+  <script defer src="/2024election-blog/fuse.min.js"></script>
+  <script defer src="/2024election-blog/en.search.min.31bc1bf4ec6162ce940367003fd588ec1f7cf92598754a6789db62e4ec8e5729.js" integrity="sha256-Mbwb9OxhYs6UA2cAP9WI7B98&#43;SWYdUpnidti5OyOVyk=" crossorigin="anonymous"></script>
+
+  <script defer src="/2024election-blog/sw.min.f09ccc658cc70834310535c40cbee1514cd65302e6fa168c4ae787519a02cf87.js" integrity="sha256-8JzMZYzHCDQxBTXEDL7hUUzWUwLm&#43;haMSueHUZoCz4c=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/2024election-blog/"><span>2024 Election Blog</span>
+  </a>
+</h2>
+
+
+<div class="book-search hidden">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+<script>document.querySelector(".book-search").classList.remove("hidden")</script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="https://github.com/sduggasani/2024election-blog"  target="_blank" rel="noopener">
+        Github
+      </a>
+  </li>
+  
+  <li>
+    <a href="https://sduggasani.github.io/2024election-blog/post/2024-09-09-week-1-past-presidential-elections/"  target="_blank" rel="noopener">
+        Week 1 Past Presidential Elections
+      </a>
+  </li>
+  
+  <li>
+    <a href="https://sduggasani.github.io/2024election-blog/post/2024-09-12-week-2-fundamentals-i-the-economy/"  target="_blank" rel="noopener">
+        Week 2 Fundamentals I, the Economy
+      </a>
+  </li>
+  
+  <li>
+    <a href="https://sduggasani.github.io/2024election-blog/post/2024-09-23-week-3-polling/"  target="_blank" rel="noopener">
+        Week 3 Polling
+      </a>
+  </li>
+  
+  <li>
+    <a href="https://sduggasani.github.io/2024election-blog/post/2024-09-25-week-4-fundamentals-ii-incumbency/"  target="_blank" rel="noopener">
+        Week 4 Fundamentals II, Incumbency
+      </a>
+  </li>
+  
+  <li>
+    <a href="https://sduggasani.github.io/2024election-blog/post/2024-10-05-week-5-demographics/"  target="_blank" rel="noopener">
+        Week 5 Demographics
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/2024election-blog/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Week 5: Demographics</strong>
+
+  <label for="toc-control">
+    
+    <img src="/2024election-blog/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#week-5-demographics"><strong>Week 5: Demographics</strong></a>
+      <ul>
+        <li><a href="#demographic-indicators-and-vote-choice">Demographic Indicators and Vote Choice</a></li>
+        <li><a href="#delving-into-a-state-voter-file">Delving into a State Voter File</a></li>
+        <li><a href="#model-simulations-for-battleground-states">Model Simulations for Battleground States</a></li>
+        <li><a href="#conclusion">Conclusion</a></li>
+        <li><a href="#sources">Sources</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown book-article"><script src="https://sduggasani.github.io/2024election-blog/post/2024-10-05-week-5-demographics/index_files/kePrint/kePrint.js"></script>
+<link href="https://sduggasani.github.io/2024election-blog/post/2024-10-05-week-5-demographics/index_files/lightable/lightable.css" rel="stylesheet" />
+<script src="https://sduggasani.github.io/2024election-blog/post/2024-10-05-week-5-demographics/index_files/kePrint/kePrint.js"></script>
+<link href="https://sduggasani.github.io/2024election-blog/post/2024-10-05-week-5-demographics/index_files/lightable/lightable.css" rel="stylesheet" />
+<script src="https://sduggasani.github.io/2024election-blog/post/2024-10-05-week-5-demographics/index_files/kePrint/kePrint.js"></script>
+<link href="https://sduggasani.github.io/2024election-blog/post/2024-10-05-week-5-demographics/index_files/lightable/lightable.css" rel="stylesheet" />
+<script src="https://sduggasani.github.io/2024election-blog/post/2024-10-05-week-5-demographics/index_files/kePrint/kePrint.js"></script>
+<link href="https://sduggasani.github.io/2024election-blog/post/2024-10-05-week-5-demographics/index_files/lightable/lightable.css" rel="stylesheet" />
+<h1 id="week-5-demographics">
+  <strong>Week 5: Demographics</strong>
+  <a class="anchor" href="#week-5-demographics">#</a>
+</h1>
+<p><strong>Monday, October 7, 2024</strong><br>
+<strong>28 Days until Presidential Election</strong></p>
+<p><em>Welcome back! This week I will focus on demographic data and the role it plays in forecasting. Since last week, the vice presidential candidates faced off in a relatively calm and respectful debate. Again, a principal topic was that of immigration, which, in addition to being incredibly polarizing, often falls to identity-based arguments and concerns over the makeup of the United States demographically. Demographic shifts in race, educational attainment, and income distribution are an undercurrent to many political debates at the community level up to the national level. How identity can affect electoral politics is an incredibly large academic theme within the field of political science. In this post, I will touch on a seminal paper by Kim and Zilinsky (2024), which contributes to the question of if demographics motivate vote choice. I will then move into analyzing the demographics of my own state and a significant battleground state: Georgia. I will end by running simulations of my own model to quantify uncertainty in my own prediction and to visualize what that final prediction looks like as of now.</em></p>
+<h2 id="demographic-indicators-and-vote-choice">
+  Demographic Indicators and Vote Choice
+  <a class="anchor" href="#demographic-indicators-and-vote-choice">#</a>
+</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e">####----------------------------------------------------------#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#### Replication of Kim &amp; Zilinsky (2023). Courtesy of Matthew Dardet</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">####----------------------------------------------------------#</span>
+</span></span><span style="display:flex;"><span>                             
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Read processed ANES data. </span>
+</span></span><span style="display:flex;"><span>anes <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">read_dta</span>(<span style="color:#e6db74">&#34;anes_timeseries_cdf_stata_20220916.dta&#34;</span>) <span style="color:#75715e"># Total ANES Cumulative Data File. </span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>anes <span style="color:#f92672">&lt;-</span> anes <span style="color:#f92672">|&gt;</span> 
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(year <span style="color:#f92672">=</span> VCF0004,
+</span></span><span style="display:flex;"><span>         pres_vote <span style="color:#f92672">=</span> <span style="color:#a6e22e">case_when</span>(VCF0704a <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">~</span> <span style="color:#ae81ff">1</span>, 
+</span></span><span style="display:flex;"><span>                               VCF0704a <span style="color:#f92672">==</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">~</span> <span style="color:#ae81ff">2</span>, 
+</span></span><span style="display:flex;"><span>                               .default <span style="color:#f92672">=</span> <span style="color:#66d9ef">NA</span>), 
+</span></span><span style="display:flex;"><span>         <span style="color:#75715e"># Demographics</span>
+</span></span><span style="display:flex;"><span>         age <span style="color:#f92672">=</span> VCF0101, 
+</span></span><span style="display:flex;"><span>         gender <span style="color:#f92672">=</span> VCF0104, <span style="color:#75715e"># 1 = Male; 2 = Female; 3 = Other</span>
+</span></span><span style="display:flex;"><span>         race <span style="color:#f92672">=</span> VCF0105b, <span style="color:#75715e"># 1 = White non-Hispanic; 2 = Black non-Hispanic, 3 == Hispanic; 4 = Other or multiple races, non-Hispanic; 9 = missing/DK</span>
+</span></span><span style="display:flex;"><span>         educ <span style="color:#f92672">=</span> VCF0110, <span style="color:#75715e"># 0 = DK; 1 = Less than high school; 2. High school; 3 = Some college; 4 = College+ </span>
+</span></span><span style="display:flex;"><span>         income <span style="color:#f92672">=</span> VCF0114, <span style="color:#75715e"># 1 = 0-16 percentile; 2 = 17-33 percentile; 3 = 34-67; 4 = 68 to 95; 5 = 96 to 100. </span>
+</span></span><span style="display:flex;"><span>         religion <span style="color:#f92672">=</span> VCF0128, <span style="color:#75715e"># 0 = DK; 1 = Protestant; 2 = Catholic; 3 = Jewish; 4 = Other</span>
+</span></span><span style="display:flex;"><span>         attend_church <span style="color:#f92672">=</span> <span style="color:#a6e22e">case_when</span>(
+</span></span><span style="display:flex;"><span>           VCF0004 <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">1972</span> <span style="color:#f92672">~</span> <span style="color:#a6e22e">as.double</span>(<span style="color:#a6e22e">as.character</span>(VCF0131)),
+</span></span><span style="display:flex;"><span>           <span style="color:#66d9ef">TRUE</span> <span style="color:#f92672">~</span> <span style="color:#a6e22e">as.double</span>(<span style="color:#a6e22e">as.character</span>(VCF0130))
+</span></span><span style="display:flex;"><span>         ), <span style="color:#75715e"># 1 = every week - regularly; 2 = almost every week - often; 3 = once or twice a month; 4 = a few times a year - seldom; 5 = never ; 6 = no religious preference</span>
+</span></span><span style="display:flex;"><span>         southern <span style="color:#f92672">=</span> VCF0113,
+</span></span><span style="display:flex;"><span>         region <span style="color:#f92672">=</span> VCF0113, 
+</span></span><span style="display:flex;"><span>         work_status <span style="color:#f92672">=</span> VCF0118,
+</span></span><span style="display:flex;"><span>         homeowner <span style="color:#f92672">=</span> VCF0146, 
+</span></span><span style="display:flex;"><span>         married <span style="color:#f92672">=</span> VCF0147,
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>         <span style="color:#75715e"># 7-point PID</span>
+</span></span><span style="display:flex;"><span>         pid7 <span style="color:#f92672">=</span> VCF0301, <span style="color:#75715e"># 0 = DK; 1 = Strong Democrat; 2 = Weak Democrat; 3 = Independent - Democrat; 4 = Independent - Independent; 5 = Independent - Republican; 6 = Weak Republican; 7 = Strong Republican</span>
+</span></span><span style="display:flex;"><span>         
+</span></span><span style="display:flex;"><span>         <span style="color:#75715e"># 3-point PID</span>
+</span></span><span style="display:flex;"><span>         pid3 <span style="color:#f92672">=</span> VCF0303, <span style="color:#75715e"># 0 = DK; 1 = Democrats; 2 = Independents; 3 = Republicans. </span>
+</span></span><span style="display:flex;"><span>         
+</span></span><span style="display:flex;"><span>         <span style="color:#75715e"># 3-point ideology. </span>
+</span></span><span style="display:flex;"><span>         ideo <span style="color:#f92672">=</span> VCF0804 <span style="color:#75715e"># 0, 9 = DK; 1 = Liberal; 2 = Moderate; 3 = Conservative</span>
+</span></span><span style="display:flex;"><span>         ) <span style="color:#f92672">|&gt;</span> 
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">select</span>(year, pres_vote, age, gender, race, educ, income, religion, attend_church, southern, 
+</span></span><span style="display:flex;"><span>         region, work_status, homeowner, married, pid7, pid3, ideo)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># How well do demographics predict vote choice? </span>
+</span></span><span style="display:flex;"><span>anes_year <span style="color:#f92672">&lt;-</span> anes[anes<span style="color:#f92672">$</span>year <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">1964</span>,] <span style="color:#f92672">|&gt;</span> 
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">select</span>(<span style="color:#f92672">-</span><span style="color:#a6e22e">c</span>(year, pid7, pid3, ideo)) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(pres_vote <span style="color:#f92672">=</span> <span style="color:#a6e22e">factor</span>(pres_vote, levels <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>), labels <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;Democrat&#34;</span>, <span style="color:#e6db74">&#34;Republican&#34;</span>))) <span style="color:#f92672">|&gt;</span> 
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">filter</span>(<span style="color:#f92672">!</span><span style="color:#a6e22e">is.na</span>(pres_vote)) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">clean_names</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>n_features <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">length</span>(<span style="color:#a6e22e">setdiff</span>(<span style="color:#a6e22e">names</span>(anes_year), <span style="color:#e6db74">&#34;pres_vote&#34;</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">set.seed</span>(<span style="color:#ae81ff">02138</span>)
+</span></span><span style="display:flex;"><span>train.ind <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">createDataPartition</span>(anes_year<span style="color:#f92672">$</span>pres_vote, p <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.8</span>, list <span style="color:#f92672">=</span> <span style="color:#66d9ef">FALSE</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>anes_train <span style="color:#f92672">&lt;-</span> anes_year[train.ind,]
+</span></span><span style="display:flex;"><span>anes_test <span style="color:#f92672">&lt;-</span> anes_year[<span style="color:#f92672">-</span>train.ind,]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Logistic regression. </span>
+</span></span><span style="display:flex;"><span>logit_fit <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">glm</span>(pres_vote <span style="color:#f92672">~</span> ., 
+</span></span><span style="display:flex;"><span>                 family <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;binomial&#34;</span>, 
+</span></span><span style="display:flex;"><span>                 data <span style="color:#f92672">=</span> anes_train)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># In-sample goodness-of-fit. </span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">modelsummary</span>(logit_fit)
+</span></span></code></pre></div><pre tabindex="0"><code>## Warning in predict.lm(object, newdata, se.fit, scale = 1, type = if (type == :
+## prediction from a rank-deficient fit may be misleading
+</code></pre><table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;">   </th>
+   <th style="text-align:center;"> Model 1 </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> (Intercept) </td>
+   <td style="text-align:center;"> 1.697 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;"> (0.112) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> age </td>
+   <td style="text-align:center;"> 0.001 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;"> (0.0008) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> gender </td>
+   <td style="text-align:center;"> −0.348 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;"> (0.030) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> race </td>
+   <td style="text-align:center;"> −0.496 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;"> (0.020) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> educ </td>
+   <td style="text-align:center;"> 0.021 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;"> (0.016) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> income </td>
+   <td style="text-align:center;"> 0.104 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;"> (0.012) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> religion </td>
+   <td style="text-align:center;"> −0.221 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;"> (0.014) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> attend_church </td>
+   <td style="text-align:center;"> −0.121 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;"> (0.009) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> southern </td>
+   <td style="text-align:center;"> −0.137 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;"> (0.032) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> work_status </td>
+   <td style="text-align:center;"> 0.065 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;"> (0.013) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> homeowner </td>
+   <td style="text-align:center;"> −0.0007 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;">  </td>
+   <td style="text-align:center;"> (0.006) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> married </td>
+   <td style="text-align:center;"> −0.071 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;box-shadow: 0px 1px">  </td>
+   <td style="text-align:center;box-shadow: 0px 1px"> (0.009) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Num.Obs. </td>
+   <td style="text-align:center;"> 21726 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> AIC </td>
+   <td style="text-align:center;"> 27961.6 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> BIC </td>
+   <td style="text-align:center;"> 28057.4 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Log.Lik. </td>
+   <td style="text-align:center;"> −13968.797 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> RMSE </td>
+   <td style="text-align:center;"> 0.47 </td>
+  </tr>
+</tbody>
+</table>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># In-sample accuracy.</span>
+</span></span><span style="display:flex;"><span>logit.is <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">factor</span>(<span style="color:#a6e22e">ifelse</span>(<span style="color:#a6e22e">predict</span>(logit_fit, type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;response&#34;</span>) <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0.5</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">1</span>), 
+</span></span><span style="display:flex;"><span>                   levels <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>), labels <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;Democrat&#34;</span>, <span style="color:#e6db74">&#34;Republican&#34;</span>))
+</span></span><span style="display:flex;"><span>(cm.rf.logit.is <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">confusionMatrix</span>(logit.is, anes_train<span style="color:#f92672">$</span>pres_vote))
+</span></span></code></pre></div><pre tabindex="0"><code>## Confusion Matrix and Statistics
+## 
+##             Reference
+## Prediction   Democrat Republican
+##   Democrat       8082       3961
+##   Republican     3704       5979
+##                                           
+##                Accuracy : 0.6472          
+##                  95% CI : (0.6408, 0.6536)
+##     No Information Rate : 0.5425          
+##     P-Value [Acc &gt; NIR] : &lt; 2.2e-16       
+##                                           
+##                   Kappa : 0.2878          
+##                                           
+##  Mcnemar&#39;s Test P-Value : 0.003455        
+##                                           
+##             Sensitivity : 0.6857          
+##             Specificity : 0.6015          
+##          Pos Pred Value : 0.6711          
+##          Neg Pred Value : 0.6175          
+##              Prevalence : 0.5425          
+##          Detection Rate : 0.3720          
+##    Detection Prevalence : 0.5543          
+##       Balanced Accuracy : 0.6436          
+##                                           
+##        &#39;Positive&#39; Class : Democrat        
+## 
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># Out-of-sample accuracy. </span>
+</span></span><span style="display:flex;"><span>logit_pred <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">factor</span>(<span style="color:#a6e22e">ifelse</span>(<span style="color:#a6e22e">predict</span>(logit_fit, anes_test, type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;response&#34;</span>) <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0.5</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">1</span>), 
+</span></span><span style="display:flex;"><span>                     levels <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>), labels <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;Democrat&#34;</span>, <span style="color:#e6db74">&#34;Republican&#34;</span>))
+</span></span></code></pre></div><pre tabindex="0"><code>## Warning in predict.lm(object, newdata, se.fit, scale = 1, type = if (type == :
+## prediction from a rank-deficient fit may be misleading
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>(cm.rf.logit.oos <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">confusionMatrix</span>(logit_pred, anes_test<span style="color:#f92672">$</span>pres_vote))
+</span></span></code></pre></div><pre tabindex="0"><code>## Confusion Matrix and Statistics
+## 
+##             Reference
+## Prediction   Democrat Republican
+##   Democrat       1973        975
+##   Republican      973       1509
+##                                          
+##                Accuracy : 0.6413         
+##                  95% CI : (0.6283, 0.654)
+##     No Information Rate : 0.5425         
+##     P-Value [Acc &gt; NIR] : &lt;2e-16         
+##                                          
+##                   Kappa : 0.2772         
+##                                          
+##  Mcnemar&#39;s Test P-Value : 0.9819         
+##                                          
+##             Sensitivity : 0.6697         
+##             Specificity : 0.6075         
+##          Pos Pred Value : 0.6693         
+##          Neg Pred Value : 0.6080         
+##              Prevalence : 0.5425         
+##          Detection Rate : 0.3634         
+##    Detection Prevalence : 0.5429         
+##       Balanced Accuracy : 0.6386         
+##                                          
+##        &#39;Positive&#39; Class : Democrat       
+## 
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># # Random forest: </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># rf_fit &lt;- ranger(pres_vote ~ ., </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#                  mtry = floor(n_features/3), </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#                  respect.unordered.factors = &#34;order&#34;, </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#                  seed &lt;- 02138,</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#                  classification = TRUE,</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#                  data = anes_train)</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># # In-sample accuracy.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># (cm.rf.is &lt;- confusionMatrix(rf_fit$predictions, anes_train$pres_vote))</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># # Out-of-sample accuracy. </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># rf_pred &lt;- predict(rf_fit, data = anes_test)</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># (cm.rf.oos &lt;- confusionMatrix(rf_pred$predictions, anes_test$pres_vote))</span>
+</span></span></code></pre></div><p>The above figures are a result of using a logistic regression that involves demographics to predict presidential vote choice. Much of this code can be attributed to Matthew Dardet, but instead of just looking at how well demographics predicted vote choice in 1964, I included all years including and thereafter. The demographics we involve are age, gender, race, education level, income, religion, whether the voter attends church, whether the voter is from a southern state, work status, home-owning status, and marriage status. The model summary above shows that gender and race have by far the most sway on a voter&rsquo;s choice among these demographics. What I find interesting is that age does not really have that much of an impact on vote choice as compared to other demographics. This work is a replication of the original work of Kim and Zilinsky (2024). Similar to their paper&rsquo;s most notable finding, this replication finds that these key demographics can only predict the vote choice accurately about 64% of the time. Given the reliance of popular media and conventional wisdom on identity politics, it would seem that demographics would play a huge role in vote choice, and they are certainly not negligible. But key demographics are not as determinative as we might have thought.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e">####----------------------------------------------------------#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#### Random Forest Application (Extension 2)</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">####----------------------------------------------------------#</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Train the random forest model</span>
+</span></span><span style="display:flex;"><span>anes_years <span style="color:#f92672">&lt;-</span> anes[anes<span style="color:#f92672">$</span>year <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">1964</span>,] <span style="color:#f92672">|&gt;</span> 
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">select</span>(<span style="color:#f92672">-</span><span style="color:#a6e22e">c</span>(year, pid7, pid3, ideo)) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(pres_vote <span style="color:#f92672">=</span> <span style="color:#a6e22e">factor</span>(pres_vote, levels <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>), labels <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;Democrat&#34;</span>, <span style="color:#e6db74">&#34;Republican&#34;</span>))) <span style="color:#f92672">|&gt;</span> 
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">filter</span>(<span style="color:#f92672">!</span><span style="color:#a6e22e">is.na</span>(pres_vote)) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">clean_names</span>()
+</span></span><span style="display:flex;"><span>n_features_ext <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">length</span>(<span style="color:#a6e22e">setdiff</span>(<span style="color:#a6e22e">names</span>(anes_years), <span style="color:#e6db74">&#34;pres_vote&#34;</span>))
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">set.seed</span>(<span style="color:#ae81ff">02138</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Split data into training and test sets</span>
+</span></span><span style="display:flex;"><span>train.ind_ext <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">createDataPartition</span>(anes_years<span style="color:#f92672">$</span>pres_vote, p <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.8</span>, list <span style="color:#f92672">=</span> <span style="color:#66d9ef">FALSE</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>anes_train_ext <span style="color:#f92672">&lt;-</span> anes_years[train.ind_ext,]
+</span></span><span style="display:flex;"><span>anes_test_ext <span style="color:#f92672">&lt;-</span> anes_years[<span style="color:#f92672">-</span>train.ind_ext,]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Train the random forest model</span>
+</span></span><span style="display:flex;"><span>rf_model_ext <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">ranger</span>(pres_vote <span style="color:#f92672">~</span> .,
+</span></span><span style="display:flex;"><span>                       mtry <span style="color:#f92672">=</span> <span style="color:#a6e22e">floor</span>(n_features_ext<span style="color:#f92672">/</span><span style="color:#ae81ff">3</span>),
+</span></span><span style="display:flex;"><span>                       respect.unordered.factors <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;order&#34;</span>,
+</span></span><span style="display:flex;"><span>                       seed <span style="color:#f92672">=</span> <span style="color:#ae81ff">02138</span>,
+</span></span><span style="display:flex;"><span>                       classification <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>,
+</span></span><span style="display:flex;"><span>                       data <span style="color:#f92672">=</span> anes_train_ext)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Check model performance on the test set</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># In-sample accuracy</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">confusionMatrix</span>(rf_model_ext<span style="color:#f92672">$</span>predictions, anes_train_ext<span style="color:#f92672">$</span>pres_vote)
+</span></span></code></pre></div><pre tabindex="0"><code>## Confusion Matrix and Statistics
+## 
+##             Reference
+## Prediction   Democrat Republican
+##   Democrat       7926       3091
+##   Republican     3860       6849
+##                                           
+##                Accuracy : 0.6801          
+##                  95% CI : (0.6738, 0.6863)
+##     No Information Rate : 0.5425          
+##     P-Value [Acc &gt; NIR] : &lt; 2.2e-16       
+##                                           
+##                   Kappa : 0.3593          
+##                                           
+##  Mcnemar&#39;s Test P-Value : &lt; 2.2e-16       
+##                                           
+##             Sensitivity : 0.6725          
+##             Specificity : 0.6890          
+##          Pos Pred Value : 0.7194          
+##          Neg Pred Value : 0.6396          
+##              Prevalence : 0.5425          
+##          Detection Rate : 0.3648          
+##    Detection Prevalence : 0.5071          
+##       Balanced Accuracy : 0.6808          
+##                                           
+##        &#39;Positive&#39; Class : Democrat        
+## 
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># Out of sample accuracy</span>
+</span></span><span style="display:flex;"><span>rf_pred <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">predict</span>(rf_model_ext, data <span style="color:#f92672">=</span> anes_test_ext)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">confusionMatrix</span>(rf_pred<span style="color:#f92672">$</span>predictions, anes_test_ext<span style="color:#f92672">$</span>pres_vote)
+</span></span></code></pre></div><pre tabindex="0"><code>## Confusion Matrix and Statistics
+## 
+##             Reference
+## Prediction   Democrat Republican
+##   Democrat       1951        728
+##   Republican      995       1756
+##                                           
+##                Accuracy : 0.6827          
+##                  95% CI : (0.6701, 0.6951)
+##     No Information Rate : 0.5425          
+##     P-Value [Acc &gt; NIR] : &lt; 2.2e-16       
+##                                           
+##                   Kappa : 0.3661          
+##                                           
+##  Mcnemar&#39;s Test P-Value : 1.472e-10       
+##                                           
+##             Sensitivity : 0.6623          
+##             Specificity : 0.7069          
+##          Pos Pred Value : 0.7283          
+##          Neg Pred Value : 0.6383          
+##              Prevalence : 0.5425          
+##          Detection Rate : 0.3593          
+##    Detection Prevalence : 0.4934          
+##       Balanced Accuracy : 0.6846          
+##                                           
+##        &#39;Positive&#39; Class : Democrat        
+## 
+</code></pre><p>Here, instead of relying on a logistic regression, we employ a Random Forests model. Random Forest modeling is a type of machine learning model where multiple decision trees are built for training and their predictions are aggregated in such a way that is advantageous for accuracy and the reduction of overfitting. Because we are involving so many demographic indicators, it would be useful to use Random Forest modeling and be aware of the risk of overfitting. When we use Random Forests to replicate Kim and Zilinsky&rsquo;s (2024) work, we find that the key demographics can only predict vote choice about 68% of the time. This is a few percentage points higher than when we relied on the logistic regression, but it is not fully determinative, underscoring Kim and Zilinsky&rsquo;s findings as well.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e">####----------------------------------------------------------#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#### Random Forest Application (Extension 2 contd.)</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">####----------------------------------------------------------#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Predicting National Popular Vote Share</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Include ideology in prediction</span>
+</span></span><span style="display:flex;"><span>anes_w_ideo <span style="color:#f92672">&lt;-</span> anes[anes<span style="color:#f92672">$</span>year <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">1964</span>,] <span style="color:#f92672">|&gt;</span> 
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">select</span>(<span style="color:#f92672">-</span><span style="color:#a6e22e">c</span>(year)) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(pres_vote <span style="color:#f92672">=</span> <span style="color:#a6e22e">factor</span>(pres_vote, levels <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>), labels <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;Democrat&#34;</span>, <span style="color:#e6db74">&#34;Republican&#34;</span>))) <span style="color:#f92672">|&gt;</span> 
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">filter</span>(<span style="color:#f92672">!</span><span style="color:#a6e22e">is.na</span>(pres_vote)) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">clean_names</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">set.seed</span>(<span style="color:#ae81ff">02138</span>)
+</span></span><span style="display:flex;"><span>sample_data <span style="color:#f92672">&lt;-</span> anes_w_ideo <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">slice_sample</span>(n<span style="color:#f92672">=</span><span style="color:#ae81ff">10000</span>, replace <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">select</span>(pres_vote, age, gender, race, educ, income, religion, attend_church, southern, 
+</span></span><span style="display:flex;"><span>         region, work_status, homeowner, married, pid7, pid3, ideo)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># head(sample_data)</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Now predict vote for every individual using trained random forest model from last chunk</span>
+</span></span><span style="display:flex;"><span>predicted_votes <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">predict</span>(rf_model_ext, data <span style="color:#f92672">=</span> sample_data)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Predicted national popular vote share</span>
+</span></span><span style="display:flex;"><span>predicted_nat_vs <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">table</span>(predicted_votes<span style="color:#f92672">$</span>predictions) <span style="color:#f92672">/</span> <span style="color:#a6e22e">length</span>(predicted_votes<span style="color:#f92672">$</span>predictions)<span style="color:#f92672">*</span><span style="color:#ae81ff">100</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">kable</span>(predicted_nat_vs,
+</span></span><span style="display:flex;"><span>      col.names <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;Party&#34;</span>, <span style="color:#e6db74">&#34;Predicted Vote Share (%)&#34;</span>),
+</span></span><span style="display:flex;"><span>      format.args <span style="color:#f92672">=</span> <span style="color:#a6e22e">list</span>(big.mark <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;,&#34;</span>, decimal.mark <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;.&#34;</span>, digits <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>),
+</span></span><span style="display:flex;"><span>      format <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;html&#34;</span>)
+</span></span></code></pre></div><table>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Party </th>
+   <th style="text-align:right;"> Predicted Vote Share (%) </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> Democrat </td>
+   <td style="text-align:right;"> 50.46 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Republican </td>
+   <td style="text-align:right;"> 49.54 </td>
+  </tr>
+</tbody>
+</table>
+<p>I use the Random Forest modeling, which at its crux relies on bootstrap sampling, to predict national vote share based on demographics, including ideology identification metrics. It finds that the Democrats will just narrowly win the popular vote in November. This falls in line with previous models and current polls about the election being one of the closest in decades.</p>
+<h2 id="delving-into-a-state-voter-file">
+  Delving into a State Voter File
+  <a class="anchor" href="#delving-into-a-state-voter-file">#</a>
+</h2>
+<p>Now, let&rsquo;s delve into a sample of Georgia&rsquo;s voter file. I chose Georgia because it is my home state, I have done political mobilizing on the ground there, and I have been closely following it this election. The voter file data we are relying on is a sample of 1% of the total voter file data for the Georgia electoral and has been generously provided by Statara Solutions. Please check them out 
+  <a href="https://statara.com/">here</a>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e">####----------------------------------------------------------#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#### State Voter File (Extension 1) -- Georgia</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">####----------------------------------------------------------#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Read Georgia data (1 percent sample of total voter file)</span>
+</span></span><span style="display:flex;"><span>ga_file <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">read_csv</span>(<span style="color:#e6db74">&#34;state_1pc_samples_aug24/GA_sample.csv&#34;</span>, show_col_types <span style="color:#f92672">=</span> <span style="color:#66d9ef">FALSE</span>) 
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Create more informational data</span>
+</span></span><span style="display:flex;"><span>ga_file <span style="color:#f92672">&lt;-</span> ga_file <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># Age range, taken from Statara Insights Excel Codebook</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(sii_age_range <span style="color:#f92672">=</span> <span style="color:#a6e22e">case_when</span>(
+</span></span><span style="display:flex;"><span>      sii_age <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">24</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;18-24&#34;</span>,
+</span></span><span style="display:flex;"><span>      sii_age <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">25</span> <span style="color:#f92672">&amp;</span> sii_age <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">34</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;25-34&#34;</span>,
+</span></span><span style="display:flex;"><span>      sii_age <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">35</span> <span style="color:#f92672">&amp;</span> sii_age <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">44</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;35-44&#34;</span>,
+</span></span><span style="display:flex;"><span>      sii_age <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">45</span> <span style="color:#f92672">&amp;</span> sii_age <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">54</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;45-54&#34;</span>,
+</span></span><span style="display:flex;"><span>      sii_age <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">55</span> <span style="color:#f92672">&amp;</span> sii_age <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">64</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;55-64&#34;</span>,
+</span></span><span style="display:flex;"><span>      sii_age <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">65</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;65+&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">TRUE</span> <span style="color:#f92672">~</span> <span style="color:#66d9ef">NA_character_</span>
+</span></span><span style="display:flex;"><span>    )) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># Race, taken from Statara Insights Excel Codebook</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(sii_race <span style="color:#f92672">=</span> <span style="color:#a6e22e">case_when</span>(
+</span></span><span style="display:flex;"><span>    sii_race <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;A&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Asian&#34;</span>,
+</span></span><span style="display:flex;"><span>    sii_race <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;B&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;African-American&#34;</span>,
+</span></span><span style="display:flex;"><span>    sii_race <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;H&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Hispanic or Latino&#34;</span>,
+</span></span><span style="display:flex;"><span>    sii_race <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;W&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;White&#34;</span>,
+</span></span><span style="display:flex;"><span>    sii_race <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;U&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Unknown&#34;</span>,
+</span></span><span style="display:flex;"><span>    sii_race <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;O&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Other&#34;</span>,
+</span></span><span style="display:flex;"><span>    sii_race <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;N&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Native American&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">TRUE</span> <span style="color:#f92672">~</span> sii_race
+</span></span><span style="display:flex;"><span>  )) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># Education, taken from Statara Insights Excel Codebook</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(sii_education_level <span style="color:#f92672">=</span> <span style="color:#a6e22e">case_when</span>(
+</span></span><span style="display:flex;"><span>    sii_education_level <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;A&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Completed High School&#34;</span>,
+</span></span><span style="display:flex;"><span>      sii_education_level <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;E&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Some College or Higher&#34;</span>,
+</span></span><span style="display:flex;"><span>      sii_education_level <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;B&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Completed College&#34;</span>,
+</span></span><span style="display:flex;"><span>      sii_education_level <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;C&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Completed Graduate School&#34;</span>,
+</span></span><span style="display:flex;"><span>      sii_education_level <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;D&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Attended Vocational/Technical&#34;</span>,
+</span></span><span style="display:flex;"><span>      sii_education_level <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;U&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Unknown&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">TRUE</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Unknown&#34;</span>
+</span></span><span style="display:flex;"><span>  )) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Homeowner Status, taken from Statara Insights Excel Codebook</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(sii_homeowner <span style="color:#f92672">=</span> <span style="color:#a6e22e">case_when</span>(
+</span></span><span style="display:flex;"><span>  sii_homeowner <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;H&#39;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Homeowner&#34;</span>,
+</span></span><span style="display:flex;"><span>  sii_homeowner <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;R&#39;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Renter&#34;</span>,
+</span></span><span style="display:flex;"><span>  sii_homeowner <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;U&#39;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Unknown&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">TRUE</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#39;Unknown&#39;</span>
+</span></span><span style="display:flex;"><span>  )) <span style="color:#f92672">|&gt;</span> 
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># Urbanicity, taken from Statara Insights Excel Codebook</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(sii_urbanicity <span style="color:#f92672">=</span> <span style="color:#a6e22e">case_when</span>(
+</span></span><span style="display:flex;"><span>    sii_urbanicity <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;R1&#39;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#39;Rural, less densely populated&#39;</span>,
+</span></span><span style="display:flex;"><span>    sii_urbanicity <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;R2&#39;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#39;Rural, more densely populated&#39;</span>,
+</span></span><span style="display:flex;"><span>    sii_urbanicity <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;S3&#39;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#39;Suburban, less densely populated&#39;</span>,
+</span></span><span style="display:flex;"><span>    sii_urbanicity <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;S4&#39;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#39;Suburban, more densely populated&#39;</span>,
+</span></span><span style="display:flex;"><span>    sii_urbanicity <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;U5&#39;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#39;Urban, less densely populated&#39;</span>,
+</span></span><span style="display:flex;"><span>    sii_urbanicity <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;U6&#39;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#39;Urban, more densely populated&#39;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">TRUE</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#39;Unknown&#39;</span>
+</span></span><span style="display:flex;"><span>  )) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># Gender, taken from Statara Insights Excel Codebook</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(sii_gender <span style="color:#f92672">=</span> <span style="color:#a6e22e">case_when</span>(
+</span></span><span style="display:flex;"><span>    sii_gender <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;M&#39;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#39;Male&#39;</span>,
+</span></span><span style="display:flex;"><span>    sii_gender <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;F&#39;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#39;Female&#39;</span>,
+</span></span><span style="display:flex;"><span>    sii_gender <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;U&#39;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#39;Unknown&#39;</span>,
+</span></span><span style="display:flex;"><span>    sii_gender <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;X&#39;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#39;Expansive&#39;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">TRUE</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#39;Unknown&#39;</span>
+</span></span><span style="display:flex;"><span>  )) 
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Create distribution plots of these demographic characteristics</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Age Range</span>
+</span></span><span style="display:flex;"><span>age_dist <span style="color:#f92672">&lt;-</span> ga_file <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">count</span>(sii_age_range) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(proportion <span style="color:#f92672">=</span> n <span style="color:#f92672">/</span> <span style="color:#a6e22e">sum</span>(n) <span style="color:#f92672">*</span> <span style="color:#ae81ff">100</span>) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">ungroup</span>()
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Race</span>
+</span></span><span style="display:flex;"><span>race_dist <span style="color:#f92672">&lt;-</span> ga_file <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">count</span>(sii_race) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(proportion <span style="color:#f92672">=</span> n <span style="color:#f92672">/</span> <span style="color:#a6e22e">sum</span>(n) <span style="color:#f92672">*</span> <span style="color:#ae81ff">100</span>) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">ungroup</span>()
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Education Level</span>
+</span></span><span style="display:flex;"><span>educ_dist <span style="color:#f92672">&lt;-</span> ga_file <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">count</span>(sii_education_level) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(proportion <span style="color:#f92672">=</span> n <span style="color:#f92672">/</span> <span style="color:#a6e22e">sum</span>(n) <span style="color:#f92672">*</span> <span style="color:#ae81ff">100</span>) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">ungroup</span>()
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Party Registration</span>
+</span></span><span style="display:flex;"><span>home_dist <span style="color:#f92672">&lt;-</span> ga_file <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">count</span>(sii_homeowner) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(proportion <span style="color:#f92672">=</span> n <span style="color:#f92672">/</span> <span style="color:#a6e22e">sum</span>(n) <span style="color:#f92672">*</span> <span style="color:#ae81ff">100</span>) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">ungroup</span>()
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Urbanicity</span>
+</span></span><span style="display:flex;"><span>urb_dist <span style="color:#f92672">&lt;-</span> ga_file <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">count</span>(sii_urbanicity) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(proportion <span style="color:#f92672">=</span> n <span style="color:#f92672">/</span> <span style="color:#a6e22e">sum</span>(n) <span style="color:#f92672">*</span> <span style="color:#ae81ff">100</span>) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">ungroup</span>()
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Gender</span>
+</span></span><span style="display:flex;"><span>gen_dist <span style="color:#f92672">&lt;-</span> ga_file <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">count</span>(sii_gender) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(proportion <span style="color:#f92672">=</span> n <span style="color:#f92672">/</span> <span style="color:#a6e22e">sum</span>(n) <span style="color:#f92672">*</span> <span style="color:#ae81ff">100</span>) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">ungroup</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Gender plot</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">ggplot</span>(gen_dist,
+</span></span><span style="display:flex;"><span>       <span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> sii_gender, y <span style="color:#f92672">=</span> proportion, fill <span style="color:#f92672">=</span> sii_gender)) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_bar</span>(stat <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;identity&#34;</span>) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">labs</span>(title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Gender Distribution for Georgia Electorate&#34;</span>,
+</span></span><span style="display:flex;"><span>       subtitle <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;1% Sample of GA Voter File&#34;</span>,
+</span></span><span style="display:flex;"><span>       x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Gender Identity&#34;</span>,
+</span></span><span style="display:flex;"><span>       y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Proportion&#34;</span>,
+</span></span><span style="display:flex;"><span>       fill <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Gender Identity&#34;</span>,
+</span></span><span style="display:flex;"><span>       caption <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Voter File Data Provided Statara Solutions&#34;</span>) <span style="color:#f92672">+</span> 
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">my_prettier_theme</span>()
+</span></span></code></pre></div><img src="https://sduggasani.github.io/2024election-blog/post/2024-10-05-week-5-demographics/index_files/figure-html/unnamed-chunk-6-1.png" width="672" />
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># Age plot</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">ggplot</span>(age_dist,
+</span></span><span style="display:flex;"><span>       <span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> sii_age_range, y <span style="color:#f92672">=</span> proportion, fill <span style="color:#f92672">=</span> sii_age_range)) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_bar</span>(stat <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;identity&#34;</span>) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">labs</span>(title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Age Distribution for Georgia Electorate&#34;</span>,
+</span></span><span style="display:flex;"><span>       subtitle <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;1% Sample of GA Voter File&#34;</span>,
+</span></span><span style="display:flex;"><span>       x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Age Range&#34;</span>,
+</span></span><span style="display:flex;"><span>       y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Proportion&#34;</span>,
+</span></span><span style="display:flex;"><span>       fill <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Age Range&#34;</span>,
+</span></span><span style="display:flex;"><span>       caption <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Voter File Data Provided Statara Solutions&#34;</span>) <span style="color:#f92672">+</span> 
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">my_prettier_theme</span>()
+</span></span></code></pre></div><img src="https://sduggasani.github.io/2024election-blog/post/2024-10-05-week-5-demographics/index_files/figure-html/unnamed-chunk-6-2.png" width="672" />
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># Race plot</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">ggplot</span>(race_dist,
+</span></span><span style="display:flex;"><span>       <span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> sii_race, y <span style="color:#f92672">=</span> proportion, fill <span style="color:#f92672">=</span> sii_race)) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_bar</span>(stat <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;identity&#34;</span>) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">labs</span>(title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Racial Distribution for Georgia Electorate&#34;</span>,
+</span></span><span style="display:flex;"><span>       subtitle <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;1% Sample of GA Voter File&#34;</span>,
+</span></span><span style="display:flex;"><span>       x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Race&#34;</span>,
+</span></span><span style="display:flex;"><span>       y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Proportion&#34;</span>,
+</span></span><span style="display:flex;"><span>       fill <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Racial Identity&#34;</span>,
+</span></span><span style="display:flex;"><span>       caption <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Voter File Data Provided Statara Solutions&#34;</span>) <span style="color:#f92672">+</span> 
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">my_prettier_theme</span>()
+</span></span></code></pre></div><img src="https://sduggasani.github.io/2024election-blog/post/2024-10-05-week-5-demographics/index_files/figure-html/unnamed-chunk-6-3.png" width="672" />
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># Education plot</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">ggplot</span>(educ_dist,
+</span></span><span style="display:flex;"><span>       <span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> sii_education_level, y <span style="color:#f92672">=</span> proportion, fill <span style="color:#f92672">=</span> sii_education_level)) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_bar</span>(stat <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;identity&#34;</span>) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">labs</span>(title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Educational Attainment Distribution for Georgia Electorate&#34;</span>,
+</span></span><span style="display:flex;"><span>       subtitle <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;1% Sample of GA Voter File&#34;</span>,
+</span></span><span style="display:flex;"><span>       x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Educational Attainment&#34;</span>,
+</span></span><span style="display:flex;"><span>       y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Proportion&#34;</span>,
+</span></span><span style="display:flex;"><span>       fill <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Educational Attainment Level&#34;</span>,
+</span></span><span style="display:flex;"><span>       caption <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Voter File Data Provided Statara Solutions&#34;</span>) <span style="color:#f92672">+</span> 
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">my_prettier_theme</span>()
+</span></span></code></pre></div><img src="https://sduggasani.github.io/2024election-blog/post/2024-10-05-week-5-demographics/index_files/figure-html/unnamed-chunk-6-4.png" width="672" />
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># Homeowner plot</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">ggplot</span>(home_dist,
+</span></span><span style="display:flex;"><span>       <span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> sii_homeowner, y <span style="color:#f92672">=</span> proportion, fill <span style="color:#f92672">=</span> sii_homeowner)) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_bar</span>(stat <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;identity&#34;</span>) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">labs</span>(title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Homeowner-Renter Distribution for Georgia Electorate&#34;</span>,
+</span></span><span style="display:flex;"><span>       subtitle <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;1% Sample of GA Voter File&#34;</span>,
+</span></span><span style="display:flex;"><span>       x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Homeowner-Renter Status&#34;</span>,
+</span></span><span style="display:flex;"><span>       y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Proportion&#34;</span>,
+</span></span><span style="display:flex;"><span>       fill <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Homeowner-Renter Status&#34;</span>,
+</span></span><span style="display:flex;"><span>       caption <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Voter File Data Provided Statara Solutions&#34;</span>) <span style="color:#f92672">+</span> 
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">my_prettier_theme</span>()
+</span></span></code></pre></div><img src="https://sduggasani.github.io/2024election-blog/post/2024-10-05-week-5-demographics/index_files/figure-html/unnamed-chunk-6-5.png" width="672" />
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># Urbanicity plot</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">ggplot</span>(urb_dist,
+</span></span><span style="display:flex;"><span>       <span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> sii_urbanicity, y <span style="color:#f92672">=</span> proportion, fill <span style="color:#f92672">=</span> sii_urbanicity)) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_bar</span>(stat <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;identity&#34;</span>) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">labs</span>(title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Urbanicity Distribution for Georgia Electorate&#34;</span>,
+</span></span><span style="display:flex;"><span>       subtitle <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;1% Sample of GA Voter File&#34;</span>,
+</span></span><span style="display:flex;"><span>       x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Urbanicity&#34;</span>,
+</span></span><span style="display:flex;"><span>       y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Proportion&#34;</span>,
+</span></span><span style="display:flex;"><span>       fill <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Urbanicity Type&#34;</span>,
+</span></span><span style="display:flex;"><span>       caption <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Voter File Data Provided Statara Solutions&#34;</span>) <span style="color:#f92672">+</span> 
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">my_prettier_theme</span>()
+</span></span></code></pre></div><img src="https://sduggasani.github.io/2024election-blog/post/2024-10-05-week-5-demographics/index_files/figure-html/unnamed-chunk-6-6.png" width="672" />
+<p>Above, we look at five key demographics indicators and how they are distributed for the Georgia electorate. First, we see that the gender distribution is relatively similar among males and females in the state with slightly more females. The population of those pertaining to expansive gender identities is very few and among this sample only 8 actually do identify as such.</p>
+<p>The age distribution for various ranges is even, except for 18-24 year olds and 65+. This makes sense because the range of ages for 18-24 is fewer than other buckets and there are a large amount of ages for which the 65+ bucket covers. Remember this was an indicator that, according to Kim and Zilinsky&rsquo;s (2024) finding, did not affect vote choice all that much.</p>
+<p>Despite the national trend toward the minority majority phenomenon, Georgia&rsquo;s electorate is still majority white. It also has a large Black population and sizable Asian and Hispanic/Latino populations. The indigenous population among Georgia&rsquo;s electorate is quite low, especially compared to other states like Hawaii and Alaska.</p>
+<p>As for education attainment, the plurality of Georgia&rsquo;s electorate completed high school and a relatively large portion completed college. I did not expect that more Georgian voters completed graduate school than just some college or higher.</p>
+<p>Because this data was available, I was curious to see the distribution of homeowners versus renters among Georgian voters. I was surprised to see that most voters are actually homeowners, according to this sample.</p>
+<p>Lastly, Georgia has one very large metropolitan city with urban sprawl, Atlanta, and a lot of other small to mid size cities. It also has a large rural populations. This even distribution is reflected in the urbanicity graph.</p>
+<h2 id="model-simulations-for-battleground-states">
+  Model Simulations for Battleground States
+  <a class="anchor" href="#model-simulations-for-battleground-states">#</a>
+</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># Color functions (constructed with help from ChatGPT and referencing work last week)</span>
+</span></span><span style="display:flex;"><span>color_state_by_win_rate <span style="color:#f92672">&lt;-</span> <span style="color:#66d9ef">function</span>(state, dem_win_rate, rep_win_rate) {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (dem_win_rate <span style="color:#f92672">&gt;</span> rep_win_rate) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span>(<span style="color:#a6e22e">cell_spec</span>(state, <span style="color:#e6db74">&#34;html&#34;</span>, color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;white&#34;</span>, background <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;steelblue3&#34;</span>))
+</span></span><span style="display:flex;"><span>  } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (rep_win_rate <span style="color:#f92672">&gt;</span> dem_win_rate) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span>(<span style="color:#a6e22e">cell_spec</span>(state, <span style="color:#e6db74">&#34;html&#34;</span>, color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;white&#34;</span>, background <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;tomato3&#34;</span>))
+</span></span><span style="display:flex;"><span>  } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span>(state)  <span style="color:#75715e"># In case of a tie or missing data, keep the state name as-is</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>color_state_by_means <span style="color:#f92672">&lt;-</span> <span style="color:#66d9ef">function</span>(state, mean_dem, mean_rep) {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (mean_dem <span style="color:#f92672">&gt;</span> mean_rep) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span>(<span style="color:#a6e22e">cell_spec</span>(state, <span style="color:#e6db74">&#34;html&#34;</span>, color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;white&#34;</span>, background <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;steelblue3&#34;</span>))
+</span></span><span style="display:flex;"><span>  } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (mean_rep <span style="color:#f92672">&gt;</span> mean_dem) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span>(<span style="color:#a6e22e">cell_spec</span>(state, <span style="color:#e6db74">&#34;html&#34;</span>, color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;white&#34;</span>, background <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;tomato3&#34;</span>))
+</span></span><span style="display:flex;"><span>  } <span style="color:#66d9ef">else</span> {}
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span>(<span style="color:#a6e22e">cell_spec</span>(state, <span style="color:#e6db74">&#34;html&#34;</span>, color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;white&#34;</span>, background <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;gray&#34;</span>))}
+</span></span><span style="display:flex;"><span>pred.mat <span style="color:#f92672">&lt;-</span> pred.mat <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(winner <span style="color:#f92672">=</span> <span style="color:#a6e22e">ifelse</span>(simp_pred_dem <span style="color:#f92672">&gt;</span> simp_pred_rep, <span style="color:#e6db74">&#34;Democrat&#34;</span>, <span style="color:#e6db74">&#34;Republican&#34;</span>))
+</span></span><span style="display:flex;"><span>win_rate_table <span style="color:#f92672">&lt;-</span> pred.mat <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">group_by</span>(state, winner) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">summarize</span>(win_rate <span style="color:#f92672">=</span> <span style="color:#a6e22e">n</span>()<span style="color:#f92672">/</span>m) 
+</span></span></code></pre></div><pre tabindex="0"><code>## `summarise()` has grouped output by &#39;state&#39;. You can override using the
+## `.groups` argument.
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># Pivot data for ease of reading</span>
+</span></span><span style="display:flex;"><span>win_rate_wide <span style="color:#f92672">&lt;-</span> win_rate_table <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">pivot_wider</span>(names_from <span style="color:#f92672">=</span> winner, values_from <span style="color:#f92672">=</span> win_rate, values_fill <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Apply color function</span>
+</span></span><span style="display:flex;"><span>win_rate_wide_color <span style="color:#f92672">&lt;-</span> win_rate_wide <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">rename</span>(State <span style="color:#f92672">=</span> state) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(State <span style="color:#f92672">=</span> <span style="color:#a6e22e">mapply</span>(color_state_by_win_rate, State, Democrat, Republican))
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Present new table</span>
+</span></span><span style="display:flex;"><span>win_rate_wide_table <span style="color:#f92672">&lt;-</span> win_rate_wide_color <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">kable</span>(escape <span style="color:#f92672">=</span> <span style="color:#66d9ef">FALSE</span>, format <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;html&#34;</span>) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">kable_styling</span>()
+</span></span><span style="display:flex;"><span>win_rate_wide_table
+</span></span></code></pre></div><table class="table" style="margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;"> State </th>
+   <th style="text-align:right;"> Democrat </th>
+   <th style="text-align:right;"> Republican </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> <span style="     color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(205, 79, 57, 255) !important;">Arizona</span> </td>
+   <td style="text-align:right;"> 0.0006 </td>
+   <td style="text-align:right;"> 0.9994 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> <span style="     color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(79, 148, 205, 255) !important;">Georgia</span> </td>
+   <td style="text-align:right;"> 0.9116 </td>
+   <td style="text-align:right;"> 0.0884 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> <span style="     color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(79, 148, 205, 255) !important;">Michigan</span> </td>
+   <td style="text-align:right;"> 1.0000 </td>
+   <td style="text-align:right;"> 0.0000 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> <span style="     color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(79, 148, 205, 255) !important;">Nevada</span> </td>
+   <td style="text-align:right;"> 1.0000 </td>
+   <td style="text-align:right;"> 0.0000 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> <span style="     color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(79, 148, 205, 255) !important;">North Carolina</span> </td>
+   <td style="text-align:right;"> 0.9755 </td>
+   <td style="text-align:right;"> 0.0245 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> <span style="     color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(79, 148, 205, 255) !important;">Pennsylvania</span> </td>
+   <td style="text-align:right;"> 1.0000 </td>
+   <td style="text-align:right;"> 0.0000 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> <span style="     color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(79, 148, 205, 255) !important;">Wisconsin</span> </td>
+   <td style="text-align:right;"> 1.0000 </td>
+   <td style="text-align:right;"> 0.0000 </td>
+  </tr>
+</tbody>
+</table>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># Now we can calculate confidence intervals for each state.</span>
+</span></span><span style="display:flex;"><span>CI <span style="color:#f92672">&lt;-</span> pred.mat <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">group_by</span>(state) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">summarize</span>(mean_dem <span style="color:#f92672">=</span> <span style="color:#a6e22e">mean</span>(simp_pred_dem),
+</span></span><span style="display:flex;"><span>            mean_rep <span style="color:#f92672">=</span> <span style="color:#a6e22e">mean</span>(simp_pred_rep),
+</span></span><span style="display:flex;"><span>            sd_dem <span style="color:#f92672">=</span> <span style="color:#a6e22e">sd</span>(simp_pred_dem),
+</span></span><span style="display:flex;"><span>            sd_rep <span style="color:#f92672">=</span> <span style="color:#a6e22e">sd</span>(simp_pred_rep),
+</span></span><span style="display:flex;"><span>            lower_dem <span style="color:#f92672">=</span> mean_dem <span style="color:#f92672">-</span> <span style="color:#ae81ff">1.96</span><span style="color:#f92672">*</span>sd_dem,
+</span></span><span style="display:flex;"><span>            upper_dem <span style="color:#f92672">=</span> mean_dem <span style="color:#f92672">+</span> <span style="color:#ae81ff">1.96</span><span style="color:#f92672">*</span>sd_dem,
+</span></span><span style="display:flex;"><span>            lower_rep <span style="color:#f92672">=</span> mean_rep <span style="color:#f92672">-</span> <span style="color:#ae81ff">1.96</span><span style="color:#f92672">*</span>sd_rep,
+</span></span><span style="display:flex;"><span>            upper_rep <span style="color:#f92672">=</span> mean_rep <span style="color:#f92672">+</span> <span style="color:#ae81ff">1.96</span><span style="color:#f92672">*</span>sd_rep)
+</span></span><span style="display:flex;"><span>CI_colored <span style="color:#f92672">&lt;-</span> CI <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">rename</span>(State <span style="color:#f92672">=</span> state) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(State <span style="color:#f92672">=</span> <span style="color:#a6e22e">mapply</span>(color_state_by_means, State, mean_dem, mean_rep))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Display CI table</span>
+</span></span><span style="display:flex;"><span>CI_colored <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">kable</span>(escape <span style="color:#f92672">=</span> <span style="color:#66d9ef">FALSE</span>, format <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;html&#34;</span>) <span style="color:#f92672">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">kable_styling</span>()
+</span></span></code></pre></div><table class="table" style="margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;"> State </th>
+   <th style="text-align:right;"> mean_dem </th>
+   <th style="text-align:right;"> mean_rep </th>
+   <th style="text-align:right;"> sd_dem </th>
+   <th style="text-align:right;"> sd_rep </th>
+   <th style="text-align:right;"> lower_dem </th>
+   <th style="text-align:right;"> upper_dem </th>
+   <th style="text-align:right;"> lower_rep </th>
+   <th style="text-align:right;"> upper_rep </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> <span style="     color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(205, 79, 57, 255) !important;">Arizona</span> </td>
+   <td style="text-align:right;"> 52.25068 </td>
+   <td style="text-align:right;"> 53.01345 </td>
+   <td style="text-align:right;"> 0.1576075 </td>
+   <td style="text-align:right;"> 0.3662173 </td>
+   <td style="text-align:right;"> 51.94177 </td>
+   <td style="text-align:right;"> 52.55959 </td>
+   <td style="text-align:right;"> 52.29567 </td>
+   <td style="text-align:right;"> 53.73124 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> <span style="     color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(79, 148, 205, 255) !important;">Georgia</span> </td>
+   <td style="text-align:right;"> 52.57779 </td>
+   <td style="text-align:right;"> 52.29352 </td>
+   <td style="text-align:right;"> 0.1605107 </td>
+   <td style="text-align:right;"> 0.3729632 </td>
+   <td style="text-align:right;"> 52.26319 </td>
+   <td style="text-align:right;"> 52.89239 </td>
+   <td style="text-align:right;"> 51.56251 </td>
+   <td style="text-align:right;"> 53.02452 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> <span style="     color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(79, 148, 205, 255) !important;">Michigan</span> </td>
+   <td style="text-align:right;"> 53.61763 </td>
+   <td style="text-align:right;"> 50.50728 </td>
+   <td style="text-align:right;"> 0.1603770 </td>
+   <td style="text-align:right;"> 0.3726526 </td>
+   <td style="text-align:right;"> 53.30329 </td>
+   <td style="text-align:right;"> 53.93197 </td>
+   <td style="text-align:right;"> 49.77688 </td>
+   <td style="text-align:right;"> 51.23768 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> <span style="     color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(79, 148, 205, 255) !important;">Nevada</span> </td>
+   <td style="text-align:right;"> 54.10442 </td>
+   <td style="text-align:right;"> 52.23273 </td>
+   <td style="text-align:right;"> 0.1599942 </td>
+   <td style="text-align:right;"> 0.3717632 </td>
+   <td style="text-align:right;"> 53.79083 </td>
+   <td style="text-align:right;"> 54.41801 </td>
+   <td style="text-align:right;"> 51.50407 </td>
+   <td style="text-align:right;"> 52.96138 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> <span style="     color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(79, 148, 205, 255) !important;">North Carolina</span> </td>
+   <td style="text-align:right;"> 52.60621 </td>
+   <td style="text-align:right;"> 52.20061 </td>
+   <td style="text-align:right;"> 0.1577668 </td>
+   <td style="text-align:right;"> 0.3665874 </td>
+   <td style="text-align:right;"> 52.29699 </td>
+   <td style="text-align:right;"> 52.91543 </td>
+   <td style="text-align:right;"> 51.48210 </td>
+   <td style="text-align:right;"> 52.91912 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> <span style="     color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(79, 148, 205, 255) !important;">Pennsylvania</span> </td>
+   <td style="text-align:right;"> 52.87369 </td>
+   <td style="text-align:right;"> 51.60073 </td>
+   <td style="text-align:right;"> 0.1587398 </td>
+   <td style="text-align:right;"> 0.3688483 </td>
+   <td style="text-align:right;"> 52.56256 </td>
+   <td style="text-align:right;"> 53.18482 </td>
+   <td style="text-align:right;"> 50.87779 </td>
+   <td style="text-align:right;"> 52.32368 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> <span style="     color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(79, 148, 205, 255) !important;">Wisconsin</span> </td>
+   <td style="text-align:right;"> 53.30806 </td>
+   <td style="text-align:right;"> 51.05413 </td>
+   <td style="text-align:right;"> 0.1592734 </td>
+   <td style="text-align:right;"> 0.3700883 </td>
+   <td style="text-align:right;"> 52.99589 </td>
+   <td style="text-align:right;"> 53.62024 </td>
+   <td style="text-align:right;"> 50.32875 </td>
+   <td style="text-align:right;"> 51.77950 </td>
+  </tr>
+</tbody>
+</table>
+<p>Here, I simulate the 2024 election for key battleground states: Georgia, Michigan, Nevada, Wisconsin, North Carolina, Arizona, and Pennsylvania. I involve Democratic and Republican vote shares for the past two elections, Democratic and Republican polling averages for this election, voter turnout, and economic indicators in the form of the Consumer Price Index and the quarterly GDP growth. This is an expansion of my model from past weeks because I now involve voter turnout data.</p>
+<p>It appears that all cases the sum of the mean two party vote share for Democrats and Republicans in the same state is more than 100%. We can attribute this to the fact that these models independently and linearly (without an imposed bound) predict for vote shares between Republicans and Democrats. In 6 out of the 7 battleground states, Democrats are projected to win. The one state where Republicans win is Arizona, which would be a flip back to a Trump victory after Biden won the state in 2020. It is critical to note that for all these predictions, the winning vote shares are well within the margins of error and each party realistically has a chance to win. This is not reflected looking just at how the simulation attributes wins to each party, for example, saying that Democrats win Nevada in 100% of all simulations. When more variables are involved in the simulation, particularly racial demographic changes and respective voter turnouts among racial groups, I predict that this would be much closer across all simulations.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>ec <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">read_csv</span>(<span style="color:#e6db74">&#34;ec_full.csv&#34;</span>, show_col_types <span style="color:#f92672">=</span> <span style="color:#66d9ef">FALSE</span>) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">filter</span>(year <span style="color:#f92672">==</span> <span style="color:#ae81ff">2024</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>battleground_winner <span style="color:#f92672">&lt;-</span> win_rate_wide <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(winner <span style="color:#f92672">=</span> <span style="color:#a6e22e">if_else</span>(Republican <span style="color:#f92672">&gt;</span> Democrat, <span style="color:#e6db74">&#34;R&#34;</span>, <span style="color:#e6db74">&#34;D&#34;</span>))
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Simple expectation of red-blue divide among non-battleground states from First Week</span>
+</span></span><span style="display:flex;"><span>republican_states <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;Alabama&#34;</span>, <span style="color:#e6db74">&#34;Alaska&#34;</span>, <span style="color:#e6db74">&#34;Arkansas&#34;</span>, <span style="color:#e6db74">&#34;Florida&#34;</span>, <span style="color:#e6db74">&#34;Idaho&#34;</span>, <span style="color:#e6db74">&#34;Indiana&#34;</span>, 
+</span></span><span style="display:flex;"><span>                       <span style="color:#e6db74">&#34;Iowa&#34;</span>, <span style="color:#e6db74">&#34;Kansas&#34;</span>, <span style="color:#e6db74">&#34;Kentucky&#34;</span>, <span style="color:#e6db74">&#34;Louisiana&#34;</span>, <span style="color:#e6db74">&#34;Mississippi&#34;</span>, 
+</span></span><span style="display:flex;"><span>                       <span style="color:#e6db74">&#34;Missouri&#34;</span>, <span style="color:#e6db74">&#34;Montana&#34;</span>, <span style="color:#e6db74">&#34;Nebraska&#34;</span>, <span style="color:#e6db74">&#34;North Dakota&#34;</span>, <span style="color:#e6db74">&#34;Ohio&#34;</span>, 
+</span></span><span style="display:flex;"><span>                       <span style="color:#e6db74">&#34;Oklahoma&#34;</span>, <span style="color:#e6db74">&#34;South Carolina&#34;</span>, <span style="color:#e6db74">&#34;South Dakota&#34;</span>, <span style="color:#e6db74">&#34;Tennessee&#34;</span>, 
+</span></span><span style="display:flex;"><span>                       <span style="color:#e6db74">&#34;Texas&#34;</span>, <span style="color:#e6db74">&#34;Utah&#34;</span>, <span style="color:#e6db74">&#34;Vermont&#34;</span>, <span style="color:#e6db74">&#34;West Virginia&#34;</span>, <span style="color:#e6db74">&#34;Wyoming&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>democrat_states <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;California&#34;</span>, <span style="color:#e6db74">&#34;Colorado&#34;</span>, <span style="color:#e6db74">&#34;Connecticut&#34;</span>, <span style="color:#e6db74">&#34;Delaware&#34;</span>, <span style="color:#e6db74">&#34;Virginia&#34;</span>, 
+</span></span><span style="display:flex;"><span>                     <span style="color:#e6db74">&#34;Washington&#34;</span>, <span style="color:#e6db74">&#34;Oregon&#34;</span>, <span style="color:#e6db74">&#34;Rhode Island&#34;</span>, <span style="color:#e6db74">&#34;New Hampshire&#34;</span>, 
+</span></span><span style="display:flex;"><span>                     <span style="color:#e6db74">&#34;New Jersey&#34;</span>, <span style="color:#e6db74">&#34;New Mexico&#34;</span>, <span style="color:#e6db74">&#34;New York&#34;</span>, <span style="color:#e6db74">&#34;Maine&#34;</span>, <span style="color:#e6db74">&#34;Maryland&#34;</span>, 
+</span></span><span style="display:flex;"><span>                     <span style="color:#e6db74">&#34;Massachusetts&#34;</span>, <span style="color:#e6db74">&#34;Minnesota&#34;</span>, <span style="color:#e6db74">&#34;Hawaii&#34;</span>, <span style="color:#e6db74">&#34;Illinois&#34;</span>, <span style="color:#e6db74">&#34;District Of Columbia&#34;</span>)
+</span></span><span style="display:flex;"><span>all_nonbattle_states <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">c</span>(republican_states, democrat_states)
+</span></span><span style="display:flex;"><span>winner <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">c</span>(<span style="color:#a6e22e">rep</span>(<span style="color:#e6db74">&#34;R&#34;</span>, <span style="color:#a6e22e">length</span>(republican_states)), <span style="color:#a6e22e">rep</span>(<span style="color:#e6db74">&#34;D&#34;</span>, <span style="color:#a6e22e">length</span>(democrat_states)))
+</span></span><span style="display:flex;"><span>all_nonbattle_states <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">data.frame</span>(state <span style="color:#f92672">=</span> all_nonbattle_states, winner <span style="color:#f92672">=</span> winner)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Join battle and non-battle datasets</span>
+</span></span><span style="display:flex;"><span>all_states <span style="color:#f92672">&lt;-</span> battleground_winner <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">select</span>(state, winner) <span style="color:#f92672">|&gt;</span>  
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">full_join</span>(all_nonbattle_states, by <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;state&#34;</span>, suffix <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;_battleground&#34;</span>, <span style="color:#e6db74">&#34;_nonbattleground&#34;</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Clean up all state dataset</span>
+</span></span><span style="display:flex;"><span>all_states <span style="color:#f92672">&lt;-</span> all_states <span style="color:#f92672">|&gt;</span> 
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># Combine separate non-battle and battle winner variables into one winner</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(winner <span style="color:#f92672">=</span> <span style="color:#a6e22e">coalesce</span>(winner_battleground, winner_nonbattleground)) <span style="color:#f92672">|&gt;</span> 
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># Remove irrelevant non-battle and battle winner</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">select</span>(<span style="color:#f92672">-</span>winner_battleground, <span style="color:#f92672">-</span>winner_nonbattleground)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Join predicted state winner data with electoral</span>
+</span></span><span style="display:flex;"><span>ec_2024_predicted <span style="color:#f92672">&lt;-</span> ec <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">left_join</span>(all_states, by <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;state&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Count electoral votes by party</span>
+</span></span><span style="display:flex;"><span>d_ec_wide <span style="color:#f92672">&lt;-</span> ec_2024_predicted <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">group_by</span>(winner)<span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">summarize</span>(electoral_votes <span style="color:#f92672">=</span> <span style="color:#a6e22e">sum</span>(electors)) 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>d_ec_wide <span style="color:#f92672">&lt;-</span> d_ec_wide <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">pivot_wider</span>(names_from <span style="color:#f92672">=</span> winner, values_from <span style="color:#f92672">=</span> electoral_votes) 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Color functions (constructed with help from ChatGPT and referencing work last week)</span>
+</span></span><span style="display:flex;"><span>color_ec <span style="color:#f92672">&lt;-</span> <span style="color:#66d9ef">function</span>(d_value, r_value) {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (d_value <span style="color:#f92672">&gt;</span> r_value) {
+</span></span><span style="display:flex;"><span>    d_colored <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">cell_spec</span>(d_value, <span style="color:#e6db74">&#34;html&#34;</span>, color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;white&#34;</span>, background <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;steelblue3&#34;</span>)
+</span></span><span style="display:flex;"><span>    r_colored <span style="color:#f92672">&lt;-</span> r_value
+</span></span><span style="display:flex;"><span>  } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>    d_colored <span style="color:#f92672">&lt;-</span> d_value
+</span></span><span style="display:flex;"><span>    r_colored <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">cell_spec</span>(r_value, <span style="color:#e6db74">&#34;html&#34;</span>, color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;white&#34;</span>, background <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;tomato3&#34;</span>)
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span>(<span style="color:#a6e22e">c</span>(d_colored, r_colored))
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Apply the coloring function to the d_ec_wide dataframe</span>
+</span></span><span style="display:flex;"><span>d_ec_wide_color <span style="color:#f92672">&lt;-</span> d_ec_wide <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">rowwise</span>() <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(
+</span></span><span style="display:flex;"><span>    D <span style="color:#f92672">=</span> <span style="color:#a6e22e">color_ec</span>(D, R)[1], 
+</span></span><span style="display:flex;"><span>    R <span style="color:#f92672">=</span> <span style="color:#a6e22e">color_ec</span>(D, R)[2]
+</span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">ungroup</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Display the table with conditional formatting</span>
+</span></span><span style="display:flex;"><span>d_ec_wide_color <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">kable</span>(escape <span style="color:#f92672">=</span> <span style="color:#66d9ef">FALSE</span>, format <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;html&#34;</span>) <span style="color:#f92672">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">kable_styling</span>()
+</span></span></code></pre></div><table class="table" style="margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;"> D </th>
+   <th style="text-align:left;"> R </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> <span style="     color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(79, 148, 205, 255) !important;">305</span> </td>
+   <td style="text-align:left;"> <span style="     color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(205, 79, 57, 255) !important;">233</span> </td>
+  </tr>
+</tbody>
+</table>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># Map visualization</span>
+</span></span><span style="display:flex;"><span>states_map <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">map_data</span>(<span style="color:#e6db74">&#34;state&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Convert state names in your data to lowercase for matching with the map data</span>
+</span></span><span style="display:flex;"><span>final_dataset <span style="color:#f92672">&lt;-</span> ec_2024_predicted <span style="color:#f92672">%&gt;%</span> 
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(state <span style="color:#f92672">=</span> <span style="color:#a6e22e">tolower</span>(state))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Join the map data with your state-level data</span>
+</span></span><span style="display:flex;"><span>map_data_joined <span style="color:#f92672">&lt;-</span> states_map <span style="color:#f92672">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">left_join</span>(final_dataset, by <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;region&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;state&#34;</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Plot the map, coloring by winner</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">ggplot</span>(map_data_joined, <span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> long, y <span style="color:#f92672">=</span> lat, group <span style="color:#f92672">=</span> group, fill <span style="color:#f92672">=</span> winner)) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_polygon</span>(color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;black&#34;</span>) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">scale_fill_manual</span>(values <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;R&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;tomato3&#34;</span>, <span style="color:#e6db74">&#34;D&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;steelblue3&#34;</span>)) <span style="color:#f92672">+</span>  <span style="color:#75715e"># Clean, no axis</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">labs</span>(title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;2024 Election Night Prediction&#34;</span>, fill <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Winner&#34;</span>) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">map_theme</span>() <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">theme</span>(
+</span></span><span style="display:flex;"><span>    axis.text <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_blank</span>(),
+</span></span><span style="display:flex;"><span>    axis.ticks <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_blank</span>(),
+</span></span><span style="display:flex;"><span>    axis.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_blank</span>(),
+</span></span><span style="display:flex;"><span>  )<span style="color:#f92672">+</span>  <span style="color:#75715e"># Remove axes info</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">coord_fixed</span>(<span style="color:#ae81ff">1.3</span>) <span style="color:#75715e"># Fix aspect ratio</span>
+</span></span></code></pre></div><img src="https://sduggasani.github.io/2024election-blog/post/2024-10-05-week-5-demographics/index_files/figure-html/unnamed-chunk-9-1.png" width="672" />
+<p>Here is the map I predict to see on Election Night this November, according to my model this week. I predict that Harris will win the electoral college and clear the 270 threshold, as per my simulations that involve voter turnout and economic indicators as well as polling data and past vote shares. In all honesty, though, I think the race will be much closer than this, and I hope in future weeks to reflect that.</p>
+<h2 id="conclusion">
+  Conclusion
+  <a class="anchor" href="#conclusion">#</a>
+</h2>
+<p><strong>According to this week&rsquo;s models, Harris will win the 2024 Presidential Election, taking 305 electoral votes.</strong></p>
+<p>I myself am skeptical of this finding because it does not fall in line with the conventional wisdom about the closeness of this race. It also does not comport well with the incredibly close national popular vote share that I calculated using the Random Forests model based on demographics. I find it hard to believe a possibility where Harris would barely win over Trump in the popular vote by less than a percentage point but also take 6 of the 7 critical battleground states. In future models, I hope to reflect the competitiveness of this race better.</p>
+<h2 id="sources">
+  Sources
+  <a class="anchor" href="#sources">#</a>
+</h2>
+<p>Seo-young Silvia Kim and Jan Zilinsky. Division does not imply predictability: Demographics continue to reveal little about voting and partisanship. <em>Political Behavior,</em> 46(1):67–87, March 2024. ISSN 1573-6687. doi: 10.1007/s11109-022-09816-z.</p>
+<p>Polling Data Provided by GOV 1347: Election Analytics teaching staff (which itself drew from the FiveThirtyEight GitHub)</p>
+<p>Economic Data Provided by GOV 1347: Election Analytics teaching staff (which itself drew from the Burueau of Economic Analysia and Federal Reserve Economic Data)</p>
+<p>Demographic Data Provided by GOV 1347: Election Analytics teaching staff (which itself drew from the Burueau of Economic Analysia and Federal Reserve Economic Data)</p>
+<p>Voter File Data Provided by Statara Solutions. Check them out here: 
+  <a href="https://statara.com/">https://statara.com/</a>.</p>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+  <div>
+    <a class="flex align-center" href="https://github.com/alex-shpak/hugo-book/edit/main/exampleSite/content/post/2024-10-05-week-5-demographics/index.md" target="_blank" rel="noopener">
+      <img src="/2024election-blog/svg/edit.svg" class="book-icon" alt="" />
+      <span>Edit this page</span>
+    </a>
+  </div>
+
+
+</div>
+
+
+
+  <script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#week-5-demographics"><strong>Week 5: Demographics</strong></a>
+      <ul>
+        <li><a href="#demographic-indicators-and-vote-choice">Demographic Indicators and Vote Choice</a></li>
+        <li><a href="#delving-into-a-state-voter-file">Delving into a State Voter File</a></li>
+        <li><a href="#model-simulations-for-battleground-states">Model Simulations for Battleground States</a></li>
+        <li><a href="#conclusion">Conclusion</a></li>
+        <li><a href="#sources">Sources</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
