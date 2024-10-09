@@ -525,7 +525,7 @@ Lastly, Georgia has one very large metropolitan city with urban sprawl, Atlanta,
 
 ## Model Simulations for Battleground States
 
-```{r echo=FALSE, cache=FALSE}
+```{r cache=TRUE, warning = FALSE, include=FALSE}
 
 # Create a composite dataset including state polls, state popular votes, national popular vote, demographics, turnout, and economic indicators from 2000 on 
 composite_dataset <- d_pollav_state |>
@@ -610,17 +610,17 @@ win_pred <- data.frame(state = d_test_simp$state,
                        winner = ifelse(simp_pred_dem > simp_pred_rep, "Democrat", "Republican")) |>
   left_join(d_ec, by = c("state", "year"))
 
-win_pred |> 
-  filter(winner == "Democrat") |> 
-  select(state)
-
-win_pred |> 
-  filter(winner == "Republican") |> 
-  select(state)
-
-win_pred |> 
-  group_by(winner) |> 
-  summarize(n = n(), ec = sum(electors))
+# win_pred |> 
+#   filter(winner == "Democrat") |> 
+#   select(state)
+# 
+# win_pred |> 
+#   filter(winner == "Republican") |> 
+#   select(state)
+# 
+# win_pred |> 
+#   group_by(winner) |> 
+#   summarize(n = n(), ec = sum(electors))
 
 # Now let's simulate this with varying levels of turnout and get both confidence intervals on our predictions
 # and approximate win percentages for each state. 
@@ -655,7 +655,7 @@ n_states <- length(d_test_simp$state)
 j <- 1
 
 for (i in 1:m) {
-  print(i)
+  # print(i)
   vep_turnout <- sapply(d_turnout_avg$vep_turnout, function(mu) {
     rnorm(1, mean = mu, sd = 0.05) 
   })
