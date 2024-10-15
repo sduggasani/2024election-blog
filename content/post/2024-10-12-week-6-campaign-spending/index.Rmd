@@ -481,7 +481,7 @@ print(stan.fit, pars = c("alpha", "beta1", "beta2", "beta3", "beta4", "sigma"))
 
 Using code provided by Matthew Dardet, I experiment with the use of a Bayesian model as opposed to the frequentist models I have been constructing thus far. In essence, a Bayesian model is one that adjusts its predictions with the addition of new information; in this case, the information we take in is new polling data. If you compare the summary statistics between the frequentist (linear regression) model and the Bayesian model, you cannot find much of a difference between the coefficients (to compare coefficients, go row by row where alpha is the intercept, beta1 is latest_pollav_DEM, etc.). FiveThirtyEight uses Bayesian updating to adjust for changes in the lean of certain polls (see: <https://fivethirtyeight.com/methodology/how-our-polling-averages-work/>). One objection to the use of Bayesian inference is that the reliance on the idea of prior and posterior knowledge obfuscates what we know to be objective and thus makes the analysis drawn from Bayesian models dubious (counterarguments presented and refuted in Andrew Gelman's <http://www.stat.columbia.edu/~gelman/research/published/badbayesmain.pdf>). In light of this, I will use a frequentist model for the rest of this week but continue to play around with Bayesianism.
 
-## Updating Model Predictions
+# Updating Model Predictions
 
 ```{r echo=FALSE}
 ####--------------------------------------------------------------#
@@ -739,13 +739,13 @@ To update this week's model, I involved campaign expenditure data alongside econ
 
 I, then, regularize the model, using LASSO which is a machine learning model that selects relevant features and neutralizes features that are not. This was helpful to making election results appear more realistic. The final results of this model show an incredibly close race with Harris winning over Trump by just 8 electoral votes. The model forecasts that Trump will take Arizona, Georgia, and North Carolina while Harris takes Pennsylvania, Nevada, and Michigan. This presents a pretty even split among swing states between the two candidates.
 
-## Conclusion
+# Conclusion
 
 **According to this week's models, Harris will win the 2024 Presidential Election, taking 273 electoral votes.**
 
 In comparison to last week's model, this week presents a much closer race between Harris and Trump, which I believe will be the case. I made an effort to regularize my model this week, which I did not last week, and I think that is mainly why this week's model presents a much much tighter margin. I will continue to regualarize my models going forward as a result. The involvement of campaign expenditure seems to advantage Democrats in this race, which would make sense considering Harris has raked in \$1 billion since entering the race (Goldmacher & Haberman).
 
-## Sources
+# Sources
 
 Goldmacher, Shane and Maggie Haberman. "Harris Raises \$1 Billion, Cementing Status as Fundraising Powerhouse." *The New York Times*, 9 Oct. 2024, www.nytimes.com/2024/10/09/us/politics/harris-billion-dollar-fundraising.html.
 

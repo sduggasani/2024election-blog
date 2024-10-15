@@ -126,39 +126,11 @@ The model summary we see here is a linear regression for Democratic campaign spe
 
 
 ```
-## Trying to compile a simple C file
-```
-
-```
-## Running /Library/Frameworks/R.framework/Resources/bin/R CMD SHLIB foo.c
-## clang -mmacosx-version-min=10.13 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG   -I"/Users/sammy/Library/R/x86_64/4.2/library/Rcpp/include/"  -I"/Users/sammy/Library/R/x86_64/4.2/library/RcppEigen/include/"  -I"/Users/sammy/Library/R/x86_64/4.2/library/RcppEigen/include/unsupported"  -I"/Library/Frameworks/R.framework/Versions/4.2/Resources/library/BH/include" -I"/Users/sammy/Library/R/x86_64/4.2/library/StanHeaders/include/src/"  -I"/Users/sammy/Library/R/x86_64/4.2/library/StanHeaders/include/"  -I"/Users/sammy/Library/R/x86_64/4.2/library/RcppParallel/include/"  -I"/Users/sammy/Library/R/x86_64/4.2/library/rstan/include" -DEIGEN_NO_DEBUG  -DBOOST_DISABLE_ASSERTS  -DBOOST_PENDING_INTEGER_LOG2_HPP  -DSTAN_THREADS  -DUSE_STANC3 -DSTRICT_R_HEADERS  -DBOOST_PHOENIX_NO_VARIADIC_EXPRESSION  -D_HAS_AUTO_PTR_ETC=0  -include '/Users/sammy/Library/R/x86_64/4.2/library/StanHeaders/include/stan/math/prim/fun/Eigen.hpp'  -D_REENTRANT -DRCPP_PARALLEL_USE_TBB=1   -I/usr/local/include   -fPIC  -Wall -g -O2  -c foo.c -o foo.o
-## In file included from <built-in>:1:
-## In file included from /Users/sammy/Library/R/x86_64/4.2/library/StanHeaders/include/stan/math/prim/fun/Eigen.hpp:22:
-## In file included from /Users/sammy/Library/R/x86_64/4.2/library/RcppEigen/include/Eigen/Dense:1:
-## In file included from /Users/sammy/Library/R/x86_64/4.2/library/RcppEigen/include/Eigen/Core:88:
-## /Users/sammy/Library/R/x86_64/4.2/library/RcppEigen/include/Eigen/src/Core/util/Macros.h:628:1: error: unknown type name 'namespace'
-## namespace Eigen {
-## ^
-## /Users/sammy/Library/R/x86_64/4.2/library/RcppEigen/include/Eigen/src/Core/util/Macros.h:628:16: error: expected ';' after top level declarator
-## namespace Eigen {
-##                ^
-##                ;
-## In file included from <built-in>:1:
-## In file included from /Users/sammy/Library/R/x86_64/4.2/library/StanHeaders/include/stan/math/prim/fun/Eigen.hpp:22:
-## In file included from /Users/sammy/Library/R/x86_64/4.2/library/RcppEigen/include/Eigen/Dense:1:
-## /Users/sammy/Library/R/x86_64/4.2/library/RcppEigen/include/Eigen/Core:96:10: fatal error: 'complex' file not found
-## #include <complex>
-##          ^~~~~~~~~
-## 3 errors generated.
-## make: *** [foo.o] Error 1
-```
-
-```
 ## 
 ## SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 1).
 ## Chain 1: 
-## Chain 1: Gradient evaluation took 0.000153 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 1.53 seconds.
+## Chain 1: Gradient evaluation took 7.8e-05 seconds
+## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.78 seconds.
 ## Chain 1: Adjust your expectations accordingly!
 ## Chain 1: 
 ## Chain 1: 
@@ -175,15 +147,15 @@ The model summary we see here is a linear regression for Democratic campaign spe
 ## Chain 1: Iteration: 3800 / 4000 [ 95%]  (Sampling)
 ## Chain 1: Iteration: 4000 / 4000 [100%]  (Sampling)
 ## Chain 1: 
-## Chain 1:  Elapsed Time: 2.183 seconds (Warm-up)
-## Chain 1:                6.798 seconds (Sampling)
-## Chain 1:                8.981 seconds (Total)
+## Chain 1:  Elapsed Time: 1.48 seconds (Warm-up)
+## Chain 1:                5.016 seconds (Sampling)
+## Chain 1:                6.496 seconds (Total)
 ## Chain 1: 
 ## 
 ## SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 2).
 ## Chain 2: 
-## Chain 2: Gradient evaluation took 2.3e-05 seconds
-## Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.23 seconds.
+## Chain 2: Gradient evaluation took 1.9e-05 seconds
+## Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.19 seconds.
 ## Chain 2: Adjust your expectations accordingly!
 ## Chain 2: 
 ## Chain 2: 
@@ -200,15 +172,15 @@ The model summary we see here is a linear regression for Democratic campaign spe
 ## Chain 2: Iteration: 3800 / 4000 [ 95%]  (Sampling)
 ## Chain 2: Iteration: 4000 / 4000 [100%]  (Sampling)
 ## Chain 2: 
-## Chain 2:  Elapsed Time: 2.243 seconds (Warm-up)
-## Chain 2:                5.575 seconds (Sampling)
-## Chain 2:                7.818 seconds (Total)
+## Chain 2:  Elapsed Time: 1.567 seconds (Warm-up)
+## Chain 2:                5.42 seconds (Sampling)
+## Chain 2:                6.987 seconds (Total)
 ## Chain 2: 
 ## 
 ## SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 3).
 ## Chain 3: 
-## Chain 3: Gradient evaluation took 2.3e-05 seconds
-## Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.23 seconds.
+## Chain 3: Gradient evaluation took 1.9e-05 seconds
+## Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.19 seconds.
 ## Chain 3: Adjust your expectations accordingly!
 ## Chain 3: 
 ## Chain 3: 
@@ -225,15 +197,15 @@ The model summary we see here is a linear regression for Democratic campaign spe
 ## Chain 3: Iteration: 3800 / 4000 [ 95%]  (Sampling)
 ## Chain 3: Iteration: 4000 / 4000 [100%]  (Sampling)
 ## Chain 3: 
-## Chain 3:  Elapsed Time: 1.945 seconds (Warm-up)
-## Chain 3:                5.637 seconds (Sampling)
-## Chain 3:                7.582 seconds (Total)
+## Chain 3:  Elapsed Time: 1.55 seconds (Warm-up)
+## Chain 3:                5 seconds (Sampling)
+## Chain 3:                6.55 seconds (Total)
 ## Chain 3: 
 ## 
 ## SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 4).
 ## Chain 4: 
-## Chain 4: Gradient evaluation took 2.3e-05 seconds
-## Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.23 seconds.
+## Chain 4: Gradient evaluation took 1.6e-05 seconds
+## Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.16 seconds.
 ## Chain 4: Adjust your expectations accordingly!
 ## Chain 4: 
 ## Chain 4: 
@@ -250,9 +222,9 @@ The model summary we see here is a linear regression for Democratic campaign spe
 ## Chain 4: Iteration: 3800 / 4000 [ 95%]  (Sampling)
 ## Chain 4: Iteration: 4000 / 4000 [100%]  (Sampling)
 ## Chain 4: 
-## Chain 4:  Elapsed Time: 2.144 seconds (Warm-up)
-## Chain 4:                5.895 seconds (Sampling)
-## Chain 4:                8.039 seconds (Total)
+## Chain 4:  Elapsed Time: 1.576 seconds (Warm-up)
+## Chain 4:                5.131 seconds (Sampling)
+## Chain 4:                6.707 seconds (Total)
 ## Chain 4:
 ```
 
@@ -287,14 +259,14 @@ The model summary we see here is a linear regression for Democratic campaign spe
 ## post-warmup draws per chain=3000, total post-warmup draws=12000.
 ## 
 ##        mean se_mean   sd  2.5%   25%   50%   75% 97.5% n_eff Rhat
-## alpha  9.03    0.02 1.85  5.28  7.78  9.05 10.28 12.61  7708    1
-## beta1  0.88    0.00 0.08  0.72  0.82  0.88  0.94  1.05  5911    1
-## beta2 -0.28    0.00 0.08 -0.43 -0.33 -0.28 -0.23 -0.13  6051    1
-## beta3  0.44    0.00 0.05  0.35  0.41  0.44  0.48  0.54  7354    1
-## beta4 -0.17    0.00 0.04 -0.25 -0.20 -0.18 -0.15 -0.09  8491    1
-## sigma  3.40    0.00 0.17  3.09  3.29  3.40  3.51  3.76  9019    1
+## alpha  8.99    0.02 1.83  5.38  7.77  9.00 10.23 12.51  8237    1
+## beta1  0.88    0.00 0.08  0.72  0.82  0.88  0.93  1.04  6836    1
+## beta2 -0.28    0.00 0.07 -0.43 -0.33 -0.28 -0.23 -0.13  7100    1
+## beta3  0.44    0.00 0.05  0.36  0.41  0.45  0.48  0.53  8160    1
+## beta4 -0.17    0.00 0.04 -0.25 -0.20 -0.17 -0.15 -0.09  8639    1
+## sigma  3.40    0.00 0.17  3.09  3.28  3.39  3.52  3.76  8002    1
 ## 
-## Samples were drawn using NUTS(diag_e) at Tue Oct 15 11:02:36 2024.
+## Samples were drawn using NUTS(diag_e) at Tue Oct 15 11:17:21 2024.
 ## For each parameter, n_eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor on split chains (at 
 ## convergence, Rhat=1).
@@ -302,7 +274,7 @@ The model summary we see here is a linear regression for Democratic campaign spe
 
 Using code provided by Matthew Dardet, I experiment with the use of a Bayesian model as opposed to the frequentist models I have been constructing thus far. In essence, a Bayesian model is one that adjusts its predictions with the addition of new information; in this case, the information we take in is new polling data. If you compare the summary statistics between the frequentist (linear regression) model and the Bayesian model, you cannot find much of a difference between the coefficients (to compare coefficients, go row by row where alpha is the intercept, beta1 is latest_pollav_DEM, etc.). FiveThirtyEight uses Bayesian updating to adjust for changes in the lean of certain polls (see: <https://fivethirtyeight.com/methodology/how-our-polling-averages-work/>). One objection to the use of Bayesian inference is that the reliance on the idea of prior and posterior knowledge obfuscates what we know to be objective and thus makes the analysis drawn from Bayesian models dubious (counterarguments presented and refuted in Andrew Gelman's <http://www.stat.columbia.edu/~gelman/research/published/badbayesmain.pdf>). In light of this, I will use a frequentist model for the rest of this week but continue to play around with Bayesianism.
 
-## Updating Model Predictions
+# Updating Model Predictions
 
 
 ```
@@ -329,7 +301,7 @@ Using code provided by Matthew Dardet, I experiment with the use of a Bayesian m
 |Delaware             |        3|Democrat   |
 |District Of Columbia |        3|Democrat   |
 |Florida              |       30|Republican |
-|Georgia              |       16|Republican |
+|Georgia              |       16|Democrat   |
 |Hawaii               |        4|Democrat   |
 |Idaho                |        4|Republican |
 |Illinois             |       19|Democrat   |
@@ -352,7 +324,7 @@ Using code provided by Matthew Dardet, I experiment with the use of a Bayesian m
 |New Jersey           |       14|Democrat   |
 |New Mexico           |        5|Democrat   |
 |New York             |       28|Democrat   |
-|North Carolina       |       16|Republican |
+|North Carolina       |       16|Democrat   |
 |North Dakota         |        3|Republican |
 |Ohio                 |       17|Republican |
 |Oklahoma             |        7|Republican |
@@ -375,8 +347,8 @@ Using code provided by Matthew Dardet, I experiment with the use of a Bayesian m
 
 |winner     | electoral_votes|
 |:----------|---------------:|
-|Democrat   |             273|
-|Republican |             265|
+|Democrat   |             305|
+|Republican |             233|
 
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-9-1.png" width="672" />
 
@@ -384,13 +356,13 @@ To update this week's model, I involved campaign expenditure data alongside econ
 
 I, then, regularize the model, using LASSO which is a machine learning model that selects relevant features and neutralizes features that are not. This was helpful to making election results appear more realistic. The final results of this model show an incredibly close race with Harris winning over Trump by just 8 electoral votes. The model forecasts that Trump will take Arizona, Georgia, and North Carolina while Harris takes Pennsylvania, Nevada, and Michigan. This presents a pretty even split among swing states between the two candidates.
 
-## Conclusion
+# Conclusion
 
 **According to this week's models, Harris will win the 2024 Presidential Election, taking 273 electoral votes.**
 
 In comparison to last week's model, this week presents a much closer race between Harris and Trump, which I believe will be the case. I made an effort to regularize my model this week, which I did not last week, and I think that is mainly why this week's model presents a much much tighter margin. I will continue to regualarize my models going forward as a result. The involvement of campaign expenditure seems to advantage Democrats in this race, which would make sense considering Harris has raked in \$1 billion since entering the race (Goldmacher & Haberman).
 
-## Sources
+# Sources
 
 Goldmacher, Shane and Maggie Haberman. "Harris Raises \$1 Billion, Cementing Status as Fundraising Powerhouse." *The New York Times*, 9 Oct. 2024, www.nytimes.com/2024/10/09/us/politics/harris-billion-dollar-fundraising.html.
 

@@ -24,14 +24,14 @@ We are now less than a month away from election day! It means a lot that you’v
   <meta property="og:type" content="article">
     <meta property="article:section" content="post">
     <meta property="article:published_time" content="2024-10-12T00:00:00+00:00">
-    <meta property="article:modified_time" content="2024-10-15T10:51:19-04:00">
+    <meta property="article:modified_time" content="2024-10-15T11:12:59-04:00">
 <title>Week 6: Campaign Expenditure | 2024 Election Blog</title>
 <link rel="manifest" href="/2024election-blog/manifest.json">
 <link rel="icon" href="/2024election-blog/favicon.png" >
 <link rel="canonical" href="https://sduggasani.github.io/2024election-blog/post/2024-10-12-week-6-campaign-spending/">
 <link rel="stylesheet" href="/2024election-blog/book.min.309b7ed028807cdb68d8d61e26d609f48369c098dbf5e4d8c0dcf4cdf49feafc.css" integrity="sha256-MJt&#43;0CiAfNto2NYeJtYJ9INpwJjb9eTYwNz0zfSf6vw=" crossorigin="anonymous">
   <script defer src="/2024election-blog/fuse.min.js"></script>
-  <script defer src="/2024election-blog/en.search.min.0782361bcf7877efb3c46b3244f515be4b2661564aa9a1ca3791f34d2d9609ed.js" integrity="sha256-B4I2G894d&#43;&#43;zxGsyRPUVvksmYVZKqaHKN5HzTS2WCe0=" crossorigin="anonymous"></script>
+  <script defer src="/2024election-blog/en.search.min.b74c86ab5792a2d4c241fd6ebd65d718c4276327f5636c4e2ea9c6e33bbe64b5.js" integrity="sha256-t0yGq1eSotTCQf1uvWXXGMQnYyf1Y2xOLqnG4zu&#43;ZLU=" crossorigin="anonymous"></script>
 
   <script defer src="/2024election-blog/sw.min.f09ccc658cc70834310535c40cbee1514cd65302e6fa168c4ae787519a02cf87.js" integrity="sha256-8JzMZYzHCDQxBTXEDL7hUUzWUwLm&#43;haMSueHUZoCz4c=" crossorigin="anonymous"></script>
 <!--
@@ -176,13 +176,10 @@ https://github.com/alex-shpak/hugo-book
     <li><a href="#week-6-campaign-expenditure"><strong>Week 6: Campaign Expenditure</strong></a></li>
     <li><a href="#campaign-ads-and-messaging">Campaign Ads and Messaging</a></li>
     <li><a href="#campaign-expenditure-model">Campaign Expenditure Model</a></li>
-    <li><a href="#bayesianism">Bayesianism</a>
-      <ul>
-        <li><a href="#updating-model-predictions">Updating Model Predictions</a></li>
-        <li><a href="#conclusion">Conclusion</a></li>
-        <li><a href="#sources">Sources</a></li>
-      </ul>
-    </li>
+    <li><a href="#bayesianism">Bayesianism</a></li>
+    <li><a href="#updating-model-predictions">Updating Model Predictions</a></li>
+    <li><a href="#conclusion">Conclusion</a></li>
+    <li><a href="#sources">Sources</a></li>
   </ul>
 </nav>
 
@@ -305,33 +302,11 @@ https://github.com/alex-shpak/hugo-book
   Bayesianism
   <a class="anchor" href="#bayesianism">#</a>
 </h1>
-<pre tabindex="0"><code>## Trying to compile a simple C file
-</code></pre><pre tabindex="0"><code>## Running /Library/Frameworks/R.framework/Resources/bin/R CMD SHLIB foo.c
-## clang -mmacosx-version-min=10.13 -I&#34;/Library/Frameworks/R.framework/Resources/include&#34; -DNDEBUG   -I&#34;/Users/sammy/Library/R/x86_64/4.2/library/Rcpp/include/&#34;  -I&#34;/Users/sammy/Library/R/x86_64/4.2/library/RcppEigen/include/&#34;  -I&#34;/Users/sammy/Library/R/x86_64/4.2/library/RcppEigen/include/unsupported&#34;  -I&#34;/Library/Frameworks/R.framework/Versions/4.2/Resources/library/BH/include&#34; -I&#34;/Users/sammy/Library/R/x86_64/4.2/library/StanHeaders/include/src/&#34;  -I&#34;/Users/sammy/Library/R/x86_64/4.2/library/StanHeaders/include/&#34;  -I&#34;/Users/sammy/Library/R/x86_64/4.2/library/RcppParallel/include/&#34;  -I&#34;/Users/sammy/Library/R/x86_64/4.2/library/rstan/include&#34; -DEIGEN_NO_DEBUG  -DBOOST_DISABLE_ASSERTS  -DBOOST_PENDING_INTEGER_LOG2_HPP  -DSTAN_THREADS  -DUSE_STANC3 -DSTRICT_R_HEADERS  -DBOOST_PHOENIX_NO_VARIADIC_EXPRESSION  -D_HAS_AUTO_PTR_ETC=0  -include &#39;/Users/sammy/Library/R/x86_64/4.2/library/StanHeaders/include/stan/math/prim/fun/Eigen.hpp&#39;  -D_REENTRANT -DRCPP_PARALLEL_USE_TBB=1   -I/usr/local/include   -fPIC  -Wall -g -O2  -c foo.c -o foo.o
-## In file included from &lt;built-in&gt;:1:
-## In file included from /Users/sammy/Library/R/x86_64/4.2/library/StanHeaders/include/stan/math/prim/fun/Eigen.hpp:22:
-## In file included from /Users/sammy/Library/R/x86_64/4.2/library/RcppEigen/include/Eigen/Dense:1:
-## In file included from /Users/sammy/Library/R/x86_64/4.2/library/RcppEigen/include/Eigen/Core:88:
-## /Users/sammy/Library/R/x86_64/4.2/library/RcppEigen/include/Eigen/src/Core/util/Macros.h:628:1: error: unknown type name &#39;namespace&#39;
-## namespace Eigen {
-## ^
-## /Users/sammy/Library/R/x86_64/4.2/library/RcppEigen/include/Eigen/src/Core/util/Macros.h:628:16: error: expected &#39;;&#39; after top level declarator
-## namespace Eigen {
-##                ^
-##                ;
-## In file included from &lt;built-in&gt;:1:
-## In file included from /Users/sammy/Library/R/x86_64/4.2/library/StanHeaders/include/stan/math/prim/fun/Eigen.hpp:22:
-## In file included from /Users/sammy/Library/R/x86_64/4.2/library/RcppEigen/include/Eigen/Dense:1:
-## /Users/sammy/Library/R/x86_64/4.2/library/RcppEigen/include/Eigen/Core:96:10: fatal error: &#39;complex&#39; file not found
-## #include &lt;complex&gt;
-##          ^~~~~~~~~
-## 3 errors generated.
-## make: *** [foo.o] Error 1
-</code></pre><pre tabindex="0"><code>## 
+<pre tabindex="0"><code>## 
 ## SAMPLING FOR MODEL &#39;anon_model&#39; NOW (CHAIN 1).
 ## Chain 1: 
-## Chain 1: Gradient evaluation took 0.000153 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 1.53 seconds.
+## Chain 1: Gradient evaluation took 7.8e-05 seconds
+## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.78 seconds.
 ## Chain 1: Adjust your expectations accordingly!
 ## Chain 1: 
 ## Chain 1: 
@@ -348,15 +323,15 @@ https://github.com/alex-shpak/hugo-book
 ## Chain 1: Iteration: 3800 / 4000 [ 95%]  (Sampling)
 ## Chain 1: Iteration: 4000 / 4000 [100%]  (Sampling)
 ## Chain 1: 
-## Chain 1:  Elapsed Time: 2.183 seconds (Warm-up)
-## Chain 1:                6.798 seconds (Sampling)
-## Chain 1:                8.981 seconds (Total)
+## Chain 1:  Elapsed Time: 1.48 seconds (Warm-up)
+## Chain 1:                5.016 seconds (Sampling)
+## Chain 1:                6.496 seconds (Total)
 ## Chain 1: 
 ## 
 ## SAMPLING FOR MODEL &#39;anon_model&#39; NOW (CHAIN 2).
 ## Chain 2: 
-## Chain 2: Gradient evaluation took 2.3e-05 seconds
-## Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.23 seconds.
+## Chain 2: Gradient evaluation took 1.9e-05 seconds
+## Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.19 seconds.
 ## Chain 2: Adjust your expectations accordingly!
 ## Chain 2: 
 ## Chain 2: 
@@ -373,15 +348,15 @@ https://github.com/alex-shpak/hugo-book
 ## Chain 2: Iteration: 3800 / 4000 [ 95%]  (Sampling)
 ## Chain 2: Iteration: 4000 / 4000 [100%]  (Sampling)
 ## Chain 2: 
-## Chain 2:  Elapsed Time: 2.243 seconds (Warm-up)
-## Chain 2:                5.575 seconds (Sampling)
-## Chain 2:                7.818 seconds (Total)
+## Chain 2:  Elapsed Time: 1.567 seconds (Warm-up)
+## Chain 2:                5.42 seconds (Sampling)
+## Chain 2:                6.987 seconds (Total)
 ## Chain 2: 
 ## 
 ## SAMPLING FOR MODEL &#39;anon_model&#39; NOW (CHAIN 3).
 ## Chain 3: 
-## Chain 3: Gradient evaluation took 2.3e-05 seconds
-## Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.23 seconds.
+## Chain 3: Gradient evaluation took 1.9e-05 seconds
+## Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.19 seconds.
 ## Chain 3: Adjust your expectations accordingly!
 ## Chain 3: 
 ## Chain 3: 
@@ -398,15 +373,15 @@ https://github.com/alex-shpak/hugo-book
 ## Chain 3: Iteration: 3800 / 4000 [ 95%]  (Sampling)
 ## Chain 3: Iteration: 4000 / 4000 [100%]  (Sampling)
 ## Chain 3: 
-## Chain 3:  Elapsed Time: 1.945 seconds (Warm-up)
-## Chain 3:                5.637 seconds (Sampling)
-## Chain 3:                7.582 seconds (Total)
+## Chain 3:  Elapsed Time: 1.55 seconds (Warm-up)
+## Chain 3:                5 seconds (Sampling)
+## Chain 3:                6.55 seconds (Total)
 ## Chain 3: 
 ## 
 ## SAMPLING FOR MODEL &#39;anon_model&#39; NOW (CHAIN 4).
 ## Chain 4: 
-## Chain 4: Gradient evaluation took 2.3e-05 seconds
-## Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.23 seconds.
+## Chain 4: Gradient evaluation took 1.6e-05 seconds
+## Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.16 seconds.
 ## Chain 4: Adjust your expectations accordingly!
 ## Chain 4: 
 ## Chain 4: 
@@ -423,9 +398,9 @@ https://github.com/alex-shpak/hugo-book
 ## Chain 4: Iteration: 3800 / 4000 [ 95%]  (Sampling)
 ## Chain 4: Iteration: 4000 / 4000 [100%]  (Sampling)
 ## Chain 4: 
-## Chain 4:  Elapsed Time: 2.144 seconds (Warm-up)
-## Chain 4:                5.895 seconds (Sampling)
-## Chain 4:                8.039 seconds (Total)
+## Chain 4:  Elapsed Time: 1.576 seconds (Warm-up)
+## Chain 4:                5.131 seconds (Sampling)
+## Chain 4:                6.707 seconds (Total)
 ## Chain 4:
 </code></pre><pre tabindex="0"><code>## 
 ## Call:
@@ -454,24 +429,24 @@ https://github.com/alex-shpak/hugo-book
 ## post-warmup draws per chain=3000, total post-warmup draws=12000.
 ## 
 ##        mean se_mean   sd  2.5%   25%   50%   75% 97.5% n_eff Rhat
-## alpha  9.03    0.02 1.85  5.28  7.78  9.05 10.28 12.61  7708    1
-## beta1  0.88    0.00 0.08  0.72  0.82  0.88  0.94  1.05  5911    1
-## beta2 -0.28    0.00 0.08 -0.43 -0.33 -0.28 -0.23 -0.13  6051    1
-## beta3  0.44    0.00 0.05  0.35  0.41  0.44  0.48  0.54  7354    1
-## beta4 -0.17    0.00 0.04 -0.25 -0.20 -0.18 -0.15 -0.09  8491    1
-## sigma  3.40    0.00 0.17  3.09  3.29  3.40  3.51  3.76  9019    1
+## alpha  8.99    0.02 1.83  5.38  7.77  9.00 10.23 12.51  8237    1
+## beta1  0.88    0.00 0.08  0.72  0.82  0.88  0.93  1.04  6836    1
+## beta2 -0.28    0.00 0.07 -0.43 -0.33 -0.28 -0.23 -0.13  7100    1
+## beta3  0.44    0.00 0.05  0.36  0.41  0.45  0.48  0.53  8160    1
+## beta4 -0.17    0.00 0.04 -0.25 -0.20 -0.17 -0.15 -0.09  8639    1
+## sigma  3.40    0.00 0.17  3.09  3.28  3.39  3.52  3.76  8002    1
 ## 
-## Samples were drawn using NUTS(diag_e) at Tue Oct 15 11:02:36 2024.
+## Samples were drawn using NUTS(diag_e) at Tue Oct 15 11:17:21 2024.
 ## For each parameter, n_eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor on split chains (at 
 ## convergence, Rhat=1).
 </code></pre><p>Using code provided by Matthew Dardet, I experiment with the use of a Bayesian model as opposed to the frequentist models I have been constructing thus far. In essence, a Bayesian model is one that adjusts its predictions with the addition of new information; in this case, the information we take in is new polling data. If you compare the summary statistics between the frequentist (linear regression) model and the Bayesian model, you cannot find much of a difference between the coefficients (to compare coefficients, go row by row where alpha is the intercept, beta1 is latest_pollav_DEM, etc.). FiveThirtyEight uses Bayesian updating to adjust for changes in the lean of certain polls (see: 
   <a href="https://fivethirtyeight.com/methodology/how-our-polling-averages-work/">https://fivethirtyeight.com/methodology/how-our-polling-averages-work/</a>). One objection to the use of Bayesian inference is that the reliance on the idea of prior and posterior knowledge obfuscates what we know to be objective and thus makes the analysis drawn from Bayesian models dubious (counterarguments presented and refuted in Andrew Gelman&rsquo;s 
   <a href="http://www.stat.columbia.edu/~gelman/research/published/badbayesmain.pdf">http://www.stat.columbia.edu/~gelman/research/published/badbayesmain.pdf</a>). In light of this, I will use a frequentist model for the rest of this week but continue to play around with Bayesianism.</p>
-<h2 id="updating-model-predictions">
+<h1 id="updating-model-predictions">
   Updating Model Predictions
   <a class="anchor" href="#updating-model-predictions">#</a>
-</h2>
+</h1>
 <pre tabindex="0"><code>## `summarise()` has grouped output by &#39;state&#39;. You can override using the
 ## `.groups` argument.
 </code></pre><pre tabindex="0"><code>## Warning: Option grouped=FALSE enforced in cv.glmnet, since &lt; 3 observations per
@@ -538,7 +513,7 @@ https://github.com/alex-shpak/hugo-book
       <tr>
           <td style="text-align: left">Georgia</td>
           <td style="text-align: right">16</td>
-          <td style="text-align: left">Republican</td>
+          <td style="text-align: left">Democrat</td>
       </tr>
       <tr>
           <td style="text-align: left">Hawaii</td>
@@ -653,7 +628,7 @@ https://github.com/alex-shpak/hugo-book
       <tr>
           <td style="text-align: left">North Carolina</td>
           <td style="text-align: right">16</td>
-          <td style="text-align: left">Republican</td>
+          <td style="text-align: left">Democrat</td>
       </tr>
       <tr>
           <td style="text-align: left">North Dakota</td>
@@ -752,27 +727,27 @@ https://github.com/alex-shpak/hugo-book
   <tbody>
       <tr>
           <td style="text-align: left">Democrat</td>
-          <td style="text-align: right">273</td>
+          <td style="text-align: right">305</td>
       </tr>
       <tr>
           <td style="text-align: left">Republican</td>
-          <td style="text-align: right">265</td>
+          <td style="text-align: right">233</td>
       </tr>
   </tbody>
 </table>
 <img src="https://sduggasani.github.io/2024election-blog/post/2024-10-12-week-6-campaign-spending/index_files/figure-html/unnamed-chunk-9-1.png" width="672" />
 <p>To update this week&rsquo;s model, I involved campaign expenditure data alongside economic fundamentals and polling data. Campaign expenditure data is taken for Democrats only because the model predicts for Democrats and calculates Republican by subtracting Democratic vote share from 100. The last model individually predicted each party&rsquo;s vote share, which made it difficult to really see who was ahead.</p>
 <p>I, then, regularize the model, using LASSO which is a machine learning model that selects relevant features and neutralizes features that are not. This was helpful to making election results appear more realistic. The final results of this model show an incredibly close race with Harris winning over Trump by just 8 electoral votes. The model forecasts that Trump will take Arizona, Georgia, and North Carolina while Harris takes Pennsylvania, Nevada, and Michigan. This presents a pretty even split among swing states between the two candidates.</p>
-<h2 id="conclusion">
+<h1 id="conclusion">
   Conclusion
   <a class="anchor" href="#conclusion">#</a>
-</h2>
+</h1>
 <p><strong>According to this week&rsquo;s models, Harris will win the 2024 Presidential Election, taking 273 electoral votes.</strong></p>
 <p>In comparison to last week&rsquo;s model, this week presents a much closer race between Harris and Trump, which I believe will be the case. I made an effort to regularize my model this week, which I did not last week, and I think that is mainly why this week&rsquo;s model presents a much much tighter margin. I will continue to regualarize my models going forward as a result. The involvement of campaign expenditure seems to advantage Democrats in this race, which would make sense considering Harris has raked in $1 billion since entering the race (Goldmacher &amp; Haberman).</p>
-<h2 id="sources">
+<h1 id="sources">
   Sources
   <a class="anchor" href="#sources">#</a>
-</h2>
+</h1>
 <p>Goldmacher, Shane and Maggie Haberman. &ldquo;Harris Raises $1 Billion, Cementing Status as Fundraising Powerhouse.&rdquo; <em>The New York Times</em>, 9 Oct. 2024, 
   <a href="https://www.nytimes.com/2024/10/09/us/politics/harris-billion-dollar-fundraising.html">www.nytimes.com/2024/10/09/us/politics/harris-billion-dollar-fundraising.html</a>.</p>
 <p>Gelman, Andrew. <em>Why We (Usually) Don’t Have to Worry About Multiple Comparisons.</em> Columbia University, 
@@ -789,7 +764,7 @@ https://github.com/alex-shpak/hugo-book
   <div class="flex flex-wrap justify-between">
 
 
-  <div><a class="flex align-center" href="https://github.com/alex-shpak/hugo-book/commit/f9131a4bf5d5b95de70a1759c2134518fa4bb8cb" title='Last modified by Sammy Duggasani | October 15, 2024' target="_blank" rel="noopener">
+  <div><a class="flex align-center" href="https://github.com/alex-shpak/hugo-book/commit/82de696a11c550eb2cdea1583294468e44ca8f8b" title='Last modified by Sammy Duggasani | October 15, 2024' target="_blank" rel="noopener">
       <img src="/2024election-blog/svg/calendar.svg" class="book-icon" alt="" />
       <span>October 15, 2024</span>
     </a>
@@ -837,13 +812,10 @@ https://github.com/alex-shpak/hugo-book
     <li><a href="#week-6-campaign-expenditure"><strong>Week 6: Campaign Expenditure</strong></a></li>
     <li><a href="#campaign-ads-and-messaging">Campaign Ads and Messaging</a></li>
     <li><a href="#campaign-expenditure-model">Campaign Expenditure Model</a></li>
-    <li><a href="#bayesianism">Bayesianism</a>
-      <ul>
-        <li><a href="#updating-model-predictions">Updating Model Predictions</a></li>
-        <li><a href="#conclusion">Conclusion</a></li>
-        <li><a href="#sources">Sources</a></li>
-      </ul>
-    </li>
+    <li><a href="#bayesianism">Bayesianism</a></li>
+    <li><a href="#updating-model-predictions">Updating Model Predictions</a></li>
+    <li><a href="#conclusion">Conclusion</a></li>
+    <li><a href="#sources">Sources</a></li>
   </ul>
 </nav>
 
