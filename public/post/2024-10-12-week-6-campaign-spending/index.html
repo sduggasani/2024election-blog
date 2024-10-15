@@ -24,14 +24,14 @@ We are now less than a month away from election day! It means a lot that you’v
   <meta property="og:type" content="article">
     <meta property="article:section" content="post">
     <meta property="article:published_time" content="2024-10-12T00:00:00+00:00">
-    <meta property="article:modified_time" content="2024-10-12T00:00:00+00:00">
+    <meta property="article:modified_time" content="2024-10-15T10:29:21-04:00">
 <title>Week 6: Campaign Expenditure | 2024 Election Blog</title>
 <link rel="manifest" href="/2024election-blog/manifest.json">
 <link rel="icon" href="/2024election-blog/favicon.png" >
 <link rel="canonical" href="https://sduggasani.github.io/2024election-blog/post/2024-10-12-week-6-campaign-spending/">
 <link rel="stylesheet" href="/2024election-blog/book.min.309b7ed028807cdb68d8d61e26d609f48369c098dbf5e4d8c0dcf4cdf49feafc.css" integrity="sha256-MJt&#43;0CiAfNto2NYeJtYJ9INpwJjb9eTYwNz0zfSf6vw=" crossorigin="anonymous">
   <script defer src="/2024election-blog/fuse.min.js"></script>
-  <script defer src="/2024election-blog/en.search.min.d75bda4cb72e552be42dc62454ee293b6d4ea21834cd1c7422163295f8dd0ef6.js" integrity="sha256-11vaTLcuVSvkLcYkVO4pO21Oohg0zRx0IhYylfjdDvY=" crossorigin="anonymous"></script>
+  <script defer src="/2024election-blog/en.search.min.2967da9b4c960cd51461f8506ea290ed8fb758551e03a43d721c6eb6a8e52709.js" integrity="sha256-KWfam0yWDNUUYfhQbqKQ7Y&#43;3WFUeA6Q9chxutqjlJwk=" crossorigin="anonymous"></script>
 
   <script defer src="/2024election-blog/sw.min.f09ccc658cc70834310535c40cbee1514cd65302e6fa168c4ae787519a02cf87.js" integrity="sha256-8JzMZYzHCDQxBTXEDL7hUUzWUwLm&#43;haMSueHUZoCz4c=" crossorigin="anonymous"></script>
 <!--
@@ -207,115 +207,11 @@ https://github.com/alex-shpak/hugo-book
   Campaign Ads and Messaging
   <a class="anchor" href="#campaign-ads-and-messaging">#</a>
 </h1>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e">####--------------------------------------------------------------#</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#### Descriptive statistics on ads and campaign spending over time. -- Code by Matthew Dardet</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">####--------------------------------------------------------------#</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Tone and Political Ads. </span>
-</span></span><span style="display:flex;"><span>ad_tone_party_split <span style="color:#f92672">&lt;-</span> ad_campaigns <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">left_join</span>(ad_creative) <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">group_by</span>(cycle, party) <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">mutate</span>(tot_n<span style="color:#f92672">=</span><span style="color:#a6e22e">n</span>()) <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">ungroup</span>() <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">group_by</span>(cycle, party, ad_tone) <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">summarise</span>(pct<span style="color:#f92672">=</span><span style="color:#a6e22e">n</span>()<span style="color:#f92672">*</span><span style="color:#ae81ff">100</span><span style="color:#f92672">/</span><span style="color:#a6e22e">first</span>(tot_n)) <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">filter</span>(<span style="color:#f92672">!</span><span style="color:#a6e22e">is.na</span>(ad_tone)) <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> cycle, y <span style="color:#f92672">=</span> pct, fill <span style="color:#f92672">=</span> ad_tone, group <span style="color:#f92672">=</span> party)) <span style="color:#f92672">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_bar</span>(stat <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;identity&#34;</span>) <span style="color:#f92672">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">scale_x_continuous</span>(breaks <span style="color:#f92672">=</span> <span style="color:#a6e22e">seq</span>(<span style="color:#ae81ff">2000</span>, <span style="color:#ae81ff">2012</span>, <span style="color:#ae81ff">4</span>)) <span style="color:#f92672">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">ggtitle</span>(<span style="color:#e6db74">&#34;Campaign Ads Aired By Tone&#34;</span>) <span style="color:#f92672">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">scale_fill_manual</span>(values <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;tomato3&#34;</span>,<span style="color:#e6db74">&#34;steelblue3&#34;</span>,<span style="color:#e6db74">&#34;gray&#34;</span>,<span style="color:#e6db74">&#34;forestgreen&#34;</span>,<span style="color:#e6db74">&#34;white&#34;</span>), name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Tone&#34;</span>) <span style="color:#f92672">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">xlab</span>(<span style="color:#e6db74">&#34;&#34;</span>) <span style="color:#f92672">+</span> <span style="color:#a6e22e">ylab</span>(<span style="color:#e6db74">&#34;%&#34;</span>) <span style="color:#f92672">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">facet_wrap</span>(<span style="color:#f92672">~</span> party) <span style="color:#f92672">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">plot_theme</span>()
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># theme(axis.title = element_text(size=20),</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#75715e">#       axis.text = element_text(size=15),</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#75715e">#       strip.text.x = element_text(size = 20)) + </span>
-</span></span><span style="display:flex;"><span>  
-</span></span><span style="display:flex;"><span>ad_tone_party_split
-</span></span></code></pre></div><img src="https://sduggasani.github.io/2024election-blog/post/2024-10-12-week-6-campaign-spending/index_files/figure-html/unnamed-chunk-3-1.png" width="672" />
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e">## The Purpose of Political Ads</span>
-</span></span><span style="display:flex;"><span>ad_campaigns <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">left_join</span>(ad_creative) <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">group_by</span>(cycle, party) <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">mutate</span>(tot_n<span style="color:#f92672">=</span><span style="color:#a6e22e">n</span>()) <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">ungroup</span>() <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">group_by</span>(cycle, party, ad_purpose) <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">summarise</span>(pct<span style="color:#f92672">=</span><span style="color:#a6e22e">n</span>()<span style="color:#f92672">*</span><span style="color:#ae81ff">100</span><span style="color:#f92672">/</span><span style="color:#a6e22e">first</span>(tot_n)) <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">filter</span>(<span style="color:#f92672">!</span><span style="color:#a6e22e">is.na</span>(ad_purpose)) <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">bind_rows</span>( <span style="color:#75715e">##2016 raw data not public yet! This was entered manually</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">data.frame</span>(cycle <span style="color:#f92672">=</span> <span style="color:#ae81ff">2016</span>, ad_purpose <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;personal&#34;</span>, party <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;democrat&#34;</span>, pct <span style="color:#f92672">=</span> <span style="color:#ae81ff">67</span>),
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">data.frame</span>(cycle <span style="color:#f92672">=</span> <span style="color:#ae81ff">2016</span>, ad_purpose <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;policy&#34;</span>, party <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;democrat&#34;</span>, pct <span style="color:#f92672">=</span> <span style="color:#ae81ff">12</span>),
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">data.frame</span>(cycle <span style="color:#f92672">=</span> <span style="color:#ae81ff">2016</span>, ad_purpose <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;both&#34;</span>, party <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;democrat&#34;</span>, pct <span style="color:#f92672">=</span> <span style="color:#ae81ff">21</span>),
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">data.frame</span>(cycle <span style="color:#f92672">=</span> <span style="color:#ae81ff">2016</span>, ad_purpose <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;personal&#34;</span>, party <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;republican&#34;</span>, pct <span style="color:#f92672">=</span> <span style="color:#ae81ff">11</span>),
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">data.frame</span>(cycle <span style="color:#f92672">=</span> <span style="color:#ae81ff">2016</span>, ad_purpose <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;policy&#34;</span>, party <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;republican&#34;</span>, pct <span style="color:#f92672">=</span> <span style="color:#ae81ff">71</span>),
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">data.frame</span>(cycle <span style="color:#f92672">=</span> <span style="color:#ae81ff">2016</span>, ad_purpose <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;both&#34;</span>, party <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;republican&#34;</span>, pct <span style="color:#f92672">=</span> <span style="color:#ae81ff">18</span>)
-</span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> cycle, y <span style="color:#f92672">=</span> pct, fill <span style="color:#f92672">=</span> ad_purpose, group <span style="color:#f92672">=</span> party)) <span style="color:#f92672">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_bar</span>(stat <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;identity&#34;</span>) <span style="color:#f92672">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">scale_x_continuous</span>(breaks <span style="color:#f92672">=</span> <span style="color:#a6e22e">seq</span>(<span style="color:#ae81ff">2000</span>, <span style="color:#ae81ff">2016</span>, <span style="color:#ae81ff">4</span>)) <span style="color:#f92672">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">ggtitle</span>(<span style="color:#e6db74">&#34;Campaign Ads Aired By Purpose&#34;</span>) <span style="color:#f92672">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">scale_fill_manual</span>(values <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;grey&#34;</span>,<span style="color:#e6db74">&#34;tomato3&#34;</span>,<span style="color:#e6db74">&#34;forestgreen&#34;</span>,<span style="color:#e6db74">&#34;black&#34;</span>,<span style="color:#e6db74">&#34;white&#34;</span>), name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Purpose&#34;</span>) <span style="color:#f92672">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">xlab</span>(<span style="color:#e6db74">&#34;&#34;</span>) <span style="color:#f92672">+</span> <span style="color:#a6e22e">ylab</span>(<span style="color:#e6db74">&#34;%&#34;</span>) <span style="color:#f92672">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">facet_wrap</span>(<span style="color:#f92672">~</span> party) <span style="color:#f92672">+</span> <span style="color:#a6e22e">plot_theme</span>()
-</span></span></code></pre></div><img src="https://sduggasani.github.io/2024election-blog/post/2024-10-12-week-6-campaign-spending/index_files/figure-html/unnamed-chunk-3-2.png" width="672" />
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e">## The Elections and Their Issues</span>
-</span></span><span style="display:flex;"><span>top_issues <span style="color:#f92672">&lt;-</span> ad_campaigns <span style="color:#f92672">|&gt;</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">left_join</span>(ad_creative) <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">filter</span>(<span style="color:#f92672">!</span><span style="color:#a6e22e">grepl</span>(<span style="color:#e6db74">&#34;None|Other&#34;</span>, ad_issue)) <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">group_by</span>(cycle, ad_issue) <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">summarise</span>(n<span style="color:#f92672">=</span><span style="color:#a6e22e">n</span>()) <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">top_n</span>(<span style="color:#ae81ff">5</span>, n)
-</span></span></code></pre></div><p>Above, we see a chart presenting the tone of campaign ads by party and by election cycle. We see that across cycles, Democrats tend to not make the majority of their ads with an attacking tone, but in 2004 and 2012, Republicans did just that. Overall, there is no clear trend as to the tone of campaign ads over time, and I would argue that it depends heavily on the candidates running and their style of campaigning.</p>
-<p>We also see a visualization of of the purpose of campaign ads by party and by presidential election year. Most of the time, we see that policy ads are the most common across parties and across cycles, except for ads by Democrats in 2016. Across most election cycles, it seems that Democrats field more personal ads than Republicans, and this difference can be marginal or staggering like it was in 2016.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e">####--------------------------------------------------------------#</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#### Descriptive statistics on ads and campaign spending over time. -- Code by Matthew Dardet</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">####--------------------------------------------------------------#</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Code provided by Matthew Dardet</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">### making each plot in a grid to have its own x-axis (issue name)</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">### is tricky with `facet_wrap`, so we use this package `cowplot`</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">### which allows us to take a list of separate plots and grid them together</span>
-</span></span><span style="display:flex;"><span>plist <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">lapply</span>(<span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">2000</span>,<span style="color:#ae81ff">2004</span>,<span style="color:#ae81ff">2008</span>,<span style="color:#ae81ff">2012</span>), <span style="color:#66d9ef">function</span>(c) {
-</span></span><span style="display:flex;"><span>  top_issues <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">filter</span>(cycle <span style="color:#f92672">==</span> c) <span style="color:#f92672">|&gt;</span> 
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> <span style="color:#a6e22e">reorder</span>(ad_issue, n), y <span style="color:#f92672">=</span> n)) <span style="color:#f92672">+</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">geom_bar</span>(stat <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;identity&#34;</span>) <span style="color:#f92672">+</span> <span style="color:#a6e22e">coord_flip</span>() <span style="color:#f92672">+</span> <span style="color:#a6e22e">plot_theme</span>() <span style="color:#f92672">+</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">xlab</span>(<span style="color:#e6db74">&#34;&#34;</span>) <span style="color:#f92672">+</span> <span style="color:#a6e22e">ylab</span>(<span style="color:#e6db74">&#34;# of Ads Aired&#34;</span>) <span style="color:#f92672">+</span> <span style="color:#a6e22e">ggtitle</span>(<span style="color:#a6e22e">paste</span>(<span style="color:#e6db74">&#34;Top 5 Ad\nIssues in&#34;</span>,c))
-</span></span><span style="display:flex;"><span>  
-</span></span><span style="display:flex;"><span>})
-</span></span><span style="display:flex;"><span>cowplot<span style="color:#f92672">::</span><span style="color:#a6e22e">plot_grid</span>(plotlist <span style="color:#f92672">=</span> plist, nrow <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>, ncol <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>, align <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;hv&#34;</span>)
-</span></span></code></pre></div><img src="https://sduggasani.github.io/2024election-blog/post/2024-10-12-week-6-campaign-spending/index_files/figure-html/unnamed-chunk-4-1.png" width="672" />
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e">## Campaign Ads Aired By Issue and Party: 2000</span>
-</span></span><span style="display:flex;"><span>party_issues2000 <span style="color:#f92672">&lt;-</span> ad_campaigns <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">filter</span>(cycle <span style="color:#f92672">==</span> <span style="color:#ae81ff">2000</span>) <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">left_join</span>(ad_creative) <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">filter</span>(ad_issue <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#34;None&#34;</span>) <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#75715e">## this `group_by` is to get our denominator</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">group_by</span>(ad_issue) <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">mutate</span>(tot_n<span style="color:#f92672">=</span><span style="color:#a6e22e">n</span>()) <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">ungroup</span>() <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#75715e">## this one is get numerator and calculate % by party</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">group_by</span>(ad_issue, party) <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">summarise</span>(p_n<span style="color:#f92672">=</span><span style="color:#a6e22e">n</span>()<span style="color:#f92672">*</span><span style="color:#ae81ff">100</span><span style="color:#f92672">/</span><span style="color:#a6e22e">first</span>(tot_n)) <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">ungroup</span>() <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#75715e">## finally, this one so we can sort the issue names</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#75715e">## by D% of issue ad-share instead of alphabetically</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">group_by</span>(ad_issue) <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">mutate</span>(Dp_n <span style="color:#f92672">=</span> <span style="color:#a6e22e">ifelse</span>(<span style="color:#a6e22e">first</span>(party) <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;democrat&#34;</span>, <span style="color:#a6e22e">first</span>(p_n), <span style="color:#ae81ff">0</span>))
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">ggplot</span>(party_issues2000, <span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> <span style="color:#a6e22e">reorder</span>(ad_issue, Dp_n), y <span style="color:#f92672">=</span> p_n, fill <span style="color:#f92672">=</span> party)) <span style="color:#f92672">+</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_bar</span>(stat <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;identity&#34;</span>) <span style="color:#f92672">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">scale_fill_manual</span>(values <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;steelblue3&#34;</span>, <span style="color:#e6db74">&#34;tomato3&#34;</span>)) <span style="color:#f92672">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">ylab</span>(<span style="color:#e6db74">&#34;% of ads on topic from each party&#34;</span>) <span style="color:#f92672">+</span> <span style="color:#a6e22e">xlab</span>(<span style="color:#e6db74">&#34;Issue&#34;</span>) <span style="color:#f92672">+</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">ggtitle</span>(<span style="color:#e6db74">&#34;Campaign Ads Aired by Topic in 2000&#34;</span>) <span style="color:#f92672">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">coord_flip</span>() <span style="color:#f92672">+</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">plot_theme</span>()
-</span></span></code></pre></div><img src="https://sduggasani.github.io/2024election-blog/post/2024-10-12-week-6-campaign-spending/index_files/figure-html/unnamed-chunk-4-2.png" width="672" />
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e">## Campaign Ads Aired By Issue and Party: 2012</span>
-</span></span><span style="display:flex;"><span>party_issues2012 <span style="color:#f92672">&lt;-</span> ad_campaigns <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">filter</span>(cycle <span style="color:#f92672">==</span> <span style="color:#ae81ff">2012</span>) <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">left_join</span>(ad_creative) <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">filter</span>(ad_issue <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#34;None&#34;</span>) <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">group_by</span>(cycle, ad_issue) <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">mutate</span>(tot_n<span style="color:#f92672">=</span><span style="color:#a6e22e">n</span>()) <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">ungroup</span>() <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">group_by</span>(cycle, ad_issue, party) <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">summarise</span>(p_n<span style="color:#f92672">=</span><span style="color:#a6e22e">n</span>()<span style="color:#f92672">*</span><span style="color:#ae81ff">100</span><span style="color:#f92672">/</span><span style="color:#a6e22e">first</span>(tot_n)) <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">ungroup</span>() <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">group_by</span>(cycle, ad_issue) <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">mutate</span>(Dp_n <span style="color:#f92672">=</span> <span style="color:#a6e22e">ifelse</span>(<span style="color:#a6e22e">first</span>(party) <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;democrat&#34;</span>, <span style="color:#a6e22e">first</span>(p_n), <span style="color:#ae81ff">0</span>))
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">ggplot</span>(party_issues2012, <span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> <span style="color:#a6e22e">reorder</span>(ad_issue, Dp_n), y <span style="color:#f92672">=</span> p_n, fill <span style="color:#f92672">=</span> party)) <span style="color:#f92672">+</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_bar</span>(stat <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;identity&#34;</span>) <span style="color:#f92672">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">scale_fill_manual</span>(values <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;steelblue3&#34;</span>, <span style="color:#e6db74">&#34;tomato3&#34;</span>)) <span style="color:#f92672">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">ylab</span>(<span style="color:#e6db74">&#34;% of ads on topic from each party&#34;</span>) <span style="color:#f92672">+</span> <span style="color:#a6e22e">xlab</span>(<span style="color:#e6db74">&#34;Issue&#34;</span>) <span style="color:#f92672">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">ggtitle</span>(<span style="color:#e6db74">&#34;Campaign Ads Aired by Topic in 2012&#34;</span>) <span style="color:#f92672">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">coord_flip</span>() <span style="color:#f92672">+</span> 
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">plot_theme</span>() 
-</span></span></code></pre></div><img src="https://sduggasani.github.io/2024election-blog/post/2024-10-12-week-6-campaign-spending/index_files/figure-html/unnamed-chunk-4-3.png" width="672" />
-Here, we can take a look at the issues most frequently mentioned in campaign ads across elections from 2000-2012. In addition to there being more ads in general as time goes on, we see a notable changed in the issues that are mentioned in ads between cycles. The one issue that stays across all cycles is taxes and jobs/employment seems pretty sticky as well. 
+<p><img src="https://sduggasani.github.io/2024election-blog/post/2024-10-12-week-6-campaign-spending/index_files/figure-html/unnamed-chunk-3-1.png" width="672" /><img src="https://sduggasani.github.io/2024election-blog/post/2024-10-12-week-6-campaign-spending/index_files/figure-html/unnamed-chunk-3-2.png" width="672" />
+Above, we see a chart presenting the tone of campaign ads by party and by election cycle. We see that across cycles, Democrats tend to not make the majority of their ads with an attacking tone, but in 2004 and 2012, Republicans did just that. Overall, there is no clear trend as to the tone of campaign ads over time, and I would argue that it depends heavily on the candidates running and their style of campaigning.</p>
+<p>We also see a visualization of of the purpose of campaign ads by party and by presidential election year. Most of the time, we see that policy ads are the most common across parties and across cycles, except for ads by Democrats in 2016. Across most election cycles, it seems that Democrats field more personal ads than Republicans, and this difference can be marginal or staggering like it was in 2016.
+<img src="https://sduggasani.github.io/2024election-blog/post/2024-10-12-week-6-campaign-spending/index_files/figure-html/unnamed-chunk-4-1.png" width="672" /><img src="https://sduggasani.github.io/2024election-blog/post/2024-10-12-week-6-campaign-spending/index_files/figure-html/unnamed-chunk-4-2.png" width="672" /><img src="https://sduggasani.github.io/2024election-blog/post/2024-10-12-week-6-campaign-spending/index_files/figure-html/unnamed-chunk-4-3.png" width="672" />
+Here, we can take a look at the issues most frequently mentioned in campaign ads across elections from 2000-2012. In addition to there being more ads in general as time goes on, we see a notable changed in the issues that are mentioned in ads between cycles. The one issue that stays across all cycles is taxes and jobs/employment seems pretty sticky as well.</p>
 <p>Going into the party split for campaign ads for 2000 and 2012, we see notable differences in the topics for which parties choose to air ads. One thing I find interesting is that, in 2000, Democrats did not touch homosexuality as a topic for campaign ads, and Republicans wre the only ones to air ads on the issue, presumably against it. By 2012, more Democratic ads on homosexuality appeared and the name of the issue changed to a split between Moral/Family/Religious values (for which there were more Republican ads) and Homosexuality/Gay &amp; Lesbian Rights.</p>
 <p>Those issues which both parties pretty evenly air ads on are also very similar to the issues observed in the first plot, which shows the most frequently mentioned issues in campaign ads regardless of party and across election cycles. Taxes, healthcare, and deficit are among them.</p>
 <h1 id="campaign-expenditure-model">
@@ -404,12 +300,34 @@ Here, we can take a look at the issues most frequently mentioned in campaign ads
 </tbody>
 </table>
 The model summary we see here is a linear regression for Democratic campaign spending and the Democratic two-party vote share. Model 1 refers to treating campaign expenditure as an unmodified variable while Model 2 applies a log transformation to better understand the relationship between the two variables. We see that, in the context of this linear regression, campaign expenditure for Democrats has a positive impact on their two party vote share. This motivates my inclusion of campaign expenditure data into the model I use to predict the outcome of the 2024 elections.
-# Bayesianism
-<pre tabindex="0"><code>## 
+## Bayesianism
+<pre tabindex="0"><code>## Trying to compile a simple C file
+</code></pre><pre tabindex="0"><code>## Running /Library/Frameworks/R.framework/Resources/bin/R CMD SHLIB foo.c
+## clang -mmacosx-version-min=10.13 -I&#34;/Library/Frameworks/R.framework/Resources/include&#34; -DNDEBUG   -I&#34;/Users/sammy/Library/R/x86_64/4.2/library/Rcpp/include/&#34;  -I&#34;/Users/sammy/Library/R/x86_64/4.2/library/RcppEigen/include/&#34;  -I&#34;/Users/sammy/Library/R/x86_64/4.2/library/RcppEigen/include/unsupported&#34;  -I&#34;/Library/Frameworks/R.framework/Versions/4.2/Resources/library/BH/include&#34; -I&#34;/Users/sammy/Library/R/x86_64/4.2/library/StanHeaders/include/src/&#34;  -I&#34;/Users/sammy/Library/R/x86_64/4.2/library/StanHeaders/include/&#34;  -I&#34;/Users/sammy/Library/R/x86_64/4.2/library/RcppParallel/include/&#34;  -I&#34;/Users/sammy/Library/R/x86_64/4.2/library/rstan/include&#34; -DEIGEN_NO_DEBUG  -DBOOST_DISABLE_ASSERTS  -DBOOST_PENDING_INTEGER_LOG2_HPP  -DSTAN_THREADS  -DUSE_STANC3 -DSTRICT_R_HEADERS  -DBOOST_PHOENIX_NO_VARIADIC_EXPRESSION  -D_HAS_AUTO_PTR_ETC=0  -include &#39;/Users/sammy/Library/R/x86_64/4.2/library/StanHeaders/include/stan/math/prim/fun/Eigen.hpp&#39;  -D_REENTRANT -DRCPP_PARALLEL_USE_TBB=1   -I/usr/local/include   -fPIC  -Wall -g -O2  -c foo.c -o foo.o
+## In file included from &lt;built-in&gt;:1:
+## In file included from /Users/sammy/Library/R/x86_64/4.2/library/StanHeaders/include/stan/math/prim/fun/Eigen.hpp:22:
+## In file included from /Users/sammy/Library/R/x86_64/4.2/library/RcppEigen/include/Eigen/Dense:1:
+## In file included from /Users/sammy/Library/R/x86_64/4.2/library/RcppEigen/include/Eigen/Core:88:
+## /Users/sammy/Library/R/x86_64/4.2/library/RcppEigen/include/Eigen/src/Core/util/Macros.h:628:1: error: unknown type name &#39;namespace&#39;
+## namespace Eigen {
+## ^
+## /Users/sammy/Library/R/x86_64/4.2/library/RcppEigen/include/Eigen/src/Core/util/Macros.h:628:16: error: expected &#39;;&#39; after top level declarator
+## namespace Eigen {
+##                ^
+##                ;
+## In file included from &lt;built-in&gt;:1:
+## In file included from /Users/sammy/Library/R/x86_64/4.2/library/StanHeaders/include/stan/math/prim/fun/Eigen.hpp:22:
+## In file included from /Users/sammy/Library/R/x86_64/4.2/library/RcppEigen/include/Eigen/Dense:1:
+## /Users/sammy/Library/R/x86_64/4.2/library/RcppEigen/include/Eigen/Core:96:10: fatal error: &#39;complex&#39; file not found
+## #include &lt;complex&gt;
+##          ^~~~~~~~~
+## 3 errors generated.
+## make: *** [foo.o] Error 1
+</code></pre><pre tabindex="0"><code>## 
 ## SAMPLING FOR MODEL &#39;anon_model&#39; NOW (CHAIN 1).
 ## Chain 1: 
-## Chain 1: Gradient evaluation took 9e-05 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.9 seconds.
+## Chain 1: Gradient evaluation took 7.7e-05 seconds
+## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.77 seconds.
 ## Chain 1: Adjust your expectations accordingly!
 ## Chain 1: 
 ## Chain 1: 
@@ -426,15 +344,15 @@ The model summary we see here is a linear regression for Democratic campaign spe
 ## Chain 1: Iteration: 3800 / 4000 [ 95%]  (Sampling)
 ## Chain 1: Iteration: 4000 / 4000 [100%]  (Sampling)
 ## Chain 1: 
-## Chain 1:  Elapsed Time: 1.672 seconds (Warm-up)
-## Chain 1:                4.518 seconds (Sampling)
-## Chain 1:                6.19 seconds (Total)
+## Chain 1:  Elapsed Time: 1.955 seconds (Warm-up)
+## Chain 1:                6.354 seconds (Sampling)
+## Chain 1:                8.309 seconds (Total)
 ## Chain 1: 
 ## 
 ## SAMPLING FOR MODEL &#39;anon_model&#39; NOW (CHAIN 2).
 ## Chain 2: 
-## Chain 2: Gradient evaluation took 1.8e-05 seconds
-## Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.18 seconds.
+## Chain 2: Gradient evaluation took 2.3e-05 seconds
+## Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.23 seconds.
 ## Chain 2: Adjust your expectations accordingly!
 ## Chain 2: 
 ## Chain 2: 
@@ -451,15 +369,15 @@ The model summary we see here is a linear regression for Democratic campaign spe
 ## Chain 2: Iteration: 3800 / 4000 [ 95%]  (Sampling)
 ## Chain 2: Iteration: 4000 / 4000 [100%]  (Sampling)
 ## Chain 2: 
-## Chain 2:  Elapsed Time: 1.545 seconds (Warm-up)
-## Chain 2:                4.967 seconds (Sampling)
-## Chain 2:                6.512 seconds (Total)
+## Chain 2:  Elapsed Time: 1.8 seconds (Warm-up)
+## Chain 2:                5.951 seconds (Sampling)
+## Chain 2:                7.751 seconds (Total)
 ## Chain 2: 
 ## 
 ## SAMPLING FOR MODEL &#39;anon_model&#39; NOW (CHAIN 3).
 ## Chain 3: 
-## Chain 3: Gradient evaluation took 2e-05 seconds
-## Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.2 seconds.
+## Chain 3: Gradient evaluation took 2.4e-05 seconds
+## Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.24 seconds.
 ## Chain 3: Adjust your expectations accordingly!
 ## Chain 3: 
 ## Chain 3: 
@@ -476,15 +394,15 @@ The model summary we see here is a linear regression for Democratic campaign spe
 ## Chain 3: Iteration: 3800 / 4000 [ 95%]  (Sampling)
 ## Chain 3: Iteration: 4000 / 4000 [100%]  (Sampling)
 ## Chain 3: 
-## Chain 3:  Elapsed Time: 1.951 seconds (Warm-up)
-## Chain 3:                5.129 seconds (Sampling)
-## Chain 3:                7.08 seconds (Total)
+## Chain 3:  Elapsed Time: 1.874 seconds (Warm-up)
+## Chain 3:                6.099 seconds (Sampling)
+## Chain 3:                7.973 seconds (Total)
 ## Chain 3: 
 ## 
 ## SAMPLING FOR MODEL &#39;anon_model&#39; NOW (CHAIN 4).
 ## Chain 4: 
-## Chain 4: Gradient evaluation took 1.8e-05 seconds
-## Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.18 seconds.
+## Chain 4: Gradient evaluation took 2.5e-05 seconds
+## Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.25 seconds.
 ## Chain 4: Adjust your expectations accordingly!
 ## Chain 4: 
 ## Chain 4: 
@@ -501,9 +419,9 @@ The model summary we see here is a linear regression for Democratic campaign spe
 ## Chain 4: Iteration: 3800 / 4000 [ 95%]  (Sampling)
 ## Chain 4: Iteration: 4000 / 4000 [100%]  (Sampling)
 ## Chain 4: 
-## Chain 4:  Elapsed Time: 1.542 seconds (Warm-up)
-## Chain 4:                4.694 seconds (Sampling)
-## Chain 4:                6.236 seconds (Total)
+## Chain 4:  Elapsed Time: 1.931 seconds (Warm-up)
+## Chain 4:                6.87 seconds (Sampling)
+## Chain 4:                8.801 seconds (Total)
 ## Chain 4:
 </code></pre><pre tabindex="0"><code>## 
 ## Call:
@@ -532,14 +450,14 @@ The model summary we see here is a linear regression for Democratic campaign spe
 ## post-warmup draws per chain=3000, total post-warmup draws=12000.
 ## 
 ##        mean se_mean   sd  2.5%   25%   50%   75% 97.5% n_eff Rhat
-## alpha  9.04    0.02 1.83  5.51  7.80  9.04 10.26 12.63  8582    1
-## beta1  0.88    0.00 0.08  0.72  0.82  0.88  0.93  1.04  5683    1
-## beta2 -0.28    0.00 0.08 -0.43 -0.33 -0.28 -0.23 -0.13  5968    1
-## beta3  0.44    0.00 0.05  0.35  0.41  0.44  0.47  0.53  7606    1
-## beta4 -0.17    0.00 0.04 -0.25 -0.20 -0.17 -0.15 -0.10  8150    1
-## sigma  3.40    0.00 0.17  3.08  3.28  3.39  3.51  3.75  8900    1
+## alpha  9.04    0.02 1.84  5.43  7.81  9.04 10.30 12.65  7569    1
+## beta1  0.88    0.00 0.08  0.72  0.83  0.88  0.93  1.04  5941    1
+## beta2 -0.28    0.00 0.07 -0.42 -0.33 -0.28 -0.23 -0.13  5978    1
+## beta3  0.44    0.00 0.05  0.36  0.41  0.44  0.47  0.54  6957    1
+## beta4 -0.17    0.00 0.04 -0.25 -0.20 -0.17 -0.15 -0.09  7537    1
+## sigma  3.41    0.00 0.17  3.09  3.29  3.40  3.51  3.77  9013    1
 ## 
-## Samples were drawn using NUTS(diag_e) at Tue Oct 15 10:19:22 2024.
+## Samples were drawn using NUTS(diag_e) at Tue Oct 15 10:41:20 2024.
 ## For each parameter, n_eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor on split chains (at 
 ## convergence, Rhat=1).
@@ -616,7 +534,7 @@ The model summary we see here is a linear regression for Democratic campaign spe
       <tr>
           <td style="text-align: left">Georgia</td>
           <td style="text-align: right">16</td>
-          <td style="text-align: left">Republican</td>
+          <td style="text-align: left">Democrat</td>
       </tr>
       <tr>
           <td style="text-align: left">Hawaii</td>
@@ -731,7 +649,7 @@ The model summary we see here is a linear regression for Democratic campaign spe
       <tr>
           <td style="text-align: left">North Carolina</td>
           <td style="text-align: right">16</td>
-          <td style="text-align: left">Republican</td>
+          <td style="text-align: left">Democrat</td>
       </tr>
       <tr>
           <td style="text-align: left">North Dakota</td>
@@ -830,11 +748,11 @@ The model summary we see here is a linear regression for Democratic campaign spe
   <tbody>
       <tr>
           <td style="text-align: left">Democrat</td>
-          <td style="text-align: right">273</td>
+          <td style="text-align: right">305</td>
       </tr>
       <tr>
           <td style="text-align: left">Republican</td>
-          <td style="text-align: right">265</td>
+          <td style="text-align: right">233</td>
       </tr>
   </tbody>
 </table>
@@ -866,6 +784,12 @@ The model summary we see here is a linear regression for Democratic campaign spe
         
   <div class="flex flex-wrap justify-between">
 
+
+  <div><a class="flex align-center" href="https://github.com/alex-shpak/hugo-book/commit/5f18dbb820fb9a16761f7398dd0f712d9f3ab7e9" title='Last modified by Sammy Duggasani | October 15, 2024' target="_blank" rel="noopener">
+      <img src="/2024election-blog/svg/calendar.svg" class="book-icon" alt="" />
+      <span>October 15, 2024</span>
+    </a>
+  </div>
 
 
 

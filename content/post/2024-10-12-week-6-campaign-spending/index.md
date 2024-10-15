@@ -21,138 +21,11 @@ tags: []
 
 
 # Campaign Ads and Messaging
-
-``` r
-####--------------------------------------------------------------#
-#### Descriptive statistics on ads and campaign spending over time. -- Code by Matthew Dardet
-####--------------------------------------------------------------#
-
-# Tone and Political Ads. 
-ad_tone_party_split <- ad_campaigns |>
-  left_join(ad_creative) |>
-  group_by(cycle, party) |> mutate(tot_n=n()) |> ungroup() |>
-  group_by(cycle, party, ad_tone) |> summarise(pct=n()*100/first(tot_n)) |>
-  filter(!is.na(ad_tone)) |>
-  ggplot(aes(x = cycle, y = pct, fill = ad_tone, group = party)) +
-  geom_bar(stat = "identity") +
-  scale_x_continuous(breaks = seq(2000, 2012, 4)) +
-  ggtitle("Campaign Ads Aired By Tone") +
-  scale_fill_manual(values = c("tomato3","steelblue3","gray","forestgreen","white"), name = "Tone") +
-  xlab("") + ylab("%") +
-  facet_wrap(~ party) +
-  plot_theme()
-
-  # theme(axis.title = element_text(size=20),
-  #       axis.text = element_text(size=15),
-  #       strip.text.x = element_text(size = 20)) + 
-  
-ad_tone_party_split
-```
-
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-3-1.png" width="672" />
-
-``` r
-## The Purpose of Political Ads
-ad_campaigns |>
-  left_join(ad_creative) |>
-  group_by(cycle, party) |> mutate(tot_n=n()) |> ungroup() |>
-  group_by(cycle, party, ad_purpose) |> summarise(pct=n()*100/first(tot_n)) |>
-  filter(!is.na(ad_purpose)) |>
-  bind_rows( ##2016 raw data not public yet! This was entered manually
-    data.frame(cycle = 2016, ad_purpose = "personal", party = "democrat", pct = 67),
-    data.frame(cycle = 2016, ad_purpose = "policy", party = "democrat", pct = 12),
-    data.frame(cycle = 2016, ad_purpose = "both", party = "democrat", pct = 21),
-    data.frame(cycle = 2016, ad_purpose = "personal", party = "republican", pct = 11),
-    data.frame(cycle = 2016, ad_purpose = "policy", party = "republican", pct = 71),
-    data.frame(cycle = 2016, ad_purpose = "both", party = "republican", pct = 18)
-  ) |>
-  ggplot(aes(x = cycle, y = pct, fill = ad_purpose, group = party)) +
-  geom_bar(stat = "identity") +
-  scale_x_continuous(breaks = seq(2000, 2016, 4)) +
-  ggtitle("Campaign Ads Aired By Purpose") +
-  scale_fill_manual(values = c("grey","tomato3","forestgreen","black","white"), name = "Purpose") +
-  xlab("") + ylab("%") +
-  facet_wrap(~ party) + plot_theme()
-```
-
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-3-2.png" width="672" />
-
-``` r
-## The Elections and Their Issues
-top_issues <- ad_campaigns |> 
-  left_join(ad_creative) |>
-  filter(!grepl("None|Other", ad_issue)) |>
-  group_by(cycle, ad_issue) |> summarise(n=n()) |> top_n(5, n)
-```
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-3-1.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-3-2.png" width="672" />
 Above, we see a chart presenting the tone of campaign ads by party and by election cycle. We see that across cycles, Democrats tend to not make the majority of their ads with an attacking tone, but in 2004 and 2012, Republicans did just that. Overall, there is no clear trend as to the tone of campaign ads over time, and I would argue that it depends heavily on the candidates running and their style of campaigning.
 
 We also see a visualization of of the purpose of campaign ads by party and by presidential election year. Most of the time, we see that policy ads are the most common across parties and across cycles, except for ads by Democrats in 2016. Across most election cycles, it seems that Democrats field more personal ads than Republicans, and this difference can be marginal or staggering like it was in 2016. 
-
-``` r
-####--------------------------------------------------------------#
-#### Descriptive statistics on ads and campaign spending over time. -- Code by Matthew Dardet
-####--------------------------------------------------------------#
-# Code provided by Matthew Dardet
-### making each plot in a grid to have its own x-axis (issue name)
-### is tricky with `facet_wrap`, so we use this package `cowplot`
-### which allows us to take a list of separate plots and grid them together
-plist <- lapply(c(2000,2004,2008,2012), function(c) {
-  top_issues |> filter(cycle == c) |> 
-    ggplot(aes(x = reorder(ad_issue, n), y = n)) +
-    geom_bar(stat = "identity") + coord_flip() + plot_theme() +
-    xlab("") + ylab("# of Ads Aired") + ggtitle(paste("Top 5 Ad\nIssues in",c))
-  
-})
-cowplot::plot_grid(plotlist = plist, nrow = 2, ncol = 2, align = "hv")
-```
-
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-4-1.png" width="672" />
-
-``` r
-## Campaign Ads Aired By Issue and Party: 2000
-party_issues2000 <- ad_campaigns |>
-  filter(cycle == 2000) |>
-  left_join(ad_creative) |>
-  filter(ad_issue != "None") |>
-  ## this `group_by` is to get our denominator
-  group_by(ad_issue) |> mutate(tot_n=n()) |> ungroup() |>
-  ## this one is get numerator and calculate % by party
-  group_by(ad_issue, party) |> summarise(p_n=n()*100/first(tot_n)) |> ungroup() |>
-  ## finally, this one so we can sort the issue names
-  ## by D% of issue ad-share instead of alphabetically
-  group_by(ad_issue) |> mutate(Dp_n = ifelse(first(party) == "democrat", first(p_n), 0))
-
-ggplot(party_issues2000, aes(x = reorder(ad_issue, Dp_n), y = p_n, fill = party)) + 
-  geom_bar(stat = "identity") +
-  scale_fill_manual(values = c("steelblue3", "tomato3")) +
-  ylab("% of ads on topic from each party") + xlab("Issue") + 
-  ggtitle("Campaign Ads Aired by Topic in 2000") +
-  coord_flip() + 
-  plot_theme()
-```
-
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-4-2.png" width="672" />
-
-``` r
-## Campaign Ads Aired By Issue and Party: 2012
-party_issues2012 <- ad_campaigns |>
-  filter(cycle == 2012) |>
-  left_join(ad_creative) |>
-  filter(ad_issue != "None") |>
-  group_by(cycle, ad_issue) |> mutate(tot_n=n()) |> ungroup() |>
-  group_by(cycle, ad_issue, party) |> summarise(p_n=n()*100/first(tot_n)) |> ungroup() |>
-  group_by(cycle, ad_issue) |> mutate(Dp_n = ifelse(first(party) == "democrat", first(p_n), 0))
-
-ggplot(party_issues2012, aes(x = reorder(ad_issue, Dp_n), y = p_n, fill = party)) + 
-  geom_bar(stat = "identity") +
-  scale_fill_manual(values = c("steelblue3", "tomato3")) +
-  ylab("% of ads on topic from each party") + xlab("Issue") +
-  ggtitle("Campaign Ads Aired by Topic in 2012") +
-  coord_flip() + 
-  plot_theme() 
-```
-
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-4-3.png" width="672" />
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-4-1.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-4-2.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-4-3.png" width="672" />
 Here, we can take a look at the issues most frequently mentioned in campaign ads across elections from 2000-2012. In addition to there being more ads in general as time goes on, we see a notable changed in the issues that are mentioned in ads between cycles. The one issue that stays across all cycles is taxes and jobs/employment seems pretty sticky as well. 
 
 Going into the party split for campaign ads for 2000 and 2012, we see notable differences in the topics for which parties choose to air ads. One thing I find interesting is that, in 2000, Democrats did not touch homosexuality as a topic for campaign ads, and Republicans wre the only ones to air ads on the issue, presumably against it. By 2012, more Democratic ads on homosexuality appeared and the name of the issue changed to a split between Moral/Family/Religious values (for which there were more Republican ads) and Homosexuality/Gay & Lesbian Rights. 
@@ -241,14 +114,42 @@ Those issues which both parties pretty evenly air ads on are also very similar t
 </tbody>
 </table>
 The model summary we see here is a linear regression for Democratic campaign spending and the Democratic two-party vote share. Model 1 refers to treating campaign expenditure as an unmodified variable while Model 2 applies a log transformation to better understand the relationship between the two variables. We see that, in the context of this linear regression, campaign expenditure for Democrats has a positive impact on their two party vote share. This motivates my inclusion of campaign expenditure data into the model I use to predict the outcome of the 2024 elections.
-# Bayesianism
+## Bayesianism
+
+```
+## Trying to compile a simple C file
+```
+
+```
+## Running /Library/Frameworks/R.framework/Resources/bin/R CMD SHLIB foo.c
+## clang -mmacosx-version-min=10.13 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG   -I"/Users/sammy/Library/R/x86_64/4.2/library/Rcpp/include/"  -I"/Users/sammy/Library/R/x86_64/4.2/library/RcppEigen/include/"  -I"/Users/sammy/Library/R/x86_64/4.2/library/RcppEigen/include/unsupported"  -I"/Library/Frameworks/R.framework/Versions/4.2/Resources/library/BH/include" -I"/Users/sammy/Library/R/x86_64/4.2/library/StanHeaders/include/src/"  -I"/Users/sammy/Library/R/x86_64/4.2/library/StanHeaders/include/"  -I"/Users/sammy/Library/R/x86_64/4.2/library/RcppParallel/include/"  -I"/Users/sammy/Library/R/x86_64/4.2/library/rstan/include" -DEIGEN_NO_DEBUG  -DBOOST_DISABLE_ASSERTS  -DBOOST_PENDING_INTEGER_LOG2_HPP  -DSTAN_THREADS  -DUSE_STANC3 -DSTRICT_R_HEADERS  -DBOOST_PHOENIX_NO_VARIADIC_EXPRESSION  -D_HAS_AUTO_PTR_ETC=0  -include '/Users/sammy/Library/R/x86_64/4.2/library/StanHeaders/include/stan/math/prim/fun/Eigen.hpp'  -D_REENTRANT -DRCPP_PARALLEL_USE_TBB=1   -I/usr/local/include   -fPIC  -Wall -g -O2  -c foo.c -o foo.o
+## In file included from <built-in>:1:
+## In file included from /Users/sammy/Library/R/x86_64/4.2/library/StanHeaders/include/stan/math/prim/fun/Eigen.hpp:22:
+## In file included from /Users/sammy/Library/R/x86_64/4.2/library/RcppEigen/include/Eigen/Dense:1:
+## In file included from /Users/sammy/Library/R/x86_64/4.2/library/RcppEigen/include/Eigen/Core:88:
+## /Users/sammy/Library/R/x86_64/4.2/library/RcppEigen/include/Eigen/src/Core/util/Macros.h:628:1: error: unknown type name 'namespace'
+## namespace Eigen {
+## ^
+## /Users/sammy/Library/R/x86_64/4.2/library/RcppEigen/include/Eigen/src/Core/util/Macros.h:628:16: error: expected ';' after top level declarator
+## namespace Eigen {
+##                ^
+##                ;
+## In file included from <built-in>:1:
+## In file included from /Users/sammy/Library/R/x86_64/4.2/library/StanHeaders/include/stan/math/prim/fun/Eigen.hpp:22:
+## In file included from /Users/sammy/Library/R/x86_64/4.2/library/RcppEigen/include/Eigen/Dense:1:
+## /Users/sammy/Library/R/x86_64/4.2/library/RcppEigen/include/Eigen/Core:96:10: fatal error: 'complex' file not found
+## #include <complex>
+##          ^~~~~~~~~
+## 3 errors generated.
+## make: *** [foo.o] Error 1
+```
 
 ```
 ## 
 ## SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 1).
 ## Chain 1: 
-## Chain 1: Gradient evaluation took 9e-05 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.9 seconds.
+## Chain 1: Gradient evaluation took 7.7e-05 seconds
+## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.77 seconds.
 ## Chain 1: Adjust your expectations accordingly!
 ## Chain 1: 
 ## Chain 1: 
@@ -265,15 +166,15 @@ The model summary we see here is a linear regression for Democratic campaign spe
 ## Chain 1: Iteration: 3800 / 4000 [ 95%]  (Sampling)
 ## Chain 1: Iteration: 4000 / 4000 [100%]  (Sampling)
 ## Chain 1: 
-## Chain 1:  Elapsed Time: 1.672 seconds (Warm-up)
-## Chain 1:                4.518 seconds (Sampling)
-## Chain 1:                6.19 seconds (Total)
+## Chain 1:  Elapsed Time: 1.955 seconds (Warm-up)
+## Chain 1:                6.354 seconds (Sampling)
+## Chain 1:                8.309 seconds (Total)
 ## Chain 1: 
 ## 
 ## SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 2).
 ## Chain 2: 
-## Chain 2: Gradient evaluation took 1.8e-05 seconds
-## Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.18 seconds.
+## Chain 2: Gradient evaluation took 2.3e-05 seconds
+## Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.23 seconds.
 ## Chain 2: Adjust your expectations accordingly!
 ## Chain 2: 
 ## Chain 2: 
@@ -290,15 +191,15 @@ The model summary we see here is a linear regression for Democratic campaign spe
 ## Chain 2: Iteration: 3800 / 4000 [ 95%]  (Sampling)
 ## Chain 2: Iteration: 4000 / 4000 [100%]  (Sampling)
 ## Chain 2: 
-## Chain 2:  Elapsed Time: 1.545 seconds (Warm-up)
-## Chain 2:                4.967 seconds (Sampling)
-## Chain 2:                6.512 seconds (Total)
+## Chain 2:  Elapsed Time: 1.8 seconds (Warm-up)
+## Chain 2:                5.951 seconds (Sampling)
+## Chain 2:                7.751 seconds (Total)
 ## Chain 2: 
 ## 
 ## SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 3).
 ## Chain 3: 
-## Chain 3: Gradient evaluation took 2e-05 seconds
-## Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.2 seconds.
+## Chain 3: Gradient evaluation took 2.4e-05 seconds
+## Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.24 seconds.
 ## Chain 3: Adjust your expectations accordingly!
 ## Chain 3: 
 ## Chain 3: 
@@ -315,15 +216,15 @@ The model summary we see here is a linear regression for Democratic campaign spe
 ## Chain 3: Iteration: 3800 / 4000 [ 95%]  (Sampling)
 ## Chain 3: Iteration: 4000 / 4000 [100%]  (Sampling)
 ## Chain 3: 
-## Chain 3:  Elapsed Time: 1.951 seconds (Warm-up)
-## Chain 3:                5.129 seconds (Sampling)
-## Chain 3:                7.08 seconds (Total)
+## Chain 3:  Elapsed Time: 1.874 seconds (Warm-up)
+## Chain 3:                6.099 seconds (Sampling)
+## Chain 3:                7.973 seconds (Total)
 ## Chain 3: 
 ## 
 ## SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 4).
 ## Chain 4: 
-## Chain 4: Gradient evaluation took 1.8e-05 seconds
-## Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.18 seconds.
+## Chain 4: Gradient evaluation took 2.5e-05 seconds
+## Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.25 seconds.
 ## Chain 4: Adjust your expectations accordingly!
 ## Chain 4: 
 ## Chain 4: 
@@ -340,9 +241,9 @@ The model summary we see here is a linear regression for Democratic campaign spe
 ## Chain 4: Iteration: 3800 / 4000 [ 95%]  (Sampling)
 ## Chain 4: Iteration: 4000 / 4000 [100%]  (Sampling)
 ## Chain 4: 
-## Chain 4:  Elapsed Time: 1.542 seconds (Warm-up)
-## Chain 4:                4.694 seconds (Sampling)
-## Chain 4:                6.236 seconds (Total)
+## Chain 4:  Elapsed Time: 1.931 seconds (Warm-up)
+## Chain 4:                6.87 seconds (Sampling)
+## Chain 4:                8.801 seconds (Total)
 ## Chain 4:
 ```
 
@@ -377,14 +278,14 @@ The model summary we see here is a linear regression for Democratic campaign spe
 ## post-warmup draws per chain=3000, total post-warmup draws=12000.
 ## 
 ##        mean se_mean   sd  2.5%   25%   50%   75% 97.5% n_eff Rhat
-## alpha  9.04    0.02 1.83  5.51  7.80  9.04 10.26 12.63  8582    1
-## beta1  0.88    0.00 0.08  0.72  0.82  0.88  0.93  1.04  5683    1
-## beta2 -0.28    0.00 0.08 -0.43 -0.33 -0.28 -0.23 -0.13  5968    1
-## beta3  0.44    0.00 0.05  0.35  0.41  0.44  0.47  0.53  7606    1
-## beta4 -0.17    0.00 0.04 -0.25 -0.20 -0.17 -0.15 -0.10  8150    1
-## sigma  3.40    0.00 0.17  3.08  3.28  3.39  3.51  3.75  8900    1
+## alpha  9.04    0.02 1.84  5.43  7.81  9.04 10.30 12.65  7569    1
+## beta1  0.88    0.00 0.08  0.72  0.83  0.88  0.93  1.04  5941    1
+## beta2 -0.28    0.00 0.07 -0.42 -0.33 -0.28 -0.23 -0.13  5978    1
+## beta3  0.44    0.00 0.05  0.36  0.41  0.44  0.47  0.54  6957    1
+## beta4 -0.17    0.00 0.04 -0.25 -0.20 -0.17 -0.15 -0.09  7537    1
+## sigma  3.41    0.00 0.17  3.09  3.29  3.40  3.51  3.77  9013    1
 ## 
-## Samples were drawn using NUTS(diag_e) at Tue Oct 15 10:19:22 2024.
+## Samples were drawn using NUTS(diag_e) at Tue Oct 15 10:41:20 2024.
 ## For each parameter, n_eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor on split chains (at 
 ## convergence, Rhat=1).
@@ -418,7 +319,7 @@ Using code provided by Matthew Dardet, I experiment with the use of a Bayesian m
 |Delaware             |        3|Democrat   |
 |District Of Columbia |        3|Democrat   |
 |Florida              |       30|Republican |
-|Georgia              |       16|Republican |
+|Georgia              |       16|Democrat   |
 |Hawaii               |        4|Democrat   |
 |Idaho                |        4|Republican |
 |Illinois             |       19|Democrat   |
@@ -441,7 +342,7 @@ Using code provided by Matthew Dardet, I experiment with the use of a Bayesian m
 |New Jersey           |       14|Democrat   |
 |New Mexico           |        5|Democrat   |
 |New York             |       28|Democrat   |
-|North Carolina       |       16|Republican |
+|North Carolina       |       16|Democrat   |
 |North Dakota         |        3|Republican |
 |Ohio                 |       17|Republican |
 |Oklahoma             |        7|Republican |
@@ -464,8 +365,8 @@ Using code provided by Matthew Dardet, I experiment with the use of a Bayesian m
 
 |winner     | electoral_votes|
 |:----------|---------------:|
-|Democrat   |             273|
-|Republican |             265|
+|Democrat   |             305|
+|Republican |             233|
 
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-9-1.png" width="672" />
 

@@ -190,7 +190,7 @@ d_econ <- read_csv("fred_econ.csv", show_col_types = FALSE) |>
 ```
 
 # Campaign Ads and Messaging
-```{r message=FALSE, warning=FALSE}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 ####--------------------------------------------------------------#
 #### Descriptive statistics on ads and campaign spending over time. -- Code by Matthew Dardet
 ####--------------------------------------------------------------#
@@ -245,7 +245,7 @@ top_issues <- ad_campaigns |>
 Above, we see a chart presenting the tone of campaign ads by party and by election cycle. We see that across cycles, Democrats tend to not make the majority of their ads with an attacking tone, but in 2004 and 2012, Republicans did just that. Overall, there is no clear trend as to the tone of campaign ads over time, and I would argue that it depends heavily on the candidates running and their style of campaigning.
 
 We also see a visualization of of the purpose of campaign ads by party and by presidential election year. Most of the time, we see that policy ads are the most common across parties and across cycles, except for ads by Democrats in 2016. Across most election cycles, it seems that Democrats field more personal ads than Republicans, and this difference can be marginal or staggering like it was in 2016. 
-```{r message=FALSE, warning=FALSE}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 ####--------------------------------------------------------------#
 #### Descriptive statistics on ads and campaign spending over time. -- Code by Matthew Dardet
 ####--------------------------------------------------------------#
@@ -346,7 +346,7 @@ modelsummary(models)
  #   data = d_campaign_spending) |> summary()
 ```
 The model summary we see here is a linear regression for Democratic campaign spending and the Democratic two-party vote share. Model 1 refers to treating campaign expenditure as an unmodified variable while Model 2 applies a log transformation to better understand the relationship between the two variables. We see that, in the context of this linear regression, campaign expenditure for Democrats has a positive impact on their two party vote share. This motivates my inclusion of campaign expenditure data into the model I use to predict the outcome of the 2024 elections.
-# Bayesianism
+## Bayesianism
 ```{r echo=FALSE}
 ####--------------------------------------------------------------#
 #### Bayesianism. -- Code Provided by Matthew Dardet
@@ -460,9 +460,9 @@ model {
 } ")
 
 stan.model <- stan_model(model_code = stan.code)
-
-stan.fit <- sampling(stan.model, data = stan.data, chains = 4, iter = 4000, warmup = 1000)
-
+sink("/dev/null")
+stan.fit <- sampling(stan.model, data = stan.data, chains = 4, iter = 4000, warmup = 1000, verbose = FALSE)
+sink()
 # Compare coefficients from frequentist and Bayesian linear regressions. 
 # coef(reg.ols)
 # confint(reg.ols)
