@@ -483,7 +483,7 @@ Using code provided by Matthew Dardet, I experiment with the use of a Bayesian m
 
 # Updating Model Predictions
 
-```{r echo=FALSE}
+```{r cache = TRUE, echo=FALSE}
 ####--------------------------------------------------------------#
 #### Update model
 ####--------------------------------------------------------------#
@@ -627,7 +627,7 @@ CI <- pred.mat |>
   )
 ```
 
-```{r echo=FALSE}
+```{r cache = TRUE, echo=FALSE}
 library(glmnet)
 
 # LASSO regression
@@ -665,7 +665,7 @@ battleground_win_pred <- data.frame(state = predictions$State,
   left_join(d_ec, by = c("state", "year"))
 ```
 
-```{r echo=FALSE}
+```{r cache = TRUE, echo=FALSE}
  # battleground_win_pred
 # Simple expectation of red-blue divide among non-battleground states from First Week
 republican_states <- c("Alabama", "Alaska", "Arkansas", "Florida", "Idaho", "Indiana", 
@@ -714,11 +714,11 @@ d_ec_wide |>
 states_map <- map_data("state")
 
 # Convert state names in your data to lowercase for matching with the map data
-final_dataset <- ec_2024_predicted %>% 
+final_dataset <- ec_2024_predicted |>
   mutate(state = tolower(state))
 
 # Join the map data with your state-level data
-map_data_joined <- states_map %>%
+map_data_joined <- states_map |>
   left_join(final_dataset, by = c("region" = "state"))
 
 # Plot the map, coloring by winner
