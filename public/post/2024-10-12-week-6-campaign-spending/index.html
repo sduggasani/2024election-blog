@@ -24,14 +24,14 @@ We are now less than a month away from election day! It means a lot that you’v
   <meta property="og:type" content="article">
     <meta property="article:section" content="post">
     <meta property="article:published_time" content="2024-10-12T00:00:00+00:00">
-    <meta property="article:modified_time" content="2024-10-15T10:29:21-04:00">
+    <meta property="article:modified_time" content="2024-10-15T10:51:19-04:00">
 <title>Week 6: Campaign Expenditure | 2024 Election Blog</title>
 <link rel="manifest" href="/2024election-blog/manifest.json">
 <link rel="icon" href="/2024election-blog/favicon.png" >
 <link rel="canonical" href="https://sduggasani.github.io/2024election-blog/post/2024-10-12-week-6-campaign-spending/">
 <link rel="stylesheet" href="/2024election-blog/book.min.309b7ed028807cdb68d8d61e26d609f48369c098dbf5e4d8c0dcf4cdf49feafc.css" integrity="sha256-MJt&#43;0CiAfNto2NYeJtYJ9INpwJjb9eTYwNz0zfSf6vw=" crossorigin="anonymous">
   <script defer src="/2024election-blog/fuse.min.js"></script>
-  <script defer src="/2024election-blog/en.search.min.2967da9b4c960cd51461f8506ea290ed8fb758551e03a43d721c6eb6a8e52709.js" integrity="sha256-KWfam0yWDNUUYfhQbqKQ7Y&#43;3WFUeA6Q9chxutqjlJwk=" crossorigin="anonymous"></script>
+  <script defer src="/2024election-blog/en.search.min.0782361bcf7877efb3c46b3244f515be4b2661564aa9a1ca3791f34d2d9609ed.js" integrity="sha256-B4I2G894d&#43;&#43;zxGsyRPUVvksmYVZKqaHKN5HzTS2WCe0=" crossorigin="anonymous"></script>
 
   <script defer src="/2024election-blog/sw.min.f09ccc658cc70834310535c40cbee1514cd65302e6fa168c4ae787519a02cf87.js" integrity="sha256-8JzMZYzHCDQxBTXEDL7hUUzWUwLm&#43;haMSueHUZoCz4c=" crossorigin="anonymous"></script>
 <!--
@@ -175,7 +175,8 @@ https://github.com/alex-shpak/hugo-book
   <ul>
     <li><a href="#week-6-campaign-expenditure"><strong>Week 6: Campaign Expenditure</strong></a></li>
     <li><a href="#campaign-ads-and-messaging">Campaign Ads and Messaging</a></li>
-    <li><a href="#campaign-expenditure-model">Campaign Expenditure Model</a>
+    <li><a href="#campaign-expenditure-model">Campaign Expenditure Model</a></li>
+    <li><a href="#bayesianism">Bayesianism</a>
       <ul>
         <li><a href="#updating-model-predictions">Updating Model Predictions</a></li>
         <li><a href="#conclusion">Conclusion</a></li>
@@ -207,11 +208,11 @@ https://github.com/alex-shpak/hugo-book
   Campaign Ads and Messaging
   <a class="anchor" href="#campaign-ads-and-messaging">#</a>
 </h1>
-<p><img src="https://sduggasani.github.io/2024election-blog/post/2024-10-12-week-6-campaign-spending/index_files/figure-html/unnamed-chunk-3-1.png" width="672" /><img src="https://sduggasani.github.io/2024election-blog/post/2024-10-12-week-6-campaign-spending/index_files/figure-html/unnamed-chunk-3-2.png" width="672" />
-Above, we see a chart presenting the tone of campaign ads by party and by election cycle. We see that across cycles, Democrats tend to not make the majority of their ads with an attacking tone, but in 2004 and 2012, Republicans did just that. Overall, there is no clear trend as to the tone of campaign ads over time, and I would argue that it depends heavily on the candidates running and their style of campaigning.</p>
-<p>We also see a visualization of of the purpose of campaign ads by party and by presidential election year. Most of the time, we see that policy ads are the most common across parties and across cycles, except for ads by Democrats in 2016. Across most election cycles, it seems that Democrats field more personal ads than Republicans, and this difference can be marginal or staggering like it was in 2016.
-<img src="https://sduggasani.github.io/2024election-blog/post/2024-10-12-week-6-campaign-spending/index_files/figure-html/unnamed-chunk-4-1.png" width="672" /><img src="https://sduggasani.github.io/2024election-blog/post/2024-10-12-week-6-campaign-spending/index_files/figure-html/unnamed-chunk-4-2.png" width="672" /><img src="https://sduggasani.github.io/2024election-blog/post/2024-10-12-week-6-campaign-spending/index_files/figure-html/unnamed-chunk-4-3.png" width="672" />
-Here, we can take a look at the issues most frequently mentioned in campaign ads across elections from 2000-2012. In addition to there being more ads in general as time goes on, we see a notable changed in the issues that are mentioned in ads between cycles. The one issue that stays across all cycles is taxes and jobs/employment seems pretty sticky as well.</p>
+<p><img src="https://sduggasani.github.io/2024election-blog/post/2024-10-12-week-6-campaign-spending/index_files/figure-html/unnamed-chunk-3-1.png" width="672" /><img src="https://sduggasani.github.io/2024election-blog/post/2024-10-12-week-6-campaign-spending/index_files/figure-html/unnamed-chunk-3-2.png" width="672" /></p>
+<p>Above, we see a chart presenting the tone of campaign ads by party and by election cycle. We see that across cycles, Democrats tend to not make the majority of their ads with an attacking tone, but in 2004 and 2012, Republicans did just that. Overall, there is no clear trend as to the tone of campaign ads over time, and I would argue that it depends heavily on the candidates running and their style of campaigning.</p>
+<p>We also see a visualization of of the purpose of campaign ads by party and by presidential election year. Most of the time, we see that policy ads are the most common across parties and across cycles, except for ads by Democrats in 2016. Across most election cycles, it seems that Democrats field more personal ads than Republicans, and this difference can be marginal or staggering like it was in 2016.</p>
+<p><img src="https://sduggasani.github.io/2024election-blog/post/2024-10-12-week-6-campaign-spending/index_files/figure-html/unnamed-chunk-4-1.png" width="672" /><img src="https://sduggasani.github.io/2024election-blog/post/2024-10-12-week-6-campaign-spending/index_files/figure-html/unnamed-chunk-4-2.png" width="672" /><img src="https://sduggasani.github.io/2024election-blog/post/2024-10-12-week-6-campaign-spending/index_files/figure-html/unnamed-chunk-4-3.png" width="672" /></p>
+<p>Here, we can take a look at the issues most frequently mentioned in campaign ads across elections from 2000-2012. In addition to there being more ads in general as time goes on, we see a notable changed in the issues that are mentioned in ads between cycles. The one issue that stays across all cycles is taxes and jobs/employment seems pretty sticky as well.</p>
 <p>Going into the party split for campaign ads for 2000 and 2012, we see notable differences in the topics for which parties choose to air ads. One thing I find interesting is that, in 2000, Democrats did not touch homosexuality as a topic for campaign ads, and Republicans wre the only ones to air ads on the issue, presumably against it. By 2012, more Democratic ads on homosexuality appeared and the name of the issue changed to a split between Moral/Family/Religious values (for which there were more Republican ads) and Homosexuality/Gay &amp; Lesbian Rights.</p>
 <p>Those issues which both parties pretty evenly air ads on are also very similar to the issues observed in the first plot, which shows the most frequently mentioned issues in campaign ads regardless of party and across election cycles. Taxes, healthcare, and deficit are among them.</p>
 <h1 id="campaign-expenditure-model">
@@ -299,8 +300,11 @@ Here, we can take a look at the issues most frequently mentioned in campaign ads
   </tr>
 </tbody>
 </table>
-The model summary we see here is a linear regression for Democratic campaign spending and the Democratic two-party vote share. Model 1 refers to treating campaign expenditure as an unmodified variable while Model 2 applies a log transformation to better understand the relationship between the two variables. We see that, in the context of this linear regression, campaign expenditure for Democrats has a positive impact on their two party vote share. This motivates my inclusion of campaign expenditure data into the model I use to predict the outcome of the 2024 elections.
-## Bayesianism
+<p>The model summary we see here is a linear regression for Democratic campaign spending and the Democratic two-party vote share. Model 1 refers to treating campaign expenditure as an unmodified variable while Model 2 applies a log transformation to better understand the relationship between the two variables. We see that, in the context of this linear regression, campaign expenditure for Democrats has a positive impact on their two party vote share. This motivates my inclusion of campaign expenditure data into the model I use to predict the outcome of the 2024 elections.</p>
+<h1 id="bayesianism">
+  Bayesianism
+  <a class="anchor" href="#bayesianism">#</a>
+</h1>
 <pre tabindex="0"><code>## Trying to compile a simple C file
 </code></pre><pre tabindex="0"><code>## Running /Library/Frameworks/R.framework/Resources/bin/R CMD SHLIB foo.c
 ## clang -mmacosx-version-min=10.13 -I&#34;/Library/Frameworks/R.framework/Resources/include&#34; -DNDEBUG   -I&#34;/Users/sammy/Library/R/x86_64/4.2/library/Rcpp/include/&#34;  -I&#34;/Users/sammy/Library/R/x86_64/4.2/library/RcppEigen/include/&#34;  -I&#34;/Users/sammy/Library/R/x86_64/4.2/library/RcppEigen/include/unsupported&#34;  -I&#34;/Library/Frameworks/R.framework/Versions/4.2/Resources/library/BH/include&#34; -I&#34;/Users/sammy/Library/R/x86_64/4.2/library/StanHeaders/include/src/&#34;  -I&#34;/Users/sammy/Library/R/x86_64/4.2/library/StanHeaders/include/&#34;  -I&#34;/Users/sammy/Library/R/x86_64/4.2/library/RcppParallel/include/&#34;  -I&#34;/Users/sammy/Library/R/x86_64/4.2/library/rstan/include&#34; -DEIGEN_NO_DEBUG  -DBOOST_DISABLE_ASSERTS  -DBOOST_PENDING_INTEGER_LOG2_HPP  -DSTAN_THREADS  -DUSE_STANC3 -DSTRICT_R_HEADERS  -DBOOST_PHOENIX_NO_VARIADIC_EXPRESSION  -D_HAS_AUTO_PTR_ETC=0  -include &#39;/Users/sammy/Library/R/x86_64/4.2/library/StanHeaders/include/stan/math/prim/fun/Eigen.hpp&#39;  -D_REENTRANT -DRCPP_PARALLEL_USE_TBB=1   -I/usr/local/include   -fPIC  -Wall -g -O2  -c foo.c -o foo.o
@@ -326,8 +330,8 @@ The model summary we see here is a linear regression for Democratic campaign spe
 </code></pre><pre tabindex="0"><code>## 
 ## SAMPLING FOR MODEL &#39;anon_model&#39; NOW (CHAIN 1).
 ## Chain 1: 
-## Chain 1: Gradient evaluation took 7.7e-05 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.77 seconds.
+## Chain 1: Gradient evaluation took 0.000153 seconds
+## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 1.53 seconds.
 ## Chain 1: Adjust your expectations accordingly!
 ## Chain 1: 
 ## Chain 1: 
@@ -344,9 +348,9 @@ The model summary we see here is a linear regression for Democratic campaign spe
 ## Chain 1: Iteration: 3800 / 4000 [ 95%]  (Sampling)
 ## Chain 1: Iteration: 4000 / 4000 [100%]  (Sampling)
 ## Chain 1: 
-## Chain 1:  Elapsed Time: 1.955 seconds (Warm-up)
-## Chain 1:                6.354 seconds (Sampling)
-## Chain 1:                8.309 seconds (Total)
+## Chain 1:  Elapsed Time: 2.183 seconds (Warm-up)
+## Chain 1:                6.798 seconds (Sampling)
+## Chain 1:                8.981 seconds (Total)
 ## Chain 1: 
 ## 
 ## SAMPLING FOR MODEL &#39;anon_model&#39; NOW (CHAIN 2).
@@ -369,15 +373,15 @@ The model summary we see here is a linear regression for Democratic campaign spe
 ## Chain 2: Iteration: 3800 / 4000 [ 95%]  (Sampling)
 ## Chain 2: Iteration: 4000 / 4000 [100%]  (Sampling)
 ## Chain 2: 
-## Chain 2:  Elapsed Time: 1.8 seconds (Warm-up)
-## Chain 2:                5.951 seconds (Sampling)
-## Chain 2:                7.751 seconds (Total)
+## Chain 2:  Elapsed Time: 2.243 seconds (Warm-up)
+## Chain 2:                5.575 seconds (Sampling)
+## Chain 2:                7.818 seconds (Total)
 ## Chain 2: 
 ## 
 ## SAMPLING FOR MODEL &#39;anon_model&#39; NOW (CHAIN 3).
 ## Chain 3: 
-## Chain 3: Gradient evaluation took 2.4e-05 seconds
-## Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.24 seconds.
+## Chain 3: Gradient evaluation took 2.3e-05 seconds
+## Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.23 seconds.
 ## Chain 3: Adjust your expectations accordingly!
 ## Chain 3: 
 ## Chain 3: 
@@ -394,15 +398,15 @@ The model summary we see here is a linear regression for Democratic campaign spe
 ## Chain 3: Iteration: 3800 / 4000 [ 95%]  (Sampling)
 ## Chain 3: Iteration: 4000 / 4000 [100%]  (Sampling)
 ## Chain 3: 
-## Chain 3:  Elapsed Time: 1.874 seconds (Warm-up)
-## Chain 3:                6.099 seconds (Sampling)
-## Chain 3:                7.973 seconds (Total)
+## Chain 3:  Elapsed Time: 1.945 seconds (Warm-up)
+## Chain 3:                5.637 seconds (Sampling)
+## Chain 3:                7.582 seconds (Total)
 ## Chain 3: 
 ## 
 ## SAMPLING FOR MODEL &#39;anon_model&#39; NOW (CHAIN 4).
 ## Chain 4: 
-## Chain 4: Gradient evaluation took 2.5e-05 seconds
-## Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.25 seconds.
+## Chain 4: Gradient evaluation took 2.3e-05 seconds
+## Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.23 seconds.
 ## Chain 4: Adjust your expectations accordingly!
 ## Chain 4: 
 ## Chain 4: 
@@ -419,9 +423,9 @@ The model summary we see here is a linear regression for Democratic campaign spe
 ## Chain 4: Iteration: 3800 / 4000 [ 95%]  (Sampling)
 ## Chain 4: Iteration: 4000 / 4000 [100%]  (Sampling)
 ## Chain 4: 
-## Chain 4:  Elapsed Time: 1.931 seconds (Warm-up)
-## Chain 4:                6.87 seconds (Sampling)
-## Chain 4:                8.801 seconds (Total)
+## Chain 4:  Elapsed Time: 2.144 seconds (Warm-up)
+## Chain 4:                5.895 seconds (Sampling)
+## Chain 4:                8.039 seconds (Total)
 ## Chain 4:
 </code></pre><pre tabindex="0"><code>## 
 ## Call:
@@ -450,20 +454,20 @@ The model summary we see here is a linear regression for Democratic campaign spe
 ## post-warmup draws per chain=3000, total post-warmup draws=12000.
 ## 
 ##        mean se_mean   sd  2.5%   25%   50%   75% 97.5% n_eff Rhat
-## alpha  9.04    0.02 1.84  5.43  7.81  9.04 10.30 12.65  7569    1
-## beta1  0.88    0.00 0.08  0.72  0.83  0.88  0.93  1.04  5941    1
-## beta2 -0.28    0.00 0.07 -0.42 -0.33 -0.28 -0.23 -0.13  5978    1
-## beta3  0.44    0.00 0.05  0.36  0.41  0.44  0.47  0.54  6957    1
-## beta4 -0.17    0.00 0.04 -0.25 -0.20 -0.17 -0.15 -0.09  7537    1
-## sigma  3.41    0.00 0.17  3.09  3.29  3.40  3.51  3.77  9013    1
+## alpha  9.03    0.02 1.85  5.28  7.78  9.05 10.28 12.61  7708    1
+## beta1  0.88    0.00 0.08  0.72  0.82  0.88  0.94  1.05  5911    1
+## beta2 -0.28    0.00 0.08 -0.43 -0.33 -0.28 -0.23 -0.13  6051    1
+## beta3  0.44    0.00 0.05  0.35  0.41  0.44  0.48  0.54  7354    1
+## beta4 -0.17    0.00 0.04 -0.25 -0.20 -0.18 -0.15 -0.09  8491    1
+## sigma  3.40    0.00 0.17  3.09  3.29  3.40  3.51  3.76  9019    1
 ## 
-## Samples were drawn using NUTS(diag_e) at Tue Oct 15 10:41:20 2024.
+## Samples were drawn using NUTS(diag_e) at Tue Oct 15 11:02:36 2024.
 ## For each parameter, n_eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor on split chains (at 
 ## convergence, Rhat=1).
 </code></pre><p>Using code provided by Matthew Dardet, I experiment with the use of a Bayesian model as opposed to the frequentist models I have been constructing thus far. In essence, a Bayesian model is one that adjusts its predictions with the addition of new information; in this case, the information we take in is new polling data. If you compare the summary statistics between the frequentist (linear regression) model and the Bayesian model, you cannot find much of a difference between the coefficients (to compare coefficients, go row by row where alpha is the intercept, beta1 is latest_pollav_DEM, etc.). FiveThirtyEight uses Bayesian updating to adjust for changes in the lean of certain polls (see: 
-  <a href="https://fivethirtyeight.com/methodology/how-our-polling-averages-work/%29">https://fivethirtyeight.com/methodology/how-our-polling-averages-work/)</a>. One objection to the use of Bayesian inference is that the reliance on the idea of prior and posterior knowledge obfuscates what we know to be objective and thus makes the analysis drawn from Bayesian models dubious (counterarguments presented and refuted in Andrew Gelman&rsquo;s 
-  <a href="http://www.stat.columbia.edu/~gelman/research/published/badbayesmain.pdf%29">http://www.stat.columbia.edu/~gelman/research/published/badbayesmain.pdf)</a>. In light of this, I will use a frequentist model for the rest of this week but continue to play around with Bayesianism.</p>
+  <a href="https://fivethirtyeight.com/methodology/how-our-polling-averages-work/">https://fivethirtyeight.com/methodology/how-our-polling-averages-work/</a>). One objection to the use of Bayesian inference is that the reliance on the idea of prior and posterior knowledge obfuscates what we know to be objective and thus makes the analysis drawn from Bayesian models dubious (counterarguments presented and refuted in Andrew Gelman&rsquo;s 
+  <a href="http://www.stat.columbia.edu/~gelman/research/published/badbayesmain.pdf">http://www.stat.columbia.edu/~gelman/research/published/badbayesmain.pdf</a>). In light of this, I will use a frequentist model for the rest of this week but continue to play around with Bayesianism.</p>
 <h2 id="updating-model-predictions">
   Updating Model Predictions
   <a class="anchor" href="#updating-model-predictions">#</a>
@@ -534,7 +538,7 @@ The model summary we see here is a linear regression for Democratic campaign spe
       <tr>
           <td style="text-align: left">Georgia</td>
           <td style="text-align: right">16</td>
-          <td style="text-align: left">Democrat</td>
+          <td style="text-align: left">Republican</td>
       </tr>
       <tr>
           <td style="text-align: left">Hawaii</td>
@@ -649,7 +653,7 @@ The model summary we see here is a linear regression for Democratic campaign spe
       <tr>
           <td style="text-align: left">North Carolina</td>
           <td style="text-align: right">16</td>
-          <td style="text-align: left">Democrat</td>
+          <td style="text-align: left">Republican</td>
       </tr>
       <tr>
           <td style="text-align: left">North Dakota</td>
@@ -748,11 +752,11 @@ The model summary we see here is a linear regression for Democratic campaign spe
   <tbody>
       <tr>
           <td style="text-align: left">Democrat</td>
-          <td style="text-align: right">305</td>
+          <td style="text-align: right">273</td>
       </tr>
       <tr>
           <td style="text-align: left">Republican</td>
-          <td style="text-align: right">233</td>
+          <td style="text-align: right">265</td>
       </tr>
   </tbody>
 </table>
@@ -772,7 +776,7 @@ The model summary we see here is a linear regression for Democratic campaign spe
 <p>Goldmacher, Shane and Maggie Haberman. &ldquo;Harris Raises $1 Billion, Cementing Status as Fundraising Powerhouse.&rdquo; <em>The New York Times</em>, 9 Oct. 2024, 
   <a href="https://www.nytimes.com/2024/10/09/us/politics/harris-billion-dollar-fundraising.html">www.nytimes.com/2024/10/09/us/politics/harris-billion-dollar-fundraising.html</a>.</p>
 <p>Gelman, Andrew. <em>Why We (Usually) Don’t Have to Worry About Multiple Comparisons.</em> Columbia University, 
-  <a href="https://www.stat.columbia.edu/~gelman/research/published/badbayesmain.pdf">www.stat.columbia.edu/~gelman/research/published/badbayesmain.pdf</a>.</p>
+  <a href="https://www.stat.columbia.edu/">www.stat.columbia.edu/</a>~gelman/research/published/badbayesmain.pdf.</p>
 <p>Morris, G. Elliot &ldquo;How Our Polling Averages Work.&rdquo; <em>FiveThirtyEight</em>, 18 Aug. 2020, fivethirtyeight.com/methodology/how-our-polling-averages-work/.</p>
 <p>Polling Data Provided by GOV 1347: Election Analytics teaching staff (which itself drew from the FiveThirtyEight GitHub)</p>
 <p>Economic Data Provided by GOV 1347: Election Analytics teaching staff (which itself drew from the Burueau of Economic Analysia and Federal Reserve Economic Data)</p>
@@ -785,7 +789,7 @@ The model summary we see here is a linear regression for Democratic campaign spe
   <div class="flex flex-wrap justify-between">
 
 
-  <div><a class="flex align-center" href="https://github.com/alex-shpak/hugo-book/commit/5f18dbb820fb9a16761f7398dd0f712d9f3ab7e9" title='Last modified by Sammy Duggasani | October 15, 2024' target="_blank" rel="noopener">
+  <div><a class="flex align-center" href="https://github.com/alex-shpak/hugo-book/commit/f9131a4bf5d5b95de70a1759c2134518fa4bb8cb" title='Last modified by Sammy Duggasani | October 15, 2024' target="_blank" rel="noopener">
       <img src="/2024election-blog/svg/calendar.svg" class="book-icon" alt="" />
       <span>October 15, 2024</span>
     </a>
@@ -832,7 +836,8 @@ The model summary we see here is a linear regression for Democratic campaign spe
   <ul>
     <li><a href="#week-6-campaign-expenditure"><strong>Week 6: Campaign Expenditure</strong></a></li>
     <li><a href="#campaign-ads-and-messaging">Campaign Ads and Messaging</a></li>
-    <li><a href="#campaign-expenditure-model">Campaign Expenditure Model</a>
+    <li><a href="#campaign-expenditure-model">Campaign Expenditure Model</a></li>
+    <li><a href="#bayesianism">Bayesianism</a>
       <ul>
         <li><a href="#updating-model-predictions">Updating Model Predictions</a></li>
         <li><a href="#conclusion">Conclusion</a></li>

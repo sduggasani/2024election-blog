@@ -21,17 +21,23 @@ tags: []
 
 
 # Campaign Ads and Messaging
+
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-3-1.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-3-2.png" width="672" />
+
 Above, we see a chart presenting the tone of campaign ads by party and by election cycle. We see that across cycles, Democrats tend to not make the majority of their ads with an attacking tone, but in 2004 and 2012, Republicans did just that. Overall, there is no clear trend as to the tone of campaign ads over time, and I would argue that it depends heavily on the candidates running and their style of campaigning.
 
-We also see a visualization of of the purpose of campaign ads by party and by presidential election year. Most of the time, we see that policy ads are the most common across parties and across cycles, except for ads by Democrats in 2016. Across most election cycles, it seems that Democrats field more personal ads than Republicans, and this difference can be marginal or staggering like it was in 2016. 
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-4-1.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-4-2.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-4-3.png" width="672" />
-Here, we can take a look at the issues most frequently mentioned in campaign ads across elections from 2000-2012. In addition to there being more ads in general as time goes on, we see a notable changed in the issues that are mentioned in ads between cycles. The one issue that stays across all cycles is taxes and jobs/employment seems pretty sticky as well. 
+We also see a visualization of of the purpose of campaign ads by party and by presidential election year. Most of the time, we see that policy ads are the most common across parties and across cycles, except for ads by Democrats in 2016. Across most election cycles, it seems that Democrats field more personal ads than Republicans, and this difference can be marginal or staggering like it was in 2016.
 
-Going into the party split for campaign ads for 2000 and 2012, we see notable differences in the topics for which parties choose to air ads. One thing I find interesting is that, in 2000, Democrats did not touch homosexuality as a topic for campaign ads, and Republicans wre the only ones to air ads on the issue, presumably against it. By 2012, more Democratic ads on homosexuality appeared and the name of the issue changed to a split between Moral/Family/Religious values (for which there were more Republican ads) and Homosexuality/Gay & Lesbian Rights. 
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-4-1.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-4-2.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-4-3.png" width="672" />
+
+Here, we can take a look at the issues most frequently mentioned in campaign ads across elections from 2000-2012. In addition to there being more ads in general as time goes on, we see a notable changed in the issues that are mentioned in ads between cycles. The one issue that stays across all cycles is taxes and jobs/employment seems pretty sticky as well.
+
+Going into the party split for campaign ads for 2000 and 2012, we see notable differences in the topics for which parties choose to air ads. One thing I find interesting is that, in 2000, Democrats did not touch homosexuality as a topic for campaign ads, and Republicans wre the only ones to air ads on the issue, presumably against it. By 2012, more Democratic ads on homosexuality appeared and the name of the issue changed to a split between Moral/Family/Religious values (for which there were more Republican ads) and Homosexuality/Gay & Lesbian Rights.
 
 Those issues which both parties pretty evenly air ads on are also very similar to the issues observed in the first plot, which shows the most frequently mentioned issues in campaign ads regardless of party and across election cycles. Taxes, healthcare, and deficit are among them.
+
 # Campaign Expenditure Model
+
 <table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
  <thead>
   <tr>
@@ -113,8 +119,11 @@ Those issues which both parties pretty evenly air ads on are also very similar t
   </tr>
 </tbody>
 </table>
+
 The model summary we see here is a linear regression for Democratic campaign spending and the Democratic two-party vote share. Model 1 refers to treating campaign expenditure as an unmodified variable while Model 2 applies a log transformation to better understand the relationship between the two variables. We see that, in the context of this linear regression, campaign expenditure for Democrats has a positive impact on their two party vote share. This motivates my inclusion of campaign expenditure data into the model I use to predict the outcome of the 2024 elections.
-## Bayesianism
+
+# Bayesianism
+
 
 ```
 ## Trying to compile a simple C file
@@ -148,8 +157,8 @@ The model summary we see here is a linear regression for Democratic campaign spe
 ## 
 ## SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 1).
 ## Chain 1: 
-## Chain 1: Gradient evaluation took 7.7e-05 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.77 seconds.
+## Chain 1: Gradient evaluation took 0.000153 seconds
+## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 1.53 seconds.
 ## Chain 1: Adjust your expectations accordingly!
 ## Chain 1: 
 ## Chain 1: 
@@ -166,9 +175,9 @@ The model summary we see here is a linear regression for Democratic campaign spe
 ## Chain 1: Iteration: 3800 / 4000 [ 95%]  (Sampling)
 ## Chain 1: Iteration: 4000 / 4000 [100%]  (Sampling)
 ## Chain 1: 
-## Chain 1:  Elapsed Time: 1.955 seconds (Warm-up)
-## Chain 1:                6.354 seconds (Sampling)
-## Chain 1:                8.309 seconds (Total)
+## Chain 1:  Elapsed Time: 2.183 seconds (Warm-up)
+## Chain 1:                6.798 seconds (Sampling)
+## Chain 1:                8.981 seconds (Total)
 ## Chain 1: 
 ## 
 ## SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 2).
@@ -191,15 +200,15 @@ The model summary we see here is a linear regression for Democratic campaign spe
 ## Chain 2: Iteration: 3800 / 4000 [ 95%]  (Sampling)
 ## Chain 2: Iteration: 4000 / 4000 [100%]  (Sampling)
 ## Chain 2: 
-## Chain 2:  Elapsed Time: 1.8 seconds (Warm-up)
-## Chain 2:                5.951 seconds (Sampling)
-## Chain 2:                7.751 seconds (Total)
+## Chain 2:  Elapsed Time: 2.243 seconds (Warm-up)
+## Chain 2:                5.575 seconds (Sampling)
+## Chain 2:                7.818 seconds (Total)
 ## Chain 2: 
 ## 
 ## SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 3).
 ## Chain 3: 
-## Chain 3: Gradient evaluation took 2.4e-05 seconds
-## Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.24 seconds.
+## Chain 3: Gradient evaluation took 2.3e-05 seconds
+## Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.23 seconds.
 ## Chain 3: Adjust your expectations accordingly!
 ## Chain 3: 
 ## Chain 3: 
@@ -216,15 +225,15 @@ The model summary we see here is a linear regression for Democratic campaign spe
 ## Chain 3: Iteration: 3800 / 4000 [ 95%]  (Sampling)
 ## Chain 3: Iteration: 4000 / 4000 [100%]  (Sampling)
 ## Chain 3: 
-## Chain 3:  Elapsed Time: 1.874 seconds (Warm-up)
-## Chain 3:                6.099 seconds (Sampling)
-## Chain 3:                7.973 seconds (Total)
+## Chain 3:  Elapsed Time: 1.945 seconds (Warm-up)
+## Chain 3:                5.637 seconds (Sampling)
+## Chain 3:                7.582 seconds (Total)
 ## Chain 3: 
 ## 
 ## SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 4).
 ## Chain 4: 
-## Chain 4: Gradient evaluation took 2.5e-05 seconds
-## Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.25 seconds.
+## Chain 4: Gradient evaluation took 2.3e-05 seconds
+## Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.23 seconds.
 ## Chain 4: Adjust your expectations accordingly!
 ## Chain 4: 
 ## Chain 4: 
@@ -241,9 +250,9 @@ The model summary we see here is a linear regression for Democratic campaign spe
 ## Chain 4: Iteration: 3800 / 4000 [ 95%]  (Sampling)
 ## Chain 4: Iteration: 4000 / 4000 [100%]  (Sampling)
 ## Chain 4: 
-## Chain 4:  Elapsed Time: 1.931 seconds (Warm-up)
-## Chain 4:                6.87 seconds (Sampling)
-## Chain 4:                8.801 seconds (Total)
+## Chain 4:  Elapsed Time: 2.144 seconds (Warm-up)
+## Chain 4:                5.895 seconds (Sampling)
+## Chain 4:                8.039 seconds (Total)
 ## Chain 4:
 ```
 
@@ -278,22 +287,23 @@ The model summary we see here is a linear regression for Democratic campaign spe
 ## post-warmup draws per chain=3000, total post-warmup draws=12000.
 ## 
 ##        mean se_mean   sd  2.5%   25%   50%   75% 97.5% n_eff Rhat
-## alpha  9.04    0.02 1.84  5.43  7.81  9.04 10.30 12.65  7569    1
-## beta1  0.88    0.00 0.08  0.72  0.83  0.88  0.93  1.04  5941    1
-## beta2 -0.28    0.00 0.07 -0.42 -0.33 -0.28 -0.23 -0.13  5978    1
-## beta3  0.44    0.00 0.05  0.36  0.41  0.44  0.47  0.54  6957    1
-## beta4 -0.17    0.00 0.04 -0.25 -0.20 -0.17 -0.15 -0.09  7537    1
-## sigma  3.41    0.00 0.17  3.09  3.29  3.40  3.51  3.77  9013    1
+## alpha  9.03    0.02 1.85  5.28  7.78  9.05 10.28 12.61  7708    1
+## beta1  0.88    0.00 0.08  0.72  0.82  0.88  0.94  1.05  5911    1
+## beta2 -0.28    0.00 0.08 -0.43 -0.33 -0.28 -0.23 -0.13  6051    1
+## beta3  0.44    0.00 0.05  0.35  0.41  0.44  0.48  0.54  7354    1
+## beta4 -0.17    0.00 0.04 -0.25 -0.20 -0.18 -0.15 -0.09  8491    1
+## sigma  3.40    0.00 0.17  3.09  3.29  3.40  3.51  3.76  9019    1
 ## 
-## Samples were drawn using NUTS(diag_e) at Tue Oct 15 10:41:20 2024.
+## Samples were drawn using NUTS(diag_e) at Tue Oct 15 11:02:36 2024.
 ## For each parameter, n_eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor on split chains (at 
 ## convergence, Rhat=1).
 ```
-Using code provided by Matthew Dardet, I experiment with the use of a Bayesian model as opposed to the frequentist models I have been constructing thus far. In essence, a Bayesian model is one that adjusts its predictions with the addition of new information; in this case, the information we take in is new polling data. If you compare the summary statistics between the frequentist (linear regression) model and the Bayesian model, you cannot find much of a difference between the coefficients (to compare coefficients, go row by row where alpha is the intercept, beta1 is latest_pollav_DEM, etc.). FiveThirtyEight uses Bayesian updating to adjust for changes in the lean of certain polls (see: https://fivethirtyeight.com/methodology/how-our-polling-averages-work/). One objection to the use of Bayesian inference is that the reliance on the idea of prior and posterior knowledge obfuscates what we know to be objective and thus makes the analysis drawn from Bayesian models dubious (counterarguments presented and refuted in Andrew Gelman's http://www.stat.columbia.edu/~gelman/research/published/badbayesmain.pdf). In light of this, I will use a frequentist model for the rest of this week but continue to play around with Bayesianism. 
 
+Using code provided by Matthew Dardet, I experiment with the use of a Bayesian model as opposed to the frequentist models I have been constructing thus far. In essence, a Bayesian model is one that adjusts its predictions with the addition of new information; in this case, the information we take in is new polling data. If you compare the summary statistics between the frequentist (linear regression) model and the Bayesian model, you cannot find much of a difference between the coefficients (to compare coefficients, go row by row where alpha is the intercept, beta1 is latest_pollav_DEM, etc.). FiveThirtyEight uses Bayesian updating to adjust for changes in the lean of certain polls (see: <https://fivethirtyeight.com/methodology/how-our-polling-averages-work/>). One objection to the use of Bayesian inference is that the reliance on the idea of prior and posterior knowledge obfuscates what we know to be objective and thus makes the analysis drawn from Bayesian models dubious (counterarguments presented and refuted in Andrew Gelman's <http://www.stat.columbia.edu/~gelman/research/published/badbayesmain.pdf>). In light of this, I will use a frequentist model for the rest of this week but continue to play around with Bayesianism.
 
 ## Updating Model Predictions
+
 
 ```
 ## `summarise()` has grouped output by 'state'. You can override using the
@@ -319,7 +329,7 @@ Using code provided by Matthew Dardet, I experiment with the use of a Bayesian m
 |Delaware             |        3|Democrat   |
 |District Of Columbia |        3|Democrat   |
 |Florida              |       30|Republican |
-|Georgia              |       16|Democrat   |
+|Georgia              |       16|Republican |
 |Hawaii               |        4|Democrat   |
 |Idaho                |        4|Republican |
 |Illinois             |       19|Democrat   |
@@ -342,7 +352,7 @@ Using code provided by Matthew Dardet, I experiment with the use of a Bayesian m
 |New Jersey           |       14|Democrat   |
 |New Mexico           |        5|Democrat   |
 |New York             |       28|Democrat   |
-|North Carolina       |       16|Democrat   |
+|North Carolina       |       16|Republican |
 |North Dakota         |        3|Republican |
 |Ohio                 |       17|Republican |
 |Oklahoma             |        7|Republican |
@@ -365,32 +375,29 @@ Using code provided by Matthew Dardet, I experiment with the use of a Bayesian m
 
 |winner     | electoral_votes|
 |:----------|---------------:|
-|Democrat   |             305|
-|Republican |             233|
+|Democrat   |             273|
+|Republican |             265|
 
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-9-1.png" width="672" />
 
-To update this week's model, I involved campaign expenditure data alongside economic fundamentals and polling data. Campaign expenditure data is taken for Democrats only because the model predicts for Democrats and calculates Republican by subtracting Democratic vote share from 100. The last model individually predicted each party's vote share, which made it difficult to really see who was ahead. 
+To update this week's model, I involved campaign expenditure data alongside economic fundamentals and polling data. Campaign expenditure data is taken for Democrats only because the model predicts for Democrats and calculates Republican by subtracting Democratic vote share from 100. The last model individually predicted each party's vote share, which made it difficult to really see who was ahead.
 
-I, then, regularize the model, using LASSO which is a machine learning model that selects relevant features and neutralizes features that are not. This was helpful to making election results appear more realistic. The final results of this model show an incredibly close race with Harris winning over Trump by just 8 electoral votes. The model forecasts that Trump will take Arizona, Georgia, and North Carolina while Harris takes Pennsylvania, Nevada, and Michigan. This presents a pretty even split among swing states between the two candidates. 
+I, then, regularize the model, using LASSO which is a machine learning model that selects relevant features and neutralizes features that are not. This was helpful to making election results appear more realistic. The final results of this model show an incredibly close race with Harris winning over Trump by just 8 electoral votes. The model forecasts that Trump will take Arizona, Georgia, and North Carolina while Harris takes Pennsylvania, Nevada, and Michigan. This presents a pretty even split among swing states between the two candidates.
 
 ## Conclusion
 
 **According to this week's models, Harris will win the 2024 Presidential Election, taking 273 electoral votes.**
 
-In comparison to last week's model, this week presents a much closer race between Harris and Trump, which I believe will be the case. I made an effort to regularize my model this week, which I did not last week, and I think that is mainly why this week's model presents a much much tighter margin. I will continue to regualarize my models going forward as a result. The involvement of campaign expenditure seems to advantage Democrats in this race, which would make sense considering Harris has raked in $1 billion since entering the race (Goldmacher & Haberman). 
-
+In comparison to last week's model, this week presents a much closer race between Harris and Trump, which I believe will be the case. I made an effort to regularize my model this week, which I did not last week, and I think that is mainly why this week's model presents a much much tighter margin. I will continue to regualarize my models going forward as a result. The involvement of campaign expenditure seems to advantage Democrats in this race, which would make sense considering Harris has raked in \$1 billion since entering the race (Goldmacher & Haberman).
 
 ## Sources
 
-Goldmacher, Shane and Maggie Haberman. "Harris Raises $1 Billion, Cementing Status as Fundraising Powerhouse." *The New York Times*, 9 Oct. 2024, www.nytimes.com/2024/10/09/us/politics/harris-billion-dollar-fundraising.html.    
+Goldmacher, Shane and Maggie Haberman. "Harris Raises \$1 Billion, Cementing Status as Fundraising Powerhouse." *The New York Times*, 9 Oct. 2024, www.nytimes.com/2024/10/09/us/politics/harris-billion-dollar-fundraising.html.
 
-Gelman, Andrew. *Why We (Usually) Don’t Have to Worry About Multiple Comparisons.* Columbia University, www.stat.columbia.edu/~gelman/research/published/badbayesmain.pdf. 
+Gelman, Andrew. *Why We (Usually) Don’t Have to Worry About Multiple Comparisons.* Columbia University, www.stat.columbia.edu/\~gelman/research/published/badbayesmain.pdf.
 
-Morris, G. Elliot "How Our Polling Averages Work." *FiveThirtyEight*, 18 Aug. 2020, fivethirtyeight.com/methodology/how-our-polling-averages-work/. 
+Morris, G. Elliot "How Our Polling Averages Work." *FiveThirtyEight*, 18 Aug. 2020, fivethirtyeight.com/methodology/how-our-polling-averages-work/.
 
 Polling Data Provided by GOV 1347: Election Analytics teaching staff (which itself drew from the FiveThirtyEight GitHub)
 
 Economic Data Provided by GOV 1347: Election Analytics teaching staff (which itself drew from the Burueau of Economic Analysia and Federal Reserve Economic Data)
-
-
