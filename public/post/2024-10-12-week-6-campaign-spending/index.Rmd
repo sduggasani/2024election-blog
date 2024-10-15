@@ -487,6 +487,7 @@ Using code provided by Matthew Dardet, I experiment with the use of a Bayesian m
 ####--------------------------------------------------------------#
 #### Update model
 ####--------------------------------------------------------------#
+set.seed(02138)
 composite_dataset <- d_pollav_state |>
   left_join(d_econ, by = "year") |>
   left_join(d_popvote |>
@@ -629,7 +630,7 @@ CI <- pred.mat |>
 
 ```{r cache = TRUE, echo=FALSE}
 library(glmnet)
-
+set.seed(02138)
 # LASSO regression
 x_train <- model.matrix(D_pv2p ~ D_pv2p_lag1 + D_pv2p_lag2 + latest_pollav_DEM + mean_pollav_DEM + CPI + GDP_growth_quarterly + contribution_receipt_amount, data = d_train)[, -1]
 y_train <- d_train$D_pv2p
@@ -665,8 +666,8 @@ battleground_win_pred <- data.frame(state = predictions$State,
   left_join(d_ec, by = c("state", "year"))
 ```
 
-```{r cache = TRUE, echo=FALSE}
- # battleground_win_pred
+```{r echo=FALSE, cache=TRUE}
+set.seed(02138)
 # Simple expectation of red-blue divide among non-battleground states from First Week
 republican_states <- c("Alabama", "Alaska", "Arkansas", "Florida", "Idaho", "Indiana", 
                        "Iowa", "Kansas", "Kentucky", "Louisiana", "Mississippi", 
