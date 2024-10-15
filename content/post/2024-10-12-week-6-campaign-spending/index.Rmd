@@ -1,0 +1,751 @@
+---
+title: 'Week 6: Campaign Expenditure'
+author: Sammy Duggasani
+date: '2024-10-12'
+slug: []
+categories: []
+tags: []
+---
+
+# **Week 6: Campaign Expenditure**
+
+**Monday, October 14, 2024**\
+**21 Days until Presidential Election**
+
+*We are now less than a month away from election day! It means a lot that you've followed along this far. Thank you! This week, we will be considering how campaign advertisement expenditure can play a role in election outcomes. In the 2020 Presidential Elections, I remember one day receiving over 20 campaign flyers and virtually the only ads aired on television being political. I thought that, if forecasters could take a metric of campaign mail count in my suburban Atlanta district, they'd probably have a more accurate model. I cannot monitor the ads in Georgia as closely as I did in the last election because I'm in college now, but I hope to at least involve available data on campaign ad expenditure into my model.*
+
+```{r warning=FALSE, include=FALSE}
+####----------------------------------------------------------#
+#### Preamble
+####----------------------------------------------------------#
+
+# Load libraries.
+## install via `install.packages("name")`
+library(car)
+library(caret)
+library(cowplot)
+library(curl)
+library(CVXR)
+library(foreign)
+library(geofacet)
+library(glmnet)
+library(haven)
+library(janitor)
+library(kableExtra)
+library(maps)
+library(mlr3)
+library(randomForest)
+library(ranger)
+library(RColorBrewer)
+library(rstan)
+library(scales)
+library(sf)
+library(shinystan)
+library(tidyverse)
+library(viridis)
+library(modelsummary)
+
+## Import custom themes
+map_theme <- function() {
+  theme(
+    # no border
+    panel.border = element_blank(),
+    # background
+    panel.background = element_rect(fill = "snow2"),
+    # text
+    plot.title = element_text(size = 15, hjust = .5, face = "bold", family = "sans"),
+    plot.subtitle = element_text(size = 13, hjust = .5, family = "sans"),
+    plot.title.position = "panel",
+    axis.text.x = element_text(size = 8, angle = 45, hjust = .5, family = "sans"),
+    axis.text.y = element_text(size = 8, family = "sans"),
+    axis.title.x = element_text(family = "sans"),
+    axis.title.y = element_text(angle = 90, family = "sans"),
+    axis.ticks = element_line(colour = "black"),
+    axis.line = element_line(colour = "grey"),
+    # legend 
+    legend.position = "right",
+    legend.title = element_text(size = 12, family = "sans"),
+    legend.text = element_text(size = 10, family = "sans"),
+    # aspect ratio
+    aspect.ratio = .8
+  )
+}
+plot_date_theme <- function() {
+  theme(
+    # no border
+    panel.border = element_blank(),
+    # background
+    panel.background = element_rect(fill = "snow2"),
+    # text
+    plot.title = element_text(size = 15, hjust = .5, face = "bold", family = "sans"),
+    plot.subtitle = element_text(size = 13, hjust = .5, family = "sans"),
+    plot.title.position = "panel",
+    axis.text.x = element_text(size = 8, family = "sans"),
+    axis.text.y = element_text(size = 8, family = "sans"),
+    axis.title.x = element_text(family = "sans"),
+    axis.title.y = element_text(angle = 90, family = "sans"),
+    axis.ticks = element_line(colour = "black"),
+    axis.line = element_line(colour = "grey"),
+    # legend 
+    legend.position = "right",
+    legend.title = element_text(size = 12, family = "sans"),
+    legend.text = element_text(size = 10, family = "sans"),
+  )
+}
+plot_theme <- function() {
+  theme(
+    # no border
+    panel.border = element_blank(),
+    # background
+    panel.background = element_rect(fill = "snow2"),
+    # text
+    plot.title = element_text(size = 15, hjust = .5, face = "bold", family = "sans"),
+    plot.subtitle = element_text(size = 13, hjust = .5, family = "sans"),
+    plot.title.position = "panel",
+    axis.text.x = element_text(size = 8, family = "sans"),
+    axis.text.y = element_text(size = 8, family = "sans"),
+    axis.title.x = element_text(family = "sans"),
+    axis.title.y = element_text(angle = 90, family = "sans"),
+    axis.ticks = element_line(colour = "black"),
+    axis.line = element_line(colour = "grey"),
+    # legend 
+    legend.position = "right",
+    legend.title = element_text(size = 12, family = "sans"),
+    legend.text = element_text(size = 10, family = "sans"),
+  )
+}
+my_prettier_theme <- function() {
+  theme(
+    # no border
+    panel.border = element_blank(),
+    # background
+    panel.background = element_rect(fill = "snow2"),
+    # text
+    plot.title = element_text(size = 15, hjust = .5, face = "bold", family = "sans"),
+    plot.subtitle = element_text(size = 13, hjust = .5, family = "sans"),
+    plot.title.position = "panel",
+    axis.text.x = element_text(size = 8, angle = 90, hjust = .5, family = "sans"),
+    axis.text.y = element_text(size = 8, family = "sans"),
+    axis.title.x = element_text(family = "sans"),
+    axis.title.y = element_text(angle = 90, family = "sans"),
+    axis.ticks = element_line(colour = "black"),
+    axis.line = element_line(colour = "grey"),
+    # legend 
+    legend.position = "right",
+    legend.title = element_text(size = 12, family = "sans"),
+    legend.text = element_text(size = 10, family = "sans"),
+    # aspect ratio
+    # aspect.ratio = .8
+  )
+}
+```
+
+```{r include=FALSE}
+####-------------------------------------------------------------------#
+#### Read, merge, and process data. -- CODE COURTESY OF MATTHEW DARDET
+####-------------------------------------------------------------------#
+
+# Read popular vote datasets. 
+d_popvote <- read_csv("popvote_1948_2020.csv")
+d_state_popvote <- read_csv("state_popvote_1948_2020.csv")
+
+# Read elector distribution dataset. 
+d_ec <- read_csv("corrected_ec_1948_2024.csv") |>
+  filter(year == "2024")
+
+# Read ads datasets. 
+ad_campaigns <- read_csv("ad_campaigns_2000-2012.csv")
+ad_creative <- read_csv("ad_creative_2000-2012.csv")
+ads_2020 <- read_csv("ads_2020.csv")
+facebook_ads_2020 <- read_csv("facebook_ads_2020.csv")
+facebook_ads_biden_2020 <- read_csv("facebook_ads_biden_2020.csv")
+campaign_spending <- read_csv("FEC_contributions_by_state_2008_2024.csv")
+
+# Read polling data. 
+d_polls <- read_csv("national_polls_1968-2024.csv")
+d_state_polls <- read_csv("state_polls_1968-2024.csv")
+
+# Process state-level polling data. 
+d_pollav_state <- d_state_polls |> 
+  group_by(year, state, party) |>
+  mutate(mean_pollav = mean(poll_support, na.rm = TRUE)) |>
+  top_n(1, poll_date) |> 
+  rename(latest_pollav = poll_support) |>
+  select(-c(weeks_left, days_left, poll_date, candidate, before_convention)) |>
+  pivot_wider(names_from = party, values_from = c(latest_pollav, mean_pollav))
+
+# Read turnout data. 
+d_turnout <- read_csv("state_turnout_1980_2022.csv")
+
+# Read primary turnout data. 
+d_turnout <- read_csv("turnout_1789_2020.csv", show_col_types = FALSE)
+d_state_turnout <- read_csv("state_turnout_1980_2022.csv", show_col_types = FALSE)
+d_state_turnout <- d_state_turnout |> 
+  mutate(vep_turnout = as.numeric(str_remove(vep_turnout, "%"))/100) |> 
+  select(year, state, vep_turnout)
+
+# Read economic data.
+d_econ <- read_csv("fred_econ.csv", show_col_types = FALSE) |> 
+  filter(quarter == 2)
+```
+
+# Campaign Ads and Messaging
+```{r message=FALSE, warning=FALSE}
+####--------------------------------------------------------------#
+#### Descriptive statistics on ads and campaign spending over time. -- Code by Matthew Dardet
+####--------------------------------------------------------------#
+
+# Tone and Political Ads. 
+ad_tone_party_split <- ad_campaigns |>
+  left_join(ad_creative) |>
+  group_by(cycle, party) |> mutate(tot_n=n()) |> ungroup() |>
+  group_by(cycle, party, ad_tone) |> summarise(pct=n()*100/first(tot_n)) |>
+  filter(!is.na(ad_tone)) |>
+  ggplot(aes(x = cycle, y = pct, fill = ad_tone, group = party)) +
+  geom_bar(stat = "identity") +
+  scale_x_continuous(breaks = seq(2000, 2012, 4)) +
+  ggtitle("Campaign Ads Aired By Tone") +
+  scale_fill_manual(values = c("tomato3","steelblue3","gray","forestgreen","white"), name = "Tone") +
+  xlab("") + ylab("%") +
+  facet_wrap(~ party) +
+  plot_theme()
+
+  # theme(axis.title = element_text(size=20),
+  #       axis.text = element_text(size=15),
+  #       strip.text.x = element_text(size = 20)) + 
+  
+ad_tone_party_split
+## The Purpose of Political Ads
+ad_campaigns |>
+  left_join(ad_creative) |>
+  group_by(cycle, party) |> mutate(tot_n=n()) |> ungroup() |>
+  group_by(cycle, party, ad_purpose) |> summarise(pct=n()*100/first(tot_n)) |>
+  filter(!is.na(ad_purpose)) |>
+  bind_rows( ##2016 raw data not public yet! This was entered manually
+    data.frame(cycle = 2016, ad_purpose = "personal", party = "democrat", pct = 67),
+    data.frame(cycle = 2016, ad_purpose = "policy", party = "democrat", pct = 12),
+    data.frame(cycle = 2016, ad_purpose = "both", party = "democrat", pct = 21),
+    data.frame(cycle = 2016, ad_purpose = "personal", party = "republican", pct = 11),
+    data.frame(cycle = 2016, ad_purpose = "policy", party = "republican", pct = 71),
+    data.frame(cycle = 2016, ad_purpose = "both", party = "republican", pct = 18)
+  ) |>
+  ggplot(aes(x = cycle, y = pct, fill = ad_purpose, group = party)) +
+  geom_bar(stat = "identity") +
+  scale_x_continuous(breaks = seq(2000, 2016, 4)) +
+  ggtitle("Campaign Ads Aired By Purpose") +
+  scale_fill_manual(values = c("grey","tomato3","forestgreen","black","white"), name = "Purpose") +
+  xlab("") + ylab("%") +
+  facet_wrap(~ party) + plot_theme()
+## The Elections and Their Issues
+top_issues <- ad_campaigns |> 
+  left_join(ad_creative) |>
+  filter(!grepl("None|Other", ad_issue)) |>
+  group_by(cycle, ad_issue) |> summarise(n=n()) |> top_n(5, n)
+```
+Above, we see a chart presenting the tone of campaign ads by party and by election cycle. We see that across cycles, Democrats tend to not make the majority of their ads with an attacking tone, but in 2004 and 2012, Republicans did just that. Overall, there is no clear trend as to the tone of campaign ads over time, and I would argue that it depends heavily on the candidates running and their style of campaigning.
+
+We also see a visualization of of the purpose of campaign ads by party and by presidential election year. Most of the time, we see that policy ads are the most common across parties and across cycles, except for ads by Democrats in 2016. Across most election cycles, it seems that Democrats field more personal ads than Republicans, and this difference can be marginal or staggering like it was in 2016. 
+```{r message=FALSE, warning=FALSE}
+####--------------------------------------------------------------#
+#### Descriptive statistics on ads and campaign spending over time. -- Code by Matthew Dardet
+####--------------------------------------------------------------#
+# Code provided by Matthew Dardet
+### making each plot in a grid to have its own x-axis (issue name)
+### is tricky with `facet_wrap`, so we use this package `cowplot`
+### which allows us to take a list of separate plots and grid them together
+plist <- lapply(c(2000,2004,2008,2012), function(c) {
+  top_issues |> filter(cycle == c) |> 
+    ggplot(aes(x = reorder(ad_issue, n), y = n)) +
+    geom_bar(stat = "identity") + coord_flip() + plot_theme() +
+    xlab("") + ylab("# of Ads Aired") + ggtitle(paste("Top 5 Ad\nIssues in",c))
+  
+})
+cowplot::plot_grid(plotlist = plist, nrow = 2, ncol = 2, align = "hv")
+
+## Campaign Ads Aired By Issue and Party: 2000
+party_issues2000 <- ad_campaigns |>
+  filter(cycle == 2000) |>
+  left_join(ad_creative) |>
+  filter(ad_issue != "None") |>
+  ## this `group_by` is to get our denominator
+  group_by(ad_issue) |> mutate(tot_n=n()) |> ungroup() |>
+  ## this one is get numerator and calculate % by party
+  group_by(ad_issue, party) |> summarise(p_n=n()*100/first(tot_n)) |> ungroup() |>
+  ## finally, this one so we can sort the issue names
+  ## by D% of issue ad-share instead of alphabetically
+  group_by(ad_issue) |> mutate(Dp_n = ifelse(first(party) == "democrat", first(p_n), 0))
+
+ggplot(party_issues2000, aes(x = reorder(ad_issue, Dp_n), y = p_n, fill = party)) + 
+  geom_bar(stat = "identity") +
+  scale_fill_manual(values = c("steelblue3", "tomato3")) +
+  ylab("% of ads on topic from each party") + xlab("Issue") + 
+  ggtitle("Campaign Ads Aired by Topic in 2000") +
+  coord_flip() + 
+  plot_theme()
+
+## Campaign Ads Aired By Issue and Party: 2012
+party_issues2012 <- ad_campaigns |>
+  filter(cycle == 2012) |>
+  left_join(ad_creative) |>
+  filter(ad_issue != "None") |>
+  group_by(cycle, ad_issue) |> mutate(tot_n=n()) |> ungroup() |>
+  group_by(cycle, ad_issue, party) |> summarise(p_n=n()*100/first(tot_n)) |> ungroup() |>
+  group_by(cycle, ad_issue) |> mutate(Dp_n = ifelse(first(party) == "democrat", first(p_n), 0))
+
+ggplot(party_issues2012, aes(x = reorder(ad_issue, Dp_n), y = p_n, fill = party)) + 
+  geom_bar(stat = "identity") +
+  scale_fill_manual(values = c("steelblue3", "tomato3")) +
+  ylab("% of ads on topic from each party") + xlab("Issue") +
+  ggtitle("Campaign Ads Aired by Topic in 2012") +
+  coord_flip() + 
+  plot_theme() 
+
+```
+Here, we can take a look at the issues most frequently mentioned in campaign ads across elections from 2000-2012. In addition to there being more ads in general as time goes on, we see a notable changed in the issues that are mentioned in ads between cycles. The one issue that stays across all cycles is taxes and jobs/employment seems pretty sticky as well. 
+
+Going into the party split for campaign ads for 2000 and 2012, we see notable differences in the topics for which parties choose to air ads. One thing I find interesting is that, in 2000, Democrats did not touch homosexuality as a topic for campaign ads, and Republicans wre the only ones to air ads on the issue, presumably against it. By 2012, more Democratic ads on homosexuality appeared and the name of the issue changed to a split between Moral/Family/Religious values (for which there were more Republican ads) and Homosexuality/Gay & Lesbian Rights. 
+
+Those issues which both parties pretty evenly air ads on are also very similar to the issues observed in the first plot, which shows the most frequently mentioned issues in campaign ads regardless of party and across election cycles. Taxes, healthcare, and deficit are among them.
+# Campaign Expenditure Model
+```{r echo=FALSE}
+# Code provided by Matthew Dardet
+# Estimate state-level regression of vote share on campaign spending. 
+d_campaign_spending <- d_state_popvote |> 
+  mutate(state_abb = state.abb[match(d_state_popvote$state, state.name)]) |> 
+  left_join(campaign_spending |> filter(party == "Democrat"), by = c("year" = "election_year", "state_abb" = "contribution_state")) |> 
+  filter(year >= 2008)
+# 
+# lm(D_pv ~ contribution_receipt_amount, 
+#    data = d_campaign_spending) |> summary()
+
+cont_model <- lm(D_pv2p ~ contribution_receipt_amount, 
+   data = d_campaign_spending) 
+# 
+# lm(D_pv ~ contribution_receipt_amount + factor(state), 
+#    data = d_campaign_spending) |> summary()
+# 
+# lm(D_pv2p ~ contribution_receipt_amount + factor(state), 
+#    data = d_campaign_spending) |> summary()
+
+
+# Log transformation of spending. 
+# # lm(D_pv ~ log(contribution_receipt_amount), 
+#    data = d_campaign_spending) |> summary()
+
+logcont_model <-  lm(D_pv2p ~ log(contribution_receipt_amount), 
+   data = d_campaign_spending) 
+
+models <- list(cont_model, logcont_model)
+
+modelsummary(models)
+
+# # lm(D_pv ~ log(contribution_receipt_amount) + factor(state), 
+#    data = d_campaign_spending) |> summary()
+
+ # # lm(D_pv2p ~ log(contribution_receipt_amount) + factor(state), 
+ #   data = d_campaign_spending) |> summary()
+```
+The model summary we see here is a linear regression for Democratic campaign spending and the Democratic two-party vote share. Model 1 refers to treating campaign expenditure as an unmodified variable while Model 2 applies a log transformation to better understand the relationship between the two variables. We see that, in the context of this linear regression, campaign expenditure for Democrats has a positive impact on their two party vote share. This motivates my inclusion of campaign expenditure data into the model I use to predict the outcome of the 2024 elections.
+# Bayesianism
+```{r echo=FALSE}
+####--------------------------------------------------------------#
+#### Bayesianism. -- Code Provided by Matthew Dardet
+####--------------------------------------------------------------#
+
+# Process state-level polling data.
+d_pollav_state <- d_state_polls |>
+  group_by(year, state, party) |>
+  mutate(mean_pollav = mean(poll_support, na.rm = TRUE)) |>
+  top_n(1, poll_date) |>
+  rename(latest_pollav = poll_support) |>
+  select(-c(weeks_left, days_left, poll_date, candidate, before_convention)) |>
+  pivot_wider(names_from = party, values_from = c(latest_pollav, mean_pollav))
+
+# Merge data.
+d <- d_pollav_state |>
+  left_join(d_state_popvote, by = c("year", "state")) |>
+  left_join(d_popvote |> filter(party == "democrat"), by = "year") |>
+  #  left_join(d_turnout, by = c("year", "state")) |>
+  filter(year >= 1980) |>
+  ungroup()
+
+# Sequester states for which we have polling data for 2024.
+states.2024 <- unique(d$state[d$year == 2024])
+states.2024 <- states.2024[-which(states.2024 == "Nebraska Cd 2")]
+d <- d |>
+  filter(state %in% states.2024)
+
+# Separate into training and testing for simple poll prediction model. 
+d.train <- d |> filter(year < 2024) |> select(year, state, D_pv2p, latest_pollav_DEM, mean_pollav_DEM, 
+                                              D_pv2p_lag1, D_pv2p_lag2) |> drop_na()
+d.test <- d |> filter(year == 2024) |> select(year, state, D_pv2p, latest_pollav_DEM, mean_pollav_DEM, 
+                                              D_pv2p_lag1, D_pv2p_lag2)
+
+# Add back in lagged vote share for 2024. 
+t <- d |> 
+  filter(year >= 2016) |> 
+  arrange(year) |> 
+  group_by(state) |> 
+  mutate(
+    D_pv2p_lag1 = lag(D_pv2p, 1),
+    R_pv2p_lag1 = lag(R_pv2p, 1), 
+    D_pv2p_lag2 = lag(D_pv2p, 2),
+    R_pv2p_lag2 = lag(R_pv2p, 2)) |> 
+  filter(year == 2024) |> 
+  select(state, year, D_pv2p, R_pv2p, D_pv2p_lag1, R_pv2p_lag1, D_pv2p_lag2, R_pv2p_lag2) 
+
+# Subset testing data to only relevant variables for our simple model. 
+d.test <- d.test |> 
+  select(-c(D_pv2p, D_pv2p_lag1, D_pv2p_lag2)) |> 
+  left_join(t, by = c("state", "year"))
+
+# Standard frequentist linear regression. 
+reg.ols <- lm(D_pv2p ~ latest_pollav_DEM + mean_pollav_DEM + D_pv2p_lag1 + D_pv2p_lag2, 
+              data = d.train)
+pred.ols.dem <- predict(reg.ols, newdata = d.test)
+
+# Create dataset to summarize winners and EC vote distributions. 
+win_pred <- data.frame(state = d.test$state,
+                       year = rep(2024, length(d.test$state)),
+                       simp_pred_dem = pred.ols.dem,
+                       simp_pred_rep = 100 - pred.ols.dem) |> 
+            mutate(winner = ifelse(simp_pred_dem > simp_pred_rep, "Democrat", "Republican")) |>
+            left_join(d_ec, by = c("state", "year"))
+
+# win_pred
+# 
+# win_pred |> 
+#   filter(winner == "Democrat") |> 
+#   select(state)
+# 
+# win_pred |> 
+#   filter(winner == "Republican") |> 
+#   select(state)
+# 
+# win_pred |> 
+#   group_by(winner) |> 
+#   summarize(n = n(), ec = sum(electors))
+
+# Bayesian linear regression using STAN. 
+stan.data <- list(N = nrow(d.train), 
+                  D_pv2p = d.train$D_pv2p, 
+                  latest_pollav_DEM = d.train$latest_pollav_DEM, 
+                  mean_pollav_DEM = d.train$mean_pollav_DEM, 
+                  D_pv2p_lag1 = d.train$D_pv2p_lag1, 
+                  D_pv2p_lag2 = d.train$D_pv2p_lag2)
+
+stan.code <- "
+data {
+  int<lower=0> N;
+  vector[N] D_pv2p;
+  vector[N] latest_pollav_DEM;
+  vector[N] mean_pollav_DEM;
+  vector[N] D_pv2p_lag1;
+  vector[N] D_pv2p_lag2;
+} "
+
+stan.code <- paste(stan.code, "
+parameters {
+  real alpha;
+  real beta1;
+  real beta2;
+  real beta3;
+  real beta4;
+  real<lower=0> sigma;
+} ")
+
+stan.code <- paste(stan.code, "
+model {
+  D_pv2p ~ normal(alpha + beta1*latest_pollav_DEM + beta2*mean_pollav_DEM + beta3*D_pv2p_lag1 + beta4*D_pv2p_lag2, sigma);
+} ")
+
+stan.model <- stan_model(model_code = stan.code)
+
+stan.fit <- sampling(stan.model, data = stan.data, chains = 4, iter = 4000, warmup = 1000)
+
+# Compare coefficients from frequentist and Bayesian linear regressions. 
+# coef(reg.ols)
+# confint(reg.ols)
+summary(reg.ols)
+print(stan.fit, pars = c("alpha", "beta1", "beta2", "beta3", "beta4", "sigma"))
+```
+Using code provided by Matthew Dardet, I experiment with the use of a Bayesian model as opposed to the frequentist models I have been constructing thus far. In essence, a Bayesian model is one that adjusts its predictions with the addition of new information; in this case, the information we take in is new polling data. If you compare the summary statistics between the frequentist (linear regression) model and the Bayesian model, you cannot find much of a difference between the coefficients (to compare coefficients, go row by row where alpha is the intercept, beta1 is latest_pollav_DEM, etc.). FiveThirtyEight uses Bayesian updating to adjust for changes in the lean of certain polls (see: https://fivethirtyeight.com/methodology/how-our-polling-averages-work/). One objection to the use of Bayesian inference is that the reliance on the idea of prior and posterior knowledge obfuscates what we know to be objective and thus makes the analysis drawn from Bayesian models dubious (counterarguments presented and refuted in Andrew Gelman's http://www.stat.columbia.edu/~gelman/research/published/badbayesmain.pdf). In light of this, I will use a frequentist model for the rest of this week but continue to play around with Bayesianism. 
+
+
+## Updating Model Predictions
+```{r echo=FALSE}
+####--------------------------------------------------------------#
+#### Update model
+####--------------------------------------------------------------#
+composite_dataset <- d_pollav_state |>
+  left_join(d_econ, by = "year") |>
+  left_join(d_popvote |>
+              filter(party == "democrat"), 
+            by = "year") |>
+  left_join(d_state_popvote, by = c("year", "state")) |>
+  left_join(d_state_turnout, by = c("year", "state")) |>
+  left_join(d_campaign_spending |>
+              select(year, state, contribution_receipt_amount), by = c("year", "state")) |>
+  filter(year >= 2008) |>
+  ungroup()
+
+# Only select and train on battleground states
+battleground_states = list("Arizona", "Georgia", "Michigan", "Nevada", "North Carolina", "Pennsylvania", "Wisconsin")
+
+composite_dataset <- composite_dataset |>
+  filter(state %in% battleground_states)
+
+# Split into train and test data
+d_train <- composite_dataset |>
+  filter(year < 2024)
+d_test <- composite_dataset |>
+  filter(year == 2024)
+
+# Create a model that involves turnout and economic indicators from previous models
+simp.vars <- c("D_pv2p_lag1", "D_pv2p_lag2", "latest_pollav_DEM", "mean_pollav_DEM",
+               "CPI", "GDP_growth_quarterly", "contribution_receipt_amount")
+
+mod_lm_dem_simp <- lm(D_pv2p ~ D_pv2p_lag1 + D_pv2p_lag2 + latest_pollav_DEM + mean_pollav_DEM + CPI + GDP_growth_quarterly + contribution_receipt_amount,
+                      data = d_train)
+
+# Add back in lagged vote share for 2024. 
+t <- composite_dataset |> 
+  filter(year >= 2016) |> 
+  arrange(year) |> 
+  group_by(state) |> 
+  mutate(
+    D_pv2p_lag1 = lag(D_pv2p, 1),
+    D_pv2p_lag2 = lag(D_pv2p, 2)) |> 
+  filter(year == 2024) |> 
+  select(state, year, D_pv2p, D_pv2p_lag1, D_pv2p_lag2)
+
+# Subset testing data to only relevant variables for our simple model. 
+d_test_simp <- d_test |> 
+  select(-c(D_pv2p, D_pv2p_lag1, D_pv2p_lag2)) |> 
+  left_join(t, by = c("state", "year")) |> 
+  select(state, year, all_of(simp.vars))
+
+# Get average state-level turnout across 2020, 2016, 2012.  
+d_donation_avg <- d_train |> 
+  filter(year %in% c(2020, 2016, 2012)) |> 
+  filter(state %in% unique(d_test_simp$state)) |> 
+  group_by(state) |> 
+  summarize(contribution_receipt_amount = mean(contribution_receipt_amount, na.rm = TRUE))
+
+# Make predictions with simple average turnout. 
+d_test_simp <- d_test_simp |> 
+  left_join(d_donation_avg, by = "state") |> 
+  select(-contribution_receipt_amount.x) |> 
+  rename(contribution_receipt_amount = contribution_receipt_amount.y)
+
+# Predict Democratic percentage
+simp_pred_dem <- predict(mod_lm_dem_simp, d_test_simp)
+
+# Republican predictions as 100 - Democratic predictions
+simp_pred_rep <- 100 - simp_pred_dem
+
+# Create dataset to summarize winners and EC vote distributions. 
+win_pred <- data.frame(state = d_test_simp$state,
+                       year = rep(2024, length(d_test_simp$state)),
+                       simp_pred_dem = simp_pred_dem,
+                       simp_pred_rep = simp_pred_rep,
+                       winner = ifelse(simp_pred_dem > simp_pred_rep, "Democrat", "Republican")) |>
+  left_join(d_ec, by = c("state", "year"))
+
+# win_pred |> 
+#   filter(winner == "Democrat") |> 
+#   select(state)
+# 
+# win_pred |> 
+#   filter(winner == "Republican") |> 
+#   select(state)
+# 
+# win_pred |> 
+#   group_by(winner) |> 
+#   summarize(n = n(), ec = sum(electors))
+
+# Now let's simulate this with varying levels of turnout and get both confidence intervals on our predictions
+# and approximate win percentages for each state. 
+m <- 1e4 # Number of simulations.
+pred.mat <- data.frame(state = rep(d_test_simp$state, m),
+                       year = rep(2024, m*length(d_test_simp$state)),
+                       contribution_receipt_amount = rep(d_donation_avg$contribution_receipt_amount, m),
+                       simp_pred_dem = rep(simp_pred_dem, m))
+
+# Number of states in the test data
+n_states <- length(d_test_simp$state)
+
+j <- 1
+
+for (i in 1:m) {
+  contribution_receipt_amount <- sapply(d_donation_avg$contribution_receipt_amount, function(mu) {
+    rnorm(1, mean = mu, sd = 0.05) 
+  })
+  d_test_samp <- d_test_simp
+  d_test_samp$contribution_receipt_amount <- contribution_receipt_amount
+  simp_pred_dem <- predict(mod_lm_dem_simp, d_test_samp)
+  simp_pred_rep <- 100 - simp_pred_dem
+  pred.mat$simp_pred_dem[j:(j + n_states - 1)] <- simp_pred_dem
+
+  j <- j + n_states # Hack for filling out matrix.
+}
+
+pred.mat <- pred.mat |>
+  mutate(winner = ifelse(simp_pred_dem > simp_pred_rep, "Democrat", "Republican"))
+
+win_rate_table <- pred.mat |>
+  group_by(state, winner) |>
+  summarize(win_rate = n()/m) 
+
+# Pivot data for ease of reading
+win_rate_wide <- win_rate_table |>
+  pivot_wider(names_from = winner, values_from = win_rate, values_fill = 0)
+
+# Now we can calculate confidence intervals for each state.
+CI <- pred.mat |>
+  group_by(state) |>
+  summarize(
+    mean_dem = mean(simp_pred_dem),
+    sd_dem = sd(simp_pred_dem),
+    lower_dem = mean_dem - 1.96 * sd_dem,
+    upper_dem = mean_dem + 1.96 * sd_dem,
+    # Calculate Republican values dynamically based on Democratic predictions
+    mean_rep = 100 - mean_dem,
+    sd_rep = sd_dem,  # Assume the same standard deviation for Republicans
+    lower_rep = mean_rep - 1.96 * sd_rep,
+    upper_rep = mean_rep + 1.96 * sd_rep
+  )
+```
+
+```{r echo=FALSE}
+library(glmnet)
+
+# LASSO regression
+x_train <- model.matrix(D_pv2p ~ D_pv2p_lag1 + D_pv2p_lag2 + latest_pollav_DEM + mean_pollav_DEM + CPI + GDP_growth_quarterly + contribution_receipt_amount, data = d_train)[, -1]
+y_train <- d_train$D_pv2p
+ridge_model <- cv.glmnet(x_train, y_train, alpha = 1)
+
+# Make predictions
+x_test <- model.matrix(~ D_pv2p_lag1 + D_pv2p_lag2 + latest_pollav_DEM + mean_pollav_DEM + CPI + GDP_growth_quarterly + contribution_receipt_amount, data = d_test_simp)[, -1]
+simp_pred_dem <- predict(ridge_model, newx = x_test, s = "lambda.min")
+simp_pred_rep <- 100 - simp_pred_dem
+
+# Make a battleground dataset
+pred_dem <- data.frame(
+  State = c("Arizona", "Georgia", "Michigan", "Nevada", "North Carolina", "Pennsylvania", "Wisconsin"),
+  Democrat = simp_pred_dem
+) |>
+  rename(Democrat = lambda.min)
+
+pred_rep <- data.frame(
+  State = c("Arizona", "Georgia", "Michigan", "Nevada", "North Carolina", "Pennsylvania", "Wisconsin"),
+  Republican = simp_pred_rep
+) |>
+  rename(Republican = lambda.min)
+
+predictions <- pred_dem |>
+  left_join(pred_rep, by = "State") |>
+  mutate(Winner = if_else(Democrat>Republican, "Democrat", "Republican"))
+
+battleground_win_pred <- data.frame(state = predictions$State,
+                       year = rep(2024, length(predictions$State)),
+                       Democrat = predictions$Democrat,
+                       Republican = predictions$Republican,
+                       winner = ifelse(predictions$Winner=="Democrat", "Democrat", "Republican")) |>
+  left_join(d_ec, by = c("state", "year"))
+```
+
+```{r echo=FALSE}
+ # battleground_win_pred
+# Simple expectation of red-blue divide among non-battleground states from First Week
+republican_states <- c("Alabama", "Alaska", "Arkansas", "Florida", "Idaho", "Indiana", 
+                       "Iowa", "Kansas", "Kentucky", "Louisiana", "Mississippi", 
+                       "Missouri", "Montana", "Nebraska", "North Dakota", "Ohio", 
+                       "Oklahoma", "South Carolina", "South Dakota", "Tennessee", 
+                       "Texas", "Utah", "Vermont", "West Virginia", "Wyoming")
+
+democrat_states <- c("California", "Colorado", "Connecticut", "Delaware", "Virginia", 
+                     "Washington", "Oregon", "Rhode Island", "New Hampshire", 
+                     "New Jersey", "New Mexico", "New York", "Maine", "Maryland", 
+                     "Massachusetts", "Minnesota", "Hawaii", "Illinois", "District Of Columbia")
+all_nonbattle_states <- c(republican_states, democrat_states)
+winner <- c(rep("Republican", length(republican_states)), rep("Democrat", length(democrat_states)))
+all_nonbattle_states <- data.frame(state = all_nonbattle_states, Winner = winner)
+
+# Join battle and non-battle datasets
+all_states <- battleground_win_pred |>
+  select(state, winner) |>  
+  full_join(all_nonbattle_states, by = "state", suffix = c("_battleground", "_nonbattleground"))
+
+# Clean up all state dataset
+all_states <- all_states |> 
+  # Combine separate non-battle and battle winner variables into one winner
+  mutate(winner = coalesce(winner, Winner)) |> 
+  # Remove irrelevant non-battle and battle winner
+  select(-Winner)
+
+# Join predicted state winner data with electoral
+ec_2024_predicted <- d_ec |>
+  left_join(all_states, by = "state")
+
+ec_2024_predicted |>
+  select(state, electors, winner) |>
+  kable()
+
+# Count electoral votes by party
+d_ec_wide <- ec_2024_predicted |>
+  group_by(winner)|>
+  summarize(electoral_votes = sum(electors)) 
+
+d_ec_wide |>
+  kable()
+
+# Map visualization
+states_map <- map_data("state")
+
+# Convert state names in your data to lowercase for matching with the map data
+final_dataset <- ec_2024_predicted %>% 
+  mutate(state = tolower(state))
+
+# Join the map data with your state-level data
+map_data_joined <- states_map %>%
+  left_join(final_dataset, by = c("region" = "state"))
+
+# Plot the map, coloring by winner
+ggplot(map_data_joined, aes(x = long, y = lat, group = group, fill = winner)) +
+  geom_polygon(color = "black") +
+  scale_fill_manual(values = c("Republican" = "tomato3", "Democrat" = "steelblue3")) +  # Clean, no axis
+  labs(title = "2024 Election Night Prediction", fill = "Winner") +
+  map_theme() +
+  theme(
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    axis.title = element_blank(),
+  )+  # Remove axes info
+  coord_fixed(1.3) # Fix aspect ratio
+```
+
+To update this week's model, I involved campaign expenditure data alongside economic fundamentals and polling data. Campaign expenditure data is taken for Democrats only because the model predicts for Democrats and calculates Republican by subtracting Democratic vote share from 100. The last model individually predicted each party's vote share, which made it difficult to really see who was ahead. 
+
+I, then, regularize the model, using LASSO which is a machine learning model that selects relevant features and neutralizes features that are not. This was helpful to making election results appear more realistic. The final results of this model show an incredibly close race with Harris winning over Trump by just 8 electoral votes. The model forecasts that Trump will take Arizona, Georgia, and North Carolina while Harris takes Pennsylvania, Nevada, and Michigan. This presents a pretty even split among swing states between the two candidates. 
+
+## Conclusion
+
+**According to this week's models, Harris will win the 2024 Presidential Election, taking 273 electoral votes.**
+
+In comparison to last week's model, this week presents a much closer race between Harris and Trump, which I believe will be the case. I made an effort to regularize my model this week, which I did not last week, and I think that is mainly why this week's model presents a much much tighter margin. I will continue to regualarize my models going forward as a result. The involvement of campaign expenditure seems to advantage Democrats in this race, which would make sense considering Harris has raked in $1 billion since entering the race (Goldmacher & Haberman). 
+
+
+## Sources
+
+Goldmacher, Shane and Maggie Haberman. "Harris Raises $1 Billion, Cementing Status as Fundraising Powerhouse." *The New York Times*, 9 Oct. 2024, www.nytimes.com/2024/10/09/us/politics/harris-billion-dollar-fundraising.html.    
+
+Gelman, Andrew. *Why We (Usually) Don’t Have to Worry About Multiple Comparisons.* Columbia University, www.stat.columbia.edu/~gelman/research/published/badbayesmain.pdf. 
+
+Morris, G. Elliot "How Our Polling Averages Work." *FiveThirtyEight*, 18 Aug. 2020, fivethirtyeight.com/methodology/how-our-polling-averages-work/. 
+
+Polling Data Provided by GOV 1347: Election Analytics teaching staff (which itself drew from the FiveThirtyEight GitHub)
+
+Economic Data Provided by GOV 1347: Election Analytics teaching staff (which itself drew from the Burueau of Economic Analysia and Federal Reserve Economic Data)
+
+

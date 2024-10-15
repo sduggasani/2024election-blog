@@ -29,7 +29,10 @@ menu:
       weight: 10 
     - name: Week 5 Demographics
       url: https://sduggasani.github.io/2024election-blog/post/2024-10-05-week-5-demographics/
-      weight: 10 
+      weight: 10
+    - name: Week 6 Campaign Spending
+      url: https://sduggasani.github.io/2024election-blog/post/2024-10-12-week-6-campaign-spending/
+      weight: 10   
 params:
   BookComments: yes
   BookDateFormat: January 2, 2006
