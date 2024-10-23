@@ -32,7 +32,10 @@ menu:
       weight: 10
     - name: Week 6 Campaign Spending
       url: https://sduggasani.github.io/2024election-blog/post/2024-10-12-week-6-campaign-spending/
-      weight: 10   
+      weight: 10
+    - name: Week 7 Ground Game
+      url: https://sduggasani.github.io/2024election-blog/post/2024-10-21-week-7-ground-game/
+      weight: 10
 params:
   BookComments: yes
   BookDateFormat: January 2, 2006

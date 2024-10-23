@@ -126,39 +126,11 @@ The model summary we see here is a linear regression for Democratic campaign spe
 
 
 ```
-## Trying to compile a simple C file
-```
-
-```
-## Running /Library/Frameworks/R.framework/Resources/bin/R CMD SHLIB foo.c
-## clang -mmacosx-version-min=10.13 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG   -I"/Users/sammy/Library/R/x86_64/4.2/library/Rcpp/include/"  -I"/Users/sammy/Library/R/x86_64/4.2/library/RcppEigen/include/"  -I"/Users/sammy/Library/R/x86_64/4.2/library/RcppEigen/include/unsupported"  -I"/Library/Frameworks/R.framework/Versions/4.2/Resources/library/BH/include" -I"/Users/sammy/Library/R/x86_64/4.2/library/StanHeaders/include/src/"  -I"/Users/sammy/Library/R/x86_64/4.2/library/StanHeaders/include/"  -I"/Users/sammy/Library/R/x86_64/4.2/library/RcppParallel/include/"  -I"/Users/sammy/Library/R/x86_64/4.2/library/rstan/include" -DEIGEN_NO_DEBUG  -DBOOST_DISABLE_ASSERTS  -DBOOST_PENDING_INTEGER_LOG2_HPP  -DSTAN_THREADS  -DUSE_STANC3 -DSTRICT_R_HEADERS  -DBOOST_PHOENIX_NO_VARIADIC_EXPRESSION  -D_HAS_AUTO_PTR_ETC=0  -include '/Users/sammy/Library/R/x86_64/4.2/library/StanHeaders/include/stan/math/prim/fun/Eigen.hpp'  -D_REENTRANT -DRCPP_PARALLEL_USE_TBB=1   -I/usr/local/include   -fPIC  -Wall -g -O2  -c foo.c -o foo.o
-## In file included from <built-in>:1:
-## In file included from /Users/sammy/Library/R/x86_64/4.2/library/StanHeaders/include/stan/math/prim/fun/Eigen.hpp:22:
-## In file included from /Users/sammy/Library/R/x86_64/4.2/library/RcppEigen/include/Eigen/Dense:1:
-## In file included from /Users/sammy/Library/R/x86_64/4.2/library/RcppEigen/include/Eigen/Core:88:
-## /Users/sammy/Library/R/x86_64/4.2/library/RcppEigen/include/Eigen/src/Core/util/Macros.h:628:1: error: unknown type name 'namespace'
-## namespace Eigen {
-## ^
-## /Users/sammy/Library/R/x86_64/4.2/library/RcppEigen/include/Eigen/src/Core/util/Macros.h:628:16: error: expected ';' after top level declarator
-## namespace Eigen {
-##                ^
-##                ;
-## In file included from <built-in>:1:
-## In file included from /Users/sammy/Library/R/x86_64/4.2/library/StanHeaders/include/stan/math/prim/fun/Eigen.hpp:22:
-## In file included from /Users/sammy/Library/R/x86_64/4.2/library/RcppEigen/include/Eigen/Dense:1:
-## /Users/sammy/Library/R/x86_64/4.2/library/RcppEigen/include/Eigen/Core:96:10: fatal error: 'complex' file not found
-## #include <complex>
-##          ^~~~~~~~~
-## 3 errors generated.
-## make: *** [foo.o] Error 1
-```
-
-```
 ## 
 ## SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 1).
 ## Chain 1: 
-## Chain 1: Gradient evaluation took 0.00012 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 1.2 seconds.
+## Chain 1: Gradient evaluation took 0.000106 seconds
+## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 1.06 seconds.
 ## Chain 1: Adjust your expectations accordingly!
 ## Chain 1: 
 ## Chain 1: 
@@ -175,15 +147,15 @@ The model summary we see here is a linear regression for Democratic campaign spe
 ## Chain 1: Iteration: 3800 / 4000 [ 95%]  (Sampling)
 ## Chain 1: Iteration: 4000 / 4000 [100%]  (Sampling)
 ## Chain 1: 
-## Chain 1:  Elapsed Time: 1.543 seconds (Warm-up)
-## Chain 1:                4.306 seconds (Sampling)
-## Chain 1:                5.849 seconds (Total)
+## Chain 1:  Elapsed Time: 1.517 seconds (Warm-up)
+## Chain 1:                5.122 seconds (Sampling)
+## Chain 1:                6.639 seconds (Total)
 ## Chain 1: 
 ## 
 ## SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 2).
 ## Chain 2: 
-## Chain 2: Gradient evaluation took 1.7e-05 seconds
-## Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.17 seconds.
+## Chain 2: Gradient evaluation took 2e-05 seconds
+## Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.2 seconds.
 ## Chain 2: Adjust your expectations accordingly!
 ## Chain 2: 
 ## Chain 2: 
@@ -200,15 +172,15 @@ The model summary we see here is a linear regression for Democratic campaign spe
 ## Chain 2: Iteration: 3800 / 4000 [ 95%]  (Sampling)
 ## Chain 2: Iteration: 4000 / 4000 [100%]  (Sampling)
 ## Chain 2: 
-## Chain 2:  Elapsed Time: 1.338 seconds (Warm-up)
-## Chain 2:                4.217 seconds (Sampling)
-## Chain 2:                5.555 seconds (Total)
+## Chain 2:  Elapsed Time: 1.527 seconds (Warm-up)
+## Chain 2:                5.344 seconds (Sampling)
+## Chain 2:                6.871 seconds (Total)
 ## Chain 2: 
 ## 
 ## SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 3).
 ## Chain 3: 
-## Chain 3: Gradient evaluation took 1.5e-05 seconds
-## Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.15 seconds.
+## Chain 3: Gradient evaluation took 1.7e-05 seconds
+## Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.17 seconds.
 ## Chain 3: Adjust your expectations accordingly!
 ## Chain 3: 
 ## Chain 3: 
@@ -225,9 +197,9 @@ The model summary we see here is a linear regression for Democratic campaign spe
 ## Chain 3: Iteration: 3800 / 4000 [ 95%]  (Sampling)
 ## Chain 3: Iteration: 4000 / 4000 [100%]  (Sampling)
 ## Chain 3: 
-## Chain 3:  Elapsed Time: 1.4 seconds (Warm-up)
-## Chain 3:                4.394 seconds (Sampling)
-## Chain 3:                5.794 seconds (Total)
+## Chain 3:  Elapsed Time: 1.552 seconds (Warm-up)
+## Chain 3:                4.798 seconds (Sampling)
+## Chain 3:                6.35 seconds (Total)
 ## Chain 3: 
 ## 
 ## SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 4).
@@ -250,9 +222,9 @@ The model summary we see here is a linear regression for Democratic campaign spe
 ## Chain 4: Iteration: 3800 / 4000 [ 95%]  (Sampling)
 ## Chain 4: Iteration: 4000 / 4000 [100%]  (Sampling)
 ## Chain 4: 
-## Chain 4:  Elapsed Time: 1.4 seconds (Warm-up)
-## Chain 4:                4.348 seconds (Sampling)
-## Chain 4:                5.748 seconds (Total)
+## Chain 4:  Elapsed Time: 1.482 seconds (Warm-up)
+## Chain 4:                4.866 seconds (Sampling)
+## Chain 4:                6.348 seconds (Total)
 ## Chain 4:
 ```
 
@@ -287,14 +259,14 @@ The model summary we see here is a linear regression for Democratic campaign spe
 ## post-warmup draws per chain=3000, total post-warmup draws=12000.
 ## 
 ##        mean se_mean   sd  2.5%   25%   50%   75% 97.5% n_eff Rhat
-## alpha  9.09    0.02 1.88  5.38  7.83  9.09 10.36 12.73  7851    1
-## beta1  0.88    0.00 0.08  0.72  0.82  0.88  0.94  1.04  6238    1
-## beta2 -0.28    0.00 0.08 -0.43 -0.33 -0.28 -0.23 -0.13  6801    1
-## beta3  0.44    0.00 0.05  0.35  0.41  0.44  0.47  0.53  7053    1
-## beta4 -0.17    0.00 0.04 -0.25 -0.20 -0.17 -0.15 -0.10  8151    1
-## sigma  3.40    0.00 0.17  3.09  3.28  3.40  3.51  3.77  8252    1
+## alpha  9.01    0.02 1.86  5.34  7.76  8.99 10.26 12.65  8542    1
+## beta1  0.88    0.00 0.08  0.72  0.83  0.88  0.94  1.04  6595    1
+## beta2 -0.28    0.00 0.07 -0.43 -0.33 -0.28 -0.23 -0.13  7251    1
+## beta3  0.44    0.00 0.05  0.35  0.41  0.44  0.48  0.54  7702    1
+## beta4 -0.18    0.00 0.04 -0.25 -0.20 -0.18 -0.15 -0.10  8832    1
+## sigma  3.41    0.00 0.17  3.09  3.29  3.40  3.52  3.77  9465    1
 ## 
-## Samples were drawn using NUTS(diag_e) at Tue Oct 15 13:40:20 2024.
+## Samples were drawn using NUTS(diag_e) at Wed Oct 23 15:53:49 2024.
 ## For each parameter, n_eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor on split chains (at 
 ## convergence, Rhat=1).
