@@ -1,0 +1,551 @@
+---
+title: 'Week 8: Shocks'
+author: Sammy Duggasani
+date: '2024-10-27'
+slug: []
+categories: []
+tags: []
+---
+
+# **Week 8: Shocks**
+
+**Monday, October 28, 2024**\
+**7 Days until Presidential Election**
+
+*Can you believe there is just a week left until election day? Thank you for following along throughout this entire process! This will be my second-to-last post, and next week I will post my final prediction. This week we've been learning about October surprises, which refer to unanticipated events that happen in the month before election day that are thought to impact the final results of the race. This week, the Trump campaign held an event at Madison Square Garden where the comedian Tony Hinchcliffe made problematic jokes about Puerto Rico and Latinos, possibly alienating a demographic that has Trump has made headway with this cycle. President Biden made a clumsily-worded response to the event with people construing his words as referring to Trump's supporters as "[garbage](https://www.cbsnews.com/news/bidens-response-to-garbage-joke-about-puerto-rico/)". I also dealt with my own "October surprise" this week after realizing that my absentee ballot that I applied for two weeks ago likely got lost in the mail and that it was too late to request another to my dorm in Cambridge, MA. After finding a flight back home to Atlanta for \$75, I decided it was worth it to cast my ballot in person on election day. Hopefully, everything goes smoothly, and I can participate in the electoral process. Because the impact of shocks are difficult to measure on vote behavior or outcomes, we will use our analysis this week just to update my model and evaluate its results.*
+
+```{r include=FALSE}
+####----------------------------------------------------------#
+#### Preamble
+####----------------------------------------------------------#
+
+# Load libraries.
+## install via `install.packages("name")`
+library(geofacet)
+library(ggpubr)
+library(ggthemes)
+library(haven)
+library(kableExtra)
+library(maps)
+library(mgcv)
+library(mgcViz)
+library(RColorBrewer)
+library(scales)
+library(sf)
+library(spData)
+library(stargazer)
+library(tidygeocoder)
+library(tidyverse)
+library(tigris)
+library(tmap)
+library(tmaptools)
+library(viridis)
+library(modelsummary)
+
+## Import custom themes
+map_theme <- function() {
+  theme(
+    # Clean up border and background
+    panel.border = element_blank(),
+    panel.background = element_rect(fill = "snow2", color = NA),
+    # Center and bold title, include subtitle options
+    plot.title = element_text(size = 15, hjust = .5, face = "bold", family = "sans"),
+    plot.subtitle = element_text(size = 13, hjust = .5, family = "sans"),
+    plot.title.position = "panel",
+    # Remove extraneous information and clean up
+    axis.text = element_blank(),
+    axis.title = element_blank(),
+    axis.ticks = element_blank(),
+    axis.line = element_blank(),
+    # Legend 
+    legend.position = "right",
+    legend.title = element_text(size = 12, family = "sans"),
+    legend.text = element_text(size = 10, family = "sans"),
+    # Aspect ratio
+    aspect.ratio = .8
+  )
+}
+plot_date_theme <- function() {
+  theme(
+    # no border
+    panel.border = element_blank(),
+    # background
+    panel.background = element_rect(fill = "snow2"),
+    # text
+    plot.title = element_text(size = 15, hjust = .5, face = "bold", family = "sans"),
+    plot.subtitle = element_text(size = 13, hjust = .5, family = "sans"),
+    plot.title.position = "panel",
+    axis.text.x = element_text(size = 8, family = "sans"),
+    axis.text.y = element_text(size = 8, family = "sans"),
+    axis.title.x = element_text(family = "sans"),
+    axis.title.y = element_text(angle = 90, family = "sans"),
+    axis.ticks = element_line(colour = "black"),
+    axis.line = element_line(colour = "grey"),
+    # legend 
+    legend.position = "right",
+    legend.title = element_text(size = 12, family = "sans"),
+    legend.text = element_text(size = 10, family = "sans"),
+  )
+}
+plot_theme <- function() {
+  theme(
+    # no border
+    panel.border = element_blank(),
+    # background
+    panel.background = element_rect(fill = "snow2"),
+    # text
+    plot.title = element_text(size = 15, hjust = .5, face = "bold", family = "sans"),
+    plot.subtitle = element_text(size = 13, hjust = .5, family = "sans"),
+    plot.title.position = "panel",
+    axis.text.x = element_text(size = 8, family = "sans"),
+    axis.text.y = element_text(size = 8, family = "sans"),
+    axis.title.x = element_text(family = "sans"),
+    axis.title.y = element_text(angle = 90, family = "sans"),
+    axis.ticks = element_line(colour = "black"),
+    axis.line = element_line(colour = "grey"),
+    # legend 
+    legend.position = "right",
+    legend.title = element_text(size = 12, family = "sans"),
+    legend.text = element_text(size = 10, family = "sans"),
+  )
+}
+my_prettier_theme <- function() {
+  theme(
+    # no border
+    panel.border = element_blank(),
+    # background
+    panel.background = element_rect(fill = "snow2"),
+    # text
+    plot.title = element_text(size = 15, hjust = .5, face = "bold", family = "sans"),
+    plot.subtitle = element_text(size = 13, hjust = .5, family = "sans"),
+    plot.title.position = "panel",
+    axis.text.x = element_text(size = 8, angle = 90, hjust = .5, family = "sans"),
+    axis.text.y = element_text(size = 8, family = "sans"),
+    axis.title.x = element_text(family = "sans"),
+    axis.title.y = element_text(angle = 90, family = "sans"),
+    axis.ticks = element_line(colour = "black"),
+    axis.line = element_line(colour = "grey"),
+    # legend 
+    legend.position = "right",
+    legend.title = element_text(size = 12, family = "sans"),
+    legend.text = element_text(size = 10, family = "sans"),
+    # aspect ratio
+    # aspect.ratio = .8
+  )
+}
+```
+
+```{r include=FALSE}
+####----------------------------------------------------------#
+#### Read, merge, and process data. -- Code by Matthew Dardet
+####----------------------------------------------------------#
+
+# Read popular vote datasets. 
+d_popvote <- read_csv("popvote_1948_2020.csv", show_col_types = FALSE)
+d_state_popvote <- read_csv("state_popvote_1948_2020.csv")
+d_state_popvote[d_state_popvote$state == "District of Columbia",]$state <- "District Of Columbia"
+
+# Read elector distribution dataset. 
+d_ec <- read_csv("corrected_ec_1948_2024.csv", show_col_types = FALSE)
+
+# Read polling data. 
+d_polls <- read_csv("national_polls_1968-2024.csv", show_col_types = FALSE)
+d_state_polls <- read_csv("state_polls_1968-2024.csv", show_col_types = FALSE)
+
+# Process state-level polling data. 
+d_pollav_state <- d_state_polls |> 
+  group_by(year, state, party) |>
+  mutate(mean_pollav = mean(poll_support, na.rm = TRUE)) |>
+  top_n(1, poll_date) |> 
+  rename(latest_pollav = poll_support) |>
+  select(-c(weeks_left, days_left, poll_date, candidate, before_convention)) |>
+  pivot_wider(names_from = party, values_from = c(latest_pollav, mean_pollav))
+
+# Read turnout data. 
+d_turnout <- read_csv("state_turnout_1980_2022.csv", show_col_types = FALSE)
+
+# Read county turnout. 
+d_county_turnout <- read_csv("county_turnout.csv", show_col_types = FALSE)
+
+# Read state-level demographics.
+d_state_demog <- read_csv("demographics.csv", show_col_types = FALSE)
+
+# Read county demographics. 
+d_county_demog <- read_csv("county_demographics.csv", show_col_types = FALSE)
+
+# Read campaign events datasets. 
+d_campaign_events <- read_csv("campaigns_2016_2024.csv", show_col_types = FALSE)[,-1]
+
+# Read economic data.
+d_econ <- read_csv("fred_econ.csv", show_col_types = FALSE) |> 
+  filter(quarter == 2)
+
+# Read campaign spending
+campaign_spending <- read_csv("FEC_contributions_by_state_2008_2024.csv", show_col_types = FALSE)
+
+# Read turnout data
+d_state_turnout <- read_csv("state_turnout_1980_2022.csv", show_col_types = FALSE)
+d_state_turnout <- d_state_turnout |> 
+  mutate(vep_turnout = as.numeric(str_remove(vep_turnout, "%"))/100) |> 
+  select(year, state, vep_turnout)
+
+# Read Supreme Court precedents data
+d_sc_precedents <- read_csv("supreme_court_precedents.csv", show_col_types = FALSE)
+
+# Read Supreme Court congressional review data
+d_sc_cong_review <- read_csv("supreme_court_congressional_review.csv", show_col_types = FALSE)
+
+# Read protests data
+d_protests <- read_csv("protests.csv", show_col_types = FALSE)
+
+# Read hurricanes data
+d_hurricanes <- read_csv("hurricanes_1996_2016.csv", show_col_types = FALSE)
+```
+
+## Updating Model Predictions
+
+```{r cache=TRUE, include=FALSE}
+####--------------------------------------------------------------#
+#### Update model
+####--------------------------------------------------------------#
+set.seed(02138)
+
+d_campaign_spending <- d_state_popvote |> 
+  mutate(state_abb = state.abb[match(d_state_popvote$state, state.name)]) |> 
+  left_join(campaign_spending |> filter(party == "Democrat"), by = c("year" = "election_year", "state_abb" = "contribution_state")) |> 
+  filter(year >= 2008)
+
+composite_dataset <- d_pollav_state |>
+  left_join(d_econ, by = "year") |>
+  left_join(d_popvote |>
+              filter(party == "democrat"), 
+            by = "year") |>
+  left_join(d_state_popvote, by = c("year", "state")) |>
+  left_join(d_state_turnout, by = c("year", "state")) |>
+  left_join(d_campaign_spending |>
+              select(year, state, contribution_receipt_amount), by = c("year", "state")) |>
+  filter(year >= 2008) |>
+  ungroup()
+
+# Only select and train on battleground states
+battleground_states = list("Arizona", "Georgia", "Michigan", "Nevada", "North Carolina", "Pennsylvania", "Wisconsin")
+
+composite_dataset <- composite_dataset |>
+  filter(state %in% battleground_states)
+
+# Split into train and test data
+d_train <- composite_dataset |>
+  filter(year < 2024)
+d_test <- composite_dataset |>
+  filter(year == 2024)
+
+# Create a model that involves turnout and economic indicators from previous models
+simp.vars <- c("D_pv2p_lag1", "D_pv2p_lag2", "latest_pollav_DEM", "mean_pollav_DEM",
+               "CPI", "GDP_growth_quarterly", "contribution_receipt_amount")
+
+mod_lm_dem_simp <- lm(D_pv2p ~ D_pv2p_lag1 + D_pv2p_lag2 + latest_pollav_DEM + mean_pollav_DEM + CPI + GDP_growth_quarterly + contribution_receipt_amount,
+                      data = d_train)
+
+# Add back in lagged vote share for 2024. 
+t <- composite_dataset |> 
+  filter(year >= 2016) |> 
+  arrange(year) |> 
+  group_by(state) |> 
+  mutate(
+    D_pv2p_lag1 = lag(D_pv2p, 1),
+    D_pv2p_lag2 = lag(D_pv2p, 2)) |> 
+  filter(year == 2024) |> 
+  select(state, year, D_pv2p, D_pv2p_lag1, D_pv2p_lag2)
+
+# Subset testing data to only relevant variables for our simple model. 
+d_test_simp <- d_test |> 
+  select(-c(D_pv2p, D_pv2p_lag1, D_pv2p_lag2)) |> 
+  left_join(t, by = c("state", "year")) |> 
+  select(state, year, all_of(simp.vars))
+
+# Get average state-level turnout across 2020, 2016, 2012.  
+d_donation_avg <- d_train |> 
+  filter(year %in% c(2020, 2016, 2012)) |> 
+  filter(state %in% unique(d_test_simp$state)) |> 
+  group_by(state) |> 
+  summarize(contribution_receipt_amount = mean(contribution_receipt_amount, na.rm = TRUE))
+
+# Make predictions with simple average turnout. 
+d_test_simp <- d_test_simp |> 
+  left_join(d_donation_avg, by = "state") |> 
+  select(-contribution_receipt_amount.x) |> 
+  rename(contribution_receipt_amount = contribution_receipt_amount.y)
+
+# Predict Democratic percentage
+simp_pred_dem <- predict(mod_lm_dem_simp, d_test_simp)
+
+# Republican predictions as 100 - Democratic predictions
+simp_pred_rep <- 100 - simp_pred_dem
+
+# Create dataset to summarize winners and EC vote distributions. 
+win_pred <- data.frame(state = d_test_simp$state,
+                       year = rep(2024, length(d_test_simp$state)),
+                       simp_pred_dem = simp_pred_dem,
+                       simp_pred_rep = simp_pred_rep,
+                       winner = ifelse(simp_pred_dem > simp_pred_rep, "Democrat", "Republican")) |>
+  left_join(d_ec, by = c("state", "year"))
+
+
+# Now let's simulate this with varying levels of turnout and get both confidence intervals on our predictions
+# and approximate win percentages for each state. 
+m <- 1e4 # Number of simulations.
+pred.mat <- data.frame(state = rep(d_test_simp$state, m),
+                       year = rep(2024, m*length(d_test_simp$state)),
+                       contribution_receipt_amount = rep(d_donation_avg$contribution_receipt_amount, m),
+                       simp_pred_dem = rep(simp_pred_dem, m))
+
+# Number of states in the test data
+n_states <- length(d_test_simp$state)
+
+j <- 1
+
+for (i in 1:m) {
+  contribution_receipt_amount <- sapply(d_donation_avg$contribution_receipt_amount, function(mu) {
+    rnorm(1, mean = mu, sd = 0.05) 
+  })
+  d_test_samp <- d_test_simp
+  d_test_samp$contribution_receipt_amount <- contribution_receipt_amount
+  simp_pred_dem <- predict(mod_lm_dem_simp, d_test_samp)
+  simp_pred_rep <- 100 - simp_pred_dem
+  pred.mat$simp_pred_dem[j:(j + n_states - 1)] <- simp_pred_dem
+
+  j <- j + n_states # Hack for filling out matrix.
+}
+
+pred.mat <- pred.mat |>
+  mutate(winner = ifelse(simp_pred_dem > simp_pred_rep, "Democrat", "Republican"))
+
+win_rate_table <- pred.mat |>
+  group_by(state, winner) |>
+  summarize(win_rate = n()/m) 
+
+# Pivot data for ease of reading
+win_rate_wide <- win_rate_table |>
+  pivot_wider(names_from = winner, values_from = win_rate, values_fill = 0)
+
+# Now we can calculate confidence intervals for each state.
+CI <- pred.mat |>
+  group_by(state) |>
+  summarize(
+    mean_dem = mean(simp_pred_dem),
+    sd_dem = sd(simp_pred_dem),
+    lower_dem = mean_dem - 1.96 * sd_dem,
+    upper_dem = mean_dem + 1.96 * sd_dem,
+    # Calculate Republican values dynamically based on Democratic predictions
+    mean_rep = 100 - mean_dem,
+    sd_rep = sd_dem,  # Assume the same standard deviation for Republicans
+    lower_rep = mean_rep - 1.96 * sd_rep,
+    upper_rep = mean_rep + 1.96 * sd_rep
+  )
+```
+
+This week to update model predictions, I rely on the same inputs as the last few weeks: Democrat 2 Party Vote Shares in the past two elections, latest poll averages for Democrats, mean poll averages for Democrats, Consumer Price Index, quarterly GDP growth, and campaign donations. Realistically, the only thing that has changed between past weeks' models and this week's is polling data. The most recent polling data I include has results from up to 8 days before the election day on November 5th.
+
+## Model Predictions without Regularization
+
+```{r echo=FALSE}
+color_state <- function(mean_dem, state_name) {
+  if (mean_dem > 50) {
+    return(cell_spec(state_name, "html", color = "white", background = "steelblue3"))
+  } else if (mean_dem < 50) {
+    return(cell_spec(state_name, "html", color = "white", background = "tomato3"))
+  } else {
+    return(state_name)
+  }
+}
+
+CI_kable <- CI |>
+  mutate(
+    state = mapply(color_state, mean_dem, state)
+  )
+
+kable(CI_kable, escape = FALSE, format = "html",
+      caption = "Battleground State Predicted Results for 2024 Without Regularization") |>
+  kable_styling(bootstrap_options = "hover", position = "center")
+```
+
+Using these inputs, I created a simple prediction of Democratic vote share through a linear regression model; I calculated Republican vote share by subtracting Democratic 2-Party vote share from 100%. This resulted in some pretty obviously problematic findings: that Harris will take all battleground states with a clear lead and miniscule standard deviation that doesn't place the results within the margin of error. This deviates from all credible models and is not something I would trust. So, I will not use these findings for my final forecast.
+
+## LASSO Regression Model
+
+Instead of a simple linear regression, I find it more useful to employ a LASSO Regression model, which will use only those variables with large enough coefficients (or effects on Democrat 2-Party Vote Share) and nullify other small variables. I choose this model because I am incredibly cautious of constructing an overfitted and overly complex model to forecast the election results. Realistically, I am focused on three things: relevant economic indicators, campaign donations, and Democratic performance in polls and past elections.
+
+```{r cache=TRUE, include=FALSE}
+library(glmnet)
+set.seed(02138)
+# LASSO regression
+x_train <- model.matrix(D_pv2p ~ D_pv2p_lag1 + D_pv2p_lag2 + latest_pollav_DEM + mean_pollav_DEM + CPI + GDP_growth_quarterly + contribution_receipt_amount, data = d_train)[, -1]
+y_train <- d_train$D_pv2p
+lasso_model <- cv.glmnet(x_train, y_train, alpha = 1)
+
+# Make predictions
+x_test <- model.matrix(~ D_pv2p_lag1 + D_pv2p_lag2 + latest_pollav_DEM + mean_pollav_DEM + CPI + GDP_growth_quarterly + contribution_receipt_amount, data = d_test_simp)[, -1]
+simp_pred_dem <- predict(lasso_model, newx = x_test, s = "lambda.min")
+simp_pred_rep <- 100 - simp_pred_dem
+
+# Make a battleground dataset
+pred_dem <- data.frame(
+  State = c("Arizona", "Georgia", "Michigan", "Nevada", "North Carolina", "Pennsylvania", "Wisconsin"),
+  Democrat = simp_pred_dem
+) |>
+  rename(Democrat = lambda.min)
+
+pred_rep <- data.frame(
+  State = c("Arizona", "Georgia", "Michigan", "Nevada", "North Carolina", "Pennsylvania", "Wisconsin"),
+  Republican = simp_pred_rep
+) |>
+  rename(Republican = lambda.min)
+
+predictions <- pred_dem |>
+  left_join(pred_rep, by = "State") |>
+  mutate(Winner = if_else(Democrat>Republican, "Democrat", "Republican"))
+
+battleground_win_pred <- data.frame(state = predictions$State,
+                       year = rep(2024, length(predictions$State)),
+                       Democrat = predictions$Democrat,
+                       Republican = predictions$Republican,
+                       winner = ifelse(predictions$Winner=="Democrat", "Democrat", "Republican")) |>
+  left_join(d_ec, by = c("state", "year")) |>
+  select(-year, -stateab) |>
+  select(state, electors, Democrat, Republican, winner)
+```
+
+```{r echo=FALSE}
+# Code to color cells based on winner
+color_state <- function(winner, state_name) {
+  if (winner == "Democrat") {
+    return(cell_spec(state_name, "html", color = "white", background = "steelblue3"))
+  } else if (winner == "Republican") {
+    return(cell_spec(state_name, "html", color = "white", background = "tomato3"))
+  } else {
+    return(state_name)
+  }
+}
+
+battleground_win_pred_kable <- battleground_win_pred |>
+  mutate(
+    state = mapply(color_state, winner, state)
+  )
+
+kable(battleground_win_pred_kable, escape = FALSE, format = "html",
+      caption = "Battleground State Predicted Results for 2024") |>
+  kable_styling(bootstrap_options = "hover", position = "center")
+```
+
+The results of using LASSO regression are a bit more believable, showing some battleground states going to Harris and most to Trump. The split of battleground states also comports well with what other models are predicting and my general intuition. I would be apprehensive about the exact point estimates of Democrat and Republican vote shares, but I think generally the winner for each state makes sense. Now, let's take these results, fit them within the context of the whole nation, and see who is predicted to win the electoral college next week.
+
+```{r echo=FALSE, cache=TRUE}
+set.seed(02138)
+# Simple expectation of red-blue divide, using non-battleground states from 2020
+
+rep_states_2020 <- d_state_popvote |>
+  filter(year == 2020, R_pv2p > 50, !(state %in% battleground_states)) |>
+  pull(state)
+
+dem_states_2020 <- d_state_popvote |>
+  filter(year == 2020, D_pv2p > 50, !(state %in% battleground_states)) |>
+  pull(state)
+
+all_nonbattle_states <- c(rep_states_2020, dem_states_2020)
+winner <- c(rep("Republican", length(rep_states_2020)), rep("Democrat", length(dem_states_2020)))
+all_nonbattle_states <- data.frame(state = all_nonbattle_states, Winner = winner)
+
+# Join battle and non-battle datasets
+all_states <- battleground_win_pred |>
+  select(state, winner) |>  
+  full_join(all_nonbattle_states, by = "state", suffix = c("_battleground", "_nonbattleground"))
+
+# Clean up all state dataset
+all_states <- all_states |> 
+  # Combine separate non-battle and battle winner variables into one winner
+  mutate(winner = coalesce(winner, Winner)) |> 
+  # Remove irrelevant non-battle and battle winner
+  select(-Winner)
+
+# Join predicted state winner data with electoral
+ec_2024_predicted <- d_ec |>
+  filter(year == 2024) |>
+  left_join(all_states, by = "state") 
+
+ec_2024_predicted_kable <- ec_2024_predicted |>
+  select('state', electors, winner) |>
+  rename("Predicted Electoral Votes" = electors,
+         "State" = state,
+         "Winner" = winner) |>
+  mutate(
+    State = mapply(color_state, Winner, State)
+  )
+
+# Construct the table using kable
+kable(ec_2024_predicted_kable, escape = FALSE, format = "html",
+      col.names = c("State", "Predicted Electoral Votes", "Winner"),
+      caption = "Predicted Electoral Votes by State for 2024") %>%
+  kable_styling(bootstrap_options = "hover", position = "center")
+
+# Color table by party and bold predicted winner of election
+d_ec_wide <- ec_2024_predicted |>
+  group_by(winner)|>
+  summarize(electoral_votes = sum(electors)) |>
+  rename("Electoral Votes" = electoral_votes,
+         "Winner" = winner)
+color_party <- function(winner, votes) {
+  color <- if (winner == "Democrat") "steelblue3" else "tomato3"
+  if (votes == max(d_ec_wide$`Electoral Votes`)) {
+    return(cell_spec(winner, "html", color = "white", background = color, bold = TRUE))
+  } else {
+    return(cell_spec(winner, "html", color = "white", background = color))
+  }
+}
+
+d_ec_wide_kable <- d_ec_wide %>%
+  mutate(
+    Winner = mapply(color_party, Winner, `Electoral Votes`)
+  )
+# Construct the table using kable
+kable(d_ec_wide_kable, escape = FALSE, format = "html",
+      col.names = c("Winner", "Electoral Votes"),
+      caption = "Predicted Electoral Votes for 2024") %>%
+  kable_styling(bootstrap_options = "hover", position = "center")
+# Map visualization
+states_map <- map_data("state")
+
+# Convert state names in data to lowercase for matching with the map data
+final_dataset <- ec_2024_predicted |>
+  mutate(state = tolower(state))
+
+# Join the map data with state-level
+map_data_joined <- states_map |>
+  left_join(final_dataset, by = c("region" = "state"))
+
+# Plot the map, coloring by winner
+ggplot(map_data_joined, aes(x = long, y = lat, group = group, fill = winner)) +
+  geom_polygon(color = "black") +
+  scale_fill_manual(values = c("Republican" = "tomato3", "Democrat" = "steelblue3")) +  # Clean, no axis
+  labs(title = "2024 Election Night Prediction", fill = "Winner") +
+  map_theme()
+```
+
+In previous weeks, I took certain states as "red" states and others as "blue" states based on my intuition and without much justification. The purpose of this was to predict only for battleground states because all other states' electoral votes were assumed to go to Harris or Trump. I should have defended this assumption, so this week, I am updating my model to use the party winner of the state in 2020 for all states except for the battleground states (instead of just casting certain states as Republican or Democratic givens).
+
+After doing this, I find my model predicts that the Republicans will take the White House in November, having won all the non-battleground states they did in 2020 and taking Arizona, Georgia, North Carolina, and Pennsylvania. This means that, between 2020 and 2024, the Democrats would have lost Arizona, Georgia, and Pennsylvania.
+
+Looking at the map, we can see that the South once again is predicted to vote as a Republican bloc, the Northeast and West Coast remain Democratic strongholds, and the Rust Belt states split down the middle.
+
+## Conclusion
+
+**According to this week's model, Trump will win the 2024 Presidential Election, taking 281 electoral votes.**
+
+In comparison to last week's model, this week presents a more tempered victory for Trump. I made an effort to regularize my model this week through LASSO this week because I want to be as conservative as possible about introducing new variables into my model, and I think that is mainly why this week's model presents a much much tighter margin. Still, this favors Trump compared to the last time I used LASSO regression because of most recent polling data. In my final prediction, I will continue to rely on this structure and regularize my model with LASSO. It is important to note that the margin of error straddles the win threshold, so these predictions can really go either way to Trump or Harris. Realistically, no one should be surprised by the winner of the election because this race is so close.
+
+## Sources
+
+"'Supporters" or "supporter's'? Biden comments about Trump 'garbage' rally anger the GOP" *CBS News*, 2024. <https://www.cbsnews.com/news/bidens-response-to-garbage-joke-about-puerto-rico/>.
+
+Polling Data Provided by GOV 1347: Election Analytics teaching staff (which drew from the FiveThirtyEight GitHub)
+
+Economic Data Provided by GOV 1347: Election Analytics teaching staff (which drew from the Bureau of Economic Analysis and Federal Reserve Economic Data)

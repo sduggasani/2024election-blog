@@ -45,7 +45,7 @@ Monday, September 30, 2024
 <link rel="canonical" href="https://sduggasani.github.io/2024election-blog/post/2024-09-25-week-4-fundamentals-ii-incumbency/">
 <link rel="stylesheet" href="/2024election-blog/book.min.309b7ed028807cdb68d8d61e26d609f48369c098dbf5e4d8c0dcf4cdf49feafc.css" integrity="sha256-MJt&#43;0CiAfNto2NYeJtYJ9INpwJjb9eTYwNz0zfSf6vw=" crossorigin="anonymous">
   <script defer src="/2024election-blog/fuse.min.js"></script>
-  <script defer src="/2024election-blog/en.search.min.1dbce1ea460ec28f63882e6d7c096eb99f3845b30bfa7ae91400398d00d0b1c6.js" integrity="sha256-Hbzh6kYOwo9jiC5tfAluuZ84RbML&#43;nrpFAA5jQDQscY=" crossorigin="anonymous"></script>
+  <script defer src="/2024election-blog/en.search.min.0dba912fbfc1b9ee3f3e1e889c2d887e3414a60f6d177952475289251c3a158e.js" integrity="sha256-DbqRL7/Bue4/Ph6InC2IfjQUpg9tF3lSR1KJJRw6FY4=" crossorigin="anonymous"></script>
 
   <script defer src="/2024election-blog/sw.min.f09ccc658cc70834310535c40cbee1514cd65302e6fa168c4ae787519a02cf87.js" integrity="sha256-8JzMZYzHCDQxBTXEDL7hUUzWUwLm&#43;haMSueHUZoCz4c=" crossorigin="anonymous"></script>
 <!--
@@ -147,6 +147,12 @@ https://github.com/alex-shpak/hugo-book
   <li>
     <a href="https://sduggasani.github.io/2024election-blog/post/2024-10-21-week-7-ground-game/"  target="_blank" rel="noopener">
         Week 7 Ground Game
+      </a>
+  </li>
+  
+  <li>
+    <a href="https://sduggasani.github.io/2024election-blog/post/2024-10-27-week-8-shocks/"  target="_blank" rel="noopener">
+        Week 8 Shocks
       </a>
   </li>
   
@@ -757,12 +763,12 @@ https://github.com/alex-shpak/hugo-book
   </tr>
 </tbody>
 </table>
-Here, we visualize a replication of the findings from Kriner and Reeves' "Presidential Particularism and Divide-the-Dollar Politics" (2015). They find that spending of federal grants in swing states is higher than core states. Just looking at swing states, there is a sizable difference in spending when an incumbent is running in an election versus when they are not. It is intuitive that incumbents use federal spending to advantage them in upcoming elections when they have them. My hope is that visualizing pork barrel spending can help give shape to the idea of the incumbency advantage. 
+<p>Here, we visualize a replication of the findings from Kriner and Reeves&rsquo; &ldquo;Presidential Particularism and Divide-the-Dollar Politics&rdquo; (2015). They find that spending of federal grants in swing states is higher than core states. Just looking at swing states, there is a sizable difference in spending when an incumbent is running in an election versus when they are not. It is intuitive that incumbents use federal spending to advantage them in upcoming elections when they have them. My hope is that visualizing pork barrel spending can help give shape to the idea of the incumbency advantage.</p>
 <h2 id="time-for-a-change-model">
   Time for a Change Model
   <a class="anchor" href="#time-for-a-change-model">#</a>
 </h2>
-<p>One model of the incumbency advantage is Alan Abramowitz&rsquo;s <strong>Time for Change</strong> model, which he developed in 1988. It is a simple Ordinary Least Squares Regression Model that relies on three independent variables:  GDP Growth for Quarter 2, June Gallup Poll Approval, and a binary variable on incumbency status of a candidate.</p>
+<p>One model of the incumbency advantage is Alan Abramowitz&rsquo;s <strong>Time for Change</strong> model, which he developed in 1988. It is a simple Ordinary Least Squares Regression Model that relies on three independent variables: GDP Growth for Quarter 2, June Gallup Poll Approval, and a binary variable on incumbency status of a candidate.</p>
 <table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <caption>Table 2: Time for Change Models for 2024</caption>
  <thead>
@@ -920,7 +926,7 @@ Here, we visualize a replication of the findings from Kriner and Reeves' "Presid
   </tr>
 </tbody>
 </table>
-I have constructed four models based off of Abramowitz's Time for Change theory and predicted the upcoming 2024 election. In two models, I treat Harris as an incumbent candidate (and Trump a non-incumbent) and the other two models, I treat both candidates as non-incumbents. Like in previous weeks, I have compare models that include 2020 as a data point on which I train the model. 
+<p>I have constructed four models based off of Abramowitz&rsquo;s Time for Change theory and predicted the upcoming 2024 election. In two models, I treat Harris as an incumbent candidate (and Trump a non-incumbent) and the other two models, I treat both candidates as non-incumbents. Like in previous weeks, I have compare models that include 2020 as a data point on which I train the model.</p>
 <p>All models show promise with relatively high R-squared and adjusted-R-squared values. For the very first time since I have started this blog, a model I constructed predicted a Trump win in popular vote. In fact, across all Time for Change models, Trump is predicted to win the popular vote—whether or not I include 2020 training data and whether I not I treat Harris as an incumbent candidate. We can see how this differs from my preferred model thus far constructed: Nate Silver&rsquo;s, which is an ensemble model that involves economic and polling data and weighs polls higher the closer they get to election day (See more on this in Week 3&rsquo;s blog post).</p>
 <p>All this to say, the predicted two-party vote shares predicted from Abramowitz&rsquo;s model shows a difference when we treat Harris as an incumbent and when we do not. This makes sense as we would expect an incumbent to be advantaged by some number of percentage points than they would otherwise.</p>
 <h2 id="conclusion">

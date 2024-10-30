@@ -156,7 +156,7 @@ Above we calculate some descriptive statistics on the incumbency advantage. If w
 
 ## Pork Barrel Spending and Incumbency
 
-The advantage of incumbents is partly attributed to the powers they hold while in office and the ability to leverage them to garner votes. One such power is the power to apportion federal spending monies to key certain constituencies; this is known as pork barrel spending. The function of pork barrel spending lies in the idea that voters who receive more funding from an incumbent administration are more likely to view that administration favorably and cast their votes for them in the next election. 
+The advantage of incumbents is partly attributed to the powers they hold while in office and the ability to leverage them to garner votes. One such power is the power to apportion federal spending monies to key certain constituencies; this is known as pork barrel spending. The function of pork barrel spending lies in the idea that voters who receive more funding from an incumbent administration are more likely to view that administration favorably and cast their votes for them in the next election.
 
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-4-1.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-4-2.png" width="672" /><table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <caption>Table 1: Pork County-Level Model</caption>
@@ -561,11 +561,12 @@ The advantage of incumbents is partly attributed to the powers they hold while i
   </tr>
 </tbody>
 </table>
-Here, we visualize a replication of the findings from Kriner and Reeves' "Presidential Particularism and Divide-the-Dollar Politics" (2015). They find that spending of federal grants in swing states is higher than core states. Just looking at swing states, there is a sizable difference in spending when an incumbent is running in an election versus when they are not. It is intuitive that incumbents use federal spending to advantage them in upcoming elections when they have them. My hope is that visualizing pork barrel spending can help give shape to the idea of the incumbency advantage. 
+
+Here, we visualize a replication of the findings from Kriner and Reeves' "Presidential Particularism and Divide-the-Dollar Politics" (2015). They find that spending of federal grants in swing states is higher than core states. Just looking at swing states, there is a sizable difference in spending when an incumbent is running in an election versus when they are not. It is intuitive that incumbents use federal spending to advantage them in upcoming elections when they have them. My hope is that visualizing pork barrel spending can help give shape to the idea of the incumbency advantage.
 
 ## Time for a Change Model
 
-One model of the incumbency advantage is Alan Abramowitz's **Time for Change** model, which he developed in 1988. It is a simple Ordinary Least Squares Regression Model that relies on three independent variables:  GDP Growth for Quarter 2, June Gallup Poll Approval, and a binary variable on incumbency status of a candidate. 
+One model of the incumbency advantage is Alan Abramowitz's **Time for Change** model, which he developed in 1988. It is a simple Ordinary Least Squares Regression Model that relies on three independent variables: GDP Growth for Quarter 2, June Gallup Poll Approval, and a binary variable on incumbency status of a candidate.
 
 <table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <caption>Table 2: Time for Change Models for 2024</caption>
@@ -725,11 +726,12 @@ One model of the incumbency advantage is Alan Abramowitz's **Time for Change** m
   </tr>
 </tbody>
 </table>
-I have constructed four models based off of Abramowitz's Time for Change theory and predicted the upcoming 2024 election. In two models, I treat Harris as an incumbent candidate (and Trump a non-incumbent) and the other two models, I treat both candidates as non-incumbents. Like in previous weeks, I have compare models that include 2020 as a data point on which I train the model. 
+
+I have constructed four models based off of Abramowitz's Time for Change theory and predicted the upcoming 2024 election. In two models, I treat Harris as an incumbent candidate (and Trump a non-incumbent) and the other two models, I treat both candidates as non-incumbents. Like in previous weeks, I have compare models that include 2020 as a data point on which I train the model.
 
 All models show promise with relatively high R-squared and adjusted-R-squared values. For the very first time since I have started this blog, a model I constructed predicted a Trump win in popular vote. In fact, across all Time for Change models, Trump is predicted to win the popular vote—whether or not I include 2020 training data and whether I not I treat Harris as an incumbent candidate. We can see how this differs from my preferred model thus far constructed: Nate Silver's, which is an ensemble model that involves economic and polling data and weighs polls higher the closer they get to election day (See more on this in Week 3's blog post).
 
-All this to say, the predicted two-party vote shares predicted from Abramowitz's model shows a difference when we treat Harris as an incumbent and when we do not. This makes sense as we would expect an incumbent to be advantaged by some number of percentage points than they would otherwise. 
+All this to say, the predicted two-party vote shares predicted from Abramowitz's model shows a difference when we treat Harris as an incumbent and when we do not. This makes sense as we would expect an incumbent to be advantaged by some number of percentage points than they would otherwise.
 
 ## Conclusion
 
@@ -739,7 +741,7 @@ Across all four models I constructed off of Abramowitz's Time for Change Model, 
 
 ## **Sources**
 
-Abramowitz, Alan I. “An Improved Model for Predicting Presidential Election Outcomes.” *PS: Political Science and Politics*, vol. 21, no. 4, 1988, pp. 843–47. JSTOR, https://doi.org/10.2307/420023. 
+Abramowitz, Alan I. “An Improved Model for Predicting Presidential Election Outcomes.” *PS: Political Science and Politics*, vol. 21, no. 4, 1988, pp. 843–47. JSTOR, <https://doi.org/10.2307/420023>.
 
 Kriner, Douglas L., and Andrew Reeves. “Presidential Particularism and Divide-the-Dollar Politics.” *American Political Science Review* 109.1 (2015): 155–171. Web.
 
