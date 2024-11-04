@@ -1,0 +1,662 @@
+---
+title: 'Week 9: Final Election Prediction'
+author: Sammy Duggasani
+date: '2024-11-02'
+slug: []
+categories: []
+tags: []
+---
+
+# **Week 9: Final Prediction**
+
+**Monday, November 4, 2024**\
+**1 Day until Presidential Election**
+
+*Election Day is tomorrow! I'm flying to Atlanta Tuesday morning and immediately heading to my polling station to cast my ballot after having a lot of trouble with the mail-in process. When I began this blog nine weeks ago, I had very little knowledge of the inner-workings of election forecasting and the kind of data that was fed into predictive electoral models. Over the course of the past two months, I have built models using simple linear regression, probabilistic models, and machine learning methods — all of which had varying levels of robustness and reliability. Some had predicted a Harris landslide, others heavily favored Trump. In the past few weeks, though, my selection of a singular model type and efforts toward regularization have converged the forecasts on an incredibly tight race between the two candidates. As any major forecaster will tell you, this election can go either way. The purpose of this blog post is to corroborate this idea and to make one final prediction before we begin to see results unfold tomorrow ([and likely over the course of this week](https://globalnews.ca/news/10834744/us-election-results-when-will-we-know/)).*
+
+```{r include=FALSE}
+####----------------------------------------------------------#
+#### Preamble
+####----------------------------------------------------------#
+
+# Load libraries.
+## install via `install.packages("name")`
+library(geofacet)
+library(ggpubr)
+library(ggthemes)
+library(haven)
+library(kableExtra)
+library(maps)
+library(mgcv)
+library(mgcViz)
+library(RColorBrewer)
+library(scales)
+library(sf)
+library(spData)
+library(stargazer)
+library(tidygeocoder)
+library(tidyverse)
+library(tigris)
+library(tmap)
+library(tmaptools)
+library(viridis)
+library(modelsummary)
+
+## Import custom themes
+map_theme <- function() {
+  theme(
+    # Clean up border and background
+    panel.border = element_blank(),
+    panel.background = element_rect(fill = "snow2", color = NA),
+    # Center and bold title, include subtitle options
+    plot.title = element_text(size = 15, hjust = .5, face = "bold", family = "sans"),
+    plot.subtitle = element_text(size = 13, hjust = .5, family = "sans"),
+    plot.title.position = "panel",
+    # Remove extraneous information and clean up
+    axis.text = element_blank(),
+    axis.title = element_blank(),
+    axis.ticks = element_blank(),
+    axis.line = element_blank(),
+    # Legend 
+    legend.position = "right",
+    legend.title = element_text(size = 12, family = "sans"),
+    legend.text = element_text(size = 10, family = "sans"),
+    # Aspect ratio
+    aspect.ratio = .8
+  )
+}
+plot_date_theme <- function() {
+  theme(
+    # no border
+    panel.border = element_blank(),
+    # background
+    panel.background = element_rect(fill = "snow2"),
+    # text
+    plot.title = element_text(size = 15, hjust = .5, face = "bold", family = "sans"),
+    plot.subtitle = element_text(size = 13, hjust = .5, family = "sans"),
+    plot.title.position = "panel",
+    axis.text.x = element_text(size = 8, family = "sans"),
+    axis.text.y = element_text(size = 8, family = "sans"),
+    axis.title.x = element_text(family = "sans"),
+    axis.title.y = element_text(angle = 90, family = "sans"),
+    axis.ticks = element_line(colour = "black"),
+    axis.line = element_line(colour = "grey"),
+    # legend 
+    legend.position = "right",
+    legend.title = element_text(size = 12, family = "sans"),
+    legend.text = element_text(size = 10, family = "sans"),
+  )
+}
+plot_theme <- function() {
+  theme(
+    # no border
+    panel.border = element_blank(),
+    # background
+    panel.background = element_rect(fill = "snow2"),
+    # text
+    plot.title = element_text(size = 15, hjust = .5, face = "bold", family = "sans"),
+    plot.subtitle = element_text(size = 13, hjust = .5, family = "sans"),
+    plot.title.position = "panel",
+    axis.text.x = element_text(size = 8, family = "sans"),
+    axis.text.y = element_text(size = 8, family = "sans"),
+    axis.title.x = element_text(family = "sans"),
+    axis.title.y = element_text(angle = 90, family = "sans"),
+    axis.ticks = element_line(colour = "black"),
+    axis.line = element_line(colour = "grey"),
+    # legend 
+    legend.position = "right",
+    legend.title = element_text(size = 12, family = "sans"),
+    legend.text = element_text(size = 10, family = "sans"),
+  )
+}
+my_prettier_theme <- function() {
+  theme(
+    # no border
+    panel.border = element_blank(),
+    # background
+    panel.background = element_rect(fill = "snow2"),
+    # text
+    plot.title = element_text(size = 15, hjust = .5, face = "bold", family = "sans"),
+    plot.subtitle = element_text(size = 13, hjust = .5, family = "sans"),
+    plot.title.position = "panel",
+    axis.text.x = element_text(size = 8, angle = 90, hjust = .5, family = "sans"),
+    axis.text.y = element_text(size = 8, family = "sans"),
+    axis.title.x = element_text(family = "sans"),
+    axis.title.y = element_text(angle = 90, family = "sans"),
+    axis.ticks = element_line(colour = "black"),
+    axis.line = element_line(colour = "grey"),
+    # legend 
+    legend.position = "right",
+    legend.title = element_text(size = 12, family = "sans"),
+    legend.text = element_text(size = 10, family = "sans"),
+    # aspect ratio
+    # aspect.ratio = .8
+  )
+}
+
+# Code to color cells based on winner
+color_state <- function(winner, state_name) {
+  if (winner == "Democrat") {
+    return(cell_spec(state_name, "html", color = "white", background = "steelblue3"))
+  } else if (winner == "Republican") {
+    return(cell_spec(state_name, "html", color = "white", background = "tomato3"))
+  } else {
+    return(state_name)
+  }
+}
+```
+
+```{r include=FALSE}
+####----------------------------------------------------------#
+#### Read, merge, and process data. -- Code by Matthew Dardet
+####----------------------------------------------------------#
+
+# Read popular vote datasets. 
+d_popvote <- read_csv("popvote_1948_2020.csv", show_col_types = FALSE)
+d_state_popvote <- read_csv("state_popvote_1948_2020.csv")
+d_state_popvote[d_state_popvote$state == "District of Columbia",]$state <- "District Of Columbia"
+
+# Read elector distribution dataset. 
+d_ec <- read_csv("corrected_ec_1948_2024.csv", show_col_types = FALSE)
+
+# Read polling data. 
+d_polls <- read_csv("national_polls_1968-2024.csv", show_col_types = FALSE)
+d_state_polls <- read_csv("state_polls_1968-2024.csv", show_col_types = FALSE)
+
+# Process state-level polling data. 
+d_pollav_state <- d_state_polls |> 
+  group_by(year, state, party) |>
+  mutate(mean_pollav = mean(poll_support, na.rm = TRUE)) |>
+  top_n(1, poll_date) |> 
+  rename(latest_pollav = poll_support) |>
+  select(-c(weeks_left, days_left, poll_date, candidate, before_convention)) |>
+  pivot_wider(names_from = party, values_from = c(latest_pollav, mean_pollav))
+
+# Read turnout data. 
+d_turnout <- read_csv("state_turnout_1980_2022.csv", show_col_types = FALSE)
+
+# Read county turnout. 
+d_county_turnout <- read_csv("county_turnout.csv", show_col_types = FALSE)
+
+# Read state-level demographics.
+d_state_demog <- read_csv("demographics.csv", show_col_types = FALSE)
+
+# Read county demographics. 
+d_county_demog <- read_csv("county_demographics.csv", show_col_types = FALSE)
+
+# Read campaign events datasets. 
+d_campaign_events <- read_csv("campaigns_2016_2024.csv", show_col_types = FALSE)[,-1]
+
+# Read economic data.
+d_econ <- read_csv("fred_econ.csv", show_col_types = FALSE) |> 
+  filter(quarter == 2)
+
+# Read campaign spending
+campaign_spending <- read_csv("FEC_contributions_by_state_2008_2024.csv", show_col_types = FALSE)
+
+# Read turnout data
+d_state_turnout <- read_csv("state_turnout_1980_2022.csv", show_col_types = FALSE)
+d_state_turnout <- d_state_turnout |> 
+  mutate(vep_turnout = as.numeric(str_remove(vep_turnout, "%"))/100) |> 
+  select(year, state, vep_turnout)
+```
+
+```{r cache=TRUE, include=FALSE}
+####--------------------------------------------------------------#
+#### Update model
+####--------------------------------------------------------------#
+set.seed(02138)
+
+d_campaign_spending <- d_state_popvote |> 
+  mutate(state_abb = state.abb[match(d_state_popvote$state, state.name)]) |> 
+  left_join(campaign_spending |> filter(party == "Democrat"), by = c("year" = "election_year", "state_abb" = "contribution_state")) |> 
+  filter(year >= 2008)
+
+composite_dataset <- d_pollav_state |>
+  left_join(d_econ, by = "year") |>
+  left_join(d_popvote |>
+              filter(party == "democrat"), 
+            by = "year") |>
+  left_join(d_state_popvote, by = c("year", "state")) |>
+  left_join(d_state_turnout, by = c("year", "state")) |>
+  left_join(d_campaign_spending |>
+              select(year, state, contribution_receipt_amount), by = c("year", "state")) |>
+  filter(year >= 2008) |>
+  ungroup()
+
+# Only select and train on battleground states
+battleground_states = list("Arizona", "Georgia", "Michigan", "Nevada", "North Carolina", "Pennsylvania", "Wisconsin")
+
+composite_dataset <- composite_dataset |>
+  filter(state %in% battleground_states)
+
+# Split into train and test data
+d_train <- composite_dataset |>
+  filter(year < 2024)
+d_test <- composite_dataset |>
+  filter(year == 2024)
+
+# Create a model that involves turnout and economic indicators from previous models
+simp.vars <- c("D_pv2p_lag1", "D_pv2p_lag2", "latest_pollav_DEM", "mean_pollav_DEM",
+               "CPI", "GDP_growth_quarterly", "contribution_receipt_amount")
+
+# mod_lm_dem_simp <- lm(D_pv2p ~ D_pv2p_lag1 + D_pv2p_lag2 + latest_pollav_DEM + mean_pollav_DEM + CPI + GDP_growth_quarterly + contribution_receipt_amount,
+#                       data = d_train)
+
+# Add back in lagged vote share for 2024. 
+t <- composite_dataset |> 
+  filter(year >= 2016) |> 
+  arrange(year) |> 
+  group_by(state) |> 
+  mutate(
+    D_pv2p_lag1 = lag(D_pv2p, 1),
+    D_pv2p_lag2 = lag(D_pv2p, 2)) |> 
+  filter(year == 2024) |> 
+  select(state, year, D_pv2p, D_pv2p_lag1, D_pv2p_lag2)
+
+# Subset testing data to only relevant variables for our simple model. 
+d_test_simp <- d_test |> 
+  select(-c(D_pv2p, D_pv2p_lag1, D_pv2p_lag2)) |> 
+  left_join(t, by = c("state", "year")) |> 
+  select(state, year, all_of(simp.vars))
+
+# Get average state-level turnout across 2020, 2016, 2012.  
+d_donation_avg <- d_train |> 
+  filter(year %in% c(2020, 2016, 2012)) |> 
+  filter(state %in% unique(d_test_simp$state)) |> 
+  group_by(state) |> 
+  summarize(contribution_receipt_amount = mean(contribution_receipt_amount, na.rm = TRUE))
+
+# Make predictions with simple average turnout. 
+d_test_simp <- d_test_simp |> 
+  left_join(d_donation_avg, by = "state") |> 
+  select(-contribution_receipt_amount.x) |> 
+  rename(contribution_receipt_amount = contribution_receipt_amount.y)
+```
+
+## Model Description & Coefficients
+
+```{r cache=TRUE, include=FALSE}
+library(glmnet)
+set.seed(02138)
+# LASSO regression
+x_train <- model.matrix(D_pv2p ~ D_pv2p_lag1 + D_pv2p_lag2 + latest_pollav_DEM + mean_pollav_DEM + CPI + GDP_growth_quarterly + log(contribution_receipt_amount), data = d_train)[,-1]
+y_train <- d_train$D_pv2p
+lasso_model <- cv.glmnet(x_train, y_train, alpha = 1)
+
+# Make predictions
+x_test <- model.matrix(~ D_pv2p_lag1 + D_pv2p_lag2 + latest_pollav_DEM + mean_pollav_DEM + CPI + GDP_growth_quarterly + log(contribution_receipt_amount), data = d_test_simp)[,-1]
+simp_pred_dem <- predict(lasso_model, newx = x_test, s = "lambda.min")
+simp_pred_rep <- 100 - simp_pred_dem
+
+# Make a battleground dataset
+pred_dem <- data.frame(
+  State = c("Arizona", "Georgia", "Michigan", "Nevada", "North Carolina", "Pennsylvania", "Wisconsin"),
+  Democrat = simp_pred_dem
+) |>
+  rename(Democrat = lambda.min)
+
+pred_rep <- data.frame(
+  State = c("Arizona", "Georgia", "Michigan", "Nevada", "North Carolina", "Pennsylvania", "Wisconsin"),
+  Republican = simp_pred_rep
+) |>
+  rename(Republican = lambda.min)
+
+predictions <- pred_dem |>
+  left_join(pred_rep, by = "State") |>
+  mutate(Winner = if_else(Democrat>Republican, "Democrat", "Republican"))
+
+battleground_win_pred <- data.frame(state = predictions$State,
+                       year = rep(2024, length(predictions$State)),
+                       Democrat = predictions$Democrat,
+                       Republican = predictions$Republican,
+                       winner = ifelse(predictions$Winner=="Democrat", "Democrat", "Republican")) |>
+  left_join(d_ec, by = c("state", "year")) |>
+  select(-year, -stateab) |>
+  select(state, electors, Democrat, Republican, winner)
+```
+
+For my final election prediction model, I decided to go with a LASSO regression. Throughout this semester, we have looked at a number of predictors that could have an impact on a presidential candidate's vote share — from economic indicators to polling data to demographics to hurricanes and other shocks. With all these inputs in mind, I thought it most useful to find a method that selects only the most significant or useful features. This is the function of LASSO, which nullifies those predictors that are not as influential on the response variable. A lot of election forecasts run the risk of overfitting because they take in too much information and generate patterns of out of data that does not necessarily reflect reality. I thought it would be better to be conservative with selecting predictors and LASSO regression helped me do that.
+
+```{r echo=FALSE, results='asis'}
+library(grid)
+coef_matrix <- coef(lasso_model, s = "lambda.min")  |>
+  as.matrix()
+
+# Extract predictor names and coefficients
+predictor_names <- c("Intercept", "Democratic 2-Party Vote Share in Last Election", "Democratic 2-Party Vote Share in Second-to-Last Election", "Latest Democratic Poll Average", "Mean Democratic Poll Average", "Consumer Price Index - Quarter 2", "GDP Growth - Quarter 2", "Log of Campaign Donation Amount")
+coefficients <- as.vector(coef_matrix)
+
+# Create a data frame
+coef_df <- data.frame(
+  Predictor = predictor_names,
+  Coefficient = coefficients
+)
+
+
+coef_df |>
+  kable(caption = "LASSO Model Coefficients") |>
+  kable_styling("striped")
+
+predictors <- c("D_pv2p_lag1", "D_pv2p_lag2", "latest_pollav_DEM", "mean_pollav_DEM", "CPI", "GDP_growth_quarterly", "log(contribution_receipt_amount)")
+
+
+coef_values <- coef(lasso_model, s = "lambda.min") |>
+  as.matrix() |>
+  as.vector()
+
+intercept <- coef_values[1]
+coefs <- coef_values[-1]
+
+predictors <- c("D_pv2p_lag1", "D_pv2p_lag2", "latest_pollav_DEM", 
+                "mean_pollav_DEM", "CPI", "GDP_growth_quarterly", 
+                "log(contribution_receipt_amount)")
+
+text_form <- paste0(
+  "y = ", round(intercept, 4), " + ",
+  paste(
+    paste0(round(coefs, 4), " * ", predictors),
+    collapse = " + "
+  )
+)
+```
+
+Here, you can see the predictors and data that I decided to include in my LASSO regression model. I converged on these variables throughout the weeks by testing each of their relationships with a response variable of Democratic 2-party vote share. I included only those predictors which a significant impact on vote share: this includes a state's voting behavior in past elections, state polling data, economic indicators, and campaign donation data. After having cross-validated to find the ideal lambda value for my LASSO regression, my model has nullified the Mean Democratic Poll Average variable. So, my final regularized model has corrected for a variable that I included, which might not actually have been that informative despite my previous regressions.
+
+$$
+\begin{align}
+y = & \, 7.7156 + 0.1257 \times \text{D_pv2p_lag1} + 0.0079 \times \text{D_pv2p_lag2} \\
+    & + 0.9762 \times \text{latest_pollav_DEM} + 0 \times \text{mean_pollav_DEM} \\
+    & - 0.0037 \times \text{CPI} + 0.0656 \times \text{GDP_growth_quarterly} \\
+    & - 0.5851 \times \log(\text{contribution_receipt_amount})
+\end{align}
+$$
+
+$$
+\begin{align*}
+\min_{\beta_0, \beta} \Bigg\{ \frac{1}{2n} \sum_{i=1}^{n} \Big( 
+& y_i - (7.7156 + 0.1257 \times \text{D_pv2p_lag1} + 0.0079 \times \text{D_pv2p_lag2} \\
+& + 0.9762 \times \text{latest_pollav_DEM} + 0 \times \text{mean_pollav_DEM} \\
+& - 0.0037 \times \text{CPI} + 0.0656 \times \text{GDP_growth_quarterly} \\
+& - 0.5851 \times \log(\text{contribution_receipt_amount})) \Big)^2 \\
+& + \lambda \Big( |0.1257| + |0.0079| + |0.9762| + |0| + |-0.0037| \\
+& + |0.0656| + |-0.5851| \Big) \Bigg\}
+\end{align*}
+$$
+
+The first is the formula representation of my predictive model, where y refers to Democratic 2-Party Vote Share for a given state in a given election year. The second is a mathematical representation of the regularization objective that would occur for these predictors in particular.
+
+To interpret the coefficients as they are represented above, we can say that, if a Democratic party were to receive 0% of the vote in the past two elections, the latest polling average for Democrats is 0, the Consumer Price Index is 0, there is no GDP growth for quarter 2 that year, and there are no campaign donations for the candidate, then the Democrat running that year in that state would get about 7.7% of the 2-Party vote share. Holding all other variables constant, as the Democratic vote share in the past election increases by a point so does the Democratic vote share in the upcoming election by .1257 points (and .0079 points with respect to a point increase in Democratic vote share in the second-to-last election). Holding all other variables constant, a point increase in the latest polling average for Democrats coincides with about a .98 point increase in Democratic 2-Party vote share in the upcoming election. Holding all other variables constant, a point increase in GDP Growth in Quarter 2 results in a .06 point increase in Democratic 2-Party vote share in the upcoming election. Finally, holding all other variables constant, a point increase in the log of campaign donations to Democrats results in about a .6 point decrease in the Democratic 2-party vote share in the upcoming election. All these coefficients seem intuitive except for the campaign donation variable. This representation is due to the logarithmic transformation of campaign donation data to scale its coefficient, but in reality, there exists a positive relationship between how much money a Democratic campaign rakes in and its eventual vote share. ([Refer to Week 6's blog for more on this.](https://sduggasani.github.io/2024election-blog/post/2024-10-12-week-6-campaign-spending/))
+
+```{r bootstrapped_coefficients, echo=FALSE}
+options(warn = -1)
+library(glmnet)
+library(boot)
+
+# Bootstrapping function 
+bootstrap_fn <- function(data, indices) {
+  d <- data[indices, ]
+  x_boot <- model.matrix(D_pv2p ~ D_pv2p_lag1 + D_pv2p_lag2 + latest_pollav_DEM + mean_pollav_DEM + CPI + GDP_growth_quarterly + log(contribution_receipt_amount), data = d)[, -1]
+  y_boot <- d$D_pv2p
+  fit <- cv.glmnet(x_boot, y_boot, alpha = 1)
+  as.vector(coef(fit, s = "lambda.min"))
+}
+
+data_for_bootstrap <- d_train
+
+# Bootstrapping the coefficients
+set.seed(02138)
+boot_results <- boot(data_for_bootstrap, bootstrap_fn, R = 1000)
+
+# Calculate confidence intervals for all coefficients
+coef_names <- rownames(coef(lasso_model, s = "lambda.min"))
+coef_cis <- lapply(1:length(coef_names), function(i) {
+  boot.ci(boot_results, type = "perc", index = i)
+})
+names(coef_cis) <- coef_names
+
+# coef_cis
+
+coef_summary <- do.call(rbind, lapply(1:length(coef_names), function(i) {
+  ci <- boot.ci(boot_results, type = "perc", index = i)
+  c(
+    Predictor = coef_names[i],
+    Lower = ci$percent[4],  # Lower bound of CI
+    Upper = ci$percent[5]   # Upper bound of CI
+  )
+}))
+
+coef_summary <- as.data.frame(coef_summary)
+coef_summary$Lower <- as.numeric(coef_summary$Lower)
+coef_summary$Upper <- as.numeric(coef_summary$Upper)
+coef_summary |>
+  kable(caption = "Coefficients about a 95% Confidence Interval") |>
+  kable_styling("striped")
+```
+
+After bootstrapping the LASSO regression, we get the above range of coefficient values within a 95% confidence interval. It is peculiar that a lot of these predictors include 0 in their confidence intervals, which is troublesome for how much value we place on their significance. Nevertheless, their contributions to the model are still valuable to some extent. I will note, however, that the latest polling average for Democrat variable seems to be the most significant and that is reflected in its confidence interval (which does not include 0) and its large coefficient compared to other predictors.
+
+## Model Validation
+
+```{r model_validation, echo=FALSE}
+options(warn = -1)
+set.seed(02138)
+# IN SAMPLE TESTING
+### R-SQUARED
+y_train <- as.numeric(d_train$D_pv2p)
+predictions <- predict(lasso_model, newx = x_train, s = "lambda.min")
+predictions <- as.vector(predictions)
+tss <- sum((y_train - mean(y_train))^2)
+rss <- sum((y_train - predictions)^2)
+r_squared <- 1 - (rss / tss)
+
+### MEAN SQUARED ERROR
+residuals <- y_train - predict(lasso_model, newx = x_train, s = "lambda.min")
+mse <- mean(residuals^2)
+
+# OUT OF SAMPLE TESTING
+### Leave One Out Cross Validation
+n <- nrow(d_train)
+loo_predictions <- numeric(n)
+for (i in 1:n) {
+  # Remove an observation
+  train_data <- d_train[-i, ]
+  test_data <- d_train[i, , drop = FALSE]
+  
+  x_train_loo <- model.matrix(D_pv2p ~ D_pv2p_lag1 + D_pv2p_lag2 + latest_pollav_DEM + mean_pollav_DEM + CPI + GDP_growth_quarterly + log(contribution_receipt_amount), data = train_data)[, -1]
+  y_train_loo <- train_data$D_pv2p
+  
+  x_test_loo <- model.matrix(D_pv2p ~ D_pv2p_lag1 + D_pv2p_lag2 + latest_pollav_DEM + mean_pollav_DEM + CPI + GDP_growth_quarterly + log(contribution_receipt_amount), data = test_data)[, -1]
+  
+  # Reconstruct lasso model with loo
+  lasso_model_loo <- cv.glmnet(x_train_loo, y_train_loo, alpha = 1)
+  loo_predictions[i] <- predict(lasso_model_loo, newx = x_test_loo, s = "lambda.min")
+}
+
+actual_values <- d_train$D_pv2p
+loo_mse <- mean((actual_values - loo_predictions)^2)
+
+valid_metrics <- list(
+  "R Squared" = r_squared,
+  "Mean Squared Error" = mse,
+  "Leave-One-Out Cross-Validation MSE" = loo_mse
+)
+
+
+metrics_df <- as.data.frame(do.call(rbind, valid_metrics))
+colnames(metrics_df) <- "Value"
+
+metrics_df |>
+  kable(caption = "Model Validation Metrics") |>
+  kable_styling("striped")
+```
+
+To evaluate the robustness of my model, I rely on various model validation methods. First, I made sure to employ cross-validation within my LASSO regression, which minimizes the lambda squared error.
+
+For in sample evaluation, I rely on R-Squared metrics and Mean Squared Error. For the coefficient of determination (R-Squared), I get about .86 which suggests a strong model. The Mean Squared Error is also relatively smalled compared to other models I have constructed in previous weeks. It is by no means small, though, especially considering that an MSE of this value in certain tight races could mean that a race swings either way.
+
+For out of sample evaluation, I also rely on leave-one-out cross-validation. This gives me a higher value than the MSE, which is not the best but can be attributed to the small amount of observations that are used for this model. Realistically, there is not much data to work with for presidential elections, especially where economic indicators, demographics, and campaign donations are concerned. This is a constraint of all election forecasting models, and mine is not immune to it either.
+
+## Uncertainty
+
+```{r prediction_uncertainty, echo=FALSE}
+set.seed(02138)
+
+# Predict on the test set
+simp_pred_dem <- predict(lasso_model, newx = x_test, s = "lambda.min")
+simp_pred_rep <- 100 - simp_pred_dem
+
+# Residuals for the predictions
+residuals <- y_train - predict(lasso_model, newx = x_train, s = "lambda.min")
+residual_sd <- sd(residuals)
+
+# Simulate predictions to generate confidence intervals
+m <- 1000  
+pred_mat <- replicate(m, {
+  noise <- rnorm(length(simp_pred_dem), mean = 0, sd = residual_sd)
+  predicted_dem <- simp_pred_dem + noise
+  predicted_rep <- 100 - predicted_dem
+  data.frame(Democrat = predicted_dem, Republican = predicted_rep)
+}, simplify = FALSE)
+
+# Combine all simulations
+pred_sim <- do.call(rbind, pred_mat)
+
+# Group by state and compute confidence intervals
+pred_sim_summary <- pred_sim |>
+  mutate(state = rep(d_test_simp$state, m)) |>
+  group_by(state) |>
+  summarize(
+    mean_dem = mean(lambda.min),
+    sd_dem = sd(lambda.min),
+    lower_dem = mean_dem - 1.96 * sd_dem,
+    upper_dem = mean_dem + 1.96 * sd_dem,
+    mean_rep = mean(lambda.min.1),
+    sd_rep = sd(lambda.min.1),
+    lower_rep = mean_rep - 1.96 * sd_rep,
+    upper_rep = mean_rep + 1.96 * sd_rep
+  )
+pred_sim_summary <- pred_sim_summary |>
+  mutate(
+    winner = ifelse(mean_dem > mean_rep, "Democrat", "Republican"),
+    colored_state = mapply(color_state, winner, state)
+  )
+
+# Colored prediction table
+pred_sim_summary |>
+  select(colored_state, mean_dem, sd_dem, lower_dem, upper_dem, mean_rep, sd_rep, lower_rep, upper_rep) |>
+  rename(State = colored_state) |>
+  kable("html", escape = FALSE) |>
+  kable_styling("striped")
+```
+
+Just like I bootstrapped for my coefficients in the model, I am also bootstrapping for the Democratic 2-Party Vote Share for the battleground states to give more color to the uncertainty around my predictions. For every single swing state, the margin by which the predicted party "wins" is well within the standard deviation, or margin of error. This suggests that, while I am converging on one party to win for a given swing state, they are all toss-ups and either party can realistically win them. That is, my model is not determinative. Still, I place some trust in the mean_dem and mean_rep vote share predictions for the swing states above for the sake of this endeavor and my work of the past few weeks. The states colored in blue are those where the point prediction for Democrats (with 2-Party vote share) is higher than it is for Republicans. The states colored in red are those where the point prediction for Republicans (with 2-Party vote share) is higher than it is for Democrats. The standard deviations for all swing states is relatively the same.
+
+## Electoral College Visualization
+
+```{r echo=FALSE, cache=TRUE}
+set.seed(02138)
+# Simple expectation of red-blue divide, using non-battleground states from 2020
+
+rep_states_2020 <- d_state_popvote |>
+  filter(year == 2020, R_pv2p > 50, !(state %in% battleground_states)) |>
+  pull(state)
+
+dem_states_2020 <- d_state_popvote |>
+  filter(year == 2020, D_pv2p > 50, !(state %in% battleground_states)) |>
+  pull(state)
+
+all_nonbattle_states <- c(rep_states_2020, dem_states_2020)
+winner <- c(rep("Republican", length(rep_states_2020)), rep("Democrat", length(dem_states_2020)))
+all_nonbattle_states <- data.frame(state = all_nonbattle_states, Winner = winner)
+
+# Join battle and non-battle datasets
+all_states <- battleground_win_pred |>
+  select(state, winner) |>  
+  full_join(all_nonbattle_states, by = "state", suffix = c("_battleground", "_nonbattleground"))
+
+# Clean up all state dataset
+all_states <- all_states |> 
+  # Combine separate non-battle and battle winner variables into one winner
+  mutate(winner = coalesce(winner, Winner)) |> 
+  # Remove irrelevant non-battle and battle winner
+  select(-Winner)
+
+# Join predicted state winner data with electoral
+ec_2024_predicted <- d_ec |>
+  filter(year == 2024) |>
+  left_join(all_states, by = "state") 
+
+ec_2024_predicted_kable <- ec_2024_predicted |>
+  select('state', electors, winner) |>
+  rename("Predicted Electoral Votes" = electors,
+         "State" = state,
+         "Winner" = winner) |>
+  mutate(
+    State = mapply(color_state, Winner, State)
+  )
+
+# Construct the table using kable
+kable(ec_2024_predicted_kable, escape = FALSE, format = "html",
+      col.names = c("State", "Predicted Electoral Votes", "Winner"),
+      caption = "Predicted Electoral Votes by State for 2024") %>%
+  kable_styling(bootstrap_options = "hover", position = "center")
+
+# Color table by party and bold predicted winner of election
+d_ec_wide <- ec_2024_predicted |>
+  group_by(winner)|>
+  summarize(electoral_votes = sum(electors)) |>
+  rename("Electoral Votes" = electoral_votes,
+         "Winner" = winner)
+color_party <- function(winner, votes) {
+  color <- if (winner == "Democrat") "steelblue3" else "tomato3"
+  if (votes == max(d_ec_wide$`Electoral Votes`)) {
+    return(cell_spec(winner, "html", color = "white", background = color, bold = TRUE))
+  } else {
+    return(cell_spec(winner, "html", color = "white", background = color))
+  }
+}
+
+d_ec_wide_kable <- d_ec_wide %>%
+  mutate(
+    Winner = mapply(color_party, Winner, `Electoral Votes`)
+  )
+# Construct the table using kable
+kable(d_ec_wide_kable, escape = FALSE, format = "html",
+      col.names = c("Winner", "Electoral Votes"),
+      caption = "Predicted Electoral Votes for 2024") %>%
+  kable_styling(bootstrap_options = "hover", position = "center")
+# Map visualization
+states_map <- map_data("state")
+
+# Convert state names in data to lowercase for matching with the map data
+final_dataset <- ec_2024_predicted |>
+  mutate(state = tolower(state))
+
+# Join the map data with state-level
+map_data_joined <- states_map |>
+  left_join(final_dataset, by = c("region" = "state"))
+
+# Plot the map, coloring by winner
+ggplot(map_data_joined, aes(x = long, y = lat, group = group, fill = winner)) +
+  geom_polygon(color = "black") +
+  scale_fill_manual(values = c("Republican" = "tomato3", "Democrat" = "steelblue3")) + 
+  labs(title = "2024 Election Night Prediction", fill = "Winner") +
+  map_theme()
+```
+
+Putting my bootstrapped point predictions into play, I have constructed a final electoral college prediction above. Of the swing states, the Republicans are expected to take Georgia (my home state), North Carolina, and Arizona. The Democrats are expected to take Pennsylvania, Wisconsin, Nevada, and Michigan. This puts the Democrats just barely over the 270 needed to win the office. If this prediction were true, it would make the 2024 election one of the closest in recent history, second only to the 2000 election betwen Bush and Gore.
+
+## Conclusion
+
+**According to this week's model, Harris will win the 2024 Presidential Election, taking 276 electoral votes.**
+
+My models for the past few weeks have been wavering between a Harris victory and a Trump victory by incredibly close margins. This is an incredibly close race, and we should not be surprised by the results. Thank you for following along for the past couple of weeks. Thank you to the GOV 1347 teaching staff for their help throughout the semester with content questions and technical difficulties. Thank you in particular to Matthew Dardet for all his guidance and Prof. Ryan Enos for his incredibly insightful lectures. Hopefully soon, we will see how my prediction fares. Until then, take care!
+
+## Sources
+
+"US Election Results: When Will We Know?" Global News, 4 Nov. 2024, <https://globalnews.ca/news/10834744/us-election-results-when-will-we-know/>.
+
+Polling Data Provided by GOV 1347: Election Analytics teaching staff (which drew from the FiveThirtyEight GitHub)
+
+Economic Data Provided by GOV 1347: Election Analytics teaching staff (which drew from the Bureau of Economic Analysis and Federal Reserve Economic Data)
