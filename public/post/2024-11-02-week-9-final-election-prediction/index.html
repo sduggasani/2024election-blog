@@ -14,8 +14,6 @@
 
 
 
-
-
   Week 9: Final Prediction
   #
 
@@ -35,14 +33,14 @@ Election Day is tomorrow! I’m flying to Atlanta Tuesday morning and immediatel
   <meta property="og:type" content="article">
     <meta property="article:section" content="post">
     <meta property="article:published_time" content="2024-11-02T00:00:00+00:00">
-    <meta property="article:modified_time" content="2024-11-02T00:00:00+00:00">
+    <meta property="article:modified_time" content="2024-11-04T15:53:44-05:00">
 <title>Week 9: Final Election Prediction | 2024 Election Blog</title>
 <link rel="manifest" href="/2024election-blog/manifest.json">
 <link rel="icon" href="/2024election-blog/favicon.png" >
 <link rel="canonical" href="https://sduggasani.github.io/2024election-blog/post/2024-11-02-week-9-final-election-prediction/">
 <link rel="stylesheet" href="/2024election-blog/book.min.309b7ed028807cdb68d8d61e26d609f48369c098dbf5e4d8c0dcf4cdf49feafc.css" integrity="sha256-MJt&#43;0CiAfNto2NYeJtYJ9INpwJjb9eTYwNz0zfSf6vw=" crossorigin="anonymous">
   <script defer src="/2024election-blog/fuse.min.js"></script>
-  <script defer src="/2024election-blog/en.search.min.b04bfc8469d8f4fd84b0de30f5d9de846bc983eda82b31a26e041b2e9b65c539.js" integrity="sha256-sEv8hGnY9P2EsN4w9dnehGvJg&#43;2oKzGibgQbLptlxTk=" crossorigin="anonymous"></script>
+  <script defer src="/2024election-blog/en.search.min.6613c49e5e0d4521067c2c0b277dcc7d66a258e3df52f2ac84fb4d4ecd99b0d1.js" integrity="sha256-ZhPEnl4NRSEGfCwLJ33MfWaiWOPfUvKshPtNTs2ZsNE=" crossorigin="anonymous"></script>
 
   <script defer src="/2024election-blog/sw.min.f09ccc658cc70834310535c40cbee1514cd65302e6fa168c4ae787519a02cf87.js" integrity="sha256-8JzMZYzHCDQxBTXEDL7hUUzWUwLm&#43;haMSueHUZoCz4c=" crossorigin="anonymous"></script>
 <!--
@@ -234,8 +232,6 @@ https://github.com/alex-shpak/hugo-book
 <link href="https://sduggasani.github.io/2024election-blog/post/2024-11-02-week-9-final-election-prediction/index_files/lightable/lightable.css" rel="stylesheet" />
 <script src="https://sduggasani.github.io/2024election-blog/post/2024-11-02-week-9-final-election-prediction/index_files/kePrint/kePrint.js"></script>
 <link href="https://sduggasani.github.io/2024election-blog/post/2024-11-02-week-9-final-election-prediction/index_files/lightable/lightable.css" rel="stylesheet" />
-<script src="https://sduggasani.github.io/2024election-blog/post/2024-11-02-week-9-final-election-prediction/index_files/kePrint/kePrint.js"></script>
-<link href="https://sduggasani.github.io/2024election-blog/post/2024-11-02-week-9-final-election-prediction/index_files/lightable/lightable.css" rel="stylesheet" />
 <h1 id="week-9-final-prediction">
   <strong>Week 9: Final Prediction</strong>
   <a class="anchor" href="#week-9-final-prediction">#</a>
@@ -248,7 +244,9 @@ https://github.com/alex-shpak/hugo-book
   Model Description &amp; Coefficients
   <a class="anchor" href="#model-description--coefficients">#</a>
 </h2>
-<p>For my final election prediction model, I decided to go with a LASSO regression. Throughout this semester, we have looked at a number of predictors that could have an impact on a presidential candidate&rsquo;s vote share — from economic indicators to polling data to demographics to hurricanes and other shocks. With all these inputs in mind, I thought it most useful to find a method that selects only the most significant or useful features. This is the function of LASSO, which nullifies those predictors that are not as influential on the response variable. A lot of election forecasts run the risk of overfitting because they take in too much information and generate patterns of out of data that does not necessarily reflect reality. I thought it would be better to be conservative with selecting predictors and LASSO regression helped me do that.</p>
+<pre tabindex="0"><code>## Warning: Option grouped=FALSE enforced in cv.glmnet, since &lt; 3 observations per
+## fold
+</code></pre><p>For my final election prediction model, I decided to go with a LASSO regression. Throughout this semester, we have looked at a number of predictors that could have an impact on a presidential candidate&rsquo;s vote share — from economic indicators to polling data to demographics to hurricanes and other shocks. With all these inputs in mind, I thought it most useful to find a method that selects only the most significant or useful features. This is the function of LASSO, which nullifies those predictors that are not as influential on the response variable. A lot of election forecasts run the risk of overfitting because they take in too much information and generate patterns of out of data that does not necessarily reflect reality. I thought it would be better to be conservative with selecting predictors and LASSO regression helped me do that.</p>
 <table class="table table-striped" style="margin-left: auto; margin-right: auto;">
 <caption>Table 1: (\#tab:unnamed-chunk-5)LASSO Model Coefficients</caption>
  <thead>
@@ -293,12 +291,10 @@ https://github.com/alex-shpak/hugo-book
 </tbody>
 </table>
 <p>Here, you can see the predictors and data that I decided to include in my LASSO regression model. I converged on these variables throughout the weeks by testing each of their relationships with a response variable of Democratic 2-party vote share. I included only those predictors which a significant impact on vote share: this includes a state&rsquo;s voting behavior in past elections, state polling data, economic indicators, and campaign donation data. After having cross-validated to find the ideal lambda value for my LASSO regression, my model has nullified the Mean Democratic Poll Average variable. So, my final regularized model has corrected for a variable that I included, which might not actually have been that informative despite my previous regressions.</p>
-<p>$$
-<code>\begin{align} y = &amp; \, 7.7156 + 0.1257 \times \text{D_pv2p_lag1} + 0.0079 \times \text{D_pv2p_lag2} \\ &amp; + 0.9762 \times \text{latest_pollav_DEM} + 0 \times \text{mean_pollav_DEM} \\ &amp; - 0.0037 \times \text{CPI} + 0.0656 \times \text{GDP_growth_quarterly} \\ &amp; - 0.5851 \times \log(\text{contribution_receipt_amount}) \end{align}</code>
-$$</p>
-<p>$$
-<code>\begin{align*} \min_{\beta_0, \beta} \Bigg\{ \frac{1}{2n} \sum_{i=1}^{n} \Big(  &amp; y_i - (7.7156 + 0.1257 \times \text{D_pv2p_lag1} + 0.0079 \times \text{D_pv2p_lag2} \\ &amp; + 0.9762 \times \text{latest_pollav_DEM} + 0 \times \text{mean_pollav_DEM} \\ &amp; - 0.0037 \times \text{CPI} + 0.0656 \times \text{GDP_growth_quarterly} \\ &amp; - 0.5851 \times \log(\text{contribution_receipt_amount})) \Big)^2 \\ &amp; + \lambda \Big( |0.1257| + |0.0079| + |0.9762| + |0| + |-0.0037| \\ &amp; + |0.0656| + |-0.5851| \Big) \Bigg\} \end{align*}</code>
-$$</p>
+<p>
+  <img src="images/Screenshot%202024-11-04%20at%203.57.10%20PM.png" alt="Model Formula" /></p>
+<p>
+  <img src="images/Screenshot%202024-11-04%20at%203.57.07%20PM.png" alt="LASSO Regularization Objective Formula" /></p>
 <p>The first is the formula representation of my predictive model, where y refers to Democratic 2-Party Vote Share for a given state in a given election year. The second is a mathematical representation of the regularization objective that would occur for these predictors in particular.</p>
 <p>To interpret the coefficients as they are represented above, we can say that, if a Democratic party were to receive 0% of the vote in the past two elections, the latest polling average for Democrats is 0, the Consumer Price Index is 0, there is no GDP growth for quarter 2 that year, and there are no campaign donations for the candidate, then the Democrat running that year in that state would get about 7.7% of the 2-Party vote share. Holding all other variables constant, as the Democratic vote share in the past election increases by a point so does the Democratic vote share in the upcoming election by .1257 points (and .0079 points with respect to a point increase in Democratic vote share in the second-to-last election). Holding all other variables constant, a point increase in the latest polling average for Democrats coincides with about a .98 point increase in Democratic 2-Party vote share in the upcoming election. Holding all other variables constant, a point increase in GDP Growth in Quarter 2 results in a .06 point increase in Democratic 2-Party vote share in the upcoming election. Finally, holding all other variables constant, a point increase in the log of campaign donations to Democrats results in about a .6 point decrease in the Democratic 2-party vote share in the upcoming election. All these coefficients seem intuitive except for the campaign donation variable. This representation is due to the logarithmic transformation of campaign donation data to scale its coefficient, but in reality, there exists a positive relationship between how much money a Democratic campaign rakes in and its eventual vote share. (
   <a href="https://sduggasani.github.io/2024election-blog/post/2024-10-12-week-6-campaign-spending/">Refer to Week 6&rsquo;s blog for more on this.</a>)</p>
@@ -798,6 +794,12 @@ $$</p>
         
   <div class="flex flex-wrap justify-between">
 
+
+  <div><a class="flex align-center" href="https://github.com/alex-shpak/hugo-book/commit/da3dd77e9227c1851abaab7f2ca494fbc5a1592a" title='Last modified by Sammy Duggasani | November 4, 2024' target="_blank" rel="noopener">
+      <img src="/2024election-blog/svg/calendar.svg" class="book-icon" alt="" />
+      <span>November 4, 2024</span>
+    </a>
+  </div>
 
 
 

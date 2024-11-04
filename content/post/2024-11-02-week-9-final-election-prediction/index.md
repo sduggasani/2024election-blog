@@ -16,8 +16,6 @@ tags: []
 <link href="{{< blogdown/postref >}}index_files/lightable/lightable.css" rel="stylesheet" />
 <script src="{{< blogdown/postref >}}index_files/kePrint/kePrint.js"></script>
 <link href="{{< blogdown/postref >}}index_files/lightable/lightable.css" rel="stylesheet" />
-<script src="{{< blogdown/postref >}}index_files/kePrint/kePrint.js"></script>
-<link href="{{< blogdown/postref >}}index_files/lightable/lightable.css" rel="stylesheet" />
 
 # **Week 9: Final Prediction**
 
@@ -35,6 +33,10 @@ tags: []
 ## Model Description & Coefficients
 
 
+```
+## Warning: Option grouped=FALSE enforced in cv.glmnet, since < 3 observations per
+## fold
+```
 
 For my final election prediction model, I decided to go with a LASSO regression. Throughout this semester, we have looked at a number of predictors that could have an impact on a presidential candidate's vote share — from economic indicators to polling data to demographics to hurricanes and other shocks. With all these inputs in mind, I thought it most useful to find a method that selects only the most significant or useful features. This is the function of LASSO, which nullifies those predictors that are not as influential on the response variable. A lot of election forecasts run the risk of overfitting because they take in too much information and generate patterns of out of data that does not necessarily reflect reality. I thought it would be better to be conservative with selecting predictors and LASSO regression helped me do that.
 
@@ -84,26 +86,9 @@ For my final election prediction model, I decided to go with a LASSO regression.
 
 Here, you can see the predictors and data that I decided to include in my LASSO regression model. I converged on these variables throughout the weeks by testing each of their relationships with a response variable of Democratic 2-party vote share. I included only those predictors which a significant impact on vote share: this includes a state's voting behavior in past elections, state polling data, economic indicators, and campaign donation data. After having cross-validated to find the ideal lambda value for my LASSO regression, my model has nullified the Mean Democratic Poll Average variable. So, my final regularized model has corrected for a variable that I included, which might not actually have been that informative despite my previous regressions.
 
-$$
-`\begin{align}
-y = & \, 7.7156 + 0.1257 \times \text{D_pv2p_lag1} + 0.0079 \times \text{D_pv2p_lag2} \\
-    & + 0.9762 \times \text{latest_pollav_DEM} + 0 \times \text{mean_pollav_DEM} \\
-    & - 0.0037 \times \text{CPI} + 0.0656 \times \text{GDP_growth_quarterly} \\
-    & - 0.5851 \times \log(\text{contribution_receipt_amount})
-\end{align}`
-$$
+![Model Formula](images/Screenshot%202024-11-04%20at%203.57.10%20PM.png)
 
-$$
-`\begin{align*}
-\min_{\beta_0, \beta} \Bigg\{ \frac{1}{2n} \sum_{i=1}^{n} \Big( 
-& y_i - (7.7156 + 0.1257 \times \text{D_pv2p_lag1} + 0.0079 \times \text{D_pv2p_lag2} \\
-& + 0.9762 \times \text{latest_pollav_DEM} + 0 \times \text{mean_pollav_DEM} \\
-& - 0.0037 \times \text{CPI} + 0.0656 \times \text{GDP_growth_quarterly} \\
-& - 0.5851 \times \log(\text{contribution_receipt_amount})) \Big)^2 \\
-& + \lambda \Big( |0.1257| + |0.0079| + |0.9762| + |0| + |-0.0037| \\
-& + |0.0656| + |-0.5851| \Big) \Bigg\}
-\end{align*}`
-$$
+![LASSO Regularization Objective Formula](images/Screenshot%202024-11-04%20at%203.57.07%20PM.png)
 
 The first is the formula representation of my predictive model, where y refers to Democratic 2-Party Vote Share for a given state in a given election year. The second is a mathematical representation of the regularization objective that would occur for these predictors in particular.
 
