@@ -41,6 +41,9 @@ menu:
       weight: 10 
     - name: Week 9 Final Election Prediction
       url: https://sduggasani.github.io/2024election-blog/post/2024-11-02-week-9-final-election-prediction/
+      weight: 10
+    - name: Final Prediction Postmortem
+      url: https://sduggasani.github.io/2024election-blog/post/2024-11-13-final-prediction-postmortem/
       weight: 10 
 params:
   BookComments: yes

@@ -33,14 +33,14 @@ Election Day is tomorrow! I’m flying to Atlanta Tuesday morning and immediatel
   <meta property="og:type" content="article">
     <meta property="article:section" content="post">
     <meta property="article:published_time" content="2024-11-02T00:00:00+00:00">
-    <meta property="article:modified_time" content="2024-11-04T15:53:44-05:00">
+    <meta property="article:modified_time" content="2024-11-04T16:50:10-05:00">
 <title>Week 9: Final Election Prediction | 2024 Election Blog</title>
 <link rel="manifest" href="/2024election-blog/manifest.json">
 <link rel="icon" href="/2024election-blog/favicon.png" >
 <link rel="canonical" href="https://sduggasani.github.io/2024election-blog/post/2024-11-02-week-9-final-election-prediction/">
 <link rel="stylesheet" href="/2024election-blog/book.min.309b7ed028807cdb68d8d61e26d609f48369c098dbf5e4d8c0dcf4cdf49feafc.css" integrity="sha256-MJt&#43;0CiAfNto2NYeJtYJ9INpwJjb9eTYwNz0zfSf6vw=" crossorigin="anonymous">
   <script defer src="/2024election-blog/fuse.min.js"></script>
-  <script defer src="/2024election-blog/en.search.min.6613c49e5e0d4521067c2c0b277dcc7d66a258e3df52f2ac84fb4d4ecd99b0d1.js" integrity="sha256-ZhPEnl4NRSEGfCwLJ33MfWaiWOPfUvKshPtNTs2ZsNE=" crossorigin="anonymous"></script>
+  <script defer src="/2024election-blog/en.search.min.21b14da80cd49a1062d8fe41096fb4a6ecf1ea2d2b6ad0a95c53815958ac6b49.js" integrity="sha256-IbFNqAzUmhBi2P5BCW&#43;0puzx6i0ratCpXFOBWVisa0k=" crossorigin="anonymous"></script>
 
   <script defer src="/2024election-blog/sw.min.f09ccc658cc70834310535c40cbee1514cd65302e6fa168c4ae787519a02cf87.js" integrity="sha256-8JzMZYzHCDQxBTXEDL7hUUzWUwLm&#43;haMSueHUZoCz4c=" crossorigin="anonymous"></script>
 <!--
@@ -96,6 +96,12 @@ https://github.com/alex-shpak/hugo-book
 
   
 <ul>
+  
+  <li>
+    <a href="https://sduggasani.github.io/2024election-blog/post/2024-11-13-final-prediction-postmortem/"  target="_blank" rel="noopener">
+        Final Prediction Postmortem
+      </a>
+  </li>
   
   <li>
     <a href="https://github.com/sduggasani/2024election-blog"  target="_blank" rel="noopener">
@@ -247,49 +253,6 @@ https://github.com/alex-shpak/hugo-book
 <pre tabindex="0"><code>## Warning: Option grouped=FALSE enforced in cv.glmnet, since &lt; 3 observations per
 ## fold
 </code></pre><p>For my final election prediction model, I decided to go with a LASSO regression. Throughout this semester, we have looked at a number of predictors that could have an impact on a presidential candidate&rsquo;s vote share — from economic indicators to polling data to demographics to hurricanes and other shocks. With all these inputs in mind, I thought it most useful to find a method that selects only the most significant or useful features. This is the function of LASSO, which nullifies those predictors that are not as influential on the response variable. A lot of election forecasts run the risk of overfitting because they take in too much information and generate patterns of out of data that does not necessarily reflect reality. I thought it would be better to be conservative with selecting predictors and LASSO regression helped me do that.</p>
-<table class="table table-striped" style="margin-left: auto; margin-right: auto;">
-<caption>Table 1: (\#tab:unnamed-chunk-5)LASSO Model Coefficients</caption>
- <thead>
-  <tr>
-   <th style="text-align:left;"> Predictor </th>
-   <th style="text-align:right;"> Coefficient </th>
-  </tr>
- </thead>
-<tbody>
-  <tr>
-   <td style="text-align:left;"> Intercept </td>
-   <td style="text-align:right;"> 7.7156149 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Democratic 2-Party Vote Share in Last Election </td>
-   <td style="text-align:right;"> 0.1257406 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Democratic 2-Party Vote Share in Second-to-Last Election </td>
-   <td style="text-align:right;"> 0.0079302 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Latest Democratic Poll Average </td>
-   <td style="text-align:right;"> 0.9762059 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Mean Democratic Poll Average </td>
-   <td style="text-align:right;"> 0.0000000 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Consumer Price Index - Quarter 2 </td>
-   <td style="text-align:right;"> -0.0036842 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> GDP Growth - Quarter 2 </td>
-   <td style="text-align:right;"> 0.0655536 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Log of Campaign Donation Amount </td>
-   <td style="text-align:right;"> -0.5851343 </td>
-  </tr>
-</tbody>
-</table>
 <p>Here, you can see the predictors and data that I decided to include in my LASSO regression model. I converged on these variables throughout the weeks by testing each of their relationships with a response variable of Democratic 2-party vote share. I included only those predictors which a significant impact on vote share: this includes a state&rsquo;s voting behavior in past elections, state polling data, economic indicators, and campaign donation data. After having cross-validated to find the ideal lambda value for my LASSO regression, my model has nullified the Mean Democratic Poll Average variable. So, my final regularized model has corrected for a variable that I included, which might not actually have been that informative despite my previous regressions.</p>
 <p>
   <img src="images/Screenshot%202024-11-04%20at%203.57.10%20PM.png" alt="Model Formula" /></p>
@@ -298,8 +261,15 @@ https://github.com/alex-shpak/hugo-book
 <p>The first is the formula representation of my predictive model, where y refers to Democratic 2-Party Vote Share for a given state in a given election year. The second is a mathematical representation of the regularization objective that would occur for these predictors in particular.</p>
 <p>To interpret the coefficients as they are represented above, we can say that, if a Democratic party were to receive 0% of the vote in the past two elections, the latest polling average for Democrats is 0, the Consumer Price Index is 0, there is no GDP growth for quarter 2 that year, and there are no campaign donations for the candidate, then the Democrat running that year in that state would get about 7.7% of the 2-Party vote share. Holding all other variables constant, as the Democratic vote share in the past election increases by a point so does the Democratic vote share in the upcoming election by .1257 points (and .0079 points with respect to a point increase in Democratic vote share in the second-to-last election). Holding all other variables constant, a point increase in the latest polling average for Democrats coincides with about a .98 point increase in Democratic 2-Party vote share in the upcoming election. Holding all other variables constant, a point increase in GDP Growth in Quarter 2 results in a .06 point increase in Democratic 2-Party vote share in the upcoming election. Finally, holding all other variables constant, a point increase in the log of campaign donations to Democrats results in about a .6 point decrease in the Democratic 2-party vote share in the upcoming election. All these coefficients seem intuitive except for the campaign donation variable. This representation is due to the logarithmic transformation of campaign donation data to scale its coefficient, but in reality, there exists a positive relationship between how much money a Democratic campaign rakes in and its eventual vote share. (
   <a href="https://sduggasani.github.io/2024election-blog/post/2024-10-12-week-6-campaign-spending/">Refer to Week 6&rsquo;s blog for more on this.</a>)</p>
-<table class="table table-striped" style="margin-left: auto; margin-right: auto;">
-<caption>(\#tab:bootstrapped_coefficients)(\#tab:bootstrapped_coefficients)Coefficients about a 95% Confidence Interval</caption>
+<pre tabindex="0"><code>## Loading required package: Matrix
+</code></pre><pre tabindex="0"><code>## 
+## Attaching package: &#39;Matrix&#39;
+</code></pre><pre tabindex="0"><code>## The following objects are masked from &#39;package:tidyr&#39;:
+## 
+##     expand, pack, unpack
+</code></pre><pre tabindex="0"><code>## Loaded glmnet 4.1-6
+</code></pre><table class="table table-striped" style="margin-left: auto; margin-right: auto;">
+<caption>Table 1: (\#tab:unnamed-chunk-5)Coefficients about a 95% Confidence Interval</caption>
  <thead>
   <tr>
    <th style="text-align:left;"> Predictor </th>
@@ -356,7 +326,7 @@ https://github.com/alex-shpak/hugo-book
   <a class="anchor" href="#model-validation">#</a>
 </h2>
 <table class="table table-striped" style="margin-left: auto; margin-right: auto;">
-<caption>(\#tab:model_validation)(\#tab:model_validation)Model Validation Metrics</caption>
+<caption>Table 3: (\#tab:unnamed-chunk-6)Model Validation Metrics</caption>
  <thead>
   <tr>
    <th style="text-align:left;">  </th>
@@ -485,7 +455,7 @@ https://github.com/alex-shpak/hugo-book
   <a class="anchor" href="#electoral-college-visualization">#</a>
 </h2>
 <table class="table table-hover" style="margin-left: auto; margin-right: auto;">
-<caption>Table 3: Predicted Electoral Votes by State for 2024</caption>
+<caption>Table 5: Predicted Electoral Votes by State for 2024</caption>
  <thead>
   <tr>
    <th style="text-align:left;"> State </th>
@@ -752,7 +722,7 @@ https://github.com/alex-shpak/hugo-book
 </tbody>
 </table>
 <table class="table table-hover" style="margin-left: auto; margin-right: auto;">
-<caption>Table 3: Predicted Electoral Votes for 2024</caption>
+<caption>Table 5: Predicted Electoral Votes for 2024</caption>
  <thead>
   <tr>
    <th style="text-align:left;"> Winner </th>
@@ -770,8 +740,8 @@ https://github.com/alex-shpak/hugo-book
   </tr>
 </tbody>
 </table>
-<img src="https://sduggasani.github.io/2024election-blog/post/2024-11-02-week-9-final-election-prediction/index_files/figure-html/unnamed-chunk-6-1.png" width="672" />
-<p>Putting my bootstrapped point predictions into play, I have constructed a final electoral college prediction above. Of the swing states, the Republicans are expected to take Georgia (my home state), North Carolina, and Arizona. The Democrats are expected to take Pennsylvania, Wisconsin, Nevada, and Michigan. This puts the Democrats just barely over the 270 needed to win the office. If this prediction were true, it would make the 2024 election one of the closest in recent history, second only to the 2000 election betwen Bush and Gore.</p>
+<img src="https://sduggasani.github.io/2024election-blog/post/2024-11-02-week-9-final-election-prediction/index_files/figure-html/unnamed-chunk-8-1.png" width="672" />
+<p>Putting my bootstrapped point predictions into play, I have constructed a final electoral college prediction above. Of the swing states, the Republicans are expected to take Georgia (my home state), North Carolina, and Arizona. The Democrats are expected to take Pennsylvania, Wisconsin, Nevada, and Michigan. This puts the Democrats just barely over the 270 needed to win the office. If this prediction were true, it would make the 2024 election one of the closest in recent history, second only to the 2000 election between Bush and Gore.</p>
 <h2 id="conclusion">
   Conclusion
   <a class="anchor" href="#conclusion">#</a>
@@ -795,7 +765,7 @@ https://github.com/alex-shpak/hugo-book
   <div class="flex flex-wrap justify-between">
 
 
-  <div><a class="flex align-center" href="https://github.com/alex-shpak/hugo-book/commit/da3dd77e9227c1851abaab7f2ca494fbc5a1592a" title='Last modified by Sammy Duggasani | November 4, 2024' target="_blank" rel="noopener">
+  <div><a class="flex align-center" href="https://github.com/alex-shpak/hugo-book/commit/4950a9bd215386faaa490b2b0e6680b9462f5045" title='Last modified by Sammy Duggasani | November 4, 2024' target="_blank" rel="noopener">
       <img src="/2024election-blog/svg/calendar.svg" class="book-icon" alt="" />
       <span>November 4, 2024</span>
     </a>

@@ -40,49 +40,7 @@ tags: []
 
 For my final election prediction model, I decided to go with a LASSO regression. Throughout this semester, we have looked at a number of predictors that could have an impact on a presidential candidate's vote share — from economic indicators to polling data to demographics to hurricanes and other shocks. With all these inputs in mind, I thought it most useful to find a method that selects only the most significant or useful features. This is the function of LASSO, which nullifies those predictors that are not as influential on the response variable. A lot of election forecasts run the risk of overfitting because they take in too much information and generate patterns of out of data that does not necessarily reflect reality. I thought it would be better to be conservative with selecting predictors and LASSO regression helped me do that.
 
-<table class="table table-striped" style="margin-left: auto; margin-right: auto;">
-<caption>Table 1: (\#tab:unnamed-chunk-5)LASSO Model Coefficients</caption>
- <thead>
-  <tr>
-   <th style="text-align:left;"> Predictor </th>
-   <th style="text-align:right;"> Coefficient </th>
-  </tr>
- </thead>
-<tbody>
-  <tr>
-   <td style="text-align:left;"> Intercept </td>
-   <td style="text-align:right;"> 7.7156149 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Democratic 2-Party Vote Share in Last Election </td>
-   <td style="text-align:right;"> 0.1257406 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Democratic 2-Party Vote Share in Second-to-Last Election </td>
-   <td style="text-align:right;"> 0.0079302 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Latest Democratic Poll Average </td>
-   <td style="text-align:right;"> 0.9762059 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Mean Democratic Poll Average </td>
-   <td style="text-align:right;"> 0.0000000 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Consumer Price Index - Quarter 2 </td>
-   <td style="text-align:right;"> -0.0036842 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> GDP Growth - Quarter 2 </td>
-   <td style="text-align:right;"> 0.0655536 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Log of Campaign Donation Amount </td>
-   <td style="text-align:right;"> -0.5851343 </td>
-  </tr>
-</tbody>
-</table>
+
 
 Here, you can see the predictors and data that I decided to include in my LASSO regression model. I converged on these variables throughout the weeks by testing each of their relationships with a response variable of Democratic 2-party vote share. I included only those predictors which a significant impact on vote share: this includes a state's voting behavior in past elections, state polling data, economic indicators, and campaign donation data. After having cross-validated to find the ideal lambda value for my LASSO regression, my model has nullified the Mean Democratic Poll Average variable. So, my final regularized model has corrected for a variable that I included, which might not actually have been that informative despite my previous regressions.
 
@@ -94,8 +52,28 @@ The first is the formula representation of my predictive model, where y refers t
 
 To interpret the coefficients as they are represented above, we can say that, if a Democratic party were to receive 0% of the vote in the past two elections, the latest polling average for Democrats is 0, the Consumer Price Index is 0, there is no GDP growth for quarter 2 that year, and there are no campaign donations for the candidate, then the Democrat running that year in that state would get about 7.7% of the 2-Party vote share. Holding all other variables constant, as the Democratic vote share in the past election increases by a point so does the Democratic vote share in the upcoming election by .1257 points (and .0079 points with respect to a point increase in Democratic vote share in the second-to-last election). Holding all other variables constant, a point increase in the latest polling average for Democrats coincides with about a .98 point increase in Democratic 2-Party vote share in the upcoming election. Holding all other variables constant, a point increase in GDP Growth in Quarter 2 results in a .06 point increase in Democratic 2-Party vote share in the upcoming election. Finally, holding all other variables constant, a point increase in the log of campaign donations to Democrats results in about a .6 point decrease in the Democratic 2-party vote share in the upcoming election. All these coefficients seem intuitive except for the campaign donation variable. This representation is due to the logarithmic transformation of campaign donation data to scale its coefficient, but in reality, there exists a positive relationship between how much money a Democratic campaign rakes in and its eventual vote share. ([Refer to Week 6's blog for more on this.](https://sduggasani.github.io/2024election-blog/post/2024-10-12-week-6-campaign-spending/))
 
+
+```
+## Loading required package: Matrix
+```
+
+```
+## 
+## Attaching package: 'Matrix'
+```
+
+```
+## The following objects are masked from 'package:tidyr':
+## 
+##     expand, pack, unpack
+```
+
+```
+## Loaded glmnet 4.1-6
+```
+
 <table class="table table-striped" style="margin-left: auto; margin-right: auto;">
-<caption>(\#tab:bootstrapped_coefficients)(\#tab:bootstrapped_coefficients)Coefficients about a 95% Confidence Interval</caption>
+<caption>Table 1: (\#tab:unnamed-chunk-5)Coefficients about a 95% Confidence Interval</caption>
  <thead>
   <tr>
    <th style="text-align:left;"> Predictor </th>
@@ -152,7 +130,7 @@ After bootstrapping the LASSO regression, we get the above range of coefficient 
 ## Model Validation
 
 <table class="table table-striped" style="margin-left: auto; margin-right: auto;">
-<caption>(\#tab:model_validation)(\#tab:model_validation)Model Validation Metrics</caption>
+<caption>Table 3: (\#tab:unnamed-chunk-6)Model Validation Metrics</caption>
  <thead>
   <tr>
    <th style="text-align:left;">  </th>
@@ -283,7 +261,7 @@ Just like I bootstrapped for my coefficients in the model, I am also bootstrappi
 ## Electoral College Visualization
 
 <table class="table table-hover" style="margin-left: auto; margin-right: auto;">
-<caption>Table 3: Predicted Electoral Votes by State for 2024</caption>
+<caption>Table 5: Predicted Electoral Votes by State for 2024</caption>
  <thead>
   <tr>
    <th style="text-align:left;"> State </th>
@@ -551,7 +529,7 @@ Just like I bootstrapped for my coefficients in the model, I am also bootstrappi
 </table>
 
 <table class="table table-hover" style="margin-left: auto; margin-right: auto;">
-<caption>Table 3: Predicted Electoral Votes for 2024</caption>
+<caption>Table 5: Predicted Electoral Votes for 2024</caption>
  <thead>
   <tr>
    <th style="text-align:left;"> Winner </th>
@@ -570,9 +548,10 @@ Just like I bootstrapped for my coefficients in the model, I am also bootstrappi
 </tbody>
 </table>
 
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-6-1.png" width="672" />
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-8-1.png" width="672" />
 
-Putting my bootstrapped point predictions into play, I have constructed a final electoral college prediction above. Of the swing states, the Republicans are expected to take Georgia (my home state), North Carolina, and Arizona. The Democrats are expected to take Pennsylvania, Wisconsin, Nevada, and Michigan. This puts the Democrats just barely over the 270 needed to win the office. If this prediction were true, it would make the 2024 election one of the closest in recent history, second only to the 2000 election betwen Bush and Gore.
+Putting my bootstrapped point predictions into play, I have constructed a final electoral college prediction above. Of the swing states, the Republicans are expected to take Georgia (my home state), North Carolina, and Arizona. The Democrats are expected to take Pennsylvania, Wisconsin, Nevada, and Michigan. This puts the Democrats just barely over the 270 needed to win the office. If this prediction were true, it would make the 2024 election one of the closest in recent history, second only to the 2000 election between Bush and Gore.
+
 
 ## Conclusion
 
