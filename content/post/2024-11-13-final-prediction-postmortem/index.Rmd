@@ -18,7 +18,7 @@ tags: []
 
 As a reminder of my final model, I ultimately decided to go with a LASSO regression. I thought it was best to go with a conservative approach to building my model because so many election forecasts run into the issue of overfitting: they take in too much information that might not necessarily be significant on vote behavior and spin patterns out of the data that might not exist. LASSO was attractive to me because it wholly nullifies those predictions that are not as influential on the response variable and selects only those *most* relevant.
 
-```{r include=FALSE}
+```{r warning=FALSE, include=FALSE}
 ####----------------------------------------------------------#
 #### Preamble
 ####----------------------------------------------------------#
@@ -150,7 +150,7 @@ color_state <- function(winner, state_name) {
 }
 ```
 
-```{r include=FALSE}
+```{r message=FALSE, warning=FALSE, include=FALSE}
 ####----------------------------------------------------------#
 #### Read, merge, and process data. -- Code by Matthew Dardet
 ####----------------------------------------------------------#
@@ -205,7 +205,7 @@ d_state_turnout <- d_state_turnout |>
   select(year, state, vep_turnout)
 ```
 
-```{r cache=TRUE, include=FALSE}
+```{r message=FALSE, cache=TRUE, include=FALSE}
 ####--------------------------------------------------------------#
 #### Update model
 ####--------------------------------------------------------------#
@@ -318,7 +318,7 @@ battleground_win_pred <- data.frame(state = predictions$State,
   select(state, electors, Democrat, Republican, winner)
 ```
 
-![](Screenshot 2024-11-18 at 8.46.31 PM.png)
+![](lasso_coef.png)
 
 This is just a reminder of the coefficients of each variable involved in the LASSO regression. As you can see, the LASSO model nullifies the mean Democratic poll average, and does not consider it to be a relevant predictor for the response variable of Democratic 2-Party vote share. LASSO also notably diminishes the significance of the Consumer Price Score and GDP Growth variables as compared to previous models.
 
@@ -425,7 +425,7 @@ Here, I have a chart of my vote share predictions for each battleground state an
 
 ## Election Recap
 
-```{r echo=FALSE}
+```{r include=FALSE}
 options(warn = -1)
 options(verbose = FALSE)
 # Following chunk, code provided by Matthew Dardet
@@ -552,7 +552,6 @@ ggplot(states_2024, aes(fill = factor(winner))) +
   theme(legend.position = "bottom") 
 
 # Make arrow map of county-level shifts across US. 
-counties_2024$shift |> mean()
 counties_2024 |>
   ggplot() +
   geom_sf(fill = "gray95", color = "darkgrey") +  # Base map
@@ -673,9 +672,12 @@ counties_2024 |>
 #   theme_void() +
 #   labs(title = "Presidential Voting Shifts by County in Georgia",
 #        subtitle = "Democratic vs. Republican Gains")
-capture.output(library(ggplot2), file = "/dev/null")
 
 ```
+
+![](results.png)
+
+![](shifts.png)
 
 These two national maps show us the final election results and county-wise voting shits for presidential party. We see that all the battleground states that I predicted for went to Trump. The rest of the states performed how they did in the last presidential election. The shift map shows us an overwhelming shift toward the Republican Party even in supposed Democratic strongholds.
 
