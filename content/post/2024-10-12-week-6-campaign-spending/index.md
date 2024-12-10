@@ -129,8 +129,8 @@ The model summary we see here is a linear regression for Democratic campaign spe
 ## 
 ## SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 1).
 ## Chain 1: 
-## Chain 1: Gradient evaluation took 9.1e-05 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.91 seconds.
+## Chain 1: Gradient evaluation took 9.5e-05 seconds
+## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.95 seconds.
 ## Chain 1: Adjust your expectations accordingly!
 ## Chain 1: 
 ## Chain 1: 
@@ -147,9 +147,9 @@ The model summary we see here is a linear regression for Democratic campaign spe
 ## Chain 1: Iteration: 3800 / 4000 [ 95%]  (Sampling)
 ## Chain 1: Iteration: 4000 / 4000 [100%]  (Sampling)
 ## Chain 1: 
-## Chain 1:  Elapsed Time: 1.436 seconds (Warm-up)
-## Chain 1:                4.604 seconds (Sampling)
-## Chain 1:                6.04 seconds (Total)
+## Chain 1:  Elapsed Time: 1.448 seconds (Warm-up)
+## Chain 1:                4.447 seconds (Sampling)
+## Chain 1:                5.895 seconds (Total)
 ## Chain 1: 
 ## 
 ## SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 2).
@@ -172,9 +172,9 @@ The model summary we see here is a linear regression for Democratic campaign spe
 ## Chain 2: Iteration: 3800 / 4000 [ 95%]  (Sampling)
 ## Chain 2: Iteration: 4000 / 4000 [100%]  (Sampling)
 ## Chain 2: 
-## Chain 2:  Elapsed Time: 1.497 seconds (Warm-up)
-## Chain 2:                4.438 seconds (Sampling)
-## Chain 2:                5.935 seconds (Total)
+## Chain 2:  Elapsed Time: 1.371 seconds (Warm-up)
+## Chain 2:                4.142 seconds (Sampling)
+## Chain 2:                5.513 seconds (Total)
 ## Chain 2: 
 ## 
 ## SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 3).
@@ -197,15 +197,15 @@ The model summary we see here is a linear regression for Democratic campaign spe
 ## Chain 3: Iteration: 3800 / 4000 [ 95%]  (Sampling)
 ## Chain 3: Iteration: 4000 / 4000 [100%]  (Sampling)
 ## Chain 3: 
-## Chain 3:  Elapsed Time: 1.607 seconds (Warm-up)
-## Chain 3:                4.325 seconds (Sampling)
-## Chain 3:                5.932 seconds (Total)
+## Chain 3:  Elapsed Time: 1.242 seconds (Warm-up)
+## Chain 3:                3.81 seconds (Sampling)
+## Chain 3:                5.052 seconds (Total)
 ## Chain 3: 
 ## 
 ## SAMPLING FOR MODEL 'anon_model' NOW (CHAIN 4).
 ## Chain 4: 
-## Chain 4: Gradient evaluation took 1.6e-05 seconds
-## Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.16 seconds.
+## Chain 4: Gradient evaluation took 1.9e-05 seconds
+## Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.19 seconds.
 ## Chain 4: Adjust your expectations accordingly!
 ## Chain 4: 
 ## Chain 4: 
@@ -222,9 +222,9 @@ The model summary we see here is a linear regression for Democratic campaign spe
 ## Chain 4: Iteration: 3800 / 4000 [ 95%]  (Sampling)
 ## Chain 4: Iteration: 4000 / 4000 [100%]  (Sampling)
 ## Chain 4: 
-## Chain 4:  Elapsed Time: 1.411 seconds (Warm-up)
-## Chain 4:                4.652 seconds (Sampling)
-## Chain 4:                6.063 seconds (Total)
+## Chain 4:  Elapsed Time: 1.383 seconds (Warm-up)
+## Chain 4:                3.645 seconds (Sampling)
+## Chain 4:                5.028 seconds (Total)
 ## Chain 4:
 ```
 
@@ -259,14 +259,14 @@ The model summary we see here is a linear regression for Democratic campaign spe
 ## post-warmup draws per chain=3000, total post-warmup draws=12000.
 ## 
 ##        mean se_mean   sd  2.5%   25%   50%   75% 97.5% n_eff Rhat
-## alpha  9.06    0.02 1.88  5.41  7.77  9.04 10.33 12.74  7865    1
-## beta1  0.88    0.00 0.08  0.72  0.83  0.88  0.94  1.04  5401    1
-## beta2 -0.28    0.00 0.07 -0.43 -0.33 -0.28 -0.23 -0.13  5711    1
-## beta3  0.44    0.00 0.05  0.35  0.41  0.44  0.47  0.53  7690    1
-## beta4 -0.17    0.00 0.04 -0.25 -0.20 -0.17 -0.15 -0.10  8665    1
-## sigma  3.40    0.00 0.17  3.09  3.28  3.40  3.51  3.76  9197    1
+## alpha  9.06    0.02 1.83  5.49  7.82  9.07 10.30 12.63  7538    1
+## beta1  0.88    0.00 0.08  0.72  0.82  0.88  0.93  1.04  6160    1
+## beta2 -0.28    0.00 0.07 -0.43 -0.33 -0.28 -0.23 -0.13  6498    1
+## beta3  0.44    0.00 0.05  0.35  0.41  0.44  0.47  0.53  7097    1
+## beta4 -0.17    0.00 0.04 -0.25 -0.20 -0.17 -0.15 -0.10  7900    1
+## sigma  3.41    0.00 0.17  3.09  3.28  3.40  3.52  3.77  8907    1
 ## 
-## Samples were drawn using NUTS(diag_e) at Mon Nov 18 21:28:49 2024.
+## Samples were drawn using NUTS(diag_e) at Tue Dec 10 17:31:08 2024.
 ## For each parameter, n_eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor on split chains (at 
 ## convergence, Rhat=1).

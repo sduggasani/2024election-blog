@@ -790,6 +790,16 @@ pred_metrics_df |>
   kable(caption = "Postmortem Model Metrics") |>
   kable_styling("striped")
 ```
+```{r}
+georgia_results <- results %>% filter(State == "Georgia")
+
+georgia_results |>
+  kable(caption = "Georgia Model Performance") |>
+  kable_styling("striped")
+
+
+```
+
 
 Comparing the vote share predictions for each of the battleground states to the actual Democratic 2-Party vote shares, we see that the model consistently overpredicted the Democratic vote share in this election. In four of the battleground states, this had the consequence of predicting a Democratic win, when it was actually the Republican party that wont that state. In some states the error is much smaller than othes; Georgia, for example, has a much lower error than Arizona. I am curious what made the model better at predicting Democratic vote share in my home state versus Arizona or all other battleground states.
 

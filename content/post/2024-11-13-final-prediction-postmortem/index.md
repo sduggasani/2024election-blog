@@ -16,6 +16,8 @@ tags: []
 <link href="{{< blogdown/postref >}}index_files/lightable/lightable.css" rel="stylesheet" />
 <script src="{{< blogdown/postref >}}index_files/kePrint/kePrint.js"></script>
 <link href="{{< blogdown/postref >}}index_files/lightable/lightable.css" rel="stylesheet" />
+<script src="{{< blogdown/postref >}}index_files/kePrint/kePrint.js"></script>
+<link href="{{< blogdown/postref >}}index_files/lightable/lightable.css" rel="stylesheet" />
 
 # **Final Prediction Postmortem**
 
@@ -62,6 +64,26 @@ As a reminder of my final model, I ultimately decided to go with a LASSO regress
 ![](lasso_coef.png)
 
 This is just a reminder of the coefficients of each variable involved in the LASSO regression. As you can see, the LASSO model nullifies the mean Democratic poll average, and does not consider it to be a relevant predictor for the response variable of Democratic 2-Party vote share. LASSO also notably diminishes the significance of the Consumer Price Score and GDP Growth variables as compared to previous models.
+
+
+```
+## Loading required package: Matrix
+```
+
+```
+## 
+## Attaching package: 'Matrix'
+```
+
+```
+## The following objects are masked from 'package:tidyr':
+## 
+##     expand, pack, unpack
+```
+
+```
+## Loaded glmnet 4.1-6
+```
 
 <table class="table table-striped" style="margin-left: auto; margin-right: auto;">
 <caption>Table 1: (\#tab:unnamed-chunk-5)Coefficients about a 95% Confidence Interval</caption>
@@ -226,6 +248,22 @@ Here, I have a chart of my vote share predictions for each battleground state an
 These two national maps show us the final election results and county-wise voting shits for presidential party. We see that all the battleground states that I predicted for went to Trump. The rest of the states performed how they did in the last presidential election. The shift map shows us an overwhelming shift toward the Republican Party even in supposed Democratic strongholds.
 
 
+```
+## 
+## Attaching package: 'cowplot'
+```
+
+```
+## The following object is masked from 'package:ggthemes':
+## 
+##     theme_map
+```
+
+```
+## The following object is masked from 'package:ggpubr':
+## 
+##     get_legend
+```
 
 ![](combined_voting_shifts.png)
 
@@ -276,6 +314,39 @@ Take a look here at the county level shifts in presidential voting at the four b
 </tbody>
 </table>
 
+``` r
+georgia_results <- results %>% filter(State == "Georgia")
+
+georgia_results |>
+  kable(caption = "Georgia Model Performance") |>
+  kable_styling("striped")
+```
+
+<table class="table table-striped" style="margin-left: auto; margin-right: auto;">
+<caption>Table 5: (\#tab:unnamed-chunk-10)Georgia Model Performance</caption>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> State </th>
+   <th style="text-align:right;"> Predicted Harris % </th>
+   <th style="text-align:right;"> Actual Harris % </th>
+   <th style="text-align:right;"> Error </th>
+   <th style="text-align:left;"> Predicted Winner </th>
+   <th style="text-align:left;"> Actual Winner </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> Georgia </td>
+   <td style="text-align:right;"> 49.83683 </td>
+   <td style="text-align:right;"> 48.87845 </td>
+   <td style="text-align:right;"> -0.958378 </td>
+   <td style="text-align:left;"> Republican </td>
+   <td style="text-align:left;"> Republican </td>
+  </tr>
+</tbody>
+</table>
+
+
 Comparing the vote share predictions for each of the battleground states to the actual Democratic 2-Party vote shares, we see that the model consistently overpredicted the Democratic vote share in this election. In four of the battleground states, this had the consequence of predicting a Democratic win, when it was actually the Republican party that wont that state. In some states the error is much smaller than othes; Georgia, for example, has a much lower error than Arizona. I am curious what made the model better at predicting Democratic vote share in my home state versus Arizona or all other battleground states.
 
 The model evaluation metric of bias corroborates this story that the model systematically overpredicted Democratic vote share. As for the other model metrics of MSE, RMSE, and MAE, we see that the actual value of error is not negligible In a race that appeared to be so close and in a game like politics, the value of a percentage point and a half matters a lot. Honestly, I do not believe my model to have been very good at predicting the outcomes this election, even if the actual vote shares were included in its 95% confidence interval.
@@ -313,7 +384,7 @@ The model evaluation metric of bias corroborates this story that the model syste
 ## 
 ```
 
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-10-1.png" width="672" />
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-11-1.png" width="672" />
 
 Here, I use a confusion matrix to visualize the possibilities of predictions of battleground state winners and who actually won those states. You can see, according to the summary statistics, that my model accurately predicted the winner of each battleground state about 43% of the time. I am going to be blunt and say that this is pretty bad; in fact, it is worse than just guessing randomly. There were four states that I predicted the Democrats to win when the Republicans won them. I predicted 3 states that the Republicans would win, and they won those. Because the Democrats did not win any states, I could not construct a ROC-AUC curve (Receiver Operating Characteristic, Area Under the Curve), which would help visualize the efficacy of the model at predicting a winner.
 
@@ -471,7 +542,7 @@ Let's now see how the model fares with similar bias and error metrics as we refl
 ```
 
 <table class="table table-striped" style="margin-left: auto; margin-right: auto;">
-<caption>Table 5: (\#tab:unnamed-chunk-12)New Elastic-Net Model Metrics</caption>
+<caption>Table 7: (\#tab:unnamed-chunk-13)New Elastic-Net Model Metrics</caption>
  <thead>
   <tr>
    <th style="text-align:left;"> Metric </th>

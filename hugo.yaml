@@ -44,7 +44,10 @@ menu:
       weight: 10
     - name: Final Prediction Postmortem
       url: https://sduggasani.github.io/2024election-blog/post/2024-11-13-final-prediction-postmortem/
-      weight: 10 
+      weight: 10
+    - name: Post-election Campaign Narrative
+      url: https://sduggasani.github.io/2024election-blog/post/2024-12-08-post-election-campaign-narrative/
+      weight: 10
 params:
   BookComments: yes
   BookDateFormat: January 2, 2006

@@ -14,6 +14,8 @@
 
 
 
+
+
   Final Prediction Postmortem
   #
 
@@ -32,14 +34,14 @@ It’s been two weeks since Donald Trump won the 2024 Presidential Election. If 
   <meta property="og:type" content="article">
     <meta property="article:section" content="post">
     <meta property="article:published_time" content="2024-11-13T00:00:00+00:00">
-    <meta property="article:modified_time" content="2024-11-18T21:18:10-05:00">
+    <meta property="article:modified_time" content="2024-11-18T21:40:35-05:00">
 <title>Final Prediction Postmortem | 2024 Election Blog</title>
 <link rel="manifest" href="/2024election-blog/manifest.json">
 <link rel="icon" href="/2024election-blog/favicon.png" >
 <link rel="canonical" href="https://sduggasani.github.io/2024election-blog/post/2024-11-13-final-prediction-postmortem/">
 <link rel="stylesheet" href="/2024election-blog/book.min.309b7ed028807cdb68d8d61e26d609f48369c098dbf5e4d8c0dcf4cdf49feafc.css" integrity="sha256-MJt&#43;0CiAfNto2NYeJtYJ9INpwJjb9eTYwNz0zfSf6vw=" crossorigin="anonymous">
   <script defer src="/2024election-blog/fuse.min.js"></script>
-  <script defer src="/2024election-blog/en.search.min.bd5bcd4c3bd1412e3e0cdeda03db8f76e0c531488b30d3f1d6e0e088fb6dace7.js" integrity="sha256-vVvNTDvRQS4&#43;DN7aA9uPduDFMUiLMNPx1uDgiPttrOc=" crossorigin="anonymous"></script>
+  <script defer src="/2024election-blog/en.search.min.c062402c3ac62743b5fc1a94fc3f6341443103e782579e72bda4b67391c89f91.js" integrity="sha256-wGJALDrGJ0O1/BqU/D9jQUQxA&#43;eCV55yvaS2c5HIn5E=" crossorigin="anonymous"></script>
 
   <script defer src="/2024election-blog/sw.min.f09ccc658cc70834310535c40cbee1514cd65302e6fa168c4ae787519a02cf87.js" integrity="sha256-8JzMZYzHCDQxBTXEDL7hUUzWUwLm&#43;haMSueHUZoCz4c=" crossorigin="anonymous"></script>
 <!--
@@ -105,6 +107,12 @@ https://github.com/alex-shpak/hugo-book
   <li>
     <a href="https://github.com/sduggasani/2024election-blog"  target="_blank" rel="noopener">
         Github
+      </a>
+  </li>
+  
+  <li>
+    <a href="https://sduggasani.github.io/2024election-blog/post/2024-12-08-post-election-campaign-narrative/"  target="_blank" rel="noopener">
+        Post-election Campaign Narrative
       </a>
   </li>
   
@@ -238,6 +246,8 @@ https://github.com/alex-shpak/hugo-book
 <link href="https://sduggasani.github.io/2024election-blog/post/2024-11-13-final-prediction-postmortem/index_files/lightable/lightable.css" rel="stylesheet" />
 <script src="https://sduggasani.github.io/2024election-blog/post/2024-11-13-final-prediction-postmortem/index_files/kePrint/kePrint.js"></script>
 <link href="https://sduggasani.github.io/2024election-blog/post/2024-11-13-final-prediction-postmortem/index_files/lightable/lightable.css" rel="stylesheet" />
+<script src="https://sduggasani.github.io/2024election-blog/post/2024-11-13-final-prediction-postmortem/index_files/kePrint/kePrint.js"></script>
+<link href="https://sduggasani.github.io/2024election-blog/post/2024-11-13-final-prediction-postmortem/index_files/lightable/lightable.css" rel="stylesheet" />
 <h1 id="final-prediction-postmortem">
   <strong>Final Prediction Postmortem</strong>
   <a class="anchor" href="#final-prediction-postmortem">#</a>
@@ -262,7 +272,14 @@ https://github.com/alex-shpak/hugo-book
 </code></pre><p>
   <img src="lasso_coef.png" alt="" /></p>
 <p>This is just a reminder of the coefficients of each variable involved in the LASSO regression. As you can see, the LASSO model nullifies the mean Democratic poll average, and does not consider it to be a relevant predictor for the response variable of Democratic 2-Party vote share. LASSO also notably diminishes the significance of the Consumer Price Score and GDP Growth variables as compared to previous models.</p>
-<table class="table table-striped" style="margin-left: auto; margin-right: auto;">
+<pre tabindex="0"><code>## Loading required package: Matrix
+</code></pre><pre tabindex="0"><code>## 
+## Attaching package: &#39;Matrix&#39;
+</code></pre><pre tabindex="0"><code>## The following objects are masked from &#39;package:tidyr&#39;:
+## 
+##     expand, pack, unpack
+</code></pre><pre tabindex="0"><code>## Loaded glmnet 4.1-6
+</code></pre><table class="table table-striped" style="margin-left: auto; margin-right: auto;">
 <caption>Table 1: (\#tab:unnamed-chunk-5)Coefficients about a 95% Confidence Interval</caption>
  <thead>
   <tr>
@@ -419,7 +436,15 @@ https://github.com/alex-shpak/hugo-book
 <p>
   <img src="shifts.png" alt="" /></p>
 <p>These two national maps show us the final election results and county-wise voting shits for presidential party. We see that all the battleground states that I predicted for went to Trump. The rest of the states performed how they did in the last presidential election. The shift map shows us an overwhelming shift toward the Republican Party even in supposed Democratic strongholds.</p>
-<p>
+<pre tabindex="0"><code>## 
+## Attaching package: &#39;cowplot&#39;
+</code></pre><pre tabindex="0"><code>## The following object is masked from &#39;package:ggthemes&#39;:
+## 
+##     theme_map
+</code></pre><pre tabindex="0"><code>## The following object is masked from &#39;package:ggpubr&#39;:
+## 
+##     get_legend
+</code></pre><p>
   <img src="combined_voting_shifts.png" alt="" /></p>
 <p>Take a look here at the county level shifts in presidential voting at the four battleground states that my model wrongly predicted plus my home state of Georgia. Like much of the United States, we see a sea of rightward shifts for the voters&rsquo; choice for president. In Georgia, there is a pretty substantial enclave of leftward shifts in the southern Atlanta suburbs. If you look at this group within the context of the larger nationwide map we presented earlier, you&rsquo;ll see that these Atlanta suburbs are actually one of the few islands of leftward shifts for the entire nation.</p>
 <h2 id="model-accuracy">
@@ -464,6 +489,34 @@ https://github.com/alex-shpak/hugo-book
   </tr>
 </tbody>
 </table>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>georgia_results <span style="color:#f92672">&lt;-</span> results <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">filter</span>(State <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;Georgia&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>georgia_results <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">kable</span>(caption <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Georgia Model Performance&#34;</span>) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">kable_styling</span>(<span style="color:#e6db74">&#34;striped&#34;</span>)
+</span></span></code></pre></div><table class="table table-striped" style="margin-left: auto; margin-right: auto;">
+<caption>Table 5: (\#tab:unnamed-chunk-10)Georgia Model Performance</caption>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> State </th>
+   <th style="text-align:right;"> Predicted Harris % </th>
+   <th style="text-align:right;"> Actual Harris % </th>
+   <th style="text-align:right;"> Error </th>
+   <th style="text-align:left;"> Predicted Winner </th>
+   <th style="text-align:left;"> Actual Winner </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> Georgia </td>
+   <td style="text-align:right;"> 49.83683 </td>
+   <td style="text-align:right;"> 48.87845 </td>
+   <td style="text-align:right;"> -0.958378 </td>
+   <td style="text-align:left;"> Republican </td>
+   <td style="text-align:left;"> Republican </td>
+  </tr>
+</tbody>
+</table>
 <p>Comparing the vote share predictions for each of the battleground states to the actual Democratic 2-Party vote shares, we see that the model consistently overpredicted the Democratic vote share in this election. In four of the battleground states, this had the consequence of predicting a Democratic win, when it was actually the Republican party that wont that state. In some states the error is much smaller than othes; Georgia, for example, has a much lower error than Arizona. I am curious what made the model better at predicting Democratic vote share in my home state versus Arizona or all other battleground states.</p>
 <p>The model evaluation metric of bias corroborates this story that the model systematically overpredicted Democratic vote share. As for the other model metrics of MSE, RMSE, and MAE, we see that the actual value of error is not negligible In a race that appeared to be so close and in a game like politics, the value of a percentage point and a half matters a lot. Honestly, I do not believe my model to have been very good at predicting the outcomes this election, even if the actual vote shares were included in its 95% confidence interval.</p>
 <pre tabindex="0"><code>## Confusion Matrix and Statistics
@@ -493,7 +546,7 @@ https://github.com/alex-shpak/hugo-book
 ##                                          
 ##        &#39;Positive&#39; Class : DEM            
 ## 
-</code></pre><img src="https://sduggasani.github.io/2024election-blog/post/2024-11-13-final-prediction-postmortem/index_files/figure-html/unnamed-chunk-10-1.png" width="672" />
+</code></pre><img src="https://sduggasani.github.io/2024election-blog/post/2024-11-13-final-prediction-postmortem/index_files/figure-html/unnamed-chunk-11-1.png" width="672" />
 <p>Here, I use a confusion matrix to visualize the possibilities of predictions of battleground state winners and who actually won those states. You can see, according to the summary statistics, that my model accurately predicted the winner of each battleground state about 43% of the time. I am going to be blunt and say that this is pretty bad; in fact, it is worse than just guessing randomly. There were four states that I predicted the Democrats to win when the Republicans won them. I predicted 3 states that the Republicans would win, and they won those. Because the Democrats did not win any states, I could not construct a ROC-AUC curve (Receiver Operating Characteristic, Area Under the Curve), which would help visualize the efficacy of the model at predicting a winner.</p>
 <h2 id="hypotheses-for-what-went-wrong">
   Hypotheses For What Went Wrong
@@ -638,7 +691,7 @@ The most obvious way to test these hypotheses is to change the regularization me
 ## 7 Wisconsin                     48.7              49.5  0.861 Republican        
 ## # ℹ 1 more variable: `Actual Winner` &lt;chr&gt;
 </code></pre><table class="table table-striped" style="margin-left: auto; margin-right: auto;">
-<caption>Table 5: (\#tab:unnamed-chunk-12)New Elastic-Net Model Metrics</caption>
+<caption>Table 7: (\#tab:unnamed-chunk-13)New Elastic-Net Model Metrics</caption>
  <thead>
   <tr>
    <th style="text-align:left;"> Metric </th>
@@ -691,7 +744,7 @@ The most obvious way to test these hypotheses is to change the regularization me
   <div class="flex flex-wrap justify-between">
 
 
-  <div><a class="flex align-center" href="https://github.com/alex-shpak/hugo-book/commit/ed94e081ecb560c95353b6b60bf56dd88e076c0f" title='Last modified by Sammy Duggasani | November 18, 2024' target="_blank" rel="noopener">
+  <div><a class="flex align-center" href="https://github.com/alex-shpak/hugo-book/commit/ca7aaffa40b48e3b6914a5215fdb1c380e90bcd0" title='Last modified by Sammy Duggasani | November 18, 2024' target="_blank" rel="noopener">
       <img src="/2024election-blog/svg/calendar.svg" class="book-icon" alt="" />
       <span>November 18, 2024</span>
     </a>
